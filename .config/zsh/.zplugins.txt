@@ -1,0 +1,28 @@
+mattmc3/zephyr path:plugins/zfunctions
+
+# Prompt plugins
+# romkatv/powerlevel10k kind:clone
+romkatv/powerlevel10k
+
+# Zephyr plugins
+mattmc3/zephyr path:plugins/utility
+mattmc3/zephyr path:plugins/history
+mattmc3/zephyr path:plugins/editor
+mattmc3/zephyr path:plugins/color
+
+# Utility plugins
+ohmyzsh/ohmyzsh path:plugins/extract
+
+# Completion plugins
+zsh-users/zsh-completions path:src kind:fpath
+mattmc3/zephyr path:plugins/completion
+
+# Deferred plugins
+zsh-users/zsh-autosuggestions kind:defer
+zdharma-continuum/fast-syntax-highlighting kind:defer
+
+# Final plugins
+mattmc3/zephyr path:plugins/confd
+zsh-users/zsh-history-substring-search
+
+# vim: ft=zsh sw=2 ts=2 et

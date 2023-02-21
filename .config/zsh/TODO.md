@@ -1,0 +1,4 @@
+- [x] Setup prompt using powerlevel10k
+- [ ] Enable partial command scroll up and match (this is apparently done by history-beginning-search-backward)
+- [x] Remove magic-enter where pressing enter runs `ls`
+- [x] Remove underlining of path
