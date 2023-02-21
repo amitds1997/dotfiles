@@ -52,11 +52,6 @@ function P:bootstrap()
     ui = {
       border = "rounded"
     },
-    performance = {
-      cache = {
-        enabled = true,
-      }
-    }
   }
   self:gather_packages_info()
   lazy.setup(self.repos, lazy_opts)
