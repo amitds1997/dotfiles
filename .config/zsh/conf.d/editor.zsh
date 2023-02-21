@@ -1,2 +1,2 @@
-# Use emacs keybindings
-bindkey -e
+# Use vim keybindings
+bindkey -v
