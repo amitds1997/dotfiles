@@ -1,0 +1,1 @@
+-P self-hosted=gitlab/gitlab-runner:latest
