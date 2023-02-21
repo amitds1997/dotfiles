@@ -1,0 +1,2 @@
+-- Load core
+require("core")
