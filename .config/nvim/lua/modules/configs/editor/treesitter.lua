@@ -7,6 +7,7 @@ return function ()
       "gitignore",
       "help",
       "json",
+      "jsonc",
       "lua",
       "make",
       "markdown",

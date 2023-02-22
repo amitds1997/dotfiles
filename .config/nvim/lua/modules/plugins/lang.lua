@@ -4,7 +4,7 @@ package({
   {
     "neovim/nvim-lspconfig",
     lazy = true,
-    config = require("modules.configs.lang.lsp_setup"),
+    config = require("modules.configs.lang.lsp-setup"),
     event = { "BufNewFile", "BufReadPre", "BufAdd" },
     dependencies = {
       {
