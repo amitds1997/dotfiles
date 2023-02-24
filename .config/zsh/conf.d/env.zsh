@@ -10,6 +10,10 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_332)
 # Set docker host location
 export DOCKER_HOST=unix://${HOME}/.colima/docker.sock
 
+# Set correct colors for history substring search
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bold"
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=red,bold"
+
 path=(
   # core
   $HOME/{,s}bin(N)
