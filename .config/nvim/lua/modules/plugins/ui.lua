@@ -46,7 +46,7 @@ package({
   "nvim-lualine/lualine.nvim",
   lazy = true,
   config = require("modules.configs.ui.lualine"),
-  event = { "BufReadPost", "BufAdd", "BufNewFile" },
+  event = "VeryLazy",
 })
 
 package({
