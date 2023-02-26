@@ -5,7 +5,7 @@
 - [ ] Reduce LSP "Diagnosing messages"
 - [ ] Add status bar to different panels of nvim-dap-ui
 - [ ] Refactor keymaps (make them shorter) for dap (debugging)
-- [ ] Fix (almost) invisible cursor on cmdline
+- [x] Fix (almost) invisible cursor on cmdline
 - [ ] Enable nvim-cmp's cmdline completion?
 - [ ] Majorly refactor all keymaps
   - [ ] Add keymaps for Gitsigns
@@ -32,3 +32,4 @@
     - [ ] Integration with already configured plugins
     - [ ] Keymaps (???)
     - [ ] UI fixup
+- Enable nvim-cmp's cmdline completion?

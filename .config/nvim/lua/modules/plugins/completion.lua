@@ -14,9 +14,8 @@ package({
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-path",
+    "hrsh7th/cmp-cmdline",
     "lukas-reineke/cmp-under-comparator",
-    "onsails/lspkind.nvim",
-    "ray-x/cmp-treesitter",
     "saadparwaiz1/cmp_luasnip",
     {
       "windwp/nvim-autopairs",

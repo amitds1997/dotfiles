@@ -26,9 +26,3 @@ package({
   lazy = true,
   event = "BufReadPost",
 })
-
-package({
-  "sindrets/diffview.nvim",
-  lazy = true,
-  cmd = { "DiffviewOpen", "DiffviewClose" },
-})

@@ -1,23 +1,22 @@
 return function ()
-  local cmp, luasnip, lspkind = require("cmp"), require("luasnip"), require("lspkind")
+  local cmp, luasnip = require("cmp"), require("luasnip")
+  local kind_icons = require("modules.utils").kind_icons
 
   local has_words_before = function ()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
 
-  local compare = require("cmp.config.compare")
-  compare.lsp_scores = function (entry1, entry2)
-    local diff
-    if entry1.completion_item.score and entry2.completion_item.score then
-      diff = (entry2.completion_item.score * entry2.score) - (entry1.completion_item.score * entry1.score)
-    else
-      diff = entry2.score - entry1.score
-    end
-    return (diff < 0)
-  end
-
   cmp.setup({
+    enabled = function ()
+      -- disable completion in comments
+      local context = require("cmp.config.context")
+      if context.in_treesitter_capture("context") or context.in_syntax_group("Comment") then
+        return false
+      else
+        return true
+      end
+    end,
     snippet = {
       expand = function (args)
         luasnip.lsp_expand(args.body)
@@ -26,17 +25,22 @@ return function ()
     completion = {
       keyword_length = 2,
     },
-    preselect = cmp.PreselectMode.Item,
+    -- preselect = cmp.PreselectMode.Item,
     formatting = {
       fields = { "kind", "abbr", "menu" },
-      format = lspkind.cmp_format({
-        mode = "symbol_text",
-        menu = {
-          nvim_lsp = "[LSP]",
-          luasnip = "[LuaSnip]",
-          buffer = "[Buffer]"
-        }
-      }),
+      format = function (entry, item)
+        item.menu = ({
+            nvim_lsp = "[LSP]",
+            luasnip = "[Snip]",
+            buffer = "[Buf]",
+            path = "[Path]",
+            cmdline_history = "[Cmd H]",
+            cmdline = "[Cmd]",
+          })[entry.source.name]
+        item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
+
+        return item
+      end,
     },
     window = {
       completion = cmp.config.window.bordered(),
@@ -47,7 +51,7 @@ return function ()
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs( -4)),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<CR>"] = cmp.mapping.confirm({ select = false }),
+      ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
       ["<Tab>"] = cmp.mapping(function (fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -70,57 +74,83 @@ return function ()
       end, { "i", "s" }),
     }),
     sorting = {
-      priority_weight = 2,
       comparators = {
-        compare.offset,
-        compare.exact,
-        compare.lsp_scores,
+        cmp.config.compare.offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.score,
         require("cmp-under-comparator").under,
-        compare.kind,
-        compare.sort_text,
-        compare.length,
-        compare.order,
-      }
+        cmp.config.compare.kind,
+        cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      },
     },
     experimental = {
       ghost_text = {
         hl_group = "LspCodeLens",
-      }
+      },
     },
     sources = cmp.config.sources({
       {
         name = "nvim_lsp",
         entry_filter = function (entry, _)
           return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
-        end
+        end,
       },
-      { name = "luasnip" },
-    },
       { name = "luasnip" },
       { name = "path" },
       { name = "treesitter" },
       {
-        {
-          name = "buffer",
-          option = {
-            get_bufnrs = function ()
-              local buf = vim.api.nvim_get_current_buf()
+        name = "buffer",
+        option = {
+          get_bufnrs = function ()
+            local bufs = {}
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+              local buf = vim.api.nvim_win_get_buf(win)
               local size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+
               if size > 1024 * 1024 then
                 vim.notify(
-                  "Current buffer exceeds set size limit: 1MB. Not indexing current buffer for completion")
-                return {}
+                  "Current buffer exceeds set size limit: 1MB. Not indexing current buffer for completion"
+                )
+              else
+                bufs[buf] = true
               end
-              return { buf }
             end
-          }
+            return vim.tbl_keys(bufs)
+          end,
         },
-      }),
+      },
+    }),
+  })
+
+  -- `/` cmdline setup.
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+
+  -- `:` cmdline setup.
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" },
+      {
+        name = "cmdline",
+        option = {
+          ignore_cmds = { "Man", "!" },
+        },
+      },
+    }),
+  })
+
+  -- Disable completion for certain filetypes
+  cmp.setup.filetype("TelescopePrompt", {
+    enabled = false,
   })
 
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-  cmp.event:on(
-    "confirm_done",
-    cmp_autopairs.on_confirm_done()
-  )
+  cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end

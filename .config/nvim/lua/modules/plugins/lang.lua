@@ -61,3 +61,11 @@ package({
   keys = { "<Leader>db", "<Leader>dc", "<Leader>du", "<Leader>dld" }
 })
 
+package({
+  "jose-elias-alvarez/null-ls.nvim",
+  event = "VeryLazy",
+  config = require("modules.configs.lang.null-ls"),
+  dependencies = {
+    "nvim-lua/plenary.nvim"
+  }
+})
