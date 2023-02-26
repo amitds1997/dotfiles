@@ -15,6 +15,7 @@ return function ()
     },
     cmdline = {
       format = {
+        cmdline = { icon = " " },
         search_up = { icon = "?" },
         search_down = { icon = "/" },
         lua = false,
@@ -22,7 +23,11 @@ return function ()
       },
     },
     messages = {
-      view_search = false,
+      view_search = "virtualtext",
+    },
+    popupmenu = {
+      enabled = true,
+      backend = "cmp",
     },
     routes = {
       {
@@ -30,9 +35,14 @@ return function ()
           any = {
             { event = "msg_show", find = "written" },
             { cmdline = "^:checkhealth" },
-          }
+          },
         },
         view = "mini",
+      },
+      {
+        view = "popup",
+        filter = { event = "msg_show", kind = { "", "echo" } },
+        opts = { replace = true, merge = true },
       },
     },
   })
