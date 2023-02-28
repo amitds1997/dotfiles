@@ -1,4 +1,4 @@
-return function ()
+local treesitter_config = function ()
   require("nvim-treesitter.configs").setup({
     ensure_installed = {
       "bash",
@@ -30,3 +30,10 @@ return function ()
 
   require("nvim-treesitter.install").prefer_git = true
 end
+
+return {
+  "nvim-treesitter/nvim-treesitter",
+  build = ":TSUpdate",
+  config = treesitter_config,
+  event = "VeryLazy",
+}

@@ -1,4 +1,4 @@
-return function ()
+local nvim_cokeline_config = function ()
   local get_hex = require("cokeline.utils").get_hex
   local is_picking_focus = require("cokeline/mappings").is_picking_focus
   local is_picking_close = require("cokeline/mappings").is_picking_close
@@ -97,3 +97,11 @@ return function ()
   vim.keymap.set('n', '<Tab>', '<Plug>(cokeline-focus-next)', {silent = true, desc = "Jump to next buffer"})
   vim.keymap.set('n', '<S-Tab>', '<Plug>(cokeline-focus-prev)', {silent = true, desc = "Jump to previous buffer"})
 end
+return  {
+    "noib3/nvim-cokeline",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = nvim_cokeline_config,
+    event = { "BufReadPre", "BufAdd", "BufNewFile" },
+  }

@@ -1,2 +1,2 @@
 -- Load core
-require("core")
+require("core"):bootstrap()

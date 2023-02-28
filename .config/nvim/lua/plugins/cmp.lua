@@ -1,11 +1,41 @@
-return function ()
+local kind_icons = {
+  Text = "",
+  Method = "",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "ﴯ",
+  Interface = "",
+  Module = "",
+  Property = "ﰠ",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
+
+local cmp_config = function ()
   local cmp, luasnip = require("cmp"), require("luasnip")
-  local kind_icons = require("modules.utils").kind_icons
 
   local has_words_before = function ()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
+
+  -- Setup luasnip
+  require("luasnip.loaders.from_vscode").lazy_load()
 
   cmp.setup({
     enabled = function ()
@@ -129,6 +159,31 @@ return function ()
     enabled = false,
   })
 
+  -- Setup nvim autopairs
+  require("nvim-autopairs").setup({
+    check_ts = true,
+  })
+
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end
+
+return {
+  {
+    "hrsh7th/nvim-cmp",
+    config = cmp_config,
+    event = "InsertEnter",
+    dependencies = {
+      {
+        "L3MON4D3/LuaSnip",
+        build = "make install_jsregexp",
+        dependencies = { "rafamadriz/friendly-snippets" },
+      },
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-nvim-lsp",
+      "lukas-reineke/cmp-under-comparator",
+      "saadparwaiz1/cmp_luasnip",
+      "windwp/nvim-autopairs",
+    },
+  },
+}

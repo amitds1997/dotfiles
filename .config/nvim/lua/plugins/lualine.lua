@@ -1,4 +1,4 @@
-return function ()
+local lualine_config = function ()
   require("lualine").setup({
     options = {
       theme = "catppuccin",
@@ -24,3 +24,9 @@ return function ()
     extensions = {},
   })
 end
+
+return {
+  "nvim-lualine/lualine.nvim",
+  config = lualine_config,
+  event = "VeryLazy",
+}

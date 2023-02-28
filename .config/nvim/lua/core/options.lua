@@ -1,6 +1,10 @@
-local opt = vim.o
+local opt, g, api = vim.o, vim.g, vim.api
 local utils = require("core.utils")
 local cache_dir = vim.fn.stdpath("cache")
+
+g.mapleader = " "
+api.nvim_set_keymap("n", " ", "", { noremap = true })
+api.nvim_set_keymap("x", " ", "", { noremap = true })
 
 opt.autoindent = true
 opt.autoread = true

@@ -1,4 +1,4 @@
-return function ()
+local nvim_tree_config = function ()
   require("nvim-tree").setup({
     disable_netrw = false,
     hijack_cursor = true,
@@ -48,3 +48,12 @@ return function ()
     { silent = true, noremap = true, desc = "Toggle File [e]xplorer" }
   )
 end
+
+return {
+  "nvim-tree/nvim-tree.lua",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
+  config = nvim_tree_config,
+  keys = { "<Leader>e" },
+}

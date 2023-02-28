@@ -1,4 +1,4 @@
-return function ()
+local lsp_config = function ()
   local lspconfig = require("lspconfig")
   local mason = require("mason")
   local mason_lspconfig = require("mason-lspconfig")
@@ -7,8 +7,8 @@ return function ()
 
   mason.setup({
     ui = {
-      border = "rounded"
-    }
+      border = "rounded",
+    },
   })
   mason_lspconfig.setup({
     ensure_installed = { "pyright", "bashls", "dockerls", "gopls", "clangd", "lua_ls", "jsonls", "marksman" },
@@ -17,11 +17,13 @@ return function ()
 
   -- Neodev: Setup Lua server for plugin development when needed
   require("neodev").setup({
-    library = { plugins = { "nvim-dap-ui" }, types = true }
+    library = { plugins = { "nvim-dap-ui" }, types = true },
   })
 
   local ok, trouble = pcall(require, "trouble")
-  if not ok then trouble = nil end
+  if not ok then
+    trouble = nil
+  end
 
   local on_attach = function (_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -45,12 +47,16 @@ return function ()
 
     vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set("n", "<Leader>wl", function () print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, bufopts)
+    vim.keymap.set("n", "<Leader>wl", function ()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
 
     vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, bufopts)
     vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "<Leader>fc", function () vim.lsp.buf.format({ async = true }) end, bufopts)
+    vim.keymap.set("n", "<Leader>fc", function ()
+      vim.lsp.buf.format({ async = true })
+    end, bufopts)
 
     -- Diagnostics mappings
     local diagnostic_opts = { noremap = true, silent = true }
@@ -78,9 +84,26 @@ return function ()
             telemetry = {
               enable = false,
             },
-          }
-        }
+          },
+        },
       })
     end,
   })
 end
+
+return {
+  "neovim/nvim-lspconfig",
+  config = lsp_config,
+  event = { "BufNewFile", "BufReadPre", "BufAdd" },
+  dependencies = {
+    {
+      "williamboman/mason.nvim",
+      cmd = "Mason",
+      opts = {
+        ui = { border = "rounded" },
+      },
+    },
+    "williamboman/mason-lspconfig.nvim",
+    "folke/neodev.nvim",
+  },
+}
