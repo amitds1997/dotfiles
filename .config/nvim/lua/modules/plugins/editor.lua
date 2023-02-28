@@ -26,3 +26,8 @@ package({
   lazy = true,
   event = "BufReadPost",
 })
+
+package({
+  "romainl/vim-cool",
+  event = "VeryLazy"
+})

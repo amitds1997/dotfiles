@@ -6,12 +6,12 @@
 - [ ] Refactor keymaps (make them shorter) for dap (debugging)
 - [x] Fix (almost) invisible cursor on cmdline
 - [x] Enable nvim-cmp's cmdline completion?
-- [ ] Print cmdline output in a popup or something
+- [x] Print cmdline output in a popup or something
 - [ ] Majorly refactor all keymaps
   - [ ] Add keymaps for Gitsigns
   - [ ] Add descriptions to all the keymaps
   - [ ] Add nvim-cokeline picking focus keymaps
-- [ ] Setup formatter and linters
+- [x] Setup formatter and linters
 - [ ] Configure lualine status line
 - [ ] Format on save functionality
 - [ ] Implement features from [vim-cool](https://github.com/romainl/vim-cool)
@@ -25,11 +25,4 @@
   - [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
   - [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim)
   - [glepnir/lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim)
-  - [jose-elias-alvarez/null-ls.nvim](https://github.com/jose-elias-alvarez/null-ls.nvim)
-- Plugins
-  - [ ] scalameta/nvim-metals
-    - [x] Configure lazy loading (if possible)
-    - [ ] Integration with already configured plugins
-    - [ ] Keymaps (???)
-    - [ ] UI fixup
-- Enable nvim-cmp's cmdline completion?
+  - [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)

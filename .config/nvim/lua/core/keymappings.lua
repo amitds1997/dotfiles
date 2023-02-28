@@ -9,4 +9,4 @@ vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { silent = true, noremap = true
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")
 
-vim.keymap.set("n", "<Leader>h", ":nohlsearch<CR>", { silent = true, noremap = true })
+-- vim.keymap.set("n", "<Leader>h", ":nohlsearch<CR>", { silent = true, noremap = true })

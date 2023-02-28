@@ -23,6 +23,7 @@ return function ()
       },
     },
     messages = {
+      view = "popup",
       view_search = "virtualtext",
     },
     popupmenu = {
@@ -33,16 +34,22 @@ return function ()
       {
         filter = {
           any = {
-            { event = "msg_show", find = "written" },
+            { event = "msg_show", kind = "", find = "written" },
             { cmdline = "^:checkhealth" },
           },
         },
         view = "mini",
       },
       {
-        view = "popup",
-        filter = { event = "msg_show", kind = { "", "echo" } },
-        opts = { replace = true, merge = true },
+        view = "notify",
+        filter = {
+          any = {
+            { event = "msg_show", kind = "", find = "; before #" },
+            { event = "msg_show", kind = "", find = "; after #" },
+            { event = "msg_show", kind = "", find = "Already at newest change"}
+          },
+        },
+        opts = { replace = true, merge = true, title = "Undo/redo" }
       },
     },
   })
