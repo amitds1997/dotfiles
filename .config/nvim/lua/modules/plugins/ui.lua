@@ -1,12 +1,10 @@
-local package = require("core.pack").package
+local package = require("core.lazy").package
 
 package({
   "nvim-tree/nvim-tree.lua",
-  lazy = true,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  tag = "nightly",
   config = require("modules.configs.tool.nvim-tree"),
   keys = { "<Leader>e" },
 })
@@ -21,7 +19,6 @@ package({
 
 package({
   "stevearc/dressing.nvim",
-  lazy = true,
   event = "VeryLazy",
 })
 
@@ -30,21 +27,17 @@ package({
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },
-  lazy = true,
   config = require("modules.configs.ui.nvim-cokeline"),
   event = { "BufReadPre", "BufAdd", "BufNewFile" },
 })
 
 package({
   "mvllow/modes.nvim",
-  lazy = true,
-  tag = "v0.2.1",
   event = "ModeChanged",
 })
 
 package({
   "nvim-lualine/lualine.nvim",
-  lazy = true,
   config = require("modules.configs.ui.lualine"),
   event = "VeryLazy",
 })

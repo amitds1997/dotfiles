@@ -1,33 +1,31 @@
-local package = require("core.pack").package
+local package = require("core.lazy").package
 
 package({
   "numToStr/Comment.nvim",
-  lazy = true,
   config = require("modules.configs.editor.comment"),
-  event = "BufWinEnter",
+  event = "BufReadPost",
 })
 
 package({
   "nvim-treesitter/nvim-treesitter",
   build = ":TSUpdate",
-  lazy = true,
   config = require("modules.configs.editor.treesitter"),
-  event = { "BufRead", "CmdlineEnter" },
-  dependencies = {
-    {
-      "norcalli/nvim-colorizer.lua",
-      config = require("modules.configs.editor.colorizer"),
-    }
-  }
+  -- event = { "BufRead", "CmdlineEnter" },
+  event = "VeryLazy"
+})
+
+package({
+  "norcalli/nvim-colorizer.lua",
+  event = "BufReadPre",
+  config = require("modules.configs.editor.colorizer"),
 })
 
 package({
   "ojroques/nvim-bufdel",
-  lazy = true,
   event = "BufReadPost",
 })
 
 package({
   "romainl/vim-cool",
-  event = "VeryLazy"
+  event = "VeryLazy",
 })

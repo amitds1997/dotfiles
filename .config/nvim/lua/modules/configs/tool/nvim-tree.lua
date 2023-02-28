@@ -15,7 +15,21 @@ return function ()
       indent_markers = {
         enable = true,
       },
-      highlight_opened_files = "all",
+      highlight_opened_files = "icon",
+      icons = {
+        git_placement = "signcolumn",
+        glyphs = {
+          git = {
+            unstaged = "!",
+            staged = "+",
+            unmerged = "",
+            renamed = "➜",
+            untracked = "?",
+            deleted = "",
+            ignored = "◌",
+          },
+        },
+      },
     },
     update_focused_file = {
       enable = true,
@@ -23,10 +37,14 @@ return function ()
     },
     filters = {
       dotfiles = false,
-      custom = { "^.git$", "^node_modules$", "^.cache$", ".DS_Store" }
+      custom = { "^.git$", "^node_modules$", "^.cache$", ".DS_Store" },
     },
   })
 
-  vim.keymap.set("n", "<Leader>e", ":NvimTreeToggle<CR>",
-    { silent = true, noremap = true, desc = "Toggle File [e]xplorer" })
+  vim.keymap.set(
+    "n",
+    "<Leader>e",
+    ":NvimTreeToggle<CR>",
+    { silent = true, noremap = true, desc = "Toggle File [e]xplorer" }
+  )
 end

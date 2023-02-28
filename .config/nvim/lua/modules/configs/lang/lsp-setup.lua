@@ -15,12 +15,6 @@ return function ()
     automatic_installation = true,
   })
 
-  -- require("mason-nvim-dap").setup({
-  --   ensure_installed = { "python" },
-  --   automatic_setup = true,
-  -- })
-  -- require("mason-nvim-dap").setup_handlers()
-
   -- Neodev: Setup Lua server for plugin development when needed
   require("neodev").setup({
     library = { plugins = { "nvim-dap-ui" }, types = true }

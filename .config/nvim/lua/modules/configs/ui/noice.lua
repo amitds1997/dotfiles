@@ -23,33 +23,22 @@ return function ()
       },
     },
     messages = {
-      view = "popup",
       view_search = "virtualtext",
-    },
-    popupmenu = {
-      enabled = true,
-      backend = "cmp",
     },
     routes = {
       {
         filter = {
           any = {
-            { event = "msg_show", kind = "", find = "written" },
+            { event = "msg_show", kind = "", find = "[w]" },
             { cmdline = "^:checkhealth" },
           },
         },
         view = "mini",
       },
       {
-        view = "notify",
-        filter = {
-          any = {
-            { event = "msg_show", kind = "", find = "; before #" },
-            { event = "msg_show", kind = "", find = "; after #" },
-            { event = "msg_show", kind = "", find = "Already at newest change"}
-          },
-        },
-        opts = { replace = true, merge = true, title = "Undo/redo" }
+        view = "popup",
+        filter = { event = "msg_show", kind = "", cmdline = true },
+        opts = { replace = true, merge = true },
       },
     },
   })

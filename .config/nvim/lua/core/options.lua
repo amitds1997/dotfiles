@@ -37,7 +37,7 @@ opt.redrawtime = 1500
 opt.ruler = false
 opt.scrolloff = 4
 opt.shiftwidth = 2
-opt.shortmess = "oOTIcFCs"
+opt.shortmess = "acoACFIOT"
 opt.showcmd = true
 opt.showmatch = true
 opt.showmode = false
@@ -72,6 +72,12 @@ opt.winwidth = 30
 opt.wrap = true
 opt.writebackup = false
 vim.wo.showbreak = "NONE"
+
+-- Disable loading extra providers
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
 
 -- If we have rg installed, use rg to grep
 if vim.fn.executable("rg") == 1 then

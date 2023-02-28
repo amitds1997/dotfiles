@@ -124,28 +124,6 @@ return function ()
     }),
   })
 
-  -- `/` cmdline setup.
-  cmp.setup.cmdline({ "/", "?" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = "buffer" },
-    },
-  })
-
-  -- `:` cmdline setup.
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = "path" },
-      {
-        name = "cmdline",
-        option = {
-          ignore_cmds = { "Man", "!" },
-        },
-      },
-    }),
-  })
-
   -- Disable completion for certain filetypes
   cmp.setup.filetype("TelescopePrompt", {
     enabled = false,

@@ -1,7 +1,7 @@
-local P = {}
-P.__index = P
+local L = {}
+L.__index = L
 
-function P:init()
+function L:init()
   self.utils = require("core.utils")
   self.data_path = vim.fn.stdpath("data")
   self.config_path = vim.fn.stdpath("config")
@@ -9,7 +9,7 @@ function P:init()
 end
 
 -- Make sure that the package manager is installed
-function P:ensure_lazy_nvim_installed()
+function L:ensure_lazy_nvim_installed()
   local lazy_path = self.utils.path_join(self.data_path, "lazy", "lazy.nvim")
 
   if vim.fn.isdirectory(lazy_path) == 0 then
@@ -20,7 +20,7 @@ function P:ensure_lazy_nvim_installed()
       "--filter=blob:none",
       "https://github.com/folke/lazy.nvim.git",
       "--branch=stable", -- latest stable release
-      lazy_path
+      lazy_path,
     })
     self.utils.log_success("Installed lazy.nvim successfully")
   end
@@ -28,7 +28,7 @@ function P:ensure_lazy_nvim_installed()
   vim.opt.runtimepath:prepend(lazy_path)
 end
 
-function P:gather_packages_info()
+function L:gather_packages_info()
   self.repos = {}
 
   local plugins_list = vim.split(vim.fn.glob(self.module_path .. "/plugins/*.lua"), "\n")
@@ -43,14 +43,49 @@ function P:gather_packages_info()
   end
 end
 
-function P:bootstrap()
+function L:bootstrap()
   self:init()
   self:ensure_lazy_nvim_installed()
 
   local lazy = require("lazy")
   local lazy_opts = {
+    defaults = { lazy = true },
     ui = {
-      border = "rounded"
+      border = "rounded",
+    },
+    performance = {
+      rtp = {
+        disabled_plugins = {
+          "2html_plugin",
+          "getscript",
+          "getscriptPlugin",
+          "gzip",
+          "logipat",
+          "netrw",
+          "netrwPlugin",
+          "netrwSettings",
+          "netrwFileHandlers",
+          "matchit",
+          "matchparen",
+          "tar",
+          "tarPlugin",
+          "tohtml",
+          "rrhelper",
+          "spellfile_plugin",
+          "vimball",
+          "vimballPlugin",
+          "zip",
+          "zipPlugin",
+          "tutor",
+          "rplugin",
+          "syntax",
+          "synmenu",
+          "optwin",
+          "compiler",
+          "bugreport",
+          "ftplugin",
+        },
+      },
     },
   }
   self:gather_packages_info()
@@ -58,11 +93,11 @@ function P:bootstrap()
 end
 
 -- Function to start tracking a neovim plugin package
-function P.package(repo)
-  if not P.repos then
-    P.repos = {}
+function L.package(repo)
+  if not L.repos then
+    L.repos = {}
   end
-  table.insert(P.repos, repo)
+  table.insert(L.repos, repo)
 end
 
-return P
+return L
