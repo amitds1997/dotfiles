@@ -36,7 +36,7 @@ function L:bootstrap()
     install = {
       colorscheme = { "catppuccin", "habamax" },
     },
-    checker = { enabled = true },
+    checker = { enabled = true, notify = false },
     performance = {
       rtp = {
         disabled_plugins = {

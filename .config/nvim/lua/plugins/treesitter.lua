@@ -13,6 +13,7 @@ local treesitter_config = function ()
       "markdown",
       "markdown_inline",
       "python",
+      "regex",
       "scala",
       "vim",
       "yaml",
