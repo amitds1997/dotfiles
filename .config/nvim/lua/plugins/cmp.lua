@@ -55,18 +55,23 @@ local cmp_config = function ()
     completion = {
       keyword_length = 2,
     },
-    -- preselect = cmp.PreselectMode.Item,
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function (entry, item)
-        item.menu = ({
-            nvim_lsp = "[LSP]",
-            luasnip = "[Snip]",
-            buffer = "[Buf]",
-            path = "[Path]",
-            cmdline_history = "[Cmd H]",
-            cmdline = "[Cmd]",
-          })[entry.source.name]
+        local menu = {
+          nvim_lsp = "[LSP]",
+          luasnip = "[Snip]",
+          buffer = "[Buf]",
+          path = "[Path]",
+          cmdline_history = "[Cmd H]",
+          cmdline = "[Cmd]",
+        }
+
+        if entry.source.name == "nvim_lsp" then
+          item.menu = entry.source.source.client.name
+        else
+          item.menu = menu[entry.source.name] or entry.source.name
+        end
         item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
 
         return item

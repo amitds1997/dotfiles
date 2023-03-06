@@ -77,6 +77,7 @@ local lsp_config = function ()
     end,
     lua_ls = function ()
       lspconfig.lua_ls.setup({
+        -- name = "Lua LSP",
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {

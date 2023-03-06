@@ -12,7 +12,16 @@ local lualine_config = function ()
       lualine_a = {
         { "mode", separator = { left = "" }, right_padding = 2 },
       },
-      lualine_b = { "filename", "branch" },
+      lualine_b = {
+        {
+          "filename",
+          symbols = {
+            modified = "●",
+            readonly = ""
+          },
+        },
+        "branch",
+      },
       lualine_c = { "diff", "diagnostics" },
       lualine_x = {},
       lualine_y = { "fileformat", "filetype", "progress" },
