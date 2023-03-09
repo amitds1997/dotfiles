@@ -5,7 +5,9 @@ export VISUAL=nvim
 export GPG_TTY=$TTY
 
 # Correctly set up JAVA
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_332)
+if [[ $(uname) == "Darwin" ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_332)
+fi
 
 # Set docker host location
 export DOCKER_HOST=unix://${HOME}/.colima/docker.sock
