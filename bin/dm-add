@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+alias dm="git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}"
+# This script is to auto add all directories in which we might create new files but are not directly tracked by our dotfile manager (git)
+dm add ${HOME}/.colima/default/colima.yaml
+dm add ${HOME}/.condarc
+dm add ${HOME}/.gnupg/gpg-agent.conf
+dm add ${HOME}/.hammerspoon/
+dm add ${HOME}/bin
+dm add ${HOME}/bin/cron
+dm add ${XDG_CONFIG_HOME}/brew
+dm add ${XDG_CONFIG_HOME}/fsh
+dm add ${XDG_CONFIG_HOME}/k9s
+dm add ${XDG_CONFIG_HOME}/kitty
+dm add ${XDG_CONFIG_HOME}/nvim
+dm add ${XDG_CONFIG_HOME}/zsh
