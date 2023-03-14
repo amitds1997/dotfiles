@@ -6,6 +6,7 @@ dm add ${HOME}/.colima/default/colima.yaml
 dm add ${HOME}/.condarc
 dm add ${HOME}/.gnupg/gpg-agent.conf
 dm add ${HOME}/.hammerspoon/
+dm add ${HOME}/.git-templates/
 dm add ${HOME}/bin
 dm add ${HOME}/bin/cron
 dm add ${XDG_CONFIG_HOME}/brew

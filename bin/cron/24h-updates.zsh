@@ -3,5 +3,6 @@ if [[ $(uname) == "Darwin" ]]; then
   echo " Wrote current brew package info into the Brewfile"
 fi
 
+# Update list of crons
 mkdir -p ${HOME}/bin/cron
 crontab -l >| ${HOME}/bin/cron/cron_list

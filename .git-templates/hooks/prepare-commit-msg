@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+import sys, re
+from subprocess import check_output
+
+# Collect the parameters
+commit_msg_filepath = sys.argv[1]
+if len(sys.argv) > 2:
+    commit_type = sys.argv[2]
+else:
+    commit_type = ''
+if len(sys.argv) > 3:
+    commit_hash = sys.argv[3]
+else:
+    commit_hash = ''
+
+# Figure out which branch we're on
+branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).decode().strip()
+
+# Populate the commit message with the issue #, if there is one
+issue_pattern = re.compile(r'^.*?([A-Za-z]+-[\d]+).*', re.IGNORECASE)
+issue_id_match = issue_pattern.match(branch)
+if issue_id_match:
+    issue_id = str.upper(issue_id_match.group(1))
+
+    with open(commit_msg_filepath, 'r+') as f:
+        content = f.read()
+        # Verify that we do not have an existing TAG already added
+        if not issue_pattern.match(content):
+            f.seek(0, 0)
+            f.write(f"{issue_id} - {content}")

@@ -1,8 +1,12 @@
 [init]
   defaultBranch = main
+	templatedir = ~/.git-templates
 [core]
   pager = delta
   editor = nvim
+[alias]
+  undo = reset --soft HEAD~1
+  amend = commit --amend
 [diff]
   colorMoved = default
 [merge]
@@ -10,11 +14,12 @@
 [interactive]
   diffFilter = delta --color-only
 [delta]
-  features = unobtrusive-line-numbers
+  features = unobtrusive-line-numbers side-by-side decorations
   syntax-theme = ansi
-  line-numbers = true
-  side-by-side = true
   navigate = true
+[delta "decorations"]
+  commit-decoration-style = box
+  hunk-header-decoration-style = cyan box ul
 [user]
   email = amitds1997@gmail.com
   name = Amit Singh
@@ -23,6 +28,16 @@
   path = ~/.gitconfig.local ; Contains [github] section
 [includeIf "gitdir:~/c2fo/"]
   path = ~/c2fo/.gitconfig
+[branch]
+  autosetuprebase = always
+[pull]
+  rebase = true
+[diff]
+  renames = copies
+  mnemonicprefix = true
+  compactionHeuristic = true
+[difftool]
+  prompt = false
 [gpg]
   program = gpg
 [commit]
@@ -31,3 +46,5 @@
   prune = true
 [rerere]
 	enabled = true
+[push]
+  autoSetupRemote = true
