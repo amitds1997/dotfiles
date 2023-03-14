@@ -10,7 +10,7 @@ dm add ${HOME}/bin
 dm add ${HOME}/bin/cron
 dm add ${XDG_CONFIG_HOME}/brew
 dm add ${XDG_CONFIG_HOME}/fsh
-dm add ${XDG_CONFIG_HOME}/k9s
+dm add ${XDG_CONFIG_HOME}/k9s/skin.yml
 dm add ${XDG_CONFIG_HOME}/kitty
 dm add ${XDG_CONFIG_HOME}/nvim
 dm add ${XDG_CONFIG_HOME}/zsh

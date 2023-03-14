@@ -1,5 +1,5 @@
-# Use vim keybindings
-bindkey -v
+# Use emacs keybindings
+bindkey -e
 
 # Enable partial history match
 bindkey "$terminfo[kcuu1]" history-substring-search-up
