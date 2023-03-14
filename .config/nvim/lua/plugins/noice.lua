@@ -30,6 +30,7 @@ local noice_config = function ()
         filter = {
           any = {
             { event = "msg_show", kind = "", find = "[w]" },
+            { event = "msg_show", kind = "", find = "substitutions" },
             { cmdline = "^:checkhealth" },
           },
         },
