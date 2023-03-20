@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys, re
+import subprocess
 from subprocess import check_output
 
 # Collect the parameters
@@ -15,7 +16,10 @@ else:
     commit_hash = ''
 
 # Figure out which branch we're on
-branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).decode().strip()
+try:
+    branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).decode().strip()
+except subprocess.CalledProcessError as e:
+    branch = ""
 
 # Populate the commit message with the issue #, if there is one
 issue_pattern = re.compile(r'^.*?([A-Za-z]+-[\d]+).*', re.IGNORECASE)
