@@ -5,7 +5,7 @@ local treesitter_config = function ()
       "dockerfile",
       "gitcommit",
       "gitignore",
-      "help",
+      "vimdoc",
       "json",
       "jsonc",
       "lua",

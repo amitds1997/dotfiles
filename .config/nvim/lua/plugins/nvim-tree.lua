@@ -4,17 +4,14 @@ local nvim_tree_config = function ()
     hijack_cursor = true,
     hijack_netrw = true,
     hijack_unnamed_buffer_when_opening = true,
-    open_on_setup = false,
     select_prompts = true,
     sync_root_with_cwd = true,
-    view = {
-      hide_root_folder = true,
-    },
     renderer = {
       group_empty = true,
       indent_markers = {
         enable = true,
       },
+      root_folder_label = false,
       highlight_opened_files = "icon",
       icons = {
         git_placement = "signcolumn",

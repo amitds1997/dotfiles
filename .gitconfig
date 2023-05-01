@@ -23,7 +23,7 @@
 [user]
   email = amitds1997@gmail.com
   name = Amit Singh
-  signingkey = FF60C6D1CF4F0C05
+  signingkey = 39CA9FB26B8A0617
 [include]
   path = ~/.gitconfig.local ; Contains [github] section
 [includeIf "gitdir:~/c2fo/"]

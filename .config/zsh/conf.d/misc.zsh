@@ -20,8 +20,8 @@ eval "$(pyenv init -)"
 export HOMEBREW_NO_ENV_HINTS=true
 
 # Sdkman setup
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
+[[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
 # Conda setup
 
