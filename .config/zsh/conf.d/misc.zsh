@@ -39,3 +39,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# fnm setup
+eval "$(fnm env --use-on-cd)"

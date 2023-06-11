@@ -11,7 +11,7 @@ local lsp_config = function ()
     },
   })
   mason_lspconfig.setup({
-    ensure_installed = { "pyright", "bashls", "dockerls", "gopls", "clangd", "lua_ls", "jsonls", "marksman" },
+    ensure_installed = { "pyright", "bashls", "dockerls", "gopls", "clangd", "lua_ls", "jsonls", "marksman", "eslint", "tsserver" },
     automatic_installation = true,
   })
 

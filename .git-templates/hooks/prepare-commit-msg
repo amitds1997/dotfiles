@@ -2,7 +2,6 @@
 
 import sys, re
 import subprocess
-from subprocess import check_output
 
 # Collect the parameters
 commit_msg_filepath = sys.argv[1]
@@ -15,15 +14,13 @@ if len(sys.argv) > 3:
 else:
     commit_hash = ''
 
-# Figure out which branch we're on
-try:
-    branch = check_output(['git', 'symbolic-ref', '--short', 'HEAD']).decode().strip()
-except subprocess.CalledProcessError as e:
-    branch = ""
+
+issue_pattern = re.compile(r'^.*?([A-Za-z]+-[\d]+).*', re.IGNORECASE)
+symbolic_ref_output = subprocess.run(['git', 'branch', '--show-current'], capture_output=True)
+branch_name, output_error = symbolic_ref_output.stdout.decode().strip(), symbolic_ref_output.stderr.decode().strip()
+issue_id_match = issue_pattern.match(branch_name)
 
 # Populate the commit message with the issue #, if there is one
-issue_pattern = re.compile(r'^.*?([A-Za-z]+-[\d]+).*', re.IGNORECASE)
-issue_id_match = issue_pattern.match(branch)
 if issue_id_match:
     issue_id = str.upper(issue_id_match.group(1))
 
@@ -33,3 +30,8 @@ if issue_id_match:
         if not issue_pattern.match(content):
             f.seek(0, 0)
             f.write(f"{issue_id} - {content}")
+elif branch_name == "":
+    pass
+else:
+    print("Branch name is not valid. It should follow the pattern '.*<JIRA-PROJECT>-<TICKET-ID>.*'")
+    sys.exit(1)

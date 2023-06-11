@@ -24,6 +24,7 @@ local kind_icons = {
   Event = "",
   Operator = "",
   TypeParameter = "",
+  Copilot = "",
 }
 
 local cmp_config = function ()
@@ -83,7 +84,7 @@ local cmp_config = function ()
     },
     mapping = cmp.mapping.preset.insert({
       ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4)),
-      ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs( -4)),
+      ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
       ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
@@ -101,17 +102,19 @@ local cmp_config = function ()
       ["<S-Tab>"] = cmp.mapping(function (fallback)
         if cmp.visible() then
           cmp.select_prev_item()
-        elseif luasnip.jumpable( -1) then
-          luasnip.jump( -1)
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
         else
           fallback()
         end
       end, { "i", "s" }),
     }),
     sorting = {
+      priority_weight = 2,
       comparators = {
-        cmp.config.compare.offset,
         cmp.config.compare.exact,
+        require("copilot_cmp.comparators").prioritize,
+        cmp.config.compare.offset,
         cmp.config.compare.score,
         require("cmp-under-comparator").under,
         cmp.config.compare.kind,
@@ -126,6 +129,7 @@ local cmp_config = function ()
       },
     },
     sources = cmp.config.sources({
+      { name = "copilot" },
       {
         name = "nvim_lsp",
         entry_filter = function (entry, _)
@@ -174,21 +178,27 @@ local cmp_config = function ()
 end
 
 return {
-  {
-    "hrsh7th/nvim-cmp",
-    config = cmp_config,
-    event = "InsertEnter",
-    dependencies = {
-      {
-        "L3MON4D3/LuaSnip",
-        build = "make install_jsregexp",
-        dependencies = { "rafamadriz/friendly-snippets" },
-      },
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp",
-      "lukas-reineke/cmp-under-comparator",
-      "saadparwaiz1/cmp_luasnip",
-      "windwp/nvim-autopairs",
+  "hrsh7th/nvim-cmp",
+  config = cmp_config,
+  event = "InsertEnter",
+  dependencies = {
+    {
+      "L3MON4D3/LuaSnip",
+      build = "make install_jsregexp",
+      dependencies = { "rafamadriz/friendly-snippets" },
     },
+    "hrsh7th/cmp-buffer",
+    "hrsh7th/cmp-nvim-lsp",
+    "lukas-reineke/cmp-under-comparator",
+    "saadparwaiz1/cmp_luasnip",
+    "hrsh7th/cmp-path",
+    "windwp/nvim-autopairs",
+    {
+      "zbirenbaum/copilot-cmp",
+      dependencies = "copilot.lua",
+      config = function ()
+        require('copilot_cmp').setup()
+      end
+    }
   },
 }
