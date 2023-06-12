@@ -28,12 +28,15 @@ ANTIDOTE_HOME=$ZDOTDIR/plugins/.external
 # Set the name of the static .zsh plugins file antidote will generate.
 ZSH_PLUGINS_FILE=${ZDOTDIR:-~}/.zplugins.zsh
 
-# Ensure you have a .zsh_plugins.txt file where you can add plugins.
+# Ensure you have a .zplugins.txt file where you can add plugins.
 [[ -f ${ZSH_PLUGINS_FILE:r}.txt ]] || touch ${ZSH_PLUGINS_FILE:r}.txt
 
 # Lazy-load antidote.
 fpath+=(${ZDOTDIR:-~}/.antidote/functions)
 autoload -Uz $fpath[-1]/antidote
+
+# Install all plugins there are if not already done
+[[ -e $ZDOTDIR/plugins/.external ]] || antidote load $ZDOTDIR/.zplugins.txt
 
 # Generate static file in a subshell when .zsh_plugins.txt is updated.
 if [[ ! $ZSH_PLUGINS_FILE -nt ${ZSH_PLUGINS_FILE:r}.txt ]] || [[ ! -s $ZSH_PLUGINS_FILE ]]; then
