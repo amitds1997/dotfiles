@@ -1,4 +1,5 @@
 if [[ $(uname) == "Darwin" ]]; then
+  /usr/local/bin/brew update && /usr/local/bin/brew upgrade
   /usr/local/bin/brew bundle dump --no-upgrade --force --file ${HOME}/.config/brew/Brewfile
   echo " Wrote current brew package info into the Brewfile"
 fi
