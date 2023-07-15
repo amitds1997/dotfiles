@@ -1,12 +1,20 @@
 local wezterm = require('wezterm')
 local hyperlink_rules = require('hyperlink_rules')
 
+local key_mappings = require('keymappings')
+local keys, key_tables = key_mappings.keys, key_mappings.key_tables
+
 local config = {
   -- General config
   audible_bell = "Disabled",
   check_for_updates = false,
   hyperlink_rules = hyperlink_rules,
   native_macos_fullscreen_mode = true,
+  use_ime = false,
+
+  -- Keyboard mappings setup
+  key_tables = key_tables,
+  keys = keys,
 
   -- Appearance configuration
   color_scheme = 'Catppuccin Mocha (Gogh)',
@@ -24,9 +32,7 @@ local config = {
   },
 }
 
-local appearance = wezterm.gui.get_appearance()
-
-if appearance:find("Dark") then
+if wezterm.gui.get_appearance():find("Dark") then
   config.color_scheme = 'Catppuccin Mocha (Gogh)'
 else
   config.color_scheme = 'Catppuccin Latte (Gogh)'

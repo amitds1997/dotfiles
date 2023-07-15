@@ -5,6 +5,7 @@ alias dm="git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}"
 dm add ${HOME}/.colima/default/colima.yaml
 dm add ${HOME}/.condarc
 dm add ${HOME}/.actrc
+dm add ${HOME}/.finicky.js
 dm add ${HOME}/.gnupg/gpg-agent.conf
 dm add ${HOME}/.hammerspoon/
 dm add ${HOME}/.git-templates/
