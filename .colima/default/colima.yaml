@@ -23,7 +23,7 @@ runtime: docker
 kubernetes:
   # Enable kubernetes.
   # Default: false
-  enabled: true
+  enabled: false
   
   # Kubernetes version to use.
   # This needs to exactly match a k3s version https://github.com/k3s-io/k3s/releases
@@ -139,7 +139,7 @@ cpuType: ""
 # the Ubuntu session.
 #
 # Default: false
-layer: false
+layer: true
 
 # Custom provision scripts for the virtual machine.
 # Provisioning scripts are executed on startup and therefore needs to be idempotent.
