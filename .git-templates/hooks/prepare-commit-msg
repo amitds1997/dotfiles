@@ -30,7 +30,7 @@ if issue_id_match:
         if not issue_pattern.match(content):
             f.seek(0, 0)
             f.write(f"{issue_id} - {content}")
-elif branch_name == "":
+elif branch_name == "" or "c2fo" not in commit_msg_filepath:
     pass
 else:
     print("Branch name is not valid. It should follow the pattern '.*<JIRA-PROJECT>-<TICKET-ID>.*'")

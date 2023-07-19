@@ -10,7 +10,7 @@ vim.keymap.set("n", "+", "<C-w>+", { silent = true, noremap = true, desc = "Incr
 vim.keymap.set("n", "-", "<C-w>-", { silent = true, noremap = true, desc = "Decrease window size vertically" })
 
 -- Delete buffer on command
-vim.keymap.set("n", "bd", ":BufDel<CR>", { silent = true, noremap = true, desc = "Delete current buffer" })
+vim.keymap.set("n", "dcb", ":BufDel<CR>", { silent = true, noremap = true, desc = "Delete current buffer" })
 
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { silent = true, noremap = true, desc = "Jump to next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { silent = true, noremap = true, desc = "Jump to previous buffer" })
