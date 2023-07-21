@@ -24,7 +24,6 @@ local kind_icons = {
   Event = "",
   Operator = "",
   TypeParameter = "",
-  Copilot = "",
 }
 
 local cmp_config = function ()
@@ -113,7 +112,6 @@ local cmp_config = function ()
       priority_weight = 2,
       comparators = {
         cmp.config.compare.exact,
-        require("copilot_cmp.comparators").prioritize,
         cmp.config.compare.offset,
         cmp.config.compare.score,
         require("cmp-under-comparator").under,
@@ -129,7 +127,6 @@ local cmp_config = function ()
       },
     },
     sources = cmp.config.sources({
-      { name = "copilot" },
       {
         name = "nvim_lsp",
         entry_filter = function (entry, _)
@@ -193,12 +190,5 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-path",
     "windwp/nvim-autopairs",
-    {
-      "zbirenbaum/copilot-cmp",
-      dependencies = "copilot.lua",
-      config = function ()
-        require('copilot_cmp').setup()
-      end
-    }
   },
 }
