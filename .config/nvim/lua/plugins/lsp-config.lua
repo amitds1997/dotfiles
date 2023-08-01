@@ -17,7 +17,13 @@ local lsp_config = function ()
 
   -- Neodev: Setup Lua server for plugin development when needed
   require("neodev").setup({
-    library = { plugins = { "nvim-dap-ui" }, types = true },
+    library = {
+      enabled = true,
+      runtime = true,
+      types = true,
+      plugins = true,
+    },
+    setup_jsonls = true,
   })
 
   local ok, trouble = pcall(require, "trouble")
@@ -82,6 +88,9 @@ local lsp_config = function ()
         capabilities = capabilities,
         settings = {
           Lua = {
+            runtime = {
+              version = "LuaJIT",
+            },
             telemetry = {
               enable = false,
             },

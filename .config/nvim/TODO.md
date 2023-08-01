@@ -1,0 +1,1 @@
+- [ ] Disable/fix Noice.nvim

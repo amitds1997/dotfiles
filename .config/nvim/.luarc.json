@@ -4,11 +4,9 @@
     "callSnippet": "Both",
     "keywordSnippet": "Both"
   },
-    "workspace.library": [
-        "/Users/amitsingh/.local/share/nvim/lazy/neodev.nvim/types/stable",
-        "/usr/local/Cellar/neovim/0.9.0/share/nvim/runtime/lua",
-        "/Users/amitsingh/.local/share/nvim/lazy/nvim-dap-ui/lua",
-        "/Users/amitsingh/.config/nvim/lua",
-        "${3rd}/luv/library"
-    ]
+  "workspace.library": [
+    "lua/",
+    "/Users/amitsingh/.local/share/nvim/lazy/neodev.nvim/types/stable",
+    "/usr/local/Cellar/neovim/0.9.0/share/nvim/runtime/lua"
+  ]
 }
