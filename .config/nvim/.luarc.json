@@ -8,5 +8,6 @@
     "lua/",
     "/Users/amitsingh/.local/share/nvim/lazy/neodev.nvim/types/stable",
     "/usr/local/Cellar/neovim/0.9.0/share/nvim/runtime/lua"
-  ]
+  ],
+    "workspace.checkThirdParty": false
 }
