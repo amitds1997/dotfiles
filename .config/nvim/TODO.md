@@ -1,1 +1,5 @@
 - [ ] Disable/fix Noice.nvim
+- [ ] LSP syntax tree browser
+- [ ] Code folding
+- [ ] Jumping to start and end of functions
+- [ ] Fix the startup time caused by last line remembering code

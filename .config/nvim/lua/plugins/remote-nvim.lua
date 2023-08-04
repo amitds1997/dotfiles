@@ -5,6 +5,6 @@ end
 return {
   "amitds1997/remote-nvim.nvim",
   config = remote_nvim,
-  cmd = "Test",
+  cmd = "RemoteNvimLaunch",
   dev = true,
 }
