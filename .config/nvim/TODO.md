@@ -13,6 +13,7 @@
   - [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim)
   - [glepnir/lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim)
   - [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
+  - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim)
 - [ ] LSP syntax tree browser
 - [ ] Code folding
 - [ ] Jumping to start and end of functions

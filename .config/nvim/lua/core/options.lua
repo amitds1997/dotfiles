@@ -19,7 +19,6 @@ opt.cmdheight = 0
 -- TODO: Should preview be included?
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 3
-opt.cursorline = true
 -- TODO: Do we use swap files? Do I have a need for this?
 opt.directory = utils.path_join(cache_dir, "swap", utils.path_sep)
 opt.errorbells = false
@@ -107,8 +106,12 @@ opt.wrap = true
 opt.writebackup = false
 vim.wo.showbreak = "NONE"
 
+-- Set these so that transparency does not break
+opt.cursorline = false
+opt.winblend = 0
+opt.pumblend = 0
+
 -- Disable loading extra providers
--- TODO: Should I be doing this?
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
