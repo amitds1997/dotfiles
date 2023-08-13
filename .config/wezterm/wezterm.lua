@@ -24,7 +24,7 @@ local config = {
   keys = keys,
 
   -- Appearance configuration
-  color_scheme = 'Catppuccin Mocha (Gogh)',
+  color_scheme = 'Catppuccin Mocha',
   default_cursor_style = "BlinkingUnderline",
   hide_tab_bar_if_only_one_tab = true,
   use_fancy_tab_bar = false,

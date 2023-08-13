@@ -8,39 +8,11 @@ local noice_config = function ()
       },
     },
     presets = {
-      bottom_search = true,
-      command_palette = true,
-      long_message_to_split = true,
-      lsp_doc_border = true,
-    },
-    cmdline = {
-      format = {
-        cmdline = { icon = " " },
-        search_up = { icon = "?" },
-        search_down = { icon = "/" },
-        lua = false,
-        help = false,
-      },
-    },
-    messages = {
-      view_search = "virtualtext",
-    },
-    routes = {
-      {
-        filter = {
-          any = {
-            { event = "msg_show", kind = "", find = "[w]" },
-            { event = "msg_show", kind = "", find = "substitutions" },
-            { cmdline = "^:checkhealth" },
-          },
-        },
-        view = "mini",
-      },
-      {
-        view = "popup",
-        filter = { event = "msg_show", kind = "", cmdline = true },
-        opts = { replace = true, merge = true },
-      },
+      bottom_search = true,       -- use a classic bottom cmdline for search
+      command_palette = true,     -- position the cmdline and popupmenu together
+      long_message_to_split = true, -- long messages will be sent to a split
+      inc_rename = false,         -- enables an input dialog for inc-rename.nvim
+      lsp_doc_border = false,     -- add a border to hover docs and signature help
     },
   })
 end

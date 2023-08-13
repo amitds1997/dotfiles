@@ -1,1 +1,2 @@
 -P self-hosted=gitlab/gitlab-runner:ubuntu-v15.9.1
+-P ubuntu-latest=gitlab/gitlab-runner:ubuntu-v15.9.1

@@ -10,8 +10,15 @@ local lsp_config = function ()
       border = "rounded",
     },
   })
+  local ensure_installed = { "pyright", "bashls", "dockerls", "clangd", "lua_ls", "jsonls", "marksman",
+    "eslint", "tsserver", "yamlls" }
+
+  if vim.fn.executable("go") == 1 then
+    table.insert(ensure_installed, "gopls")
+  end
+
   mason_lspconfig.setup({
-    ensure_installed = { "pyright", "bashls", "dockerls", "gopls", "clangd", "lua_ls", "jsonls", "marksman", "eslint", "tsserver", "yamlls" },
+    ensure_installed = ensure_installed,
     automatic_installation = true,
   })
 

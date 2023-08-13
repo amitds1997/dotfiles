@@ -4,10 +4,11 @@ mattmc3/zephyr path:plugins/zfunctions
 romkatv/powerlevel10k
 
 # Zephyr plugins
-mattmc3/zephyr path:plugins/utility
-mattmc3/zephyr path:plugins/history
-mattmc3/zephyr path:plugins/editor
 mattmc3/zephyr path:plugins/color
+mattmc3/zephyr path:plugins/editor
+mattmc3/zephyr path:plugins/history
+mattmc3/zephyr path:plugins/utility
+mattmc3/zephyr path:plugins/zfunctions
 
 # Utility plugins
 ohmyzsh/ohmyzsh path:plugins/extract

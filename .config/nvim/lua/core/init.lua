@@ -39,6 +39,7 @@ function L:bootstrap()
     checker = { enabled = true, notify = false },
     performance = {
       rtp = {
+        -- TODO: Revisit this later
         disabled_plugins = {
           "2html_plugin",
           "getscript",
