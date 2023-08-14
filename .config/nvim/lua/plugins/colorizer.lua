@@ -1,6 +1,6 @@
 return {
   "norcalli/nvim-colorizer.lua",
-  event = "BufReadPre",
+  event = "BufReadPost",
   config = function ()
     require("colorizer").setup({
       "*",

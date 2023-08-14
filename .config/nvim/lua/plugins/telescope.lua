@@ -49,6 +49,7 @@ end
 return {
   "nvim-telescope/telescope.nvim",
   cmd = "Telescope",
+  branch = '0.1.x',
   config = telescope_config,
   dependencies = {
     "nvim-lua/plenary.nvim",

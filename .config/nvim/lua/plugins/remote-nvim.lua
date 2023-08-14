@@ -18,8 +18,14 @@ end
 
 return {
   "amitds1997/remote-nvim.nvim",
-  tag = "v0.0.1",
   config = remote_nvim,
   event = "VeryLazy",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "rcarriga/nvim-notify",
+    -- This would be an optional dependency eventually
+    "nvim-telescope/telescope.nvim",
+  },
   -- dev = true,
 }

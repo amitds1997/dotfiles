@@ -10,27 +10,25 @@ local lsp_config = function ()
       border = "rounded",
     },
   })
-  local ensure_installed = { "pyright", "bashls", "dockerls", "clangd", "lua_ls", "jsonls", "marksman",
-    "eslint", "tsserver", "yamlls" }
+  local ensure_installed = { "bashls", "dockerls", "clangd", "lua_ls", "jsonls", "marksman", "yamlls" }
 
-  if vim.fn.executable("go") == 1 then
-    table.insert(ensure_installed, "gopls")
+  local ensure_lsp_installed = {
+    python = { "pyright" },
+    node = { "eslint", "tsserver" },
+    go = { "gopls" },
+  }
+
+  for binary, lsp in pairs(ensure_lsp_installed) do
+    if vim.fn.executable(binary) == 1 then
+      for _, lsp_name in ipairs(lsp) do
+        table.insert(ensure_installed, lsp_name)
+      end
+    end
   end
 
   mason_lspconfig.setup({
     ensure_installed = ensure_installed,
     automatic_installation = true,
-  })
-
-  -- Neodev: Setup Lua server for plugin development when needed
-  require("neodev").setup({
-    library = {
-      enabled = true,
-      runtime = true,
-      types = true,
-      plugins = true,
-    },
-    setup_jsonls = true,
   })
 
   local ok, trouble = pcall(require, "trouble")
@@ -90,16 +88,12 @@ local lsp_config = function ()
     end,
     lua_ls = function ()
       lspconfig.lua_ls.setup({
-        -- name = "Lua LSP",
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
           Lua = {
             runtime = {
               version = "LuaJIT",
-            },
-            telemetry = {
-              enable = false,
             },
           },
         },
@@ -121,6 +115,5 @@ return {
       },
     },
     "williamboman/mason-lspconfig.nvim",
-    "folke/neodev.nvim",
   },
 }

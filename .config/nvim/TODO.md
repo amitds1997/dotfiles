@@ -13,8 +13,7 @@
   - [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim)
   - [glepnir/lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim)
   - [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
-  - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim)
-- [ ] LSP syntax tree browser
+  - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim) - LSP syntax tree browser
 - [ ] Code folding
 - [ ] Jumping to start and end of functions
 - [ ] Fix the startup time caused by last line remembering code
@@ -35,3 +34,7 @@
     - [ ] Diagnostics (LSP)
     - [ ] Current location
     - [ ] Code navigation location
+- Configure DAP
+- Build a select menu that allows one to cycle through all open buffers and open the last one we end up on
+- Nvim-tree fix last window cannot close error
+- Should we be using mason-lspconfig? Or should I just configure it on my own?

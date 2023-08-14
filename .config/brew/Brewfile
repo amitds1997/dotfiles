@@ -123,7 +123,7 @@ brew "luv"
 brew "mariadb"
 brew "mkcert"
 brew "tree-sitter"
-brew "neovim"
+brew "neovim", args: ["HEAD"]
 brew "newsboat"
 brew "ninja"
 brew "nss"

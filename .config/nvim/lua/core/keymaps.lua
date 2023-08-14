@@ -13,5 +13,7 @@ vim.keymap.set("n", "=", "<C-w>=", { silent = true, noremap = true, desc = "Rese
 vim.keymap.set("n", "<Tab>", ":bnext<CR>", { silent = true, noremap = true, desc = "Jump to next buffer" })
 vim.keymap.set("n", "<S-Tab>", ":bprevious<CR>", { silent = true, noremap = true, desc = "Jump to previous buffer" })
 
+vim.keymap.set("n", "<ESC>", ":nohlsearch<CR>", {silent = true, noremap = true, desc = "Remove search highlighting"})
+
 vim.keymap.set("n", "j", "gj")
 vim.keymap.set("n", "k", "gk")

@@ -1,5 +1,16 @@
-local noice_config = function ()
-  require("noice").setup({
+return {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+    {
+      "rcarriga/nvim-notify",
+      opts = {
+        background_colour = "#000000",
+      }
+    },
+  },
+  opts = {
     lsp = {
       override = {
         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -11,23 +22,7 @@ local noice_config = function ()
       bottom_search = true,         -- use a classic bottom cmdline for search
       command_palette = true,       -- position the cmdline and popupmenu together
       long_message_to_split = true, -- long messages will be sent to a split
-      inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-      lsp_doc_border = false,       -- add a border to hover docs and signature help
-    },
-  })
-end
-
-return {
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  config = noice_config,
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    {
-      "rcarriga/nvim-notify",
-      opts = {
-        background_colour = "#000000",
-      }
+      lsp_doc_border = true,        -- add a border to hover docs and signature help
     },
   },
 }

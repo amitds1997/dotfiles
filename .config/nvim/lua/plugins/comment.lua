@@ -1,9 +1,7 @@
 return {
   "numToStr/Comment.nvim",
-  config = function ()
-    require("Comment").setup({
-      ignore = "^$",
-    })
-  end,
+  opts = {
+    ignore = "^$",
+  },
   event = "BufReadPost"
 }
