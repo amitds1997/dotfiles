@@ -27,5 +27,4 @@ return {
     -- This would be an optional dependency eventually
     "nvim-telescope/telescope.nvim",
   },
-  -- dev = true,
 }
