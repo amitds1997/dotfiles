@@ -7,7 +7,6 @@
   "workspace": {
     "checkThirdParty": false,
     "library": [
-      "lua",
       "$VIMRUNTIME"
     ]
   }

@@ -1,10 +1,9 @@
-local opt, g, api = vim.o, vim.g, vim.api
+local opt, g = vim.o, vim.g
 local utils = require("core.utils")
 local cache_dir = vim.fn.stdpath("cache")
 
 g.mapleader = " "
-api.nvim_set_keymap("n", " ", "", { noremap = true })
-api.nvim_set_keymap("x", " ", "", { noremap = true })
+vim.keymap.set({ "n", "x", "v" }, " ", "", { noremap = true })
 
 opt.autoindent = true
 opt.autoread = true
@@ -124,7 +123,7 @@ if vim.fn.executable("rg") == 1 then
 end
 
 -- TODO: Better logic here??
-if vim.loop.os_uname().sysname == "Darwin" then
+if vim.uv.os_uname().sysname == "Darwin" then
   vim.g.clipboard = {
     name = "macOS-clipboard",
     copy = {

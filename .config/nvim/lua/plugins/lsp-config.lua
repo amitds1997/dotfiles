@@ -1,7 +1,7 @@
 local lsp_config = function ()
-  local lspconfig = require("lspconfig")
-  local mason = require("mason")
-  local mason_lspconfig = require("mason-lspconfig")
+  local lspconfig                                        = require("lspconfig")
+  local mason                                            = require("mason")
+  local mason_lspconfig                                  = require("mason-lspconfig")
 
   require("lspconfig.ui.windows").default_options.border = "rounded"
 
@@ -31,50 +31,46 @@ local lsp_config = function ()
     automatic_installation = true,
   })
 
-  local ok, trouble = pcall(require, "trouble")
-  if not ok then
-    trouble = nil
-  end
-
   local on_attach = function (_, bufnr)
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    -- Mappings
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+    local wk, buf_lsp = package.loaded["which-key"], vim.lsp.buf
+    local bufopts = { buffer = bufnr }
 
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    vim.keymap.set({ "n", "i" }, "<C-k>", vim.lsp.buf.signature_help, bufopts)
+    local wk_maps = {
+      ["<leader>l"] = {
+        name = "+lsp",
 
-    if trouble then
-      vim.keymap.set("n", "gd", "<cmd>TroubleToggle lsp_definitions<CR>", bufopts)
-      vim.keymap.set("n", "gi", "<cmd>TroubleToggle lsp_implementations<CR>", bufopts)
-      vim.keymap.set("n", "gr", "<cmd>TroubleToggle lsp_references<CR>", bufopts)
-    else
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    end
+        -- LSP movements
+        d = { buf_lsp.definition, "Go to symbol definition" },
+        i = { buf_lsp.implementation, "Go to symbol implementations" },
+        r = { buf_lsp.references, "Go to symbol references" },
+        D = { buf_lsp.declaration, "Go to symbol declaration" },
+        t = { buf_lsp.type_definition, "Go to type definition" },
 
-    vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set("n", "<Leader>wl", function ()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
+        -- Show LSP information
+        h = { buf_lsp.hover, "Show symbol hover info" },
+        s = { buf_lsp.signature_help, "Show symbol signature info" },
+        c = { buf_lsp.code_action, "Show code actions" },
 
-    vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, bufopts)
-    vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, bufopts)
-    vim.keymap.set("n", "<Leader>ca", vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set("n", "<Leader>fc", function ()
-      vim.lsp.buf.format({ async = true })
-    end, bufopts)
+        -- LSP changes
+        R = { buf_lsp.rename, "Rename symbol" },
+        f = { function ()
+          buf_lsp.format({ async = true })
+        end, "Format code" },
 
-    -- Diagnostics mappings
-    local diagnostic_opts = { noremap = true, silent = true }
-    vim.keymap.set("n", "<Leader>do", vim.diagnostic.open_float, diagnostic_opts)
-    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, diagnostic_opts)
-    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, diagnostic_opts)
-    vim.keymap.set("n", "<Leader>dq", vim.diagnostic.setloclist, diagnostic_opts)
+        w = {
+          name = "+lsp-workspace",
+
+          a = { buf_lsp.add_workspace_folder, "Add workspace folder" },
+          r = { buf_lsp.remove_workspace_folder, "Remove workspace folder" },
+          l = { function ()
+            vim.notify(vim.inspect(buf_lsp.list_workspace_folders))
+          end, "List workspace folders" },
+        },
+      },
+    }
+    wk.register(wk_maps, bufopts)
   end
 
   local capabilities = require("cmp_nvim_lsp").default_capabilities()

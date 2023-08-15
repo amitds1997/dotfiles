@@ -23,25 +23,6 @@ local telescope_config = function ()
     },
   })
 
-  local built_in = require("telescope.builtin")
-  vim.keymap.set(
-    "n",
-    "<Leader>ff",
-    built_in.find_files,
-    { silent = true, noremap = true, desc = "Telescope: [f]ind [f]iles" }
-  )
-  vim.keymap.set(
-    "n",
-    "<Leader>fw",
-    built_in.live_grep,
-    { silent = true, noremap = true, desc = "Telescope: [f]ind [w]ord" }
-  )
-  vim.keymap.set(
-    "n",
-    "<Leader>fg",
-    built_in.git_files,
-    { silent = true, noremap = true, desc = "Telescope: [f]ind [g]it files" }
-  )
 
   telescope.load_extension("fzf")
 end

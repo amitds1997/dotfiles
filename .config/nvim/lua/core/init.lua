@@ -78,7 +78,7 @@ function L:bootstrap()
   }
   lazy.setup("plugins", lazy_opts)
 
-  if vim.fn.argc( -1) == 0 then
+  if vim.fn.argc(-1) == 0 then
     -- autocmds and keymaps can wait to load
     vim.api.nvim_create_autocmd("User", {
       group = vim.api.nvim_create_augroup("LazyVim", { clear = true }),

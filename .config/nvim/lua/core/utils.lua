@@ -1,33 +1,22 @@
-local H = {}
+local Utils = {}
 
-H.is_windows = package.config:sub(1, 1) == "\\" and true or false
-H.path_sep = H.is_windows and "\\" or "/"
+Utils.is_windows = package.config:sub(1, 1) == "\\" and true or false
+Utils.path_sep = Utils.is_windows and "\\" or "/"
 
 -- Join paths correctly using the correct path separator
-function H.path_join(...)
-  return table.concat({ ... }, H.path_sep)
+function Utils.path_join(...)
+  return table.concat({ ... }, Utils.path_sep)
 end
 
--- Generic logging function
-local function log(level, text)
-  print(level:upper() .. " " .. text)
+function Utils.is_nvim_config()
+  local path = vim.loop.fs_realpath(vim.api.nvim_buf_get_name(0))
+  if path then
+    path = vim.fs.normalize(path)
+    local config_root = vim.loop.fs_realpath(vim.fn.stdpath("config")) or vim.fn.stdpath("config")
+    config_root = vim.fs.normalize(config_root)
+    return path:find(config_root, 1, true) == 1
+  end
+  return false
 end
 
--- Logging functions
-function H.log_info(msg)
-  log("INFO", msg)
-end
-
-function H.log_warn(msg)
-  log("WARN", msg)
-end
-
-function H.log_error(msg)
-  log("ERROR", msg)
-end
-
-function H.log_success(msg)
-  log("INFO", msg)
-end
-
-return H
+return Utils

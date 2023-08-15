@@ -1,40 +1,40 @@
 ## Backlog
 
-- [ ] Majorly refactor all keymaps
-  - [ ] Add keymaps for Gitsigns
-  - [ ] Add descriptions to all the keymaps
-  - [ ] Add nvim-cokeline picking focus keymaps
-- [ ] Code location in statusline
-- [ ] Add status bar to different panels of nvim-dap-ui
-- [ ] Highlighting of all the places a value has been used including highlighting matching words (for example, on `if`, `then`, `else`, `end` should also be highlighted)
-- [ ] Highlighting the entire scope of the current object
-- [ ] New plugins
-  - [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
-  - [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim)
-  - [glepnir/lspsaga.nvim](https://github.com/glepnir/lspsaga.nvim)
-  - [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
-  - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim) - LSP syntax tree browser
-- [ ] Code folding
-- [ ] Jumping to start and end of functions
+### Unplanned
+
 - [ ] Fix the startup time caused by last line remembering code
-- [ ] Configure stylua LSP and enable format on save
-- [ ] Fix too many diagnostics messages
+- [ ] Setup [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
+- [ ] Fix too many diagnostics messages in clang when opening neovim project
+- [ ] Set correct colors for DAP debugging in `./lua/plugins/dap/nvim-dap-ui.lua`
+
+### Features
+
+- [ ] Select menu to quickly cycle through open buffers (`:Telescope buffers`??)
+- [ ] Auto-format on save (Lua)
+
+### Chore
+
+- DAP
+    - [ ] Add winbar to every DAP window. Interesting observation: The README of the [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) already has what I would need 🤔
+    - [ ] Setup correct options to start and close windows
+    - [ ] Add debug adapter
+        - [ ] Configure Lua adapter
+            - Handle termination
+        - [ ] Python adapter
+    - [ ] Completion in DAP: [cmp-dap](https://github.com/rcarriga/cmp-dap)
+    - [ ] Do we need this? [nvim-dap-repl-highlights](https://github.com/LiadOz/nvim-dap-repl-highlights)
+- LSP 
+    - [ ] Code path in winbar
+    - [ ] Syntax-based navigation
+    - [ ] Syntax tree browser (LSP syntax tree) - [symbols-outline.nvim](https://github.com/simrat39/symbols-outline.nvim)
+    - [ ] Syntax based code folding
+- Session management
+    - [ ] `:mkview` and session management
+    - [ ] [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim) and co
+
+### Bugs
+
+- [ ] Nvim-tree fix last window cannot close error
 - [ ] Opening a link from helpbox initiated by `k` leads to a buffer where `q` and `<Tab>` do not work
-- [ ] See what does `:mkview` and session management facilities are there in Neovim
-- [ ] Set lazy shortcuts
-- [ ] Setup which-key.nvim
-- Write my own statusline
-    - [ ] Current vim mode
-    - [ ] File name
-    - [ ] Git branch (if any)
-    - [ ] File type
-    - [ ] File format (DOS/Unix)
-    - [ ] Readonly?? | Modified?
-    - [ ] Current LSP attached
-    - [ ] Diagnostics (LSP)
-    - [ ] Current location
-    - [ ] Code navigation location
-- Configure DAP
-- Build a select menu that allows one to cycle through all open buffers and open the last one we end up on
-- Nvim-tree fix last window cannot close error
-- Should we be using mason-lspconfig? Or should I just configure it on my own?
+- [ ] E445: Other window contains changes
+- [ ] `<Shift-Tab>` should move back instead of forward

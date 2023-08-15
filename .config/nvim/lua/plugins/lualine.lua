@@ -5,7 +5,7 @@ local lualine_config = function ()
     local file_icon = devicons.get_icon_by_filetype(vim.bo.filetype) .. " "
     local lsp_name = ""
 
-    for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
       if client.name ~= "" then
         lsp_name = file_icon .. client.name
       else
