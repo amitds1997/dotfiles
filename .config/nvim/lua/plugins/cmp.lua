@@ -177,6 +177,10 @@ end
 return {
   "hrsh7th/nvim-cmp",
   config = cmp_config,
+  enabled = function()
+    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+        or require("cmp_dap").is_dap_buffer()
+  end,
   event = "InsertEnter",
   dependencies = {
     {
@@ -191,5 +195,6 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "hrsh7th/cmp-path",
     "windwp/nvim-autopairs",
+    "rcarriga/cmp-dap",
   },
 }

@@ -1,18 +1,13 @@
 local lsp_config = function ()
   local lspconfig                                        = require("lspconfig")
-  local mason                                            = require("mason")
   local mason_lspconfig                                  = require("mason-lspconfig")
 
   require("lspconfig.ui.windows").default_options.border = "rounded"
 
-  mason.setup({
-    ui = {
-      border = "rounded",
-    },
-  })
-  local ensure_installed = { "bashls", "dockerls", "clangd", "lua_ls", "jsonls", "marksman", "yamlls" }
+  local ensure_installed                                 = { "bashls", "dockerls", "clangd", "lua_ls", "jsonls",
+    "marksman", "yamlls" }
 
-  local ensure_lsp_installed = {
+  local ensure_lsp_installed                             = {
     python = { "pyright" },
     node = { "eslint", "tsserver" },
     go = { "gopls" },
@@ -31,41 +26,46 @@ local lsp_config = function ()
     automatic_installation = true,
   })
 
-  local on_attach = function (_, bufnr)
+  local on_attach = function (client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    local wk, buf_lsp = package.loaded["which-key"], vim.lsp.buf
+    -- Attach nvim-navic and nvim-navbuddy if server supports it
+    if client.server_capabilities.documentSymbolProvider then
+      require("nvim-navic").attach(client, bufnr)
+      require("nvim-navbuddy").attach(client, bufnr)
+    end
+
     local bufopts = { buffer = bufnr }
+    local wk, lsp_buf = package.loaded["which-key"], vim.lsp.buf
 
     local wk_maps = {
       ["<leader>l"] = {
         name = "+lsp",
 
         -- LSP movements
-        d = { buf_lsp.definition, "Go to symbol definition" },
-        i = { buf_lsp.implementation, "Go to symbol implementations" },
-        r = { buf_lsp.references, "Go to symbol references" },
-        D = { buf_lsp.declaration, "Go to symbol declaration" },
-        t = { buf_lsp.type_definition, "Go to type definition" },
+        D = { lsp_buf.declaration, "Go to symbol declaration" },
+        i = { function () require("trouble").open("lsp_implementations") end, "Go to symbol implementations" },
+        d = { function () require("trouble").open("lsp_definitions") end, "Go to symbol definition" },
+        r = { function () require("trouble").open("lsp_references") end, "Go to symbol references" },
+        t = { function () require("trouble").open("lsp_type_definitions") end, "Go to type definitions" },
 
         -- Show LSP information
-        h = { buf_lsp.hover, "Show symbol hover info" },
-        s = { buf_lsp.signature_help, "Show symbol signature info" },
-        c = { buf_lsp.code_action, "Show code actions" },
+        h = { lsp_buf.hover, "Show symbol hover info" },
+        s = { lsp_buf.signature_help, "Show symbol signature info" },
+        c = { lsp_buf.code_action, "Show code actions" },
+        n = { require("nvim-navbuddy").open, "Open symbol tree explorer" },
 
         -- LSP changes
-        R = { buf_lsp.rename, "Rename symbol" },
-        f = { function ()
-          buf_lsp.format({ async = true })
-        end, "Format code" },
+        R = { lsp_buf.rename, "Rename symbol" },
+        f = { function () lsp_buf.format({ async = true }) end, "Format code" },
 
         w = {
           name = "+lsp-workspace",
 
-          a = { buf_lsp.add_workspace_folder, "Add workspace folder" },
-          r = { buf_lsp.remove_workspace_folder, "Remove workspace folder" },
+          a = { lsp_buf.add_workspace_folder, "Add workspace folder" },
+          r = { lsp_buf.remove_workspace_folder, "Remove workspace folder" },
           l = { function ()
-            vim.notify(vim.inspect(buf_lsp.list_workspace_folders))
+            vim.notify(vim.inspect(lsp_buf.list_workspace_folders))
           end, "List workspace folders" },
         },
       },
@@ -111,5 +111,6 @@ return {
       },
     },
     "williamboman/mason-lspconfig.nvim",
+    "SmiteshP/nvim-navbuddy",
   },
 }

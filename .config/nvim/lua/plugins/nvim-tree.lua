@@ -37,13 +37,6 @@ local nvim_tree_config = function ()
       custom = { "^.git$", "^node_modules$", "^.cache$", ".DS_Store" },
     },
   })
-
-  vim.keymap.set(
-    "n",
-    "<Leader>e",
-    ":NvimTreeToggle<CR>",
-    { silent = true, noremap = true, desc = "Toggle File [e]xplorer" }
-  )
 end
 
 return {

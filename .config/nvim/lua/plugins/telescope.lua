@@ -1,5 +1,6 @@
 local telescope_config = function ()
   local telescope = require("telescope")
+  local trouble  = require("trouble.providers.telescope")
 
   telescope.setup({
     defaults = {
@@ -20,17 +21,35 @@ local telescope_config = function ()
           theme = "dropdown",
         },
       },
+      mappings = {
+        i = { ["<c-t>"] = trouble.open_with_trouble },
+        n = { ["<c-t>"] = trouble.open_with_trouble },
+      },
     },
   })
 
+  local built_in = require("telescope.builtin")
+
+  require("which-key").register({
+    ["<Leader>t"] = {
+      name = "+telescope",
+      f = { built_in.find_files, "Find file" },
+      r = { built_in.oldfiles, "Open recent file" },
+      g = { built_in.git_files, "Find file in git repo" },
+      w = { built_in.live_grep, "Find word" },
+      b = { built_in.buffers, "Select from open buffers" },
+      k = { built_in.keymaps, "Open keymap window" },
+      ["/"] = { built_in.current_buffer_fuzzy_find, "Fuzzy find in the current buffer" },
+    }
+  })
 
   telescope.load_extension("fzf")
 end
 
 return {
   "nvim-telescope/telescope.nvim",
-  cmd = "Telescope",
-  branch = '0.1.x',
+  event = "VeryLazy",
+  branch = "0.1.x",
   config = telescope_config,
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -38,6 +57,6 @@ return {
       "nvim-telescope/telescope-fzf-native.nvim",
       build = "make",
     },
+    "folke/which-key.nvim", -- This is not a dependency but we use it in the set-up
   },
-  keys = { "<Leader>ff", "<Leader>fw", "<Leader>fg" },
 }

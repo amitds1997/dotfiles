@@ -106,7 +106,8 @@ opt.writebackup = false
 vim.wo.showbreak = "NONE"
 
 -- Set these so that transparency does not break
-opt.cursorline = false
+opt.cursorline = true
+opt.cursorlineopt = "number"
 opt.winblend = 0
 opt.pumblend = 0
 

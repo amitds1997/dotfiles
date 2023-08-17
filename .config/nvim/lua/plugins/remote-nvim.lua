@@ -8,7 +8,7 @@ local remote_nvim = function ()
           detach = true,
           on_exit = function (job_id, exit_code, event_type)
             -- This function will be called when the job exits
-            print("Job", job_id, "exited with code", exit_code, "Event type:", event_type)
+            print("Client", job_id, "exited with code", exit_code, "Event type:", event_type)
           end,
         })
       end
@@ -19,7 +19,7 @@ end
 return {
   "amitds1997/remote-nvim.nvim",
   config = remote_nvim,
-  event = "VeryLazy",
+  event = "CmdlineEnter",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",

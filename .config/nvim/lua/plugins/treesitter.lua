@@ -5,6 +5,7 @@ local treesitter_config = function ()
       "c",
       "comment",
       "cpp",
+      "dap_repl",
       "dockerfile",
       "git_config",
       "git_rebase",
@@ -36,7 +37,7 @@ local treesitter_config = function ()
       disable = function (_, bufnr)
         local max_filesize = 1024 * 1024 -- 1 MiB
         local max_lines = 15000 -- Max 15000 lines will be rendered, else treesitter will be disabled
-        local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
         if (ok and stats and stats.size > max_filesize) or vim.api.nvim_buf_line_count(bufnr) > max_lines then
           return true
         end
@@ -56,4 +57,13 @@ return {
   build = ":TSUpdate",
   config = treesitter_config,
   event = "VeryLazy",
+  dependencies = {
+    {
+      "LiadOz/nvim-dap-repl-highlights",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
+      },
+      config = true,
+    }
+  }
 }

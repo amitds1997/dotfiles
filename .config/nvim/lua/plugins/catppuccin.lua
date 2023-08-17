@@ -21,7 +21,12 @@ local catppuccin_config = function ()
         enabled = true,
         enabled_ui = true,
       },
+      navic = {
+        enabled = true,
+        custom_bg = "NONE",
+      },
       lsp_trouble = true,
+      which_key = true,
     },
   })
 
