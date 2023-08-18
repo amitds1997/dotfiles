@@ -42,11 +42,11 @@ local dap_config = function ()
 
   require("which-key").register({
     ["<leader>b"] = {
-      name = "+debugger",
+      name = "debugger",
 
       -- Session management
       s = {
-        name = "+debugging-session",
+        name = "debugging-session",
 
         l = { launch_debugging_session, "Launch debugging session" },
         r = { restart_debugging_session, "Restart current debugging session" },

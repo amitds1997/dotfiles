@@ -32,7 +32,7 @@ local telescope_config = function ()
 
   require("which-key").register({
     ["<Leader>t"] = {
-      name = "+telescope",
+      name = "telescope",
       f = { built_in.find_files, "Find file" },
       r = { built_in.oldfiles, "Open recent file" },
       g = { built_in.git_files, "Find file in git repo" },

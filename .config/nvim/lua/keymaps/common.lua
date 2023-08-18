@@ -1,5 +1,12 @@
 return {
-  ["j"] = { "gj", "Move down a visual line" },
-  ["k"] = { "gk", "Move up a visual line" },
-  ["<ESC>"] = { "<cmd>nohlsearch<CR>", "Remove active search highlight"}
+  ["<ESC>"] = { "<cmd>nohlsearch<CR>", "Remove active search highlight" },
+
+  ["<leader>c"] = {
+    name = "common-op",
+
+    t = { "<cmd>TodoTrouble<CR>", "Open all TODOs in project" },
+    s = { "<cmd>setlocal spell!<CR>", "Toggle spellcheck"},
+    l = { "<cmd>setlocal number!<CR>", "Toggle line number"},
+    r = { "<cmd>setlocal relativenumber!<CR>", "Toggle relative line number"},
+  },
 }

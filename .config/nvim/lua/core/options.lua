@@ -1,140 +1,122 @@
-local opt, g = vim.o, vim.g
+local o, g = vim.o, vim.g
 local utils = require("core.utils")
-local cache_dir = vim.fn.stdpath("cache")
 
+-- Set mapleader
 g.mapleader = " "
-vim.keymap.set({ "n", "x", "v" }, " ", "", { noremap = true })
-
-opt.autoindent = true
-opt.autoread = true
-opt.backup = false
--- TODO: Do I need this after turning off backup?
-opt.backupdir = utils.path_join(cache_dir, "backup", utils.path_sep)
--- TODO: Figure out why this does?
-opt.breakindentopt = "shift:2,min:20"
--- TODO: Figure out the correct value for this
-opt.clipboard = "unnamedplus"
-opt.cmdheight = 0
--- TODO: Should preview be included?
-opt.completeopt = "menu,menuone,noselect"
-opt.conceallevel = 3
--- TODO: Do we use swap files? Do I have a need for this?
-opt.directory = utils.path_join(cache_dir, "swap", utils.path_sep)
-opt.errorbells = false
-opt.expandtab = true
-opt.foldlevelstart = 99
--- TODO: What is the ideal value for this?
-opt.foldmethod = "marker"
-opt.hidden = true
-opt.history = 2000
-opt.hlsearch = true
--- TODO: See 'tagcase' and 'smartcase'
-opt.ignorecase = true
-opt.incsearch = true
-opt.infercase = true
-opt.laststatus = 3
--- TODO: What is this? Is this needed?
-opt.linebreak = true
-opt.list = true
-opt.listchars = "tab:»·,nbsp:+,trail:·,extends:→,precedes:←"
-opt.magic = true
-opt.matchtime = 5
-opt.mouse = "a"
-opt.number = true
-opt.relativenumber = true
--- TODO: How should we adjust this
-opt.pumblend = 10
--- TODO: How should we adjust this
-opt.pumheight = 10
-opt.redrawtime = 2000
-opt.ruler = false
--- TODO: Should we set this to max so that we are always in the middle
-opt.scrolloff = 4
-opt.shiftwidth = 2
--- TODO: Any changes here?
-opt.shortmess = "acoACFIOT"
-opt.showcmd = true
--- TODO: See 'cpoptions'
-opt.showmatch = true
-opt.showmode = false
--- TODO: What does this do?
-opt.showtabline = 0
--- TODO: Should set to a very large value?
-opt.sidescrolloff = 8
-opt.signcolumn = "yes"
-opt.smartcase = true
-opt.smartindent = true
-opt.smarttab = true
-opt.softtabstop = 2
--- TODO: Any other spellcheck options?
-opt.spelloptions = "camel"
-opt.splitbelow = true
-opt.splitkeep = "screen"
-opt.splitright = true
-opt.swapfile = false
--- TODO: See :retab
-opt.tabstop = 2
--- TODO: Should this be wrapped?
-opt.termguicolors = true
-opt.timeout = true
--- TODO: What is a good value for this?
-opt.timeoutlen = 500
-opt.ttimeout = true
--- TODO: What should be a good value for this?
-opt.ttimeoutlen = 10
--- TODO: Best practices for undo?
-opt.undodir = utils.path_join(cache_dir, "undo", utils.path_sep)
-opt.undofile = true
-opt.updatetime = 100
--- TODO: What does this do???
-opt.viewdir = utils.path_join(cache_dir, "view", utils.path_sep)
--- TODO: What does this do??
-opt.virtualedit = "block"
--- TODO: How to best set this and unitilze this
-opt.whichwrap = "b,s,<,>,[,],~"
--- TODO: Best values for this?
-opt.wildignorecase = true
--- TODO: Set wildoptions? wildmode? wildignore?
-opt.wildmenu = true
-opt.winblend = 10
--- TODO: What is a good value for this?
-opt.winwidth = 30
--- TODO: Ideal options when doing this?
-opt.wrap = true
--- TODO: What other options along with this make sense?
-opt.writebackup = false
-vim.wo.showbreak = "NONE"
-
--- Set these so that transparency does not break
-opt.cursorline = true
-opt.cursorlineopt = "number"
-opt.winblend = 0
-opt.pumblend = 0
+vim.keymap.set({ "n", "x", "v" }, g.mapleader, "", { noremap = true })
 
 -- Disable loading extra providers
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
-vim.g.loaded_node_provider = 0
+g.loaded_python3_provider = 0
+g.loaded_perl_provider = 0
+g.loaded_ruby_provider = 0
+g.loaded_node_provider = 0
+
+
+o.history = 2000            -- History retains last n cmdline and search commands
+o.ruler = false             -- Need no ruler
+o.swapfile = false          -- We do not need swap files
+o.mouse = "a"               -- Enable mouse control for all modes
+o.number = true             -- Show line number
+o.relativenumber = true     -- Show relative line number
+o.hidden = true             -- Hide buffers instead of closing them when switching to another
+o.showmode = false          -- Do not show messages on last line; this is anyway disabled by cmdheight
+o.cmdheight = 0             -- Hide command bar when not used
+o.showtabline = 0           -- Never show tabline
+o.signcolumn = "yes"        -- Show sign column
+o.shortmess = "costaFACTIO" -- Avoid hit-enter file prompts
+o.fcs = "eob: "             -- Hide the ~ character at the end of buffer
+o.termguicolors = true      -- Enable 24-bit colors
+o.laststatus = 3            -- Always use a global statusline
+o.autoread = true           -- Automatically read changes in file if they happen outside Neovim
+o.errorbells = false        -- No error bells please
+o.conceallevel = 3          -- Hide concealed characters
+o.clipboard = "unnamedplus" -- Use "unnamedplus" register for copy-paste things
+o.undofile = true           -- Save undo tree to a file
+o.virtualedit = "block"     -- Allow virtual editing in visual block mode
+
+-- Set mapped key sequence timeouts
+o.timeout = true
+o.timeoutlen = 300
+
+-- Render invisible characters
+o.list = true
+o.listchars = "tab:» ,nbsp:+,trail:·,extends:→,precedes:←"
+
+-- Window options
+o.winwidth = 30 -- Minimum columns per window
+o.winblend = 0  -- Needed to create transparent windows
+
+-- Fold options
+o.foldmethod = "expr" --'foldexpr' determines the fold level of a line.
+o.foldexpr = "nvim_treesitter#foldexpr()"
+o.foldlevelstart = 99 -- Start with no folds
+o.foldnestmax = 10    -- Deepest fold is 10 levels
+o.foldenable = false  -- Don't fold by default
+
+-- Tab control
+o.expandtab = true -- Expand <Tab> into spaces
+o.smarttab = true  -- <Tab> respects 'tabstop', 'shiftwidth', and 'softtabstop'
+o.softtabstop = 2  -- Number of spaces <Tab> counts for in editing operations
+o.tabstop = 2      -- <Tab> counts for 2 spaces
+
+-- Indent options
+o.autoindent = true
+o.smartindent = true
+o.shiftwidth = 2     -- Number of spaces for each step of (auto) indent
+o.shiftround = true  -- Round indent to a multiple of 'shiftwidth'
+o.breakindent = true -- Wrapped lines indent visually aligned
+o.breakindentopt = "min:20,sbr"
+
+-- Show matching brace
+o.showmatch = true -- Briefly jump to the matching bracket
+o.matchtime = 1    -- Show it for (n/10)th of a second
+
+-- Enable spellcheck
+o.spell = false          -- Disable spellchecking (we can toggle this using <leader>cs keymap)
+o.spelllang = "en_us"    -- Use US English for completions
+o.spelloptions = "camel" -- In camel-cased words, each camel case denotes a new word
+o.spellfile = utils.path_join(vim.fn.stdpath("config"), "spell", "en.utf-8.add")
+
+-- Split behavior
+o.splitbelow = true    -- If horizontal, split below
+o.splitright = true    -- If vertical, split right
+o.splitkeep = "cursor" -- Keep the same relative cursor position
+
+-- Command line completions
+o.wildmenu = true           -- Give me completions on command-line
+o.wildignorecase = true     -- Ignore case when completing file names and directories
+o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
+
+-- Completions
+o.infercase = true
+o.completeopt = "menu,menuone,noselect" -- Completion menu style
+
+-- Keep my cursor away from the end
+o.scrolloff = 4     -- Stay 4 lines away from top-bottom border
+o.sidescrolloff = 8 -- Stay 8 characters away from left-right border
+
+-- Search options
+o.hlsearch = true
+o.incsearch = true
+o.ignorecase = true     -- Ignore case when searching
+o.smartcase = true      -- Follow ignore case unless there is a capital, then case-sensitive
+o.tagcase = "followscs" -- When searching tag files, follow smartcase
+
+-- Wrapping options
+o.wrap = true
+o.showbreak = "↪" -- String at start of warped lines
+o.linebreak = true -- Do soft wrapping instead of hard wrapping
+
+-- Pop-up menu options
+o.pumblend = 0   -- Needed for pseudo-transparency
+o.pumheight = 10 -- Show 10 items in the pop-up menu
+
+-- Cursor line options
+o.cursorline = true
+o.cursorlineopt = "both"
 
 -- If we have rg installed, use rg to grep
 if vim.fn.executable("rg") == 1 then
-  opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
-  opt.grepprg = "rg --vimgrep --no-heading --smart-case"
-end
-
--- TODO: Better logic here??
-if vim.uv.os_uname().sysname == "Darwin" then
-  vim.g.clipboard = {
-    name = "macOS-clipboard",
-    copy = {
-      ["+"] = "pbcopy",
-      ["*"] = "pbcopy",
-    },
-    paste = {
-      ["+"] = "pbpaste",
-      ["*"] = "pbpaste",
-    },
-    cache_enabled = 0,
-  }
+  o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+  o.grepprg = "rg --vimgrep --no-heading --smart-case"
 end

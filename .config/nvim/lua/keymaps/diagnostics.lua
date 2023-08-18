@@ -1,6 +1,6 @@
 return {
   ["<leader>d"] = {
-    name = "+diagnostic",
+    name = "diagnostic",
 
     w = { function () require("trouble").open("workspace_diagnostics") end, "Open workspace diagnostics" },
     d = { function () require("trouble").open("document_diagnostics") end, "Open document diagnostics" },
@@ -10,7 +10,7 @@ return {
     ["["] = { vim.diagnostic.goto_prev, "Go to previous diagnostic" },
 
     a = {
-      name = "+diagnostic-add",
+      name = "diagnostic-add",
 
       l = { vim.diagnostic.setloclist, "Add buffer diagnostics to loclist" },
       q = { vim.diagnostic.setqflist, "Add all diagnostics to quicklist" },

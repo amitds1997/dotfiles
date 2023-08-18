@@ -24,5 +24,16 @@ return {
       long_message_to_split = true, -- long messages will be sent to a split
       lsp_doc_border = true,        -- add a border to hover docs and signature help
     },
+    routes = {
+      -- Show written messages as mini notification
+      {
+        filter = {
+          event = "msg_show",
+          kind = "",
+          find = "[w]",
+        },
+        view = "mini",
+      },
+    }
   }
 }

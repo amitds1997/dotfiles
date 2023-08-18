@@ -40,7 +40,7 @@ local lsp_config = function ()
 
     local wk_maps = {
       ["<leader>l"] = {
-        name = "+lsp",
+        name = "lsp",
 
         -- LSP movements
         D = { lsp_buf.declaration, "Go to symbol declaration" },
@@ -60,7 +60,7 @@ local lsp_config = function ()
         f = { function () lsp_buf.format({ async = true }) end, "Format code" },
 
         w = {
-          name = "+lsp-workspace",
+          name = "lsp-workspace",
 
           a = { lsp_buf.add_workspace_folder, "Add workspace folder" },
           r = { lsp_buf.remove_workspace_folder, "Remove workspace folder" },
@@ -101,7 +101,7 @@ end
 return {
   "neovim/nvim-lspconfig",
   config = lsp_config,
-  event = { "BufNewFile", "BufReadPre", "BufAdd" },
+  event = { "BufNewFile", "BufReadPre" },
   dependencies = {
     {
       "williamboman/mason.nvim",

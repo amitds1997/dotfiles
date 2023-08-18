@@ -11,7 +11,7 @@ return {
 
       local wk_maps = {
         ["<leader>g"] = {
-          name = "+gitsigns",
+          name = "gitsigns",
 
           -- Hunk movement
           ["["] = { function ()
@@ -42,7 +42,7 @@ return {
           b = { function () gs.blame_line { full = true } end, "Git blame current line with preview" },
         },
         ["<leader>gt"] = {
-          name = "+gitsigns-toggle",
+          name = "gitsigns-toggle",
 
           -- Toggle things
           b = { gs.toggle_current_line_blame, "Toggle current line's blame" },

@@ -66,7 +66,7 @@ local lualine_config = function ()
       section_separators = { left = "", right = "" },
       disabled_filetypes = {
         statusline = vim.tbl_keys(window_names),
-        winbar = { "dap-repl", "", "NvimTree" },
+        winbar = { "dap-repl", "", "NvimTree", "checkhealth", "help", "man", "nofile", "notify", "prompt" },
       },
     },
     sections = {
