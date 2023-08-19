@@ -90,11 +90,6 @@ function M.get_buffer_menu()
         close = { "<Esc>", "<C-c>", "q" },
         submit = { "<CR>", "<Space>" },
       },
-      on_change = function (item, _)
-        local line = NuiLine()
-        line:append(item, "ErrorMsg")
-        return line
-      end,
       on_submit = function (item)
         api.nvim_win_set_buf(0, item.bufnr)
       end,

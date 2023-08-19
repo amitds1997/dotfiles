@@ -1,1 +1,2 @@
+# vim: set ft=zsh:
 git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME} $@
