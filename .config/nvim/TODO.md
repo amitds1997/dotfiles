@@ -12,7 +12,6 @@
 
 ### Features
 
-- [ ] Select menu to quickly cycle through open buffers (`:Telescope buffers`??)
 - [ ] Auto-format on save (Lua)
 
 ### Chore
@@ -21,7 +20,6 @@
     - [ ] Fix nvim-dap-python not picking up virtualenvs
 - Session management
     - [ ] `:mkview` and session management
-- Remove `navic`
 - Trim down statusline
 - Add status to show when we are recording macros
 

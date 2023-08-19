@@ -55,10 +55,6 @@ local lualine_config = function ()
   end
 
 
-  local function add_lsp_breadcrumbs()
-    return require("nvim-navic").is_available() and require("nvim-navic").get_location() or ""
-  end
-
   require("lualine").setup({
     options = {
       theme = "catppuccin",
@@ -70,33 +66,19 @@ local lualine_config = function ()
       },
     },
     sections = {
-      lualine_a = {
-        {
-          "mode",
-        }
-      },
-      lualine_b = {
-        "branch",
-      },
-      lualine_c = { "diff", "diagnostics" },
+      lualine_a = { "mode" },
+      lualine_b = { "branch" },
+      lualine_c = { "diagnostics" },
       lualine_x = {},
-      lualine_y = { get_lsp_clients, "filetype" },
-      lualine_z = {
-        { "location" },
-      },
+      lualine_y = {},
+      lualine_z = { get_lsp_clients },
     },
     winbar = {
-      lualine_c = {
-        add_lsp_breadcrumbs
-      },
       lualine_z = {
         file_component
       },
     },
     inactive_winbar = {
-      lualine_c = {
-        add_lsp_breadcrumbs
-      },
       lualine_x = {
         file_component
       },

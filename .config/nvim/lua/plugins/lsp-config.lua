@@ -29,9 +29,7 @@ local lsp_config = function ()
   local on_attach = function (client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    -- Attach nvim-navic and nvim-navbuddy if server supports it
     if client.server_capabilities.documentSymbolProvider then
-      require("nvim-navic").attach(client, bufnr)
       require("nvim-navbuddy").attach(client, bufnr)
     end
 

@@ -113,7 +113,7 @@ o.pumheight = 10 -- Show 10 items in the pop-up menu
 
 -- Cursor line options
 o.cursorline = true
-o.cursorlineopt = "both"
+o.cursorlineopt = "number"
 
 -- If we have rg installed, use rg to grep
 if vim.fn.executable("rg") == 1 then

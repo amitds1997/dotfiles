@@ -1,6 +1,6 @@
 return {
-  ["<TAB>"] = { ":bnext<CR>", "Go to next buffer" },
-  ["<S-TAB>"] = { ":bprev<CR>", "Go to previous buffer" },
+  ["<TAB>"] = { require("custom.buf_switcher").get_buffer_menu, "Switch buffers using menu" },
+  ["<S-TAB>"] = { require("custom.buf_switcher").get_buffer_menu, "Switch buffers using menu" },
 
   ["<leader>f"] = {
     name = "buffer",
