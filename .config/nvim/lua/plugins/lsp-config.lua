@@ -31,7 +31,7 @@ local lsp_config = function ()
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         group = vim.api.nvim_create_augroup("AutoLspFormatting", { clear = true }),
-        pattern = "*",
+        buffer = bufnr,
         command = [[lua vim.lsp.buf.format()]],
       })
     end
@@ -51,7 +51,7 @@ local lsp_config = function ()
         D = { lsp_buf.declaration, "Go to symbol declaration" },
         i = { function () require("trouble").open("lsp_implementations") end, "Go to symbol implementations" },
         d = { function () require("trouble").open("lsp_definitions") end, "Go to symbol definition" },
-        r = { function () require("trouble").open("lsp_references") end, "Go to symbol references" },
+        rr = { function () require("trouble").open("lsp_references") end, "Go to symbol references" },
         t = { function () require("trouble").open("lsp_type_definitions") end, "Go to type definitions" },
 
         -- Show LSP information
@@ -62,7 +62,7 @@ local lsp_config = function ()
         o = { require("lspconfig.ui.lspinfo"), "Display attached, active, and configured LSP servers" },
 
         -- LSP changes
-        R = { lsp_buf.rename, "Rename symbol" },
+        rn = { lsp_buf.rename, "Rename symbol" },
         f = { function () lsp_buf.format({ async = true }) end, "Format code" },
 
         w = {

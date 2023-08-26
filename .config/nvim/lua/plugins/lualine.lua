@@ -30,6 +30,14 @@ local file_component = {
   },
 }
 
+local macro = function ()
+  local macro_register = vim.fn.reg_recording()
+  if macro_register ~= "" then
+    return ("Recording on @%s"):format(macro_register)
+  end
+  return macro_register
+end
+
 local lualine_config = function ()
   local devicons = require("nvim-web-devicons")
 
@@ -50,7 +58,6 @@ local lualine_config = function ()
       end
     end
 
-
     return lsp_name
   end
 
@@ -70,7 +77,7 @@ local lualine_config = function ()
       lualine_b = { "branch" },
       lualine_c = { "diagnostics" },
       lualine_x = {},
-      lualine_y = {},
+      lualine_y = { macro },
       lualine_z = { get_lsp_clients },
     },
     winbar = {

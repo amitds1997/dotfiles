@@ -12,9 +12,12 @@
 * `\_` (in search regex) - match new lines
 * `:se` to track everything that you have changed from the defaults in Neovim
 * `:verbose set history` shows where the value was last set from
+* `CTRL+G` - bring up ruler
 
 ## To figure out
 
-* CTRL-R in insert and command mode. For help see: `:help i_CTRL-R`
-* `:ju` meaning and how to use it
-* Meshing external commands with buffer content
+* [ ] CTRL-R in insert and command mode. For help see: `:help i_CTRL-R`
+* [ ] `:ju` meaning and how to use it
+* [ ] Meshing external commands with buffer content
+* [ ] `:h motion.txt` - Built-in motions
+* [ ] Explore `<C-W>` and map it to a better combination

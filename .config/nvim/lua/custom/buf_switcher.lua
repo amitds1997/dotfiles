@@ -1,7 +1,6 @@
 local api, fn = vim.api, vim.fn
 local devicons = require("nvim-web-devicons")
 local Menu = require("nui.menu")
-local NuiLine = require("nui.line")
 
 local M = {}
 
@@ -30,7 +29,7 @@ local function get_buffers()
   for _, bufnr in ipairs(bufnrs) do
     local elem = {
       bufnr = bufnr.bufnr,
-      filename = buf_file_name(bufnr.bufnr)
+      filename = buf_file_name(bufnr.bufnr) .. (bufnr.changed == 1 and " " or ""),
     }
     if bufnr == fn.bufnr("%") then     -- Current buffer
       table.insert(buffers, 1, elem)
