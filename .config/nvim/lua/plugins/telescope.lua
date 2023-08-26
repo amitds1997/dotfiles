@@ -1,6 +1,6 @@
 local telescope_config = function ()
   local telescope = require("telescope")
-  local trouble  = require("trouble.providers.telescope")
+  local trouble   = require("trouble.providers.telescope")
 
   telescope.setup({
     defaults = {
@@ -29,6 +29,8 @@ local telescope_config = function ()
   })
 
   local built_in = require("telescope.builtin")
+  telescope.load_extension("fzf")
+  telescope.load_extension("projects")
 
   require("which-key").register({
     ["<Leader>t"] = {
@@ -39,11 +41,10 @@ local telescope_config = function ()
       w = { built_in.live_grep, "Find word" },
       b = { built_in.buffers, "Select from open buffers" },
       k = { built_in.keymaps, "Open keymap window" },
+      p = { telescope.extensions.projects.projects, "Open projects window" },
       ["/"] = { built_in.current_buffer_fuzzy_find, "Fuzzy find in the current buffer" },
     }
   })
-
-  telescope.load_extension("fzf")
 end
 
 return {
