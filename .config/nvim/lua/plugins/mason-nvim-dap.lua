@@ -1,3 +1,5 @@
+local utils = require("core.utils")
+
 return {
   "jay-babu/mason-nvim-dap.nvim",
   event = "LspAttach",
@@ -14,7 +16,7 @@ return {
         require("mason-nvim-dap").default_setup(config)
       end,
       python = function (config)
-        require("dap-python").setup(vim.fn.exepath("debugpy"))
+        require("dap-python").setup(utils.path_join(vim.fn.exepath("debugpy"), "venv", "bin", "python"))
         require("mason-nvim-dap").default_setup(config)
       end
     },

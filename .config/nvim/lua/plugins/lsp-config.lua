@@ -8,8 +8,7 @@ local lsp_config = function ()
     "marksman", "yamlls" }
 
   local ensure_lsp_installed                             = {
-    python = { "pyright" },
-    node = { "eslint", "tsserver" },
+    node = { "eslint", "tsserver", "pyright" },
     go = { "gopls" },
   }
 
@@ -28,6 +27,14 @@ local lsp_config = function ()
 
   local on_attach = function (client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
+
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+        group = vim.api.nvim_create_augroup("AutoLspFormatting", { clear = true }),
+        pattern = "*",
+        command = [[lua vim.lsp.buf.format()]],
+      })
+    end
 
     if client.server_capabilities.documentSymbolProvider then
       require("nvim-navbuddy").attach(client, bufnr)
@@ -52,6 +59,7 @@ local lsp_config = function ()
         s = { lsp_buf.signature_help, "Show symbol signature info" },
         c = { lsp_buf.code_action, "Show code actions" },
         n = { require("nvim-navbuddy").open, "Open symbol tree explorer" },
+        o = { require("lspconfig.ui.lspinfo"), "Display attached, active, and configured LSP servers" },
 
         -- LSP changes
         R = { lsp_buf.rename, "Rename symbol" },
@@ -78,6 +86,33 @@ local lsp_config = function ()
       lspconfig[server].setup({
         on_attach = on_attach,
         capabilities = capabilities,
+      })
+    end,
+    jsonls = function ()
+      lspconfig.jsonls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = false },
+          }
+        }
+      })
+    end,
+    yamlls = function ()
+      lspconfig.yamlls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            schemaStore = {
+              enable = false,
+              url = "",
+            },
+            schemas = require("schemastore").yaml.schemas(),
+          },
+        },
       })
     end,
     lua_ls = function ()
@@ -110,5 +145,6 @@ return {
     },
     "williamboman/mason-lspconfig.nvim",
     "SmiteshP/nvim-navbuddy",
+    "b0o/schemastore.nvim", -- Enable schemas availability for JSON and YAML
   },
 }

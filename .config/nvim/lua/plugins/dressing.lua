@@ -1,6 +1,7 @@
 return {
   "stevearc/dressing.nvim",
   event = "VeryLazy",
+  enabled = false,
   opts = {
     input = {
       relative = "editor",
