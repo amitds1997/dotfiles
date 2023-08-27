@@ -18,6 +18,7 @@ end
 
 return {
   "amitds1997/remote-nvim.nvim",
+  version = "*",
   config = remote_nvim,
   event = "CmdlineEnter",
   dependencies = {

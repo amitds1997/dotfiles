@@ -35,7 +35,7 @@ local config = {
   },
 
   -- Font configuration
-  font_size = 16,
+  font_size = 15,
   font = wezterm.font_with_fallback {
     { family = "Rec Mono Duotone",                 weight = "Regular" },
     { family = "FantasqueSansMono Nerd Font Mono", weight = "Regular", stretch = "Normal", style = "Normal" },
