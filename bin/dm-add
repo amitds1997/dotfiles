@@ -13,6 +13,7 @@ dm add ${HOME}/.git-templates/
 dm add ${HOME}/.ssh/config
 dm add ${HOME}/.ssh/config
 dm add ${HOME}/.gitconfig
+dm add ${HOME}/.psqlrc
 dm add ${HOME}/bin/cron
 dm add ${HOME}/bin/dm-add
 dm add ${XDG_CONFIG_HOME}/brew

@@ -1,0 +1,64 @@
+-- vim: set ft=sql:
+
+-- Silence because I do not want to know the configurations that are activated
+\set QUIET ON
+
+-- Set all null fields as [NULL]
+\pset null '[NULL]'
+
+-- Client encoding should be unicode
+\encoding unicode
+
+-- Generate host specific histories and log 2000 entries per file
+\set HISTFILE ~/.history/psql- :HOST - :DBNAME
+\set HISTSIZE 2000
+
+-- Ignore commands that start with a space and ignore consecutive duplicate commands
+\set HISTCONTROL ignoreboth
+
+-- Show how long each command took
+\timing
+
+-- Set default prompt
+\set PROMPT1 '(%n@%M:%>) [%/] > '
+\set PROMPT2 ''
+\set PAGER OFF
+\set ECHO_HIDDEN ON
+
+-- COMP_KEYWORD_CASE: choosing the letter cas for SQL keywords.
+-- Values: lower,upper,preserve-lower,preserve-upper
+\set COMP_KEYWORD_CASE upper
+
+-- format: output format.
+-- Values: unaligned, aligned, wrapped, html, asciidoc, latex, latex-longtable, troff-ms
+\pset format aligned
+
+-- linestyle: border drawing style.
+-- Values: ascii, old-ascii, unicode
+\pset linestyle unicode
+
+-- Number of border lines to use for tables
+\pset border 2
+
+-- Only exit if we press CTRL-D 2 times
+\set IGNOREEOF 2
+
+-- unicode_header_linestyle: header drawing style for unicode style.
+-- Values: single, double.
+\pset unicode_header_linestyle double
+
+-- Unsilence because all configurations have been set
+\set QUIET OFF
+
+-- Shortcuts
+\set version 'SELECT version();'
+\set extensions 'SELECT * from pg_available_extensions;'
+\set settings 'SELECT name, setting, unit, context from pg_settings;'
+\set locks  'SELECT bl.pid AS blocked_pid, a.usename AS blocked_user, kl.pid AS blocking_pid, ka.usename AS blocking_user, a.query AS blocked_statement FROM pg_catalog.pg_locks bl JOIN pg_catalog.pg_stat_activity a ON bl.pid = a.pid JOIN pg_catalog.pg_locks kl JOIN pg_catalog.pg_stat_activity ka ON kl.pid = ka.pid ON bl.transactionid = kl.transactionid AND bl.pid != kl.pid WHERE NOT bl.granted;'
+\set conninfo 'SELECT usename, count(*) from pg_stat_activity group by usename;'
+\set activity 'select datname, pid, usename, application_name,client_addr, client_hostname, client_port, query, state from pg_stat_activity;'
+\set waits 'SELECT pg_stat_activity.pid, pg_stat_activity.query, pg_stat_activity.waiting, now() - pg_stat_activity.query_start AS \"totaltime\", pg_stat_activity.backend_start FROM pg_stat_activity WHERE pg_stat_activity.query !~ \'%IDLE%\'::text AND pg_stat_activity.waiting = true;'
+\set dbsize 'SELECT datname, pg_size_pretty(pg_database_size(datname)) db_size FROM pg_database ORDER BY db_size;'
+\set tablesize 'SELECT nspname || \'.\' || relname AS \"relation\", pg_size_pretty(pg_relation_size(C.oid)) AS "size" FROM pg_class C LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace) WHERE nspname NOT IN (\'pg_catalog\', \'information_schema\') ORDER BY pg_relation_size(C.oid) DESC LIMIT 40;'
+\set uptime 'select now() - pg_postmaster_start_time() AS uptime;'
+\set buffer_cache_hit_ratio 'select datname, blks_hit::float/(blks_hit+blks_read) as hit_ratio from pg_stat_database where blks_read+blks_hit <> 0;'
