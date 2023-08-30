@@ -1,0 +1,64 @@
+# zprof
+[[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
+alias zprofrc="ZPROFRC=1 zsh"
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# We do not depend on plugin managers to load the base config just so that if anything breaks, we atleast have a basic working shell
+[[ -f $ZDOTDIR/plugins/essentials/essentials.plugin.zsh ]] && . $ZDOTDIR/plugins/essentials/essentials.plugin.zsh
+
+# Load zstyles
+[[ -f $ZDOTDIR/.zstyles ]] && source $ZDOTDIR/.zstyles
+
+#
+# Antidote plugin manager
+#
+
+ANTIDOTE_HOME=$ZDOTDIR/plugins/.external
+
+# Get antidote if not already present
+[[ -e $ZDOTDIR/.antidote ]] ||
+  git clone --depth=1 https://github.com/mattmc3/antidote.git $ZDOTDIR/.antidote
+
+# Set the name of the static .zsh plugins file antidote will generate.
+ZSH_PLUGINS_FILE=${ZDOTDIR:-~}/.zplugins.zsh
+
+# Ensure you have a .zplugins.txt file where you can add plugins.
+[[ -f ${ZSH_PLUGINS_FILE:r}.txt ]] || touch ${ZSH_PLUGINS_FILE:r}.txt
+
+# Lazy-load antidote.
+fpath+=(${ZDOTDIR:-~}/.antidote/functions)
+autoload -Uz $fpath[-1]/antidote
+
+# Install all plugins there are if not already done
+[[ -e $ZDOTDIR/plugins/.external ]] || antidote load $ZDOTDIR/.zplugins.txt
+
+# Generate static file in a subshell when .zsh_plugins.txt is updated.
+if [[ ! $ZSH_PLUGINS_FILE -nt ${ZSH_PLUGINS_FILE:r}.txt ]] || [[ ! -s $ZSH_PLUGINS_FILE ]]; then
+  source $ZDOTDIR/.antidote/antidote.zsh
+  (envsubst < ${ZSH_PLUGINS_FILE:r}.txt | antidote bundle >| $ZSH_PLUGINS_FILE)
+fi
+
+# Source your static plugins file.
+source $ZSH_PLUGINS_FILE
+
+#
+# Setup of Antidote plugin manager complete
+#
+
+# Local settings/overrides
+[[ -f $ZDOTDIR/.zshrc_local ]] && source $ZDOTDIR/.zshrc_local
+
+# Done profiling.
+[[ ${ZPROFRC:-0} -eq 0 ]] || { unset ZPROFRC && zprof }
+true
+
+# To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
+# vim: ft=zsh sw=2 ts=2 et

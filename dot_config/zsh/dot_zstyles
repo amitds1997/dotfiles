@@ -1,0 +1,11 @@
+# .zstylerc - zstyle settings for features/plugins that need them
+
+# Antidote
+zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins.txt
+zstyle ':antidote:bundle' use-friendly-names 'yes'
+zstyle ':antidote:plugin:*' defer-options '-p'
+
+# Editor
+zstyle :zle:edit-command-line editor nvim
+
+# vim: ft=zsh sw=2 ts=2 et
