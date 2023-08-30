@@ -1,0 +1,7 @@
+{{ if eq .chezmoi.os "linux" }}
+pinentry-program /usr/bin/pinentry
+{{ else if eq .chezmoi.os "darwin" }}
+pinentry-program /usr/local/bin/pinentry
+{{ end }}
+default-cache-ttl 28800
+max-cache-ttl 28800
