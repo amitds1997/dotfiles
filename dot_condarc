@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+  - defaults
+channel_priority: flexible
+auto_update_conda: false
+always_yes: false
+show_channel_urls: true
+default_threads: 4
+add_pip_as_python_dependency: true
+pip_interop_enabled: true
+update_dependencies: true
+auto_activate_base: false

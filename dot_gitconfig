@@ -1,0 +1,50 @@
+[init]
+  defaultBranch = main
+	templatedir = ~/.git-templates
+[core]
+  pager = delta
+  editor = nvim
+[alias]
+  undo = reset --soft HEAD~1
+  amend = commit --amend
+[diff]
+  colorMoved = default
+[merge]
+  conflictStyle = diff3
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  features = unobtrusive-line-numbers side-by-side decorations
+  syntax-theme = ansi
+  navigate = true
+[delta "decorations"]
+  commit-decoration-style = box
+  hunk-header-decoration-style = cyan box ul
+[user]
+  email = amitds1997@gmail.com
+  name = Amit Singh
+  signingkey = 39CA9FB26B8A0617
+[include]
+  path = ~/.gitconfig.local ; Contains [github] section
+[includeIf "gitdir:~/c2fo/"]
+  path = ~/c2fo/.gitconfig
+[branch]
+  autosetuprebase = always
+[pull]
+  rebase = true
+[diff]
+  renames = copies
+  mnemonicprefix = true
+  compactionHeuristic = true
+[difftool]
+  prompt = false
+[gpg]
+  program = gpg
+[commit]
+  gpgSign = true
+[fetch]
+  prune = true
+[rerere]
+	enabled = true
+[push]
+  autoSetupRemote = true

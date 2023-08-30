@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+
+import sys, re
+import subprocess
+
+# Collect the parameters
+commit_msg_filepath = sys.argv[1]
+if len(sys.argv) > 2:
+    commit_type = sys.argv[2]
+else:
+    commit_type = ''
+if len(sys.argv) > 3:
+    commit_hash = sys.argv[3]
+else:
+    commit_hash = ''
+
+
+issue_pattern = re.compile(r'^.*?([A-Za-z]+-[\d]+).*', re.IGNORECASE)
+symbolic_ref_output = subprocess.run(['git', 'branch', '--show-current'], capture_output=True)
+branch_name, output_error = symbolic_ref_output.stdout.decode().strip(), symbolic_ref_output.stderr.decode().strip()
+issue_id_match = issue_pattern.match(branch_name)
+
+# Populate the commit message with the issue #, if there is one
+if issue_id_match:
+    issue_id = str.upper(issue_id_match.group(1))
+
+    with open(commit_msg_filepath, 'r+') as f:
+        content = f.read()
+        # Verify that we do not have an existing TAG already added
+        if not issue_pattern.match(content):
+            f.seek(0, 0)
+            f.write(f"{issue_id} - {content}")
+elif branch_name == "" or "c2fo" not in commit_msg_filepath:
+    pass
+else:
+    print("Branch name is not valid. It should follow the pattern '.*<JIRA-PROJECT>-<TICKET-ID>.*'")
+    sys.exit(1)
