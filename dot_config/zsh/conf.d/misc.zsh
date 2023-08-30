@@ -40,6 +40,7 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
     unset __conda_setup
     # <<< conda initialize <<<
+    
+    command -v fnm &> /dev/null || eval "$(fnm env --use-on-cd)"
 fi
 
-command -v fnm > /dev/null || eval "$(fnm env --use-on-cd)" # fnm setup

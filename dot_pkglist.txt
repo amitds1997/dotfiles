@@ -20,3 +20,4 @@ pyenv
 zip
 unzip
 less
+npm
