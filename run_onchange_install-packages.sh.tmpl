@@ -1,19 +1,18 @@
-{{- if eq .chezmoi.os "linux" -}}
 #!/usr/bin/env sh
-  {{- if eq .chezmoi.osRelease.id "arch" -}}
-    # Install yay
-    pacman -S --needed git base-devel
-    git clone https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si
-    cd
-    rm -rf yay
+{{ if eq .chezmoi.os "linux" -}}
+  {{ if eq .chezmoi.osRelease.id "arch" -}}
+# Install yay
+pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd
+rm -rf yay
 
-    # Install packages
-    yay -S neovim chezmoi zsh-antidote gnupg24
+# Install packages
+yay -S neovim chezmoi zsh-antidote gnupg24
   {{ end }}
-{{- else if eq .chezmoi.os "darwin" -}}
-#!/usr/bin/env sh
+{{ else if eq .chezmoi.os "darwin" -}}
 brew bundle install --file=~/.config/brew/Brewfile
 {{ end }}
 
