@@ -8,7 +8,6 @@ dm add ${HOME}/.condarc
 dm add ${HOME}/.actrc
 dm add ${HOME}/.finicky.js
 dm add ${HOME}/.gnupg/gpg-agent.conf
-dm add ${HOME}/.hammerspoon/
 dm add ${HOME}/.git-templates/
 dm add ${HOME}/.ssh/config
 dm add ${HOME}/.gitconfig
