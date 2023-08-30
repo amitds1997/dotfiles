@@ -17,3 +17,5 @@ zoxide
 firefox
 wezterm
 pyenv
+zip
+unzip

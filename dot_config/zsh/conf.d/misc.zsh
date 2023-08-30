@@ -17,7 +17,6 @@ command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 if [[ $(uname) == "Darwin" ]]; then
-
     # Brew setup
     export HOMEBREW_NO_ENV_HINTS=true
 
@@ -41,8 +40,6 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
     unset __conda_setup
     # <<< conda initialize <<<
-
-    # fnm setup
-    eval "$(fnm env --use-on-cd)"
 fi
 
+command -v fnm > /dev/null || eval "$(fnm env --use-on-cd)" # fnm setup
