@@ -13,7 +13,9 @@ then
 fi
 
 # Install needed packages
-yay -Syu # Update database and upgrade all packages 
+yay -Syu
+# DO NOT REMOVE COMMENT ON NEXT LINE. It handles running install when pkglist changes
+# {{ include "dot_pkglist.txt" | sha256sum }}
 yay -S --needed --nodiffmenu --nocleanmenu --noeditmenu --removemake - < ~/.pkglist.txt
   {{ end }}
 {{ else if eq .chezmoi.os "darwin" -}}
