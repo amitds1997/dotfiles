@@ -30,3 +30,4 @@ fd
 ttf-recursive
 ttf-fantasque-nerd
 noto-fonts-emoji
+ttf-nerd-fonts-symbols-mono
