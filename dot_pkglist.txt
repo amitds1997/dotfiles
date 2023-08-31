@@ -27,3 +27,6 @@ zsh-antidote
 xclip
 tree-sitter-cli
 fd
+ttf-recursive
+ttf-fantasque-nerd
+noto-fonts-emoji
