@@ -1,7 +1,11 @@
 Host *
   AddKeysToAgent yes
+{{- if eq .chezmoi.os "darwin" }}
   UseKeychain yes
   IdentityFile ~/.ssh/id_rsa
+{{- else if eq .chezmoi.os "linux" }}
+  IdentityFile ~/.ssh/id_ed25519
+{{- end }}
 
 Include ~/.colima/ssh_config
 # DevPod Start vscode-remote-try-node.devpod
