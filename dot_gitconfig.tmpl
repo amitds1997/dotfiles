@@ -23,7 +23,11 @@
 [user]
   email = amitds1997@gmail.com
   name = Amit Singh
+{{- if eq .chezmoi.os "darwin" }}
   signingkey = 39CA9FB26B8A0617
+{{- else if eq .chezmoi.os "linux" }}
+  signingkey = 8F8E6B2089051ED4
+{{- end }}
 [include]
   path = ~/.gitconfig.local ; Contains [github] section
 [includeIf "gitdir:~/c2fo/"]
