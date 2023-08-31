@@ -1,28 +1,28 @@
 local kind_icons = {
   Text = "",
-  Method = "",
-  Function = "",
+  Method = "󰆧",
+  Function = "󰊕",
   Constructor = "",
   Field = "",
   Variable = "",
-  Class = "ﴯ",
-  Interface = "",
+  Class = "󰠲",
+  Interface = "󱦜",
   Module = "",
-  Property = "ﰠ",
+  Property = "󰓼",
   Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "",
+  Value = "󰎠",
+  Enum = "",
+  Keyword = "",
   Snippet = "",
-  Color = "",
+  Color = "󰸌",
   File = "",
   Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
   Struct = "",
   Event = "",
-  Operator = "",
+  Operator = "󰆕",
   TypeParameter = "",
 }
 
@@ -177,9 +177,9 @@ end
 return {
   "hrsh7th/nvim-cmp",
   config = cmp_config,
-  enabled = function()
+  enabled = function ()
     return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-        or require("cmp_dap").is_dap_buffer()
+      or require("cmp_dap").is_dap_buffer()
   end,
   event = "InsertEnter",
   dependencies = {

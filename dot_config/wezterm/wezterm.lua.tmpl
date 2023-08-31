@@ -40,7 +40,7 @@ local config = {
     { family = "Rec Mono Duotone",                 weight = "Regular" },
     {{ if eq .chezmoi.os "darwin" -}}
     { family = "FantasqueSansMono Nerd Font Mono", weight = "Regular", stretch = "Normal", style = "Normal" },
-    {{ else if eq .chezmoi.os "linux" -}}
+    {{- else if eq .chezmoi.os "linux" -}}
     { family = "FantasqueSansM Nerd Font Mono", weight = "Regular", stretch = "Normal", style = "Normal" },
     {{- end }}
     'Noto Color Emoji',
