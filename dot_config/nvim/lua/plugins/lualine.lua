@@ -20,6 +20,7 @@ local formatted_lsp_names = {
   dockerls = "Docker",
   yamlls = "YAML",
   eslint = "ESLint",
+  terraformls = "Terraform",
 }
 
 local file_component = {
@@ -42,7 +43,8 @@ local lualine_config = function ()
   local devicons = require("nvim-web-devicons")
 
   local function get_lsp_clients()
-    local file_icon = devicons.get_icon_by_filetype(vim.bo.filetype) .. " "
+    local file_icon = (devicons.get_icon_by_filetype(vim.bo.filetype) or devicons.get_icon(vim.fn.expand("%:e")) or devicons.get_default_icon()) ..
+      " "
     local lsp_name = ""
 
     local lsp_clients = vim.lsp.get_clients({ bufnr = 0 })
