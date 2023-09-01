@@ -12,9 +12,7 @@ zle -A .accept-line accept-line
 eval "$(zoxide init zsh)"
 
 # Pyenv setup
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+command -v pyenv &> /dev/null && eval "$(pyenv init -)"
 
 if [[ $(uname) == "Darwin" ]]; then
     # Brew setup
@@ -40,7 +38,7 @@ if [[ $(uname) == "Darwin" ]]; then
     fi
     unset __conda_setup
     # <<< conda initialize <<<
-    
-    command -v fnm &> /dev/null || eval "$(fnm env --use-on-cd)"
+
+    command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
 fi
 
