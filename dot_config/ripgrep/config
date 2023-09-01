@@ -1,0 +1,6 @@
+# Search hidden files
+--hidden
+
+# Search smartly
+--ignore-case
+--smart-case

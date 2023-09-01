@@ -8,6 +8,9 @@ export GPG_TTY=$TTY
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bold"
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=red,bold"
 
+# Set ripgrep config path
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
+
 path=(
   $HOME/{,s}bin(N)
   /opt/local/{,s}bin(N)
