@@ -50,7 +50,7 @@ end
 return {
   "nvim-telescope/telescope.nvim",
   event = "VeryLazy",
-  branch = "0.1.x",
+  -- branch = "0.1.x",
   config = telescope_config,
   dependencies = {
     "nvim-lua/plenary.nvim",

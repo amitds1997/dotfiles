@@ -26,6 +26,7 @@ local function get_buffers()
   end)
 
   local buffers = {}
+
   for _, bufnr in ipairs(bufnrs) do
     local elem = {
       bufnr = bufnr.bufnr,

@@ -6,7 +6,6 @@ local treesitter_config = function ()
       "c",
       "comment",
       "cpp",
-      "dap_repl",
       "dockerfile",
       "git_config",
       "git_rebase",
@@ -58,10 +57,4 @@ return {
   build = ":TSUpdate",
   config = treesitter_config,
   event = "VeryLazy",
-  dependencies = {
-    {
-      "LiadOz/nvim-dap-repl-highlights",
-      config = true,
-    }
-  }
 }
