@@ -1,11 +1,9 @@
 local api, fn = vim.api, vim.fn
-local devicons = require("nvim-web-devicons")
-local Menu = require("nui.menu")
 
 local M = {}
 
 local function get_icon_by_filetype(bufnr)
-  local icon, hl = devicons.get_icon_by_filetype(vim.bo[bufnr].filetype, { default = true })
+  local icon, hl = require("nvim-web-devicons").get_icon_by_filetype(vim.bo[bufnr].filetype, { default = true })
   return icon .. " ", hl
 end
 
@@ -17,6 +15,14 @@ local function buf_file_name(bufnr)
   return name
 end
 
+local get_optimized_filenames = function (buffers)
+  local bufnames = {}
+  for _, bufr in ipairs(buffers) do
+    table.insert(bufnames, buf_file_name(bufr.bufnr))
+  end
+  return bufnames
+end
+
 local function get_buffers()
   local bufnrs = fn.getbufinfo({ buflisted = 1 })
 
@@ -26,11 +32,12 @@ local function get_buffers()
   end)
 
   local buffers = {}
+  local bufnames = get_optimized_filenames(bufnrs)
 
-  for _, bufnr in ipairs(bufnrs) do
+  for idx, bufnr in ipairs(bufnrs) do
     local elem = {
       bufnr = bufnr.bufnr,
-      filename = buf_file_name(bufnr.bufnr) .. (bufnr.changed == 1 and " " or ""),
+      filename = bufnames[idx] .. (bufnr.changed == 1 and " " or ""),
     }
     if bufnr == fn.bufnr("%") then     -- Current buffer
       table.insert(buffers, 1, elem)
@@ -53,6 +60,7 @@ function M.get_buffer_menu()
     api.nvim_win_set_buf(0, buffers[idx].bufnr)
   else
     buffers = get_buffers()
+    local Menu = require("nui.menu")
     local lines = {}
     local max_length = 0
     for idx, buffer in ipairs(buffers) do

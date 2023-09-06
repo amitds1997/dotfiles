@@ -7,6 +7,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "man",
     "nofile",
     "notify",
+    "query",
     "prompt",
     "qf",
     "terminal",
