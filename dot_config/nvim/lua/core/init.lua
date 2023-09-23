@@ -74,7 +74,8 @@ function L:bootstrap()
       },
     },
     dev = {
-      path = "~/personal/nvim-plugins/"
+      path = "~/personal/nvim-plugins/",
+      fallback = true,
     }
   }
   lazy.setup("plugins", lazy_opts)

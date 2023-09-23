@@ -28,14 +28,6 @@ local lsp_config = function ()
   local on_attach = function (client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-        group = vim.api.nvim_create_augroup("AutoLspFormatting", { clear = true }),
-        buffer = bufnr,
-        command = [[lua vim.lsp.buf.format()]],
-      })
-    end
-
     if client.server_capabilities.documentSymbolProvider then
       require("nvim-navbuddy").attach(client, bufnr)
     end

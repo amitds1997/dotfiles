@@ -15,7 +15,7 @@ local function buf_file_name(bufnr)
   return name
 end
 
-local get_optimized_filenames = function (buffers)
+local get_optimized_filenames = function(buffers)
   local bufnames = {}
   for _, bufr in ipairs(buffers) do
     table.insert(bufnames, buf_file_name(bufr.bufnr))
@@ -27,7 +27,7 @@ local function get_buffers()
   local bufnrs = fn.getbufinfo({ buflisted = 1 })
 
   -- We want buffers sorted by their last used time
-  table.sort(bufnrs, function (a, b)
+  table.sort(bufnrs, function(a, b)
     return a.lastused > b.lastused
   end)
 
@@ -39,11 +39,11 @@ local function get_buffers()
       bufnr = bufnr.bufnr,
       filename = bufnames[idx] .. (bufnr.changed == 1 and " " or ""),
     }
-    if bufnr == fn.bufnr("%") then     -- Current buffer
+    if bufnr == fn.bufnr("%") then -- Current buffer
       table.insert(buffers, 1, elem)
     elseif bufnr == fn.bufnr("#") then -- Previous buffer to current
       table.insert(buffers, 2, elem)
-    else                               -- Any other listed buffer
+    else -- Any other listed buffer
       table.insert(buffers, elem)
     end
   end
@@ -98,13 +98,15 @@ function M.get_buffer_menu()
         close = { "<Esc>", "<C-c>", "q" },
         submit = { "<CR>", "<Space>" },
       },
-      on_submit = function (item)
+      on_submit = function(item)
         api.nvim_win_set_buf(0, item.bufnr)
       end,
     })
 
     -- mount the component
     menu:mount()
+
+    api.nvim_win_set_cursor(menu.winid, { 2, 0 })
   end
 end
 
