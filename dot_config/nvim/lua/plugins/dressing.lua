@@ -3,10 +3,14 @@ return {
   event = "VeryLazy",
   opts = {
     input = {
-      relative = "editor",
       win_options = {
-        winblend = 0
-      }
+        winblend = 0,
+      },
+      override = function(conf)
+        conf.col = -1
+        conf.row = 0
+        return conf
+      end,
     },
-  }
+  },
 }

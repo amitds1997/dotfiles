@@ -76,7 +76,7 @@ function L:bootstrap()
     dev = {
       path = "~/personal/nvim-plugins/",
       fallback = true,
-    }
+    },
   }
   lazy.setup("plugins", lazy_opts)
 
@@ -85,7 +85,7 @@ function L:bootstrap()
     vim.api.nvim_create_autocmd("User", {
       group = vim.api.nvim_create_augroup("LazyVim", { clear = true }),
       pattern = "VeryLazy",
-      callback = function ()
+      callback = function()
         require("core.autocmds")
         require("core.keymaps")
       end,
@@ -94,6 +94,7 @@ function L:bootstrap()
     require("core.autocmds")
     require("core.keymaps")
   end
+  vim.cmd.colorscheme(require("core.vars").colorscheme)
 end
 
 return L

@@ -1,5 +1,9 @@
-local catppuccin_config = function ()
-  require("catppuccin").setup({
+return {
+  "catppuccin/nvim",
+  name = "catppuccin",
+  lazy = false,
+  priority = 1000,
+  opts = {
     flavour = "mocha",
     background = { light = "latte", dark = "mocha" },
     transparent_background = true,
@@ -10,7 +14,7 @@ local catppuccin_config = function ()
       treesitter = true,
       nvimtree = true,
       telescope = {
-        enabled = true
+        enabled = true,
       },
       cmp = true,
       gitsigns = true,
@@ -23,16 +27,10 @@ local catppuccin_config = function ()
       },
       lsp_trouble = true,
       which_key = true,
+      illuminate = {
+        enabled = true,
+        lsp = false,
+      },
     },
-  })
-
-  vim.cmd.colorscheme("catppuccin")
-end
-
-return {
-  "catppuccin/nvim",
-  name = "catppuccin",
-  lazy = false,
-  config = catppuccin_config,
-  priority = 1000,
+  },
 }

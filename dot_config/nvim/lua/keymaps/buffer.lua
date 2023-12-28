@@ -1,10 +1,19 @@
+local function buf_switcher()
+  local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+  if #buffers <= 1 then
+    vim.notify("Only one buffer is open")
+    return
+  end
+  require("telescope.builtin").buffers()
+end
+
 return {
-  ["<TAB>"] = { require("custom.buf_switcher").get_buffer_menu, "Switch buffers using menu" },
-  ["<S-TAB>"] = { require("custom.buf_switcher").get_buffer_menu, "Switch buffers using menu" },
+  ["<TAB>"] = { buf_switcher, "Switch buffers using menu" },
+  ["<S-TAB>"] = { buf_switcher, "Switch buffers using menu" },
 
   ["<leader>f"] = {
     name = "buffer",
 
-    d = { "<cmd>bd<CR>", "Delete buffer" }
-  }
+    d = { "<cmd>bd<CR>", "Delete buffer" },
+  },
 }

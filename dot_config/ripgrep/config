@@ -1,5 +1,7 @@
 # Search hidden files
 --hidden
+# But ignore git folders
+--glob=!.git/
 
 # Search smartly
 --ignore-case

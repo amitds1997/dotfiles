@@ -23,7 +23,7 @@ return {
   version = "*",
   config = remote_nvim_config,
   event = "CmdlineEnter",
-  -- dev = true,
+  dev = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",

@@ -10,7 +10,7 @@ local function run()
 
   if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
     -- reset cursor to first line
-    vim.cmd [[normal! gg]]
+    vim.cmd([[normal! gg]])
     return
   end
 
@@ -30,17 +30,17 @@ local function run()
     -- Check if the last line of the buffer is the same as the win
     if win_last_line == buff_last_line then
       -- Set line to last line edited
-      vim.cmd [[normal! g`"]]
+      vim.cmd([[normal! g`"]])
       -- Try to center
     elseif buff_last_line - last_line > ((win_last_line - win_first_line) / 2) - 1 then
-      vim.cmd [[normal! g`"zz]]
+      vim.cmd([[normal! g`"zz]])
     else
-      vim.cmd [[normal! G'"<c-e>]]
+      vim.cmd([[normal! G'"<c-e>]])
     end
   end
 end
 
 vim.api.nvim_create_autocmd({ "BufWinEnter", "FileType" }, {
-  group    = vim.api.nvim_create_augroup("nvim-lastplace", {}),
-  callback = run
+  group = vim.api.nvim_create_augroup("nvim-lastplace", {}),
+  callback = run,
 })

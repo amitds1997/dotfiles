@@ -5,14 +5,25 @@ local function conform_setup()
     require("custom.mason_installer"):install(pkg)
   end
 
+  local function handle_disabling_formatting(bufnr, default)
+    -- Check if formatting has been disabled on the buffer
+    if vim.b[bufnr].disable_autoformat then
+      return
+    end
+    return default
+  end
+
   require("conform").setup({
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "black" },
+      markdown = { "inject" },
     },
-    format_after_save = {
-      lsp_fallback = true,
-    },
+    format_after_save = function(bufnr)
+      return handle_disabling_formatting(bufnr, {
+        lsp_fallback = true,
+      })
+    end,
   })
 end
 

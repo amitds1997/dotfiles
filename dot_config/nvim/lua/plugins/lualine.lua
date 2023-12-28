@@ -1,103 +1,80 @@
-local window_names = {
-  dapui_breakpoints = "DAP Breakpoints",
-  dapui_scopes = "DAP Scopes",
-  dapui_stacks = "DAP Stacks",
-  dapui_watches = "DAP Watches",
-  dapui_console = "DAP Console",
-  [""] = "",
-  ["TelescopePrompt"] = "",
-}
-
-local formatted_lsp_names = {
-  lua_ls = "Lua",
-  gopls = "Go",
-  pyright = "Python",
-  tsserver = "Typescript",
-  bashls = "Bash",
-  marksman = "Markdown",
-  jsonls = "JSON",
-  clangd = "Clangd",
-  dockerls = "Docker",
-  yamlls = "YAML",
-  eslint = "ESLint",
-  terraformls = "Terraform",
-}
-
 local file_component = {
   "filename",
   symbols = {
     modified = "●",
-    readonly = ""
+    readonly = "",
   },
 }
 
-local macro = function ()
+local lsp_server_names = {
+  bashls = "Bash",
+  clangd = "C++",
+  dockerls = "Docker",
+  eslint = "ESLint",
+  gopls = "Go",
+  jsonls = "JSON",
+  lua_ls = "Lua",
+  marksman = "Markdown",
+  pylsp = "Python",
+  terraformls = "Terraform",
+  tsserver = "TS",
+  yamlls = "YAML",
+}
+
+local macro = function()
   local macro_register = vim.fn.reg_recording()
   if macro_register ~= "" then
-    return ("Recording on @%s"):format(macro_register)
+    return ("Recording macro: @%s"):format(macro_register)
   end
   return macro_register
 end
 
-local lualine_config = function ()
+local lualine_config = function()
   local devicons = require("nvim-web-devicons")
 
   local function get_lsp_clients()
-    local file_icon = (devicons.get_icon_by_filetype(vim.bo.filetype) or devicons.get_icon(vim.fn.expand("%:e")) or devicons.get_default_icon()) ..
-      " "
-    local lsp_name = ""
+    local file_icon = (
+      devicons.get_icon_by_filetype(vim.bo.filetype)
+      or devicons.get_icon(vim.fn.expand("%:e"))
+      or devicons.get_default_icon()
+    ) .. " "
+    local lsp_label = ""
 
-    local lsp_clients = vim.lsp.get_clients({ bufnr = 0 })
-    for _, client in ipairs(lsp_clients) do
-      if client.name ~= "" then
-        lsp_name = file_icon .. (formatted_lsp_names[client.name] or client.name) .. " LSP"
-        if #lsp_clients > 1 then
-          lsp_name = lsp_name .. (" (+%s)"):format(#lsp_clients - 1)
-        end
-        break
-      else
-        lsp_name = file_icon .. "Unknown LSP"
+    local lsp_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    if #lsp_clients > 0 then
+      local active_client = lsp_clients[1]
+      lsp_label = file_icon .. (lsp_server_names[active_client.name] or active_client.name) .. " LSP"
+      if #lsp_clients > 1 then
+        lsp_label = lsp_label .. (" (+ %s)"):format(#lsp_clients - 1)
       end
     end
 
-    return lsp_name
+    return lsp_label
   end
-
 
   require("lualine").setup({
     options = {
-      theme = "catppuccin",
+      theme = require("core.vars").colorscheme,
       component_separators = "|",
       section_separators = { left = "", right = "" },
-      disabled_filetypes = {
-        statusline = vim.tbl_keys(window_names),
-        winbar = { "dap-repl", "", "NvimTree", "checkhealth", "help", "man", "nofile", "notify", "prompt" },
-      },
     },
     sections = {
       lualine_a = { "mode" },
-      lualine_b = { "branch" },
-      lualine_c = { "diagnostics" },
+      lualine_b = { file_component },
+      lualine_c = { "branch", "diffmode", "diagnostics" },
       lualine_x = {},
-      lualine_y = { macro },
+      lualine_y = { macro, "progress" },
       lualine_z = { get_lsp_clients },
     },
-    winbar = {
-      lualine_z = {
-        file_component
-      },
-    },
-    inactive_winbar = {
-      lualine_x = {
-        file_component
-      },
-    },
-    extensions = { "lazy", "nvim-tree", "quickfix", "trouble" },
+    extensions = { "lazy", "nvim-tree", "quickfix", "trouble", "nvim-dap-ui", "mason" },
   })
 end
 
 return {
   "nvim-lualine/lualine.nvim",
   config = lualine_config,
-  event = "VeryLazy",
+  event = "ColorScheme",
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
 }
