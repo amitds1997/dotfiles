@@ -1,22 +1,29 @@
-return {
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  dependencies = {
-    "MunifTanjim/nui.nvim",
-    {
-      "rcarriga/nvim-notify",
-      opts = {
-        background_colour = "#000000",
-      },
-    },
-  },
-  opts = {
+local function nvim_notify_setup()
+  local nonicons_extention = require("nvim-nonicons.extentions.nvim-notify")
+
+  require("notify").setup({
+    icons = nonicons_extention.icons,
+    background_colour = "#000000",
+  })
+end
+
+local function noice_setup()
+  local nonicons = require("nvim-nonicons")
+
+  require("noice").setup({
     cmdline = {
       format = {
+        cmdline = { icon = nonicons.get("chevron-right") .. " " },
+        search_down = { icon = nonicons.get("chevron-down") .. " " },
+        search_up = { icon = nonicons.get("chevron-up") .. " " },
+        filter = { icon = nonicons.get("terminal") .. " ", title = " Shell " },
+        lua = { icon = nonicons.get("lua") .. " " },
+        help = { icon = nonicons.get("question") .. " " },
         IncRename = {
           pattern = "^:%s*IncRename%s+",
-          title = "Rename",
+          title = " Rename ",
           conceal = true,
+          icon = nonicons.get("sync"),
           opts = {
             relative = "cursor",
             size = { min_width = 30 },
@@ -39,15 +46,28 @@ return {
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
     routes = {
-      -- Show written messages as mini notification
+      -- Hide buffer written messages
       {
         filter = {
           event = "msg_show",
           kind = "",
           find = "[w]",
         },
-        view = "mini",
+        opts = { skip = true },
       },
     },
+  })
+end
+
+return {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  dependencies = {
+    "MunifTanjim/nui.nvim",
+    {
+      "rcarriga/nvim-notify",
+      config = nvim_notify_setup,
+    },
   },
+  config = noice_setup,
 }

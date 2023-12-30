@@ -1,10 +1,18 @@
-local dap_ui_config = function ()
+local dap_ui_config = function()
   local dap, dapui = require("dap"), require("dapui")
 
-  dap.listeners.after.event_initialized["dapui_config"] = function () dapui.open() end
-  dap.listeners.before.event_terminated["dapui_config"] = function () dapui.close() end
-  dap.listeners.before.disconnect["dapui_config"] = function () dapui.close() end
-  dap.listeners.before.event_exited["dapui_config"] = function () dapui.close() end
+  dap.listeners.after.event_initialized["dapui_config"] = function()
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated["dapui_config"] = function()
+    dapui.close()
+  end
+  dap.listeners.before.disconnect["dapui_config"] = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited["dapui_config"] = function()
+    dapui.close()
+  end
 
   dapui.setup({
     icons = {
@@ -13,7 +21,7 @@ local dap_ui_config = function ()
       current_frame = "⏵",
     },
     floating = {
-      border = "rounded"
+      border = "rounded",
     },
     all_frames = true,
     show_stop_reason = true,

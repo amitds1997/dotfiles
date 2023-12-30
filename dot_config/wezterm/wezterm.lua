@@ -10,6 +10,9 @@ wezterm.on("gui-startup", function()
 	window:gui_window():maximize()
 end)
 
+local fantasque_sans_mono_font = (require("utils.platform").platform.is_mac and "FantasqueSansMono Nerd Font Mono")
+	or "FantasqueSansM Nerd Font Mono"
+
 local config = {
 	-- General config
 	audible_bell = "Disabled",
@@ -37,21 +40,19 @@ local config = {
 	-- Font configuration
 	font_size = 17,
 	font = wezterm.font_with_fallback({
-		{ family = "Rec Mono Duotone", weight = "Medium" },
-		{{ if eq .chezmoi.os "darwin" -}}
-		{ family = "FantasqueSansMono Nerd Font Mono", weight = "Regular", stretch = "Normal", style = "Normal" },
-		{{- else if eq .chezmoi.os "linux" -}}
-		{ family = "FantasqueSansM Nerd Font Mono", weight = "Regular", stretch = "Normal", style = "Normal" },
-		{{- end }}
+		{ family = "Rec Mono Duotone", weight = "Regular" },
+		"codicon",
+		"nonicons",
+		{ family = fantasque_sans_mono_font, weight = "Regular", stretch = "Normal", style = "Normal" },
 		"Noto Color Emoji",
 		"Symbols Nerd Font Mono",
 	}),
 }
 
 if wezterm.gui.get_appearance():find("Dark") then
-	config.color_scheme = "Bamboo Multiplex"
+	config.color_scheme = "Tokyo Night Moon"
 else
-	config.color_scheme = "Catppuccin Latte"
+	config.color_scheme = "Tokyo Night Day"
 	config.window_background_opacity = 0.85
 end
 

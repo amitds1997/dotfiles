@@ -2,6 +2,7 @@ local telescope_config = function()
   local telescope = require("telescope")
   local trouble = require("trouble.providers.telescope")
   local actions = require("telescope.actions")
+  local icons = require("nvim-nonicons")
 
   telescope.setup({
     defaults = {
@@ -9,12 +10,12 @@ local telescope_config = function()
         filesize_limit = 0.1,
       },
       initial_mode = "insert",
-      prompt_prefix = "  ",
+      prompt_prefix = " " .. icons.get("telescope") .. "  ",
       layout_strategy = "horizontal",
       path_display = { "absolute" },
       file_ignore_patterns = { ".git/", "node_modules/", ".cache", "*.pdf", "*.zip" },
-      selection_caret = "  ",
       results_title = false,
+      selection_caret = "  ",
       layout_width = {
         horizontal = {
           preview_width = 0.5,
@@ -37,17 +38,19 @@ local telescope_config = function()
       },
       buffers = {
         initial_mode = "normal",
-        previewer = false,
-        ignore_current_buffer = true,
+        layout_strategy = "vertical",
         layout_config = {
-          width = 0.4,
-          height = 0.7,
+          mirror = true,
+          prompt_position = "top",
         },
+        sort_mru = true,
+        sort_lastused = true,
         mappings = {
           i = {
             ["<c-d>"] = actions.delete_buffer + actions.move_to_top,
           },
           n = {
+            ["q"] = actions.close,
             ["d"] = actions.delete_buffer,
             ["<Tab>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,

@@ -10,10 +10,4 @@ end
 return {
   ["<TAB>"] = { buf_switcher, "Switch buffers using menu" },
   ["<S-TAB>"] = { buf_switcher, "Switch buffers using menu" },
-
-  ["<leader>f"] = {
-    name = "buffer",
-
-    d = { "<cmd>bd<CR>", "Delete buffer" },
-  },
 }

@@ -1,35 +1,19 @@
-local kind_icons = {
-  Text = "",
-  Method = "󰆧",
-  Function = "󰊕",
-  Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "󰠲",
-  Interface = "󱦜",
-  Module = "",
-  Property = "󰓼",
-  Unit = "",
-  Value = "󰎠",
-  Enum = "",
-  Keyword = "",
-  Snippet = "",
-  Color = "󰸌",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "󰆕",
-  TypeParameter = "",
-}
+local under_comparator = function(entry1, entry2)
+  local _, entry1_under = entry1.completion_item.label:find("^_+")
+  local _, entry2_under = entry2.completion_item.label:find("^_+")
+  entry1_under = entry1_under or 0
+  entry2_under = entry2_under or 0
+  if entry1_under > entry2_under then
+    return false
+  elseif entry1_under < entry2_under then
+    return true
+  end
+end
 
-local cmp_config = function ()
-  local cmp, luasnip = require("cmp"), require("luasnip")
+local cmp_config = function()
+  local cmp, luasnip, lspkind, str = require("cmp"), require("luasnip"), require("lspkind"), require("cmp.utils.str")
 
-  local has_words_before = function ()
+  local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
   end
@@ -38,17 +22,16 @@ local cmp_config = function ()
   require("luasnip.loaders.from_vscode").lazy_load()
 
   cmp.setup({
-    enabled = function ()
+    enabled = function()
       -- disable completion in comments
       local context = require("cmp.config.context")
-      if context.in_treesitter_capture("context") or context.in_syntax_group("Comment") then
+      if context.in_treesitter_capture("comment") or context.in_syntax_group("Comment") then
         return false
-      else
-        return true
       end
+      return true
     end,
     snippet = {
-      expand = function (args)
+      expand = function(args)
         luasnip.lsp_expand(args.body)
       end,
     },
@@ -56,26 +39,26 @@ local cmp_config = function ()
       keyword_length = 2,
     },
     formatting = {
+      expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
-      format = function (entry, item)
-        local menu = {
-          nvim_lsp = "[LSP]",
-          luasnip = "[Snip]",
-          buffer = "[Buf]",
-          path = "[Path]",
-          cmdline_history = "[Cmd H]",
-          cmdline = "[Cmd]",
-        }
+      format = lspkind.cmp_format({
+        mode = "symbol_text",
+        preset = "codicons",
+        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+        -- can also be a function to dynamically calculate max width such as
+        -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
+        ellipsis_char = "...",
+        -- See [lspkind-nvim#30](https://github.com/onsails/lspkind-nvim/pull/30)
+        before = function(entry, vim_item)
+          local word = entry:get_insert_text()
+          if entry.completion_item.snippet then
+            word = vim.lsp.util.parse_snippet(word)
+          end
 
-        if entry.source.name == "nvim_lsp" then
-          item.menu = entry.source.source.client.name
-        else
-          item.menu = menu[entry.source.name] or entry.source.name
-        end
-        item.kind = string.format("%s %s", kind_icons[item.kind], item.kind)
-
-        return item
-      end,
+          vim_item.abbr = str.oneline(word)
+          return vim_item
+        end,
+      }),
     },
     window = {
       completion = cmp.config.window.bordered(),
@@ -86,8 +69,18 @@ local cmp_config = function ()
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
       ["<C-p>"] = cmp.mapping.select_prev_item(),
       ["<C-n>"] = cmp.mapping.select_next_item(),
-      ["<CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-      ["<Tab>"] = cmp.mapping(function (fallback)
+      ["<CR>"] = cmp.mapping({
+        i = function(fallback)
+          if cmp.visible() and cmp.get_active_entry() then
+            cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+          else
+            fallback()
+          end
+        end,
+        s = cmp.mapping.confirm({ select = true }),
+        c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+      }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
@@ -98,7 +91,7 @@ local cmp_config = function ()
           fallback()
         end
       end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function (fallback)
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
@@ -111,11 +104,16 @@ local cmp_config = function ()
     sorting = {
       priority_weight = 2,
       comparators = {
-        cmp.config.compare.exact,
         cmp.config.compare.offset,
-        cmp.config.compare.score,
-        require("cmp-under-comparator").under,
+        function(...) -- Locality bonus (distance-based sort)
+          return require("cmp_buffer"):compare_locality(...)
+        end,
+        cmp.config.compare.exact,
+        cmp.config.compare.score, -- Fuzzy search score (kind-of)
+        cmp.config.compare.recently_used,
         cmp.config.compare.kind,
+        cmp.config.compare.scopes,
+        under_comparator,
         cmp.config.compare.sort_text,
         cmp.config.compare.length,
         cmp.config.compare.order,
@@ -123,37 +121,37 @@ local cmp_config = function ()
     },
     experimental = {
       ghost_text = {
-        hl_group = "LspCodeLens",
+        hl_group = "Comment",
       },
     },
     sources = cmp.config.sources({
       {
         name = "nvim_lsp",
-        entry_filter = function (entry, _)
-          return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
-        end,
+        keyword_length = 0,
+        priority = 100,
       },
-      { name = "luasnip" },
-      { name = "path" },
-      { name = "treesitter" },
+      { name = "luasnip", option = { show_autosnippets = true }, priority = 130 },
+      {
+        name = "async_path",
+        option = {
+          trailing_slash = true,
+        },
+        priority = 70,
+      },
+    }, {
       {
         name = "buffer",
+        max_item_count = 10,
+        priority = 30,
         option = {
-          get_bufnrs = function ()
-            local bufs = {}
-            for _, win in ipairs(vim.api.nvim_list_wins()) do
-              local buf = vim.api.nvim_win_get_buf(win)
-              local size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-
-              if size > 1024 * 1024 then
-                vim.notify(
-                  "Current buffer exceeds set size limit: 1MB. Not indexing current buffer for completion"
-                )
-              else
-                bufs[buf] = true
-              end
+          get_bufnrs = function()
+            local buf = vim.api.nvim_get_current_buf()
+            local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+            if byte_size > 1024 * 1024 then -- 1 Megabyte max
+              vim.notify("Current buffer exceeds set size limit: 1MB. Not indexing current buffer for auto-complete")
+              return {}
             end
-            return vim.tbl_keys(bufs)
+            return { buf }
           end,
         },
       },
@@ -177,9 +175,8 @@ end
 return {
   "hrsh7th/nvim-cmp",
   config = cmp_config,
-  enabled = function ()
-    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-      or require("cmp_dap").is_dap_buffer()
+  enabled = function()
+    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
   end,
   event = "InsertEnter",
   dependencies = {
@@ -189,12 +186,12 @@ return {
       build = "make install_jsregexp",
       dependencies = { "rafamadriz/friendly-snippets" },
     },
+    "onsails/lspkind.nvim",
+    "windwp/nvim-autopairs",
+    "FelipeLema/cmp-async-path",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
-    "lukas-reineke/cmp-under-comparator",
-    "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-path",
-    "windwp/nvim-autopairs",
     "rcarriga/cmp-dap",
+    "saadparwaiz1/cmp_luasnip",
   },
 }

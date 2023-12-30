@@ -1,4 +1,6 @@
-local nvim_tree_config = function ()
+local nvim_tree_config = function()
+  local nonicons_glyphs = require("nvim-nonicons.extentions.nvim-tree")
+
   require("nvim-tree").setup({
     disable_netrw = false,
     hijack_cursor = true,
@@ -16,7 +18,8 @@ local nvim_tree_config = function ()
       highlight_opened_files = "icon",
       icons = {
         git_placement = "signcolumn",
-        glyphs = {
+        glyphs = nonicons_glyphs.glyphs,
+        --[[ glyphs = {
           git = {
             unstaged = "!",
             staged = "+",
@@ -26,7 +29,7 @@ local nvim_tree_config = function ()
             deleted = "",
             ignored = "◌",
           },
-        },
+        }, ]]
       },
     },
     update_focused_file = {
@@ -44,7 +47,7 @@ return {
   "nvim-tree/nvim-tree.lua",
   version = "*",
   dependencies = {
-    "nvim-tree/nvim-web-devicons",
+    "yamatsum/nvim-nonicons",
   },
   config = nvim_tree_config,
   keys = { "<Leader>e" },

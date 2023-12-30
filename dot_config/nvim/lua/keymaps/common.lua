@@ -1,5 +1,16 @@
+local function buf_switcher()
+  local buffers = vim.fn.getbufinfo({ buflisted = 1 })
+  if #buffers <= 1 then
+    vim.notify("Only one buffer is open")
+    return
+  end
+  require("telescope.builtin").buffers()
+end
+
 return {
   ["<ESC>"] = { "<cmd>nohlsearch<CR>", "Remove active search highlight" },
+  ["<TAB>"] = { buf_switcher, "Switch buffers using menu", mode = "v" },
+  ["<S-TAB>"] = { buf_switcher, "Switch buffers using menu", mode = "v" },
   ["<S-Tab>"] = { "<C-d>", "De-tab", mode = "i" },
 
   ["<leader>c"] = {

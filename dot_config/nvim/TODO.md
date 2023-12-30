@@ -1,21 +1,19 @@
+# TODO README
+
+## Wish list
+
+- Tooltip generator. Teaches you something new about Neovim.
+- Mason independent command runner that can be hooked anywhere in the setup
+- Setup [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
+
 ## Backlog
 
-- Setup [scalameta/nvim-metals](https://github.com/scalameta/nvim-metals)
-- Setup:
-    - https://github.com/NeogitOrg/neogit
-    - https://github.com/f-person/auto-dark-mode.nvim
-- Setup treesitter:
-    - https://github.com/JoosepAlviste/nvim-ts-context-commentstring
-    - https://github.com/RRethy/nvim-treesitter-textsubjects
-    - https://github.com/drybalka/tree-climber.nvim
-    - https://github.com/mfussenegger/nvim-treehopper
-    - https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-- Install a tooltip generator. Which tells you something new in Neovim whenever you are in mood to learn
-- Write a mason independent package installer that can be used anywhere in the setup
-- Fix autocomplete menu 
-- Fix mypy type stubbing
-- Session management
-    - `:mkview` and session management
-- Set up settings so that completion menu only takes space as much as the selected option or atleast so that the help menu does not get squeezed to oblivion
+- Learn more about vim motions and treesitter objects
+
+## To do list
+
+- Optimize startup time
+
+## In progress
+
 - Setup DAP for common languages
-- allow opening links

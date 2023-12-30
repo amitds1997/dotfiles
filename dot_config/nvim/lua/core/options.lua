@@ -22,7 +22,7 @@ o.showmode = false -- Do not show messages on last line; this is anyway disabled
 o.cmdheight = 0 -- Hide command bar when not used
 o.showtabline = 0 -- Never show tabline
 o.signcolumn = "yes" -- Show sign column
-o.shortmess = "costaFACTIO" -- Avoid hit-enter file prompts
+o.shortmess = "costaFACTIOw" -- Avoid hit-enter file prompts
 o.fcs = "eob: " -- Hide the ~ character at the end of buffer
 o.termguicolors = true -- Enable 24-bit colors
 o.laststatus = 2 -- Always use a global statusline
@@ -40,6 +40,8 @@ o.timeoutlen = 300
 -- Render invisible characters
 o.list = true
 o.listchars = "tab:» ,nbsp:+,trail:·,extends:→,precedes:←"
+
+o.formatoptions = "qjl1" -- Don't autoformat comments
 
 -- Window options
 o.winwidth = 30 -- Minimum columns per window
@@ -113,6 +115,10 @@ o.pumheight = 10 -- Show 10 items in the pop-up menu
 -- Cursor line options
 o.cursorline = true
 o.cursorlineopt = "number"
+
+o.fillchars = "eob: " -- Don't show `~` outside of buffer
+o.backup = false -- Don't store backup while overwriting the file
+o.writebackup = false -- Don't store backup while overwriting the file
 
 -- If we have rg installed, use rg to grep
 if vim.fn.executable("rg") == 1 then

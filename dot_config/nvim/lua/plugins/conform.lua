@@ -1,5 +1,5 @@
 local function conform_setup()
-  local pkg_list = { "stylua", "isort", "black" }
+  local pkg_list = { "stylua", "isort", "black", "sqlfmt", "mdformat" }
 
   for _, pkg in ipairs(pkg_list) do
     require("custom.mason_installer"):install(pkg)
@@ -16,8 +16,9 @@ local function conform_setup()
   require("conform").setup({
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "black" },
-      markdown = { "inject" },
+      python = { "isort", "black" },
+      markdown = { "mdformat", "injected" },
+      sql = { "sqlfmt" },
     },
     format_after_save = function(bufnr)
       return handle_disabling_formatting(bufnr, {

@@ -6,7 +6,7 @@ return {
   opts = {
     flavour = "mocha",
     background = { light = "latte", dark = "mocha" },
-    transparent_background = true,
+    transparent_background = require("core.vars").transparent_background,
     term_colors = true,
     integrations = {
       mason = true,
@@ -15,6 +15,7 @@ return {
       nvimtree = true,
       telescope = {
         enabled = true,
+        style = "nvchad",
       },
       cmp = true,
       gitsigns = true,

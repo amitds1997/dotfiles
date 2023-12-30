@@ -5,12 +5,21 @@ local lsp_config = function()
 
   require("lspconfig.ui.windows").default_options.border = "rounded"
 
-  local ensure_installed = { "bashls", "dockerls", "clangd", "lua_ls", "jsonls", "marksman", "yamlls" }
+  local ensure_installed = {
+    "bashls",
+    "dockerls",
+    "docker_compose_language_service",
+    "clangd",
+    "lua_ls",
+    "jsonls",
+    "marksman",
+    "yamlls",
+    "ruff_lsp",
+  }
 
   local ensure_lsp_installed = {
-    node = { "eslint", "tsserver" },
+    node = { "eslint", "tsserver", "pyright" },
     go = { "gopls" },
-    python = { "pylsp" },
   }
 
   for binary, lsp in pairs(ensure_lsp_installed) do
@@ -26,7 +35,7 @@ local lsp_config = function()
     automatic_installation = true,
   })
 
-  local on_attach = function(client, bufnr)
+  local function on_attach(client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
     if client.server_capabilities.documentSymbolProvider then
@@ -158,20 +167,32 @@ local lsp_config = function()
         },
       })
     end,
-    pylsp = function()
-      lspconfig.pylsp.setup({
+    ruff_lsp = function()
+      lspconfig.ruff_lsp.setup({
+        on_attach = function(client, bufnr)
+          client.server_capabilities.hoverProvider = false
+          on_attach(client, bufnr)
+        end,
+      })
+    end,
+    pyright = function()
+      lspconfig.pyright.setup({
         on_attach = on_attach,
         capabilities = capabilities,
         settings = {
-          pylsp = {
-            plugins = {
-              rope_autoimport = {
-                enabled = true,
-              },
-              pylsp_mypy = {
-                overrides = { "--python-executable", python_exec_path, true },
-              },
+          pyright = {
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              autoImportCompletions = true,
+              autoSearchPaths = true,
+              typeCheckingMode = "standard",
+              diagnosticMode = "workspace",
+              -- Add rules from here: https://microsoft.github.io/pyright/#/configuration?id=type-check-diagnostics-settings
+              diagnosticSeverityOverrides = {},
             },
+            pythonPath = python_exec_path,
           },
         },
       })

@@ -53,8 +53,10 @@ local treesitter_config = function()
 end
 
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  config = treesitter_config,
-  event = "VeryLazy",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = treesitter_config,
+    event = "VeryLazy",
+  },
 }
