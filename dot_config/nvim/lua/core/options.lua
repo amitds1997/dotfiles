@@ -16,7 +16,6 @@ o.ruler = false -- Need no ruler
 o.swapfile = false -- We do not need swap files
 o.mouse = "a" -- Enable mouse control for all modes
 o.number = true -- Show line number
-o.relativenumber = true -- Show relative line number
 o.hidden = true -- Hide buffers instead of closing them when switching to another
 o.showmode = false -- Do not show messages on last line; this is anyway disabled by cmdheight
 o.cmdheight = 0 -- Hide command bar when not used
@@ -90,7 +89,7 @@ o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
 
 -- Completions
 o.infercase = true
-o.completeopt = "menu,menuone,noselect" -- Completion menu style
+o.completeopt = "menu,menuone,noselect,preview" -- Completion menu style
 
 -- Keep my cursor away from the end
 o.scrolloff = 4 -- Stay 4 lines away from top-bottom border

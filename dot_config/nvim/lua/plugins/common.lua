@@ -72,7 +72,7 @@ return {
   {
     "yamatsum/nvim-nonicons",
     dependencies = {
-      "kyazdani42/nvim-web-devicons",
+      "nvim-tree/nvim-web-devicons",
     },
     config = true,
   },

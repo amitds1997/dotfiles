@@ -30,11 +30,6 @@ local lsp_config = function()
     end
   end
 
-  mason_lspconfig.setup({
-    ensure_installed = ensure_installed,
-    automatic_installation = true,
-  })
-
   local function on_attach(client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
@@ -116,87 +111,90 @@ local lsp_config = function()
   end
 
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-  mason_lspconfig.setup_handlers({
-    function(server)
-      lspconfig[server].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
-    end,
-    jsonls = function()
-      lspconfig.jsonls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = require("schemastore").json.schemas(),
-            validate = { enable = false },
-          },
-        },
-      })
-    end,
-    yamlls = function()
-      lspconfig.yamlls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          yaml = {
-            schemaStore = {
-              enable = false,
-              url = "",
-            },
-            schemas = require("schemastore").yaml.schemas(),
-          },
-        },
-      })
-    end,
-    lua_ls = function()
-      lspconfig.lua_ls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            runtime = {
-              version = "LuaJIT",
+  mason_lspconfig.setup({
+    ensure_installed = ensure_installed,
+    automatic_installation = true,
+    handlers = {
+      function(server)
+        lspconfig[server].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end,
+      jsonls = function()
+        lspconfig.jsonls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            json = {
+              schemas = require("schemastore").json.schemas(),
+              validate = { enable = false },
             },
           },
-          workspace = {
-            vim.env.VIMRUNTIME,
-          },
-        },
-      })
-    end,
-    ruff_lsp = function()
-      lspconfig.ruff_lsp.setup({
-        on_attach = function(client, bufnr)
-          client.server_capabilities.hoverProvider = false
-          on_attach(client, bufnr)
-        end,
-      })
-    end,
-    pyright = function()
-      lspconfig.pyright.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          pyright = {
-            disableOrganizeImports = true,
-          },
-          python = {
-            analysis = {
-              autoImportCompletions = true,
-              autoSearchPaths = true,
-              typeCheckingMode = "standard",
-              diagnosticMode = "workspace",
-              -- Add rules from here: https://microsoft.github.io/pyright/#/configuration?id=type-check-diagnostics-settings
-              diagnosticSeverityOverrides = {},
+        })
+      end,
+      yamlls = function()
+        lspconfig.yamlls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            yaml = {
+              schemaStore = {
+                enable = false,
+                url = "",
+              },
+              schemas = require("schemastore").yaml.schemas(),
             },
-            pythonPath = python_exec_path,
           },
-        },
-      })
-    end,
+        })
+      end,
+      lua_ls = function()
+        lspconfig.lua_ls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            Lua = {
+              runtime = {
+                version = "LuaJIT",
+              },
+            },
+            workspace = {
+              vim.env.VIMRUNTIME,
+            },
+          },
+        })
+      end,
+      ruff_lsp = function()
+        lspconfig.ruff_lsp.setup({
+          on_attach = function(client, bufnr)
+            client.server_capabilities.hoverProvider = false
+            on_attach(client, bufnr)
+          end,
+        })
+      end,
+      pyright = function()
+        lspconfig.pyright.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            pyright = {
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                autoImportCompletions = true,
+                autoSearchPaths = true,
+                typeCheckingMode = "standard",
+                diagnosticMode = "workspace",
+                -- Add rules from here: https://microsoft.github.io/pyright/#/configuration?id=type-check-diagnostics-settings
+                diagnosticSeverityOverrides = {},
+              },
+              pythonPath = python_exec_path,
+            },
+          },
+        })
+      end,
+    },
   })
 end
 

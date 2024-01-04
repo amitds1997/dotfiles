@@ -13,7 +13,9 @@
 ## To do list
 
 - Optimize startup time
+- Replace autoinstaller by whoIsDaniel plugin??
+- Setup DAP for common languages
+- Support showing up in console
+- Completion in DAP
 
 ## In progress
-
-- Setup DAP for common languages

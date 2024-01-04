@@ -20,7 +20,7 @@ end
 
 return {
   "amitds1997/remote-nvim.nvim",
-  version = "*",
+  -- version = "*",
   config = remote_nvim_config,
   event = "CmdlineEnter",
   dev = true,
