@@ -1,6 +1,6 @@
 # Number of CPUs to be allocated to the virtual machine.
 # Default: 2
-cpu: 4
+cpu: 8
 
 # Size of the disk in GiB to be allocated to the virtual machine.
 # NOTE: changing this has no effect after the virtual machine has been created.
@@ -9,7 +9,7 @@ disk: 80
 
 # Size of the memory in GiB to be allocated to the virtual machine.
 # Default: 2
-memory: 12
+memory: 8
 
 # Architecture of the virtual machine (x86_64, aarch64, host).
 # Default: host
