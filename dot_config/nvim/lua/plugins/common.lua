@@ -70,10 +70,28 @@ return {
     end,
   },
   {
-    "yamatsum/nvim-nonicons",
+    "nvim-tree/nvim-web-devicons",
     dependencies = {
-      "nvim-tree/nvim-web-devicons",
+      "yamatsum/nvim-nonicons",
     },
-    config = true,
+    config = function()
+      local all_icons = require("nvim-web-devicons").get_icons()
+      local nonicons = require("nvim-nonicons.mapping")
+
+      local user_icons = {}
+      for key, val in pairs(all_icons) do
+        if nonicons[key] ~= nil then
+          user_icons[key] = val
+          user_icons[key]["icon"] = require("nvim-nonicons").get(key)
+        end
+      end
+
+      require("nvim-web-devicons").setup({
+        override = user_icons,
+      })
+    end,
+  },
+  {
+    "ibhagwan/smartyank.nvim",
   },
 }

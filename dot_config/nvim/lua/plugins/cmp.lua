@@ -62,7 +62,9 @@ local cmp_config = function()
     },
     preselect = cmp.PreselectMode.None,
     window = {
-      completion = cmp.config.window.bordered(),
+      completion = cmp.config.window.bordered({
+        scrollbar = false,
+      }),
       documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({

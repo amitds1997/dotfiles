@@ -45,6 +45,11 @@ local function noice_setup()
       long_message_to_split = true, -- long messages will be sent to a split
       lsp_doc_border = true, -- add a border to hover docs and signature help
     },
+    views = {
+      mini = {
+        size = { height = "auto", width = "auto", max_height = 5 },
+      },
+    },
     routes = {
       -- Hide buffer written messages
       {

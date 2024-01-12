@@ -37,6 +37,10 @@ local lsp_config = function()
       require("nvim-navbuddy").attach(client, bufnr)
     end
 
+    if client.server_capabilities.inlayHintProvider then
+      vim.lsp.inlay_hint.enable(bufnr, true)
+    end
+
     local bufopts = { buffer = bufnr }
     local wk, lsp_buf = package.loaded["which-key"], vim.lsp.buf
 
@@ -157,6 +161,13 @@ local lsp_config = function()
               runtime = {
                 version = "LuaJIT",
               },
+              hint = {
+                enable = true,
+              },
+              format = {
+                -- stylua runs using conform
+                enable = false,
+              },
             },
             workspace = {
               vim.env.VIMRUNTIME,
@@ -208,5 +219,6 @@ return {
     "SmiteshP/nvim-navbuddy",
     "smjonas/inc-rename.nvim",
     "b0o/schemastore.nvim", -- Enable schemas availability for JSON and YAML
+    "hrsh7th/cmp-nvim-lsp",
   },
 }

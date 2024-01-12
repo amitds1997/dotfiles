@@ -89,7 +89,7 @@ o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
 
 -- Completions
 o.infercase = true
-o.completeopt = "menu,menuone,noselect,preview" -- Completion menu style
+o.completeopt = "menu,menuone,noselect" -- Completion menu style
 
 -- Keep my cursor away from the end
 o.scrolloff = 4 -- Stay 4 lines away from top-bottom border

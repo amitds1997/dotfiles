@@ -17,8 +17,7 @@ return {
     name = "common-op",
 
     s = { "<cmd>setlocal spell!<CR>", "Toggle spellcheck" },
-    l = { "<cmd>setlocal number!<CR>", "Toggle line number" },
-    r = { "<cmd>setlocal relativenumber!<CR>", "Toggle relative line number" },
+    l = { "<cmd>luafile %<CR>", "Run luafile" },
     m = { "<cmd>Mason<CR>", "Open Mason" },
     n = {
       function()

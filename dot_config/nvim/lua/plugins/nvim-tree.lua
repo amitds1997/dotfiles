@@ -19,17 +19,6 @@ local nvim_tree_config = function()
       icons = {
         git_placement = "signcolumn",
         glyphs = nonicons_glyphs.glyphs,
-        --[[ glyphs = {
-          git = {
-            unstaged = "!",
-            staged = "+",
-            unmerged = "",
-            renamed = "➜",
-            untracked = "?",
-            deleted = "",
-            ignored = "◌",
-          },
-        }, ]]
       },
     },
     update_focused_file = {

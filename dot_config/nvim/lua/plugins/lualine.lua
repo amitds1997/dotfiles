@@ -36,13 +36,14 @@ local lualine_config = function()
 
   local function get_lsp_clients()
     local file_icon = (
-      devicons.get_icon_by_filetype(vim.bo.filetype)
+      icons.get(vim.bo.filetype)
+      or devicons.get_icon_by_filetype(vim.bo.filetype)
       or devicons.get_icon(vim.fn.expand("%:e"))
       or devicons.get_default_icon()
     ) .. " "
     local lsp_label = ""
 
-    local lsp_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+    local lsp_clients = vim.lsp.get_clients({ bufnr = 0 })
     if #lsp_clients > 0 then
       local active_client = lsp_clients[1]
       lsp_label = file_icon .. " " .. (lsp_server_names[active_client.name] or active_client.name)
