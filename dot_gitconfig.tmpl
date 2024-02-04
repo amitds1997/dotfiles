@@ -26,7 +26,7 @@
 {{- if eq .chezmoi.os "darwin" }}
   signingkey = 39CA9FB26B8A0617
 {{- else if eq .chezmoi.os "linux" }}
-  signingkey = 8F8E6B2089051ED4
+  signingkey = B579D7201EF6CC59
 {{- end }}
 [include]
   path = ~/.gitconfig.local ; Contains [github] section
@@ -56,4 +56,9 @@
 [rebase]
   autoStash = true
 [credential]
+{{- if eq .chezmoi.os "darwin" }}
 	helper = /usr/local/bin/git-credential-manager
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
+	helper = /usr/bin/git-credential-manager
+{{- end }}

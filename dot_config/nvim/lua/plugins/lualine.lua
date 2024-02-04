@@ -61,6 +61,7 @@ local lualine_config = function()
       theme = require("core.vars").colorscheme,
       component_separators = "|",
       section_separators = { left = "", right = "" },
+      disabled_filetypes = { "man" },
     },
     sections = {
       lualine_a = {

@@ -38,5 +38,8 @@ path=(
 # Set default options for `less`
 export LESS="${LESS:--g -i -M -R -S -w -z-4}"
 
+# Set export variable for man pages
+export MANPAGER='nvim +Man!'
+
 # Created by `pipx` on 2024-01-24 16:50:49
 export PATH="$PATH:/Users/amitsingh/.local/bin"

@@ -29,3 +29,6 @@ if [[ $(uname) == "Darwin" ]]; then
   )
 fi
 
+if [[ $(uname) == "Linux" ]]; then
+  export GCM_CREDENTIAL_STORE=gpg # https://github.com/git-ecosystem/git-credential-manager/blob/main/docs/credstores.md#gpgpass-compatible-files
+fi
