@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
   "completion": {
     "callSnippet": "Both",
     "keywordSnippet": "Both"
@@ -7,5 +6,6 @@
   "workspace": {
     "checkThirdParty": false,
     "library": []
-  }
+  },
+  "runtime.version": "Lua 5.4"
 }

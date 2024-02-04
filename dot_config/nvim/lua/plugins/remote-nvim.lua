@@ -1,34 +1,47 @@
 local remote_nvim_config = function()
   require("remote-nvim").setup({
-    local_client_config = {
-      callback = function(port, workspace_config)
-        local cmd = ("wezterm cli set-tab-title --pane-id $(wezterm cli spawn nvim --server localhost:%s --remote-ui) %s"):format(
-          port,
-          ("'Remote: %s'"):format(workspace_config.host)
-        )
-        vim.fn.jobstart(cmd, {
-          detach = true,
-          on_exit = function(job_id, exit_code, event_type)
-            -- This function will be called when the job exits
-            print("Client", job_id, "exited with code", exit_code, "Event type:", event_type)
-          end,
-        })
-      end,
+    offline_mode = {
+      enabled = true,
+      no_github = true,
     },
+    remote = {
+      copy_dirs = {
+        data = {
+          dirs = { "lazy" },
+          compression = {
+            enabled = true,
+            additional_opts = { "--exclude-vcs" },
+          },
+        },
+      },
+    },
+    client_callback = function(port, workspace_config)
+      local cmd = ("wezterm cli set-tab-title --pane-id $(wezterm cli spawn nvim --server localhost:%s --remote-ui) %s"):format(
+        port,
+        ("'Remote: %s'"):format(workspace_config.host)
+      )
+      vim.fn.jobstart(cmd, {
+        detach = true,
+        on_exit = function(job_id, exit_code, event_type)
+          -- This function will be called when the job exits
+          print("Client", job_id, "exited with code", exit_code, "Event type:", event_type)
+        end,
+      })
+    end,
   })
 end
 
 return {
   "amitds1997/remote-nvim.nvim",
-  -- version = "*",
+  version = "*",
+  -- branch = "refactor/param-to-opts",
+  -- branch = "feat/offline-mode-plugin-copy",
   config = remote_nvim_config,
   event = "CmdlineEnter",
   dev = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
-    "rcarriga/nvim-notify",
-    -- This would be an optional dependency eventually
     "nvim-telescope/telescope.nvim",
   },
 }

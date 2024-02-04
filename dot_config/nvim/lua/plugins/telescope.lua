@@ -1,8 +1,6 @@
 local telescope_config = function()
   local telescope = require("telescope")
-  local trouble = require("trouble.providers.telescope")
   local actions = require("telescope.actions")
-  local icons = require("nvim-nonicons")
 
   telescope.setup({
     defaults = {
@@ -10,7 +8,7 @@ local telescope_config = function()
         filesize_limit = 0.1,
       },
       initial_mode = "insert",
-      prompt_prefix = " " .. icons.get("telescope") .. "  ",
+      prompt_prefix = " " .. require("nvim-nonicons").get("telescope") .. "  ",
       layout_strategy = "horizontal",
       path_display = { "absolute" },
       file_ignore_patterns = { ".git/", "node_modules/", ".cache", "*.pdf", "*.zip" },
@@ -27,8 +25,8 @@ local telescope_config = function()
         },
       },
       mappings = {
-        i = { ["<c-t>"] = trouble.open_with_trouble },
-        n = { ["<c-t>"] = trouble.open_with_trouble, ["<C-u>"] = false },
+        i = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
+        n = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble, ["<C-u>"] = false },
       },
     },
     pickers = {
@@ -61,8 +59,6 @@ local telescope_config = function()
   })
 
   local built_in = require("telescope.builtin")
-  telescope.load_extension("fzf")
-  telescope.load_extension("projects")
 
   require("which-key").register({
     ["<leader>t"] = {
@@ -75,6 +71,7 @@ local telescope_config = function()
       o = { built_in.oldfiles, "Open previously opened files" },
       p = { telescope.extensions.projects.projects, "Open projects window" },
       r = { built_in.resume, "Resume last telescope operation" },
+      t = { "<cmd>Telescope<CR>", "Open telescope" },
       w = { built_in.live_grep, "Find word" },
       [":"] = { built_in.command_history, "Show commands executed recently and run them on <CR>" },
       ["/"] = { built_in.current_buffer_fuzzy_find, "Fuzzy find in the current buffer" },

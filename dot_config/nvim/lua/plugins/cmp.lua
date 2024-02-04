@@ -25,7 +25,10 @@ local cmp_config = function()
     enabled = function()
       -- disable completion in comments
       local context = require("cmp.config.context")
-      if context.in_treesitter_capture("comment") or context.in_syntax_group("Comment") then
+      if
+        (context.in_treesitter_capture("comment") or context.in_syntax_group("Comment"))
+        and not context.in_treesitter_capture("comment.documentation")
+      then
         return false
       end
       return true
@@ -166,6 +169,21 @@ local cmp_config = function()
     enabled = false,
   })
 
+  -- `:` cmdline setup
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "path" },
+    }, {
+      {
+        name = "cmdline",
+        option = {
+          ignore_cmds = { "Man", "!", "make" },
+        },
+      },
+    }),
+  })
+
   -- Setup nvim autopairs
   require("nvim-autopairs").setup({
     check_ts = true,
@@ -179,9 +197,11 @@ return {
   "hrsh7th/nvim-cmp",
   config = cmp_config,
   enabled = function()
-    return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+    return vim.api.nvim_get_option_value("buftype", {
+      buf = 0,
+    }) ~= "prompt" or require("cmp_dap").is_dap_buffer()
   end,
-  event = "InsertEnter",
+  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     {
       "L3MON4D3/LuaSnip",
@@ -196,5 +216,6 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",
     "saadparwaiz1/cmp_luasnip",
+    "hrsh7th/cmp-cmdline",
   },
 }

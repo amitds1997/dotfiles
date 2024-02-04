@@ -61,4 +61,11 @@ true
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/.p10k.zsh.
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
+
+# Created by `pipx` on 2024-01-24 16:50:49
+export PATH="$PATH:/Users/amitsingh/.local/bin"
+
+# Enable fzf auto completions
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # vim: ft=zsh sw=2 ts=2 et

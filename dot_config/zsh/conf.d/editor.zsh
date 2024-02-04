@@ -1,4 +1,4 @@
-# Use emacs keybindings
+# Use vi keybindings
 bindkey -e
 
 # Enable partial history match

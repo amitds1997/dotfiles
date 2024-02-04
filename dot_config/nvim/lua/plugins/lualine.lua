@@ -15,6 +15,7 @@ local lsp_server_names = {
 }
 
 local lualine_config = function()
+  vim.o.laststatus = 3 -- Always show statusline
   local icons = require("nvim-nonicons")
   local devicons = require("nvim-web-devicons")
   local mode = {
@@ -81,14 +82,6 @@ local lualine_config = function()
         },
       },
       lualine_c = {
-        -- {
-        --   "diff",
-        --   symbols = {
-        --     added = icons.get("diff-added") .. " ",
-        --     modified = icons.get("diff-modified") .. " ",
-        --     removed = icons.get("diff-removed") .. " ",
-        --   },
-        -- },
         {
           "diagnostics",
           sources = {
@@ -104,7 +97,7 @@ local lualine_config = function()
           color = { bg = "NoiceCmdline" },
         },
       },
-      lualine_y = { "progress" },
+      lualine_y = { "location" },
       lualine_z = { get_lsp_clients },
     },
     inactive_sections = {
@@ -112,14 +105,14 @@ local lualine_config = function()
         file_component,
       },
     },
-    extensions = { "lazy", "nvim-tree", "quickfix", "trouble", "nvim-dap-ui", "mason" },
+    extensions = { "lazy", "nvim-tree", "quickfix", "trouble", "nvim-dap-ui" },
   })
 end
 
 return {
   "nvim-lualine/lualine.nvim",
   config = lualine_config,
-  event = "ColorScheme",
+  event = "VeryLazy",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
   },

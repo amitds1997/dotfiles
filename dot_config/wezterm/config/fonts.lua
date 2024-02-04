@@ -15,4 +15,5 @@ return {
 		"Symbols Nerd Font Mono",
 	}),
 	font_size = font_size,
+	adjust_window_size_when_changing_font_size = true,
 }

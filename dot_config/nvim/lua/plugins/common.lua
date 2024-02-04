@@ -1,3 +1,10 @@
+local function load_nested(dir)
+  local path = require("core.utils").path_join(vim.fn.stdpath("config"), "lua", "plugins", dir)
+  assert(type(path) == "string", "Config path should be a string")
+
+  return require("core.utils").get_plugins(path)
+end
+
 return {
   {
     "tpope/vim-sleuth",
@@ -7,10 +14,16 @@ return {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble" },
     config = true,
+    event = "BufReadPost",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
   {
     "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 100
+    end,
     opts = {
       window = {
         border = "rounded",
@@ -24,12 +37,12 @@ return {
   },
   {
     "chrishrb/gx.nvim",
-    event = "BufEnter",
+    keys = { { "gx", "<cmd>Browse<CR>", mode = { "n", "x" } } },
     config = true,
   },
   {
     "karb94/neoscroll.nvim",
-    event = "BufEnter",
+    event = "BufReadPost",
     opts = {
       respect_scrolloff = true,
     },
@@ -37,12 +50,12 @@ return {
   {
     "utilyre/sentiment.nvim",
     version = "*",
-    event = "VeryLazy",
-    opts = {},
+    event = "BufReadPost",
+    opts = true,
   },
   {
     "RRethy/vim-illuminate",
-    event = "BufEnter",
+    event = "BufReadPost",
     config = function()
       require("illuminate").configure({
         providers = {
@@ -74,6 +87,7 @@ return {
     dependencies = {
       "yamatsum/nvim-nonicons",
     },
+    lazy = true,
     config = function()
       local all_icons = require("nvim-web-devicons").get_icons()
       local nonicons = require("nvim-nonicons.mapping")
@@ -93,5 +107,8 @@ return {
   },
   {
     "ibhagwan/smartyank.nvim",
+    event = "BufReadPost",
   },
+  load_nested("debugger"),
+  load_nested("colorschemes"),
 }

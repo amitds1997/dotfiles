@@ -3,7 +3,10 @@ return {
   cmd = "Neogit",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "sindrets/diffview.nvim",
+    {
+      "sindrets/diffview.nvim",
+      cmd = { "DiffviewOpen", "DiffviewClose" },
+    },
     "nvim-telescope/telescope.nvim",
   },
   opts = {

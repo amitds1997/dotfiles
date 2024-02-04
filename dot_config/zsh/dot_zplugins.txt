@@ -18,6 +18,7 @@ zdharma-continuum/fast-syntax-highlighting
 zsh-users/zsh-completions path:src kind:fpath
 mattmc3/zephyr path:plugins/completion
 zsh-users/zsh-autosuggestions
+MichaelAquilina/zsh-you-should-use
 
 # Final plugins
 mattmc3/zephyr path:plugins/confd

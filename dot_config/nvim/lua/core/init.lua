@@ -1,11 +1,13 @@
 local L = {}
 L.__index = L
+local uv = require("core.utils").uv
 
 -- Make sure that the package manager is installed
 function L:ensure_lazy_nvim_installed()
   local lazy_path = require("core.utils").path_join(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
+  local state = uv.fs_stat(lazy_path)
 
-  if vim.fn.isdirectory(lazy_path) == 0 then
+  if not state then
     print("Did not find the package manager - lazy.nvim - locally. Will install now.")
     vim.fn.system({
       "git",
@@ -17,7 +19,6 @@ function L:ensure_lazy_nvim_installed()
     })
     print("Installed lazy.nvim successfully")
   end
-
   vim.opt.runtimepath:prepend(lazy_path)
 end
 
@@ -35,7 +36,7 @@ function L:bootstrap()
     },
     install = {
       missing = true,
-      colorscheme = { "catppuccin", "habamax" },
+      colorscheme = { "habamax" },
     },
     change_detection = { notify = false },
     checker = { enabled = true, notify = false },

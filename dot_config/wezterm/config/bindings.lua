@@ -1,5 +1,6 @@
 local wezterm = require("wezterm")
 local machine = require("utils.machine")
+local workspace = require("utils.workspace")
 local act = wezterm.action
 
 local mod = {}
@@ -51,6 +52,8 @@ local keys = {
 	--- Tabs: Navigation
 	{ key = "[", mods = mod.SUPER_REV, action = act.ActivateTabRelative(-1) },
 	{ key = "]", mods = mod.SUPER_REV, action = act.ActivateTabRelative(1) },
+	{ key = "Tab", mods = mod.SUPER, action = act.ActivateTabRelative(1) },
+	{ key = "Tab", mods = mod.SUPER_REV, action = act.ActivateTabRelative(1) },
 
 	-- Spawn new windows
 	{ key = "n", mods = "SUPER", action = act.SpawnWindow },
@@ -59,12 +62,12 @@ local keys = {
 	-- Panes: Split
 	{
 		key = [[\]],
-		mods = mod.SUPER,
+		mods = mod.SUPER_REV,
 		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
 	{
 		key = [[\]],
-		mods = mod.SUPER_REV,
+		mods = mod.SUPER,
 		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 
@@ -77,6 +80,21 @@ local keys = {
 	{ key = "j", mods = mod.SUPER_REV, action = act.ActivatePaneDirection("Down") },
 	{ key = "h", mods = mod.SUPER_REV, action = act.ActivatePaneDirection("Left") },
 	{ key = "l", mods = mod.SUPER_REV, action = act.ActivatePaneDirection("Right") },
+	{
+		key = ",",
+		mods = mod.SUPER_REV,
+		action = act.PaneSelect({
+			alphabet = "1234567890",
+		}),
+	},
+	{
+		key = ".",
+		mods = mod.SUPER_REV,
+		action = act.PaneSelect({
+			alphabet = "1234567890",
+			mode = "SwapWithActiveKeepFocus",
+		}),
+	},
 
 	-- Resize panes
 	{
@@ -93,7 +111,30 @@ local keys = {
 	{ key = "-", mods = "SUPER", action = act.DecreaseFontSize },
 	{ key = "=", mods = "SUPER", action = act.IncreaseFontSize },
 	{ key = "0", mods = "SUPER", action = wezterm.action.ResetFontSize },
+
+	-- Workspaces
+	{ key = "s", mods = mod.SUPER_REV, action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	{
+		key = "n",
+		mods = mod.SUPER_REV,
+		action = act.PromptInputLine({
+			description = wezterm.format({
+				{ Attribute = { Intensity = "Bold" } },
+				{ Foreground = { AnsiColor = "Fuchsia" } },
+				{ Text = "Enter name for new workspace" },
+			}),
+			action = wezterm.action_callback(workspace.create_workspace),
+		}),
+	},
 }
+
+for i = 1, 9 do
+	table.insert(keys, {
+		key = tostring(i),
+		mods = mod.SUPER,
+		action = act.ActivateTab(i - 1),
+	})
+end
 
 return {
 	leader = { key = "Space", mods = mod.SUPER_REV },
