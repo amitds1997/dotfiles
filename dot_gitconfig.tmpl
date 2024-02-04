@@ -61,4 +61,5 @@
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
 	helper = /usr/bin/git-credential-manager
+	credentialStore = gpg
 {{- end }}
