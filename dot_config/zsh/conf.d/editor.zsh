@@ -1,5 +1,5 @@
 # Use vi keybindings
-bindkey -e
+bindkey -v
 
 # Enable partial history match
 bindkey "$terminfo[kcuu1]" history-substring-search-up

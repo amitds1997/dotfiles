@@ -98,8 +98,8 @@ local lualine_config = function()
           color = { bg = "NoiceCmdline" },
         },
       },
-      lualine_y = { get_lsp_clients },
-      lualine_z = { { "location", icon = "" } },
+      lualine_y = { { "location", icon = "" } },
+      lualine_z = { get_lsp_clients },
     },
     inactive_sections = {
       lualine_c = {
