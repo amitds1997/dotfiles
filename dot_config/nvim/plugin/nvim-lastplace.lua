@@ -1,7 +1,7 @@
 -- Copied from https://github.com/neovim/neovim/issues/16339#issuecomment-1348133829
 -- adapted from https://github.com/ethanholz/nvim-lastplace/blob/main/lua/nvim-lastplace/init.lua
 local ignore_buftype = { "quickfix", "nofile", "help" }
-local ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" }
+local ignore_filetype = require("core.vars").ignore_filetypes
 
 local function run()
   if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then

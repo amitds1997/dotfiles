@@ -5,7 +5,7 @@ local function load_nested(dir)
   return require("core.utils").get_plugins(path)
 end
 
-return {
+local common_modules = {
   {
     "tpope/vim-sleuth",
     event = "InsertEnter",
@@ -62,23 +62,7 @@ return {
           "lsp",
           "treesitter",
         },
-        filetypes_denylist = {
-          "checkhealth",
-          "help",
-          "lspinfo",
-          "man",
-          "nofile",
-          "notify",
-          "query",
-          "prompt",
-          "qf",
-          "terminal",
-          "gitcommit",
-          "gitrebase",
-          "svn",
-          "hgcommit",
-          "TelescopePrompt",
-        },
+        filetypes_denylist = require("core.vars").ignore_filetypes,
       })
     end,
   },
@@ -112,3 +96,7 @@ return {
   load_nested("debugger"),
   load_nested("colorschemes"),
 }
+vim.tbl_extend("force", common_modules, load_nested("debugger"))
+vim.tbl_extend("force", common_modules, load_nested("debugger"))
+
+return common_modules

@@ -35,7 +35,7 @@ local function noice_setup()
     popupmenu = {
       enabled = true,
       ---@type 'nui'|'cmp'
-      backend = "cmp",
+      backend = "nui",
     },
     lsp = {
       override = {

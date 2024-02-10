@@ -61,7 +61,7 @@ local lualine_config = function()
       theme = require("core.vars").colorscheme,
       component_separators = "|",
       section_separators = { left = "", right = "" },
-      disabled_filetypes = { "man" },
+      disabled_filetypes = require("core.vars").ignore_filetypes,
     },
     sections = {
       lualine_a = {
@@ -98,8 +98,8 @@ local lualine_config = function()
           color = { bg = "NoiceCmdline" },
         },
       },
-      lualine_y = { "location" },
-      lualine_z = { get_lsp_clients },
+      lualine_y = { get_lsp_clients },
+      lualine_z = { { "location", icon = "" } },
     },
     inactive_sections = {
       lualine_c = {

@@ -169,21 +169,6 @@ local cmp_config = function()
     enabled = false,
   })
 
-  -- `:` cmdline setup
-  cmp.setup.cmdline(":", {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = "path" },
-    }, {
-      {
-        name = "cmdline",
-        option = {
-          ignore_cmds = { "Man", "!", "make" },
-        },
-      },
-    }),
-  })
-
   -- Setup nvim autopairs
   require("nvim-autopairs").setup({
     check_ts = true,
@@ -201,7 +186,7 @@ return {
       buf = 0,
     }) ~= "prompt" or require("cmp_dap").is_dap_buffer()
   end,
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "InsertEnter" },
   dependencies = {
     {
       "L3MON4D3/LuaSnip",
@@ -210,12 +195,35 @@ return {
       dependencies = { "rafamadriz/friendly-snippets" },
     },
     "onsails/lspkind.nvim",
-    "windwp/nvim-autopairs",
+    {
+      "windwp/nvim-autopairs",
+      config = function()
+        require("nvim-autopairs").setup()
+
+        for _, punc in pairs({ ",", ";" }) do
+          require("nvim-autopairs").add_rules({
+            require("nvim-autopairs.rule")("", punc)
+              :with_move(function(opts)
+                return opts.char == punc
+              end)
+              :with_pair(function()
+                return false
+              end)
+              :with_del(function()
+                return false
+              end)
+              :with_cr(function()
+                return false
+              end)
+              :use_key(punc),
+          })
+        end
+      end,
+    },
     "FelipeLema/cmp-async-path",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",
     "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-cmdline",
   },
 }
