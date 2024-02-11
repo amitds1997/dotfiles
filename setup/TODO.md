@@ -7,6 +7,8 @@
   - [PlexGuide](https://github.com/plexguide/PlexGuide.com)
   - [Automated usenet setup](https://blog.decryption.net.au/t/a-fully-automated-usenet-piracy-machine-with-plex-sabnzbd-and-sonarr/130)
 - Setup anacron
+- Revisit NVIDIA early KMS setup (if things can be removed from cmdline or not)
+- Revisit how to setup hardware acceleration with NVIDIA in firefox
 
 ## Backlog
 
@@ -22,6 +24,8 @@
 - Add drivers for NVIDIA and AMD
 - Make XOrg detect the correct DPI of each screen on launch and on monitor connect
 - Find a way to register my 30-touchpad.conf that I put at /etc/X11/xorg.conf.d/30-touchpad.conf
+- Setup correct GPU launch
+  1. VLC to launch with prime-run
 - Configure
   1. Lid close
   2. Power handling
@@ -32,7 +36,6 @@
 - Check how to enable AMD GPU for display
 - Go through following Arch wikis (Check additional articles linked at the end too)
   - Xorg
-  - Hardware video acceleration
   - Power management
   - Frequency CPU scaling
   - Laptop
@@ -44,5 +47,3 @@
     - [GitHub gist](https://gist.github.com/rumansaleem/083187292632f5a7cbb4beee82fa5031)
 
 ## In progress
-
-- Fix hardware acceleration (use NVIDIA GPU instead of AMD)

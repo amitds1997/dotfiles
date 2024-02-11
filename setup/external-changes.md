@@ -8,4 +8,4 @@
 4. Enabled `reflector.service`. Updated `/etc/xdg/reflector/reflector.conf`
    with correct parameters to update the mirrorlist at `/etc/pacman.d/mirrorlist`
 5. Added the file /etc/modprobe.d/nvidia.conf
-6. Add `nvidia_drm.modeset=1` to kernel parameters
+6. Added `nvidia_drm.modeset=1` in `/boot/loader/entries/2024-02-04_12-50-56_linux.conf`
