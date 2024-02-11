@@ -19,6 +19,7 @@
   4. [awesomewm](./awesomewm.md)
   5. geoclue
   6. rofi
+  7. Fan speed control
 - Set up reflector service to automatically update mirrorlist every week
 - Set up AUR for font packages
 - Add drivers for NVIDIA and AMD
@@ -27,7 +28,7 @@
 - Setup correct GPU launch
   1. VLC to launch with prime-run
 - Configure
-  1. Lid close
+  1. Lid close, Lid open, Hibernate, Sleep
   2. Power handling
   3. Autolaunch awesomewm on start up without dropping into xinitrc
   4. Multi-monitor support (brightness)
@@ -38,12 +39,17 @@
   - Xorg
   - Power management
   - Frequency CPU scaling
-  - Laptop
+  - Power management/Wakeup triggers
+  - systemd
   - pacman
     - Clean up package cache; setup regular cleanup
     - Report orphan packages
     - Report broken symlinks
     - On successful installation, add package to the ~/.pkglist.txt file
     - [GitHub gist](https://gist.github.com/rumansaleem/083187292632f5a7cbb4beee82fa5031)
+- Fix the errors on startup log file that are shown when starting the laptop
+- Fix tlp.service not automatically starting
+- Fix network-online.service failing in `systemctl --type=service` output
+- Fix NVIDIA drivers not loaded after tlp.service loading
 
 ## In progress

@@ -9,3 +9,4 @@
    with correct parameters to update the mirrorlist at `/etc/pacman.d/mirrorlist`
 5. Added the file /etc/modprobe.d/nvidia.conf
 6. Added `nvidia_drm.modeset=1` in `/boot/loader/entries/2024-02-04_12-50-56_linux.conf`
+7. Masked `systemd-rfkill.service` and `systemd-rfkill.socket` as per ArchLinux docs for TLP.
