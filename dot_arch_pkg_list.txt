@@ -1,7 +1,7 @@
 acpi
 act
 amd-ucode
-awesome
+awesome-git
 base
 base-devel
 bat
