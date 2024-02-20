@@ -1,7 +1,6 @@
--- Returns all widgets, with assigned names, in a table.
 return {
-	menu = require(... .. ".menu"),
-	notification = require(... .. ".notification"),
-	titlebar = require(... .. ".titlebar"),
-	wibar = require(... .. ".wibar"),
+	menu = require("ui.menu"),
+	titlebar = require("ui.titlebar"),
+	wibar = require("ui.wibar"),
+	notification = require("ui.notification"),
 }

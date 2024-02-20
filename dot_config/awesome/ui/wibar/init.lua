@@ -1,33 +1,33 @@
 local awful = require("awful")
 local wibox = require("wibox")
-
-local module = require(... .. ".module")
+local components = require("ui.wibar.components")
 
 return function(s)
-	s.mypromptbox = awful.widget.prompt() -- Create a promptbox.
+	-- Create a promptbox
+	s.mypromptbox = awful.widget.prompt()
 
-	-- Create the wibox
+	-- Create a wibox
 	s.mywibox = awful.wibar({
 		position = "top",
 		screen = s,
 		widget = {
 			layout = wibox.layout.align.horizontal,
-			-- Left widgets.
+			-- Left widgets
 			{
 				layout = wibox.layout.fixed.horizontal,
-				module.launcher(),
-				module.taglist(s),
+				components.launcher(),
+				components.taglist(s),
 				s.mypromptbox,
 			},
-			-- Middle widgets.
-			module.tasklist(s),
-			-- Right widgets.
+			-- Middle widgets
+			components.tasklist(s),
+			-- Right widgets
 			{
 				layout = wibox.layout.fixed.horizontal,
-				awful.widget.keyboardlayout(), -- Keyboard map indicator and switcher.
+				awful.widget.keyboardlayout(),
 				wibox.widget.systray(),
-				wibox.widget.textclock(), -- Create a textclock widget.
-				module.layoutbox(s),
+				wibox.widget.textclock(),
+				components.layoutbox(s),
 			},
 		},
 	})

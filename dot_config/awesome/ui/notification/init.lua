@@ -1,5 +1,4 @@
--- Allows for expanding into notifications for special cases, for example,
--- for music.
+-- Allow expanding into notifications for special cases, e.g., music, reminder, etc.
 return {
-	normal = require(... .. ".normal"),
+	default = require(... .. ".default"),
 }

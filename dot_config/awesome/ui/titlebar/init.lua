@@ -1,5 +1,5 @@
--- Returns titlebars for normal clients, this structure allows one to
+-- Returns titlebars for default clients, this structure allows one to
 -- easily define special titlebars for particular clients.
 return {
-	normal = require(... .. ".normal"),
+	default = require(... .. ".default"),
 }

@@ -46,6 +46,7 @@ nvidia
 nvidia-prime
 nvidia-settings
 nvtop
+openssh
 pacman-contrib
 pass
 picom
@@ -74,7 +75,6 @@ vulkan-tools
 wezterm
 wireplumber
 wmctrl
-xclip
 xdg-utils
 xdotool
 xf86-video-amdgpu
@@ -82,6 +82,7 @@ xorg-server
 xorg-xdpyinfo
 xorg-xinit
 xorg-xinput
+xsel
 yay
 zip
 zoxide
