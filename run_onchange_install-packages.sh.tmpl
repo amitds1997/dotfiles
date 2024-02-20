@@ -15,7 +15,7 @@ fi
 yay -Syu
 # DO NOT REMOVE COMMENT ON NEXT LINE. It handles running install when pkglist changes
 # {{ include "dot_arch_pkg_list.txt" | sha256sum }}
-yay -S --needed --nodiffmenu --nocleanmenu --noeditmenu --removemake - < ~/.arch_pkg_list.txt
+yay -S --needed --cleanmenu=false --editmenu=false --removemake - < ~/.arch_pkg_list.txt
 {{ else if eq .chezmoi.os "darwin" -}}
 brew bundle install --file=~/.config/brew/Brewfile
 {{ end }}
