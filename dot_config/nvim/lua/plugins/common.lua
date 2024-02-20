@@ -93,10 +93,9 @@ local common_modules = {
     "ibhagwan/smartyank.nvim",
     event = "BufReadPost",
   },
-  load_nested("debugger"),
-  load_nested("colorschemes"),
 }
-vim.tbl_extend("force", common_modules, load_nested("debugger"))
-vim.tbl_extend("force", common_modules, load_nested("debugger"))
+
+common_modules = vim.list_extend(common_modules, load_nested("colorschemes"))
+common_modules = vim.list_extend(common_modules, load_nested("debugger"))
 
 return common_modules
