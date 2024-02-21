@@ -55,6 +55,7 @@ pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
+playerctl
 pyenv
 reflector
 ripgrep

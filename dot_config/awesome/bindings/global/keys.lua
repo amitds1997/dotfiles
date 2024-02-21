@@ -204,4 +204,19 @@ awful.keyboard.append_global_keybindings({
 	awful.key({}, "XF86AudioLowerVolume", function()
 		awful.util.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
 	end, { description = "Decrease volume", group = "Fn-keys" }),
+	awful.key({}, "XF86MonBrightnessUp", function()
+		awful.util.spawn("busctl --user call org.clight.clight /org/clight/clight org.clight.clight IncBl d 0.1")
+	end, { description = "Increase brightness", group = "Fn-keys" }),
+	awful.key({}, "XF86MonBrightnessDown", function()
+		awful.util.spawn("busctl --user call org.clight.clight /org/clight/clight org.clight.clight DecBl d 0.1")
+	end, { description = "Decrease brightness", group = "Fn-keys" }),
+	awful.key({}, "XF86AudioPlay", function()
+		awful.util.spawn("playerctl play-pause")
+	end, { description = "Play/Pause audio", group = "Fn-keys" }),
+	awful.key({}, "XF86AudioPrev", function()
+		awful.util.spawn("playerctl previous")
+	end, { description = "Previous audio track", group = "Fn-keys" }),
+	awful.key({}, "XF86AudioNext", function()
+		awful.util.spawn("playerctl next")
+	end, { description = "Next audio track", group = "Fn-keys" }),
 })

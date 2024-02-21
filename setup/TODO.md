@@ -40,6 +40,7 @@
   4. Multi-monitor support (brightness)
   5. Battery monitor
   6. Keyboard backlight management
+  7. Currently playing song/media (using playerctl)
 - Go through following Arch wikis (Check additional articles linked at the end too)
   - Xorg
   - Power management
