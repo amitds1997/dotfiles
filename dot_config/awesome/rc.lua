@@ -30,3 +30,6 @@ require("bindings")
 
 -- Load all rules
 require("rules")
+
+-- Launch autostart apps
+require("core.autostart")

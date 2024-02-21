@@ -192,3 +192,16 @@ awful.keyboard.append_global_keybindings({
 		end,
 	}),
 })
+
+-- fn-key keybindings
+awful.keyboard.append_global_keybindings({
+	awful.key({}, "XF86AudioMute", function()
+		awful.util.spawn("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
+	end, { description = "Toggle volume mute", group = "Fn-keys" }),
+	awful.key({}, "XF86AudioRaiseVolume", function()
+		awful.util.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+")
+	end, { description = "Increase volume", group = "Fn-keys" }),
+	awful.key({}, "XF86AudioLowerVolume", function()
+		awful.util.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
+	end, { description = "Decrease volume", group = "Fn-keys" }),
+})

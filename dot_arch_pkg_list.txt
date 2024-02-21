@@ -24,6 +24,7 @@ github-cli
 go
 gst-plugin-pipewire
 htop
+inetutils
 iwd
 jq
 kubectl
@@ -49,7 +50,7 @@ nvtop
 openssh
 pacman-contrib
 pass
-picom
+picom-ftlabs-git
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -64,6 +65,7 @@ speech-dispatcher
 tlp
 tree-sitter-cli
 ttf-fantasque-nerd
+ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-mono
 ttf-recursive
 unzip
