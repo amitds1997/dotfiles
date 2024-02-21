@@ -45,7 +45,7 @@
   - Xorg
   - Power management
   - Power management/Wakeup triggers
-  - Frequency CPU scaling
+  - Frequency CPU scaling (bring down power usage to 5-6W)
   - DPMS for monitors
 
 ## In progress
