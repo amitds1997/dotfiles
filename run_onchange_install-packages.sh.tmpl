@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+{{ if eq .chezmoi.os "linux" -}}
 {{ if eq .chezmoi.osRelease.id "arch" -}}
 if ! command -v yay &> /dev/null
 then
@@ -16,6 +17,7 @@ yay -Syu
 # DO NOT REMOVE COMMENT ON NEXT LINE. It handles running install when pkglist changes
 # {{ include "dot_arch_pkg_list.txt" | sha256sum }}
 yay -S --needed --cleanmenu=false --editmenu=false --removemake - < ~/.arch_pkg_list.txt
+{{ end }}
 {{ else if eq .chezmoi.os "darwin" -}}
 brew bundle install --file=~/.config/brew/Brewfile
 {{ end }}
