@@ -1,0 +1,11 @@
+{{ if ne .chezmoi.os "darwin" -}}
+.finicky.js
+.config/brew
+{{- else if ne .chezmoi.os "linux" -}}
+.arch_pkg_list.txt
+.config/awesome
+.config/rofi
+.config/picom
+.xinitrc
+.xserverrc
+{{ end }}
