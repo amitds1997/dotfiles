@@ -43,6 +43,7 @@ local function conform_setup()
       sql = { "sqlfmt" },
       yaml = { "yamlfix" },
       sh = { "shfmt" },
+      css = { "prettier" },
     },
     format_after_save = function(bufnr)
       return handle_disabling_formatting(bufnr, {
@@ -53,16 +54,15 @@ local function conform_setup()
       mdformat = {
         prepend_args = { "--number" },
       },
-    },
-  })
-
-  require("conform").formatters.injected = {
-    options = {
-      lang_to_formatters = {
-        yaml = {}, -- Do not try to format YAML (because it is also used for frontmatter)
+      injected = {
+        options = {
+          lang_to_formatters = {
+            yaml = {}, -- Do not try to format YAML (because it is also used for frontmatter)
+          },
+        },
       },
     },
-  }
+  })
 end
 
 return {

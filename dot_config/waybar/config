@@ -1,0 +1,29 @@
+{
+  "layer": "top",
+  "position": "top",
+  "spacing": 4,
+  "include": [
+    "$XDG_CONFIG_HOME/waybar/modules/default.jsonc",
+    "$XDG_CONFIG_HOME/waybar/modules/hyprland.jsonc",
+    "$XDG_CONFIG_HOME/waybar/modules/custom.jsonc",
+  ],
+  "modules-left": [
+    "custom/logo",
+    "hyprland/workspaces",
+    "custom/media"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "custom/toggle-notifications",
+    "idle_inhibitor",
+    "bluetooth",
+    "network",
+    "clock",
+    "battery",
+    "custom/logout",
+  ],
+  "reload_style_on_change": true
+}
+// vim: ft=jsonc

@@ -1,0 +1,34 @@
+{
+  "group/inhibitors": {
+    "orientation": "horizontal",
+    "modules": [
+      "idle_inhibitor",
+      "custom/dnd"
+    ]
+  },
+  "custom/toggle-notifications": {
+    "exec": "$XDG_CONFIG_HOME/waybar/scripts/toggle-notifications.sh",
+    "return-type": "json",
+    "on-click": "dunstctl set-paused toggle",
+    "restart-interval": 1,
+  },
+  "custom/logo": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "rofi -show drun",
+  },
+  "custom/logout": {
+    "format": "󰍃",
+    "tooltip": false,
+  },
+  "custom/media": {
+    "format": "{icon} {}",
+    "escape": true,
+    "return-type": "json",
+    "max-length": 40,
+    "on-click": "playerctl play-pause",
+    "on-click-right": "playerctl stop",
+    "smooth-scrolling-threshold": 10,
+    "exec": "$XDG_CONFIG_HOME/waybar/scripts/music_player.py 2> /dev/null"
+  }
+}

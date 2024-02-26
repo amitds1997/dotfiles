@@ -1,4 +1,0 @@
-std = "awesome"
-
-[rules]
-mixed_table = "allow"

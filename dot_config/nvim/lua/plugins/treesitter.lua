@@ -28,6 +28,7 @@ local treesitter_config = function()
       "toml",
       "vim",
       "yaml",
+      "hyprlang",
     },
     sync_install = false,
     auto_install = true,
@@ -65,6 +66,10 @@ local treesitter_config = function()
         },
       },
     },
+  })
+
+  vim.filetype.add({
+    pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
   })
 end
 

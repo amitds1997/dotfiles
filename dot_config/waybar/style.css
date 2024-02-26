@@ -1,0 +1,175 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+  font-family: "IBM Plex Mono", "Symbols Nerd Font Mono", "Font Awesome 6 Free",
+    "Font Awesome 6 Brands", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+}
+
+window#waybar {
+  background: transparent;
+  transition: background-color 0.5s;
+}
+
+#workspaces,
+#custom-logout,
+#custom-media,
+#custom-logo {
+  font-size: 16px;
+  padding: 0;
+  border-radius: 10px;
+  margin: 4px 1px;
+}
+
+#workspaces,
+#clock,
+#battery,
+#bluetooth,
+#network,
+#custom-toggle-notifications,
+#idle_inhibitor {
+  border: 0;
+  border-radius: 10px;
+  transition: none;
+  background: @color8;
+  opacity: 0.8;
+  color: @color8;
+}
+
+#workspaces button,
+#custom-toggle-notifications,
+#idle_inhibitor {
+  opacity: 0.5;
+  font-size: 18px;
+  font-weight: bold;
+  color: @background;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+  color: @color0;
+  transition: all 0.3s ease-in-out;
+  opacity: 1;
+  font-size: 14px;
+}
+
+#workspaces button:hover {
+  opacity: 0.8;
+  background: transparent;
+  border-radius: 10px;
+}
+
+tooltip {
+  border-radius: 10px;
+  background-color: @color7;
+  opacity: 0.8;
+  padding: 20px;
+  margin: 0;
+}
+
+tooltip label {
+  color: @color2;
+}
+
+#window {
+  background: @foreground;
+  margin: 5px 15px 5px 0;
+  padding: 2px 10px 0 10px;
+  border-radius: 10px;
+  color: @color2;
+  font-size: 15px;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+window#waybar.empty #window {
+  background-color: transparent;
+}
+
+#clock,
+#battery,
+#bluetooth,
+#network,
+#custom-toggle-notifications,
+#idle_inhibitor {
+  padding: 0 10px;
+  border-radius: 10px;
+  margin: 4px 1px;
+  color: @background;
+  font-weight: bold;
+}
+
+#custom-toggle-notifications,
+#idle_inhibitor {
+  font-weight: normal;
+  background: @color9;
+  opacity: 0.5;
+}
+
+#custom-toggle-notifications,
+#bluetooth {
+  border-radius: 10px 0 0 10px;
+  padding: 0 10px;
+  margin-right: 0;
+  transition: none;
+}
+
+#idle_inhibitor,
+#network {
+  border-radius: 0 10px 10px 0;
+  padding: 0 10px;
+  margin-left: 0;
+}
+
+#custom-toggle-notifications.enabled,
+#idle_inhibitor.activated {
+  opacity: 0.8;
+}
+
+#custom-toggle-notifications.snoozed {
+  color: #ffa500;
+}
+
+#bluetooth,
+#network {
+  background: @cursor;
+  font-weight: normal;
+}
+
+#bluetooth.disabled {
+  opacity: 0.5;
+}
+
+#bluetooth.connected {
+  opacity: 0.9;
+}
+
+#clock {
+  background: @color2;
+}
+
+#battery {
+  background: @color6;
+}
+
+#custom-logout {
+  color: #161320;
+  background: #f28fad;
+  padding: 0 10px;
+  margin-right: 5px;
+}
+
+#custom-logo {
+  background-color: #0078c5;
+  color: #ffffff;
+  padding: 0 10px;
+  margin-left: 5px;
+}
+
+#custom-media {
+  color: #fff;
+  opacity: 0.6;
+  font-size: 13px;
+  padding: 0 10px;
+  background-color: #000;
+}
