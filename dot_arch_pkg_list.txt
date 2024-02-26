@@ -52,6 +52,7 @@ nvidia
 nvidia-prime
 nvidia-settings
 nvtop
+obs-studio
 openssh
 otf-font-awesome
 pacman-contrib
@@ -62,6 +63,7 @@ pipewire-alsa
 pipewire-jack
 pipewire-pulse
 playerctl
+polkit-kde-agent
 pyenv
 python-gobject
 python-pywal
