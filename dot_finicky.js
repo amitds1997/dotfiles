@@ -12,7 +12,7 @@ module.exports = {
   ],
   handlers: [
     {
-      match: ["*c2fo*", "*office365*", "*microsoft*", "*slack*", "*jetbrains*", "*datadoghq*", "*aws.amazon*", "*honeycomb.jira*", "*docs.google.com*", "*drive.google.com*", "*forms.gle*", "*localhost:*", "*zoom.us*", "*1password*", "*atlassian*", "*stitchdata*", "*talend*"],
+      match: ["*c2fo*", "*office365*", "*microsoft*", "*slack*", "*jetbrains*", "*datadoghq*", "*aws.amazon*", "*honeycomb.jira*", "*docs.google.com*", "*drive.google.com*", "*forms.gle*", "*localhost:*", "*zoom.us*", "*1password*", "*atlassian*", "*stitchdata*", "*talend*", "*amazon*"],
       browser: "/Applications/Google Chrome.app"
     },
     {
