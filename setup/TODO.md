@@ -12,66 +12,52 @@
 
 ## Future tasks
 
-01. Set up AUR for font packages
-02. Detect correct DPI for each screen on launch and monitor connect
-03. Setup more gestures
-    1. Workspace quick switch
-    2. Screen switch
-04. Fix errors while booting up (if any)
-05. Setup hardware video acceleration for Firefox, VLC and others
-06. Delete /etc/X11/xorg.conf.d/30-touchpad.conf
-07. Delete x11 packages
-08. Enable(??) window swallowing
-09. Enable [automatic mounting (or atleast a notification)](https://wiki.hyprland.org/Useful-Utilities/Other/#automatically-mounting-using-udiskie)
-10. Add [plugins](https://wiki.hyprland.org/Plugins/Using-Plugins/#getting-plugins)
-11. Install [hyprshade](https://github.com/loqusion/hyprshade) for gamma simulation
-
-## To do
-
-1. Setup
-   1. `grim` and `slurp` to make screenshotting work
-   2. screen recording
-   3. screen sharing
-   4. screen locking
-   5. [clight](./clight.md)
-   6. rofi
-   7. geoclue
-   8. OSD (for example when CAPS-lock or num-lock is on)
-2. Setup
-   1. display manager
-   2. idle daemon (Check awesome-hyprland page for more info)
-   3. clipboard manager
-   4. colorpicker
-   5. Bindings viewer
-   6. `bindl` switches (e.g. with lid close)
-   7. [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
-3. Setup
-   1. Mouse pointer to get bigger so that it is easy to find on quick zig-zag
-   2. dunst
-   3. Notifications whenever volume or brightness are adjusted showing level
-   4. Setup [candy-icons](https://github.com/EliverLara/candy-icons) theme
-   5. DPMS
-4. Delete
+1. Configure
+   - Window swallowing
+   - [automatic mounting (or atleast a notification)](https://wiki.hyprland.org/Useful-Utilities/Other/#automatically-mounting-using-udiskie)
+   - AUR for font packages
+2. Fix errors while booting up (if any)
+3. Delete
    1. Awesomewm
    2. picom
    3. libinput-gestures (???)
-5. Configure
-   1. Lid close, Lid open, Hibernate, Sleep
-   2. Power handling
-      1. [Optimizing hyprland for power](http://wiki.hyprland.org/FAQ/#how-do-i-make-hyprland-draw-as-little-power-as-possible-on-my-laptop)
-      2. Optimizing tlp
-      3. Any other methods
-   3. Autolaunch awesomewm on start up without dropping into xinitrc
-   4. Multi-monitor support (brightness)
-   5. Battery monitor
-   6. Keyboard backlight management
-   7. Currently playing song/media (using playerctl)
-   8. Set up Do not disturb mode
-6. Go through following Arch wikis (Check related articles too)
-   - Xorg
-   - Power management
-   - Power management/Wakeup triggers
-   - Frequency CPU scaling (bring down power usage to 5-6W)
-   - DPMS for monitors
-7. Checkout [awesome-hyperland](https://github.com/hyprland-community/awesome-hyprland)
-8. Fix firefox crashing on opening maps
+   4. x11 packages
+   5. /etc/X11/xorg.conf.d/30-touchpad.conf
+4. Maybe [plugins](https://wiki.hyprland.org/Plugins/Using-Plugins/#getting-plugins)
+   - [Awesomewm like workspaces](https://github.com/Duckonaut/split-monitor-workspaces?tab=readme-ov-file)
+   - [i3 like workspaces](https://github.com/outfoxxed/hy3)
+5. Try out
+   - Automatically adjust brigtness [wluma](https://github.com/maximbaz/wluma?tab=readme-ov-file)
+   - Gamma simulation: [hyprshade](https://github.com/loqusion/hyprshade)
+   - Dim inactive windows: [hyprdim](https://github.com/donovanglover/hyprdim)
+
+## To do
+
+1. Configure
+   - `bindl` events (e.g. lid close)
+   - Handle lid close, lid open, hibernate, sleep events
+   - [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
+   - Add screenshot bindings
+   - geoclue
+   - [clight](./clight.md)
+   - Power optimization
+     1. [Optimizing hyprland for power](http://wiki.hyprland.org/FAQ/#how-do-i-make-hyprland-draw-as-little-power-as-possible-on-my-laptop)
+     2. Optimizing tlp
+     3. Frequency CPU scaling (bring down power usage to 5-6W)
+   - [ags](https://github.com/Aylur/ags/?tab=readme-ov-file)
+     - For notification
+     - For status bar (including music)
+     - Screenshotting
+     - For OSD support
+     - For colorpicker using hyprpicker
+     - For Rofi??
+     - Adjusting individual monitor's brightness
+   - Display manager (but do I need one)
+   - Bindings viewer (Low priority)
+   - Find mouse cursor (cursor gets bigger on moving it rapidly)
+   - `tlp-rdw` does not kill wifi on ethernet connection
+   - Set up same time on windows and linux (prevent out of sync)
+2. Beautify
+   - Rofi (but ags comes first)
+3. Fix
+   - Firefox crashing on opening maps.google.com (Fixed by unsetting GBM_BACKEND)

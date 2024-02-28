@@ -8,8 +8,10 @@ bluez
 bluez-utils
 chezmoi
 clight
+cliphist
 cmake
 ddcutil
+discord
 docker-compose
 dunst
 efibootmgr
@@ -26,7 +28,10 @@ go
 grim
 gst-plugin-pipewire
 htop
+hypridle-git
 hyprland-git
+hyprlock-git
+hyprpicker
 inetutils
 iwd
 jc
@@ -95,6 +100,7 @@ wezterm
 wget
 wireplumber
 wl-clipboard
+wlogout
 wmctrl
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland

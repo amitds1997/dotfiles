@@ -16,6 +16,7 @@
     "hyprland/window"
   ],
   "modules-right": [
+    "tray",
     "custom/toggle-notifications",
     "idle_inhibitor",
     "bluetooth",

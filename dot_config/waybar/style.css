@@ -23,6 +23,7 @@ window#waybar {
 
 #workspaces,
 #clock,
+#tray,
 #battery,
 #bluetooth,
 #network,
@@ -89,6 +90,7 @@ window#waybar.empty #window {
 
 #clock,
 #battery,
+#tray,
 #bluetooth,
 #network,
 #custom-toggle-notifications,
@@ -173,4 +175,9 @@ window#waybar.empty #window {
   font-size: 13px;
   padding: 0 10px;
   background-color: #000;
+}
+
+#tray {
+  color: #111;
+  background-color: #eee;
 }
