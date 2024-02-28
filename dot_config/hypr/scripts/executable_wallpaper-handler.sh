@@ -2,8 +2,7 @@
 
 ACTION=$1
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
-WALLPAPER_DIR="$(dirname "$SCRIPT_DIR")/wallpapers"
+WALLPAPER_DIR="$XDG_DATA_HOME/wallpapers"
 WALLPAPER_CACHE_FILE="$XDG_CACHE_HOME/current_wallpaper"
 
 if [ ! -f "$WALLPAPER_CACHE_FILE" ]; then

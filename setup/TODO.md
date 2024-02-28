@@ -41,12 +41,10 @@
    1. display manager
    2. idle daemon (Check awesome-hyprland page for more info)
    3. clipboard manager
-   4. wallpaper handler
-   5. colorpicker
-   6. Bindings viewer
-   7. `bindl` switches (e.g. with lid close)
-   8. [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
-   9. Setup pywal
+   4. colorpicker
+   5. Bindings viewer
+   6. `bindl` switches (e.g. with lid close)
+   7. [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
 3. Setup
    1. Mouse pointer to get bigger so that it is easy to find on quick zig-zag
    2. dunst

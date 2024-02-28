@@ -40,6 +40,7 @@ window#waybar {
 #custom-toggle-notifications,
 #idle_inhibitor {
   opacity: 0.5;
+  border: 0;
   font-size: 18px;
   font-weight: bold;
   color: @background;

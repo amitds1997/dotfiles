@@ -23,6 +23,7 @@ git-credential-manager-core-bin
 git-delta
 github-cli
 go
+grim
 gst-plugin-pipewire
 htop
 hyprland-git
@@ -72,6 +73,7 @@ reflector
 ripgrep
 rofi-lbonn-wayland-git
 sbctl
+slurp
 sof-firmware
 speech-dispatcher
 swww
