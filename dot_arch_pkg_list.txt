@@ -1,6 +1,5 @@
 act
 amd-ucode
-awesome-git
 base
 base-devel
 bat
@@ -9,7 +8,6 @@ bluez-utils
 chezmoi
 clight
 cliphist
-cmake
 ddcutil
 discord
 docker-compose
@@ -36,9 +34,11 @@ inetutils
 iwd
 jc
 jq
+kitty
 kubectl
 less
 libinput-gestures
+libliftoff
 libnotify
 libpulse
 libva-mesa-driver
@@ -63,7 +63,6 @@ openssh
 otf-font-awesome
 pacman-contrib
 pass
-picom-ftlabs-git
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -84,6 +83,7 @@ speech-dispatcher
 swww
 tlp
 tlp-rdw
+tomlplusplus
 tree-sitter-cli
 ttf-fantasque-nerd
 ttf-ibm-plex
@@ -96,6 +96,7 @@ vlc
 vulkan-radeon
 vulkan-tools
 waybar
+wayland-protocols
 wezterm
 wget
 wireplumber
@@ -111,6 +112,7 @@ xorg-server
 xorg-xdpyinfo
 xorg-xinit
 xorg-xinput
+xorg-xwayland
 yay
 yq
 zip

@@ -9,6 +9,10 @@
 - Setup anacron
 - Revisit NVIDIA early KMS setup (if things can be removed from cmdline or not)
 - Revisit how to setup hardware acceleration with NVIDIA in firefox
+- Revisit
+  - `bindl` events (e.g. lid close) - if we want to do it, how we want to do it?
+  - How to leverage [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
+  - Add screenshot bindings
 
 ## Future tasks
 
@@ -34,12 +38,9 @@
 ## To do
 
 1. Configure
-   - `bindl` events (e.g. lid close)
-   - Handle lid close, lid open, hibernate, sleep events
-   - [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
-   - Add screenshot bindings
-   - geoclue
+   - wezterm -> kitty
    - [clight](./clight.md)
+   - geoclue
    - Power optimization
      1. [Optimizing hyprland for power](http://wiki.hyprland.org/FAQ/#how-do-i-make-hyprland-draw-as-little-power-as-possible-on-my-laptop)
      2. Optimizing tlp
@@ -49,6 +50,7 @@
      - For status bar (including music)
      - Screenshotting
      - For OSD support
+     - To pause CLight handling things
      - For colorpicker using hyprpicker
      - For Rofi??
      - Adjusting individual monitor's brightness
