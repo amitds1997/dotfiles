@@ -1,7 +1,7 @@
 @import "../../.cache/wal/colors-waybar.css";
 
 * {
-  font-family: "IBM Plex Mono", "Symbols Nerd Font Mono", "Font Awesome 6 Free",
+  font-family: "IBM Plex Mono", "Symbols Nerd Font", "Font Awesome 6 Free",
     "Font Awesome 6 Brands", Roboto, Helvetica, Arial, sans-serif;
   font-size: 13px;
 }

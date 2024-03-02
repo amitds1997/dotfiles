@@ -40,7 +40,7 @@
   "hyprland/window": {
     "rewrite": {
       "(.*) — Mozilla Firefox": " $1",
-      "(.*)nvim": " Neovim",
+      "(.*)n?vim?": " Neovim",
     }
   }
 }

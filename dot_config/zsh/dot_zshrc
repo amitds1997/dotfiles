@@ -69,3 +69,4 @@ export PATH="$PATH:/Users/amitsingh/.local/bin"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # vim: ft=zsh sw=2 ts=2 et
+
