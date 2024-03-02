@@ -137,13 +137,6 @@ local cmp_config = function()
         priority = 100,
       },
       { name = "luasnip", option = { show_autosnippets = true }, priority = 130 },
-      {
-        name = "async_path",
-        option = {
-          trailing_slash = true,
-        },
-        priority = 70,
-      },
     }, {
       {
         name = "buffer",
@@ -220,7 +213,6 @@ return {
         end
       end,
     },
-    "FelipeLema/cmp-async-path",
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",

@@ -13,3 +13,4 @@
 08. Uncommented `Color` in /etc/pacman.conf
 09. Created a hook at `/etc/pacman.d/hooks/50-pacman-list.hook` for syncing all packages
 10. Uncommented `tlp-rdw` params in `/etc/tlp.conf`
+11. Created symlink : `/etc/fonts/conf.d/10-nerd-font-symbols.conf` -> `/usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf`

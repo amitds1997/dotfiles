@@ -1,21 +1,22 @@
 local lsp_server_names = {
-  bashls = "Bash LS",
-  clangd = "Clang LS",
-  dockerls = "Docker LS",
-  eslint = "ESLint",
-  gopls = "Go LS",
-  jsonls = "JSON LS",
-  lua_ls = "Lua LS",
-  marksman = "Marksman",
-  pyright = "Pyright",
-  ruff_lsp = "Ruff LS",
-  terraformls = "Terraform LS",
-  tsserver = "Typescript LS",
-  yamlls = "YAML LS",
+  bashls = { name = "Bash LS", priority = 20 },
+  clangd = { name = "Clang LS", priority = 20 },
+  dockerls = { name = "Docker LS", priority = 20 },
+  eslint = { name = "ESLint", priority = 20 },
+  gopls = { name = "Go LS", priority = 20 },
+  jsonls = { name = "JSON LS", priority = 20 },
+  lua_ls = { name = "Lua LS", priority = 20 },
+  marksman = { name = "Marksman", priority = 20 },
+  pyright = { name = "Pyright", priority = 20 },
+  ruff_lsp = { name = "Ruff LS", priority = 15 },
+  terraformls = { name = "Terraform LS", priority = 20 },
+  tsserver = { name = "Typescript LS", priority = 20 },
+  yamlls = { name = "YAML LS", priority = 20 },
 }
 
 local lualine_config = function()
   vim.o.laststatus = 3 -- Always show statusline
+
   local icons = require("nvim-nonicons")
   local devicons = require("nvim-web-devicons")
   local mode = {
@@ -36,20 +37,22 @@ local lualine_config = function()
   }
 
   local function get_lsp_clients()
-    local file_icon = (
-      icons.get(vim.bo.filetype)
-      or devicons.get_icon_by_filetype(vim.bo.filetype)
-      or devicons.get_icon(vim.fn.expand("%:e"))
-      or devicons.get_default_icon()
-    ) .. " "
+    local file_icon, _ = devicons.get_icon(vim.fn.expand("%:e"), vim.bo.filetype, { default = true })
     local lsp_label = ""
 
-    local lsp_clients = vim.lsp.get_clients({ bufnr = 0 })
-    if #lsp_clients > 0 then
-      local active_client = lsp_clients[1]
+    local assorted = {}
+    for _, lsp in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+      table.insert(assorted, lsp_server_names[lsp.name])
+    end
+    table.sort(assorted, function(x, y)
+      return x.priority >= y.priority
+    end)
+
+    if #assorted > 0 then
+      local active_client = assorted[1]
       lsp_label = file_icon .. " " .. (lsp_server_names[active_client.name] or active_client.name)
-      if #lsp_clients > 1 then
-        lsp_label = lsp_label .. ("(+%s)"):format(#lsp_clients - 1)
+      if #assorted > 1 then
+        lsp_label = lsp_label .. ("(+%s)"):format(#assorted - 1)
       end
     end
 

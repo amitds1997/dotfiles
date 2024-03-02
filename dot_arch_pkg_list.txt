@@ -50,6 +50,7 @@ man-db
 man-pages
 mesa-utils
 mesa-vdpau
+miniconda3
 neovim-git
 networkmanager
 noto-fonts-emoji
@@ -87,7 +88,7 @@ tomlplusplus
 tree-sitter-cli
 ttf-fantasque-nerd
 ttf-ibm-plex
-ttf-nerd-fonts-symbols-mono
+ttf-nerd-fonts-symbols
 ttf-recursive
 ttf-victor-mono-nerd
 unzip
