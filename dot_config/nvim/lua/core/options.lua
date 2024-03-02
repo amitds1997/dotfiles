@@ -52,7 +52,7 @@ o.foldmethod = "expr" --'foldexpr' determines the fold level of a line.
 o.foldexpr = "nvim_treesitter#foldexpr()"
 o.foldlevelstart = 99 -- Start with no folds
 o.foldnestmax = 10 -- Deepest fold is 10 levels
-o.foldenable = false -- Don't fold by default
+o.foldenable = true -- Don't fold by default
 
 -- Tab control
 o.expandtab = true -- Expand <Tab> into spaces

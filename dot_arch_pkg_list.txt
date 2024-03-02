@@ -89,6 +89,7 @@ ttf-fantasque-nerd
 ttf-ibm-plex
 ttf-nerd-fonts-symbols-mono
 ttf-recursive
+ttf-victor-mono-nerd
 unzip
 upower
 vdpauinfo
