@@ -13,6 +13,11 @@
   - `bindl` events (e.g. lid close) - if we want to do it, how we want to do it?
   - How to leverage [Multiple actions](http://wiki.hyprland.org/Configuring/Binds/#multiple-binds-to-one-key)
   - Add screenshot bindings
+  - If we still face clight too fast, too slow brigtness adjustment, fix it
+  - Power optimization
+    1. [Optimizing hyprland for power](http://wiki.hyprland.org/FAQ/#how-do-i-make-hyprland-draw-as-little-power-as-possible-on-my-laptop)
+    2. Optimizing tlp
+    3. Frequency CPU scaling (bring down power usage to 5-6W)
 
 ## Future tasks
 
@@ -38,13 +43,6 @@
 ## To do
 
 1. Configure
-   - wezterm -> kitty
-   - [clight](./clight.md)
-   - geoclue
-   - Power optimization
-     1. [Optimizing hyprland for power](http://wiki.hyprland.org/FAQ/#how-do-i-make-hyprland-draw-as-little-power-as-possible-on-my-laptop)
-     2. Optimizing tlp
-     3. Frequency CPU scaling (bring down power usage to 5-6W)
    - [ags](https://github.com/Aylur/ags/?tab=readme-ov-file)
      - For notification
      - For status bar (including music)
@@ -59,7 +57,9 @@
    - Find mouse cursor (cursor gets bigger on moving it rapidly)
    - `tlp-rdw` does not kill wifi on ethernet connection
    - Set up same time on windows and linux (prevent out of sync)
+   - On audio device disconnect, pause the media (if playing)
 2. Beautify
    - Rofi (but ags comes first)
-3. Fix
-   - Firefox crashing on opening maps.google.com (Fixed by unsetting GBM_BACKEND)
+3. Setup keybindings to
+   - Switch b/w successive workspaces
+   - Send window to monitor on the right or left

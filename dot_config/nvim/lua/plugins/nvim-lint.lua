@@ -83,6 +83,7 @@ return {
       go = { "golangcilint" },
       sql = { "sqlfluff" },
       yaml = { "yamllint" },
+      css = { "stylelint" },
     },
   },
   config = nvim_lint_config,

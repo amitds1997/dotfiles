@@ -2,7 +2,7 @@ local lsp_server_names = {
   bashls = { name = "Bash LS", priority = 20 },
   clangd = { name = "Clang LS", priority = 20 },
   dockerls = { name = "Docker LS", priority = 20 },
-  eslint = { name = "ESLint", priority = 20 },
+  eslint = { name = "ESLint", priority = 15 },
   gopls = { name = "Go LS", priority = 20 },
   jsonls = { name = "JSON LS", priority = 20 },
   lua_ls = { name = "Lua LS", priority = 20 },
@@ -12,6 +12,7 @@ local lsp_server_names = {
   terraformls = { name = "Terraform LS", priority = 20 },
   tsserver = { name = "Typescript LS", priority = 20 },
   yamlls = { name = "YAML LS", priority = 20 },
+  cssls = { name = "CSS LS", priority = 20 },
 }
 
 local lualine_config = function()
@@ -42,7 +43,7 @@ local lualine_config = function()
 
     local assorted = {}
     for _, lsp in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-      table.insert(assorted, lsp_server_names[lsp.name])
+      table.insert(assorted, lsp_server_names[lsp.name] or { name = lsp.name, priority = 15 })
     end
     table.sort(assorted, function(x, y)
       return x.priority >= y.priority
