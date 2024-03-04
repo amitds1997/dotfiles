@@ -1,6 +1,8 @@
 {{- if ne .chezmoi.os "darwin" -}}
 .finicky.js
 .config/brew
+bin/cron/cronlist
+bin/cron/executable_24h-updates.sh
 {{- else if ne .chezmoi.os "linux" -}}
 .arch_pkg_list.txt
 .config/fontconfig
