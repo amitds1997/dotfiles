@@ -7,14 +7,16 @@ bat
 bluez
 bluez-utils
 bun-bin
-bun-bin-debug
 chezmoi
 clight
 cliphist
+colima-bin
 dart-sass
 ddcutil
 discord
+docker-buildx
 docker-compose
+dunst
 efibootmgr
 fd
 firefox
@@ -47,6 +49,7 @@ libpulse
 libva-mesa-driver
 libva-nvidia-driver
 libva-utils
+lima-bin
 linux
 linux-firmware
 man-db
@@ -76,6 +79,7 @@ polkit-kde-agent
 pyenv
 python-gobject
 python-pywal
+qemu-base
 qt6ct
 reflector
 ripgrep
