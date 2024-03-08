@@ -104,11 +104,7 @@ docker: {}
 # vz is macOS virtualization framework and requires macOS 13
 #
 # Default: qemu
-{{- if eq .chezmoi.os "darwin" }}
 vmType: vz
-{{- else if eq .chezmoi.os "linux" }}
-vmType: qemu
-{{- end }}
 
 # Utilise rosetta for amd64 emulation (requires m1 mac and vmType `vz`)
 # Default: false
@@ -124,11 +120,7 @@ rosetta: false
 # of concurrent reads or writes).
 #
 # Default: virtiofs (for vz), sshfs (for qemu)
-{{- if eq .chezmoi.os "darwin" }}
 mountType: virtiofs
-{{- else if eq .chezmoi.os "linux" }}
-mountType: 9p
-{{- end }}
 
 # Propagate inotify file events to the VM.
 # NOTE: this is experimental.
@@ -188,3 +180,5 @@ mounts: []
 #
 # Default: {}
 env: {}
+
+# vim: ft=yaml

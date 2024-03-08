@@ -1,6 +1,7 @@
 {{- if ne .chezmoi.os "darwin" -}}
 .finicky.js
 .config/brew
+.colima
 bin/cron/cron_list
 bin/cron/24h-updates.sh
 {{- else if ne .chezmoi.os "linux" -}}
