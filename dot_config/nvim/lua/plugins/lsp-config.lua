@@ -15,6 +15,7 @@ local lsp_config = function()
     "marksman",
     "yamlls",
     "ruff_lsp",
+    "rust_analyzer",
   }
 
   local ensure_lsp_installed = {

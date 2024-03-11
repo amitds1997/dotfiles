@@ -22,6 +22,7 @@ local treesitter_config = function()
       "markdown_inline",
       "python",
       "regex",
+      "rust",
       "scala",
       "sql",
       "typescript",

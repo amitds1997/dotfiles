@@ -10,18 +10,33 @@ mattmc3/zephyr path:plugins/history
 mattmc3/zephyr path:plugins/utility
 mattmc3/zephyr path:plugins/zfunctions
 
-# Utility plugins
-ohmyzsh/ohmyzsh path:plugins/extract
-zdharma-continuum/fast-syntax-highlighting
+# Vim plugin
+jeffreytse/zsh-vi-mode
+
+# FZF handler
+Aloxaf/fzf-tab
 
 # Completion plugins
 zsh-users/zsh-completions path:src kind:fpath
-mattmc3/zephyr path:plugins/completion
 zsh-users/zsh-autosuggestions
 MichaelAquilina/zsh-you-should-use
+
+# Custom completion scripts
+$ZDOTDIR/completions kind:fpath
+
+# Completion handler
+belak/zsh-utils path:completion
+# mattmc3/zephyr path:plugins/completion
 
 # Final plugins
 mattmc3/zephyr path:plugins/confd
 zsh-users/zsh-history-substring-search
+
+# Oh-my-zsh plugins require compinit to have already been executed
+ohmyzsh/ohmyzsh path:plugins/extract
+
+# Utility plugins
+zdharma-continuum/fast-syntax-highlighting
+
 
 # vim: ft=zsh sw=2 ts=2 et

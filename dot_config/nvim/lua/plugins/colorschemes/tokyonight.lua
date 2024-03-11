@@ -41,6 +41,9 @@ local function tokyonight_config()
         bg = c.fg_dark,
         fg = c.bg_dark,
       }
+      hl.LspInlayHint = {
+        link = "Comment",
+      }
     end,
   })
 end

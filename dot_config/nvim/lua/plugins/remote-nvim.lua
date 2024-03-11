@@ -34,11 +34,9 @@ end
 return {
   "amitds1997/remote-nvim.nvim",
   version = "*",
-  -- branch = "refactor/param-to-opts",
-  -- branch = "feat/offline-mode-plugin-copy",
+  -- branch = "feat/add-system-and-build-neovim",
   config = remote_nvim_config,
   event = "CmdlineEnter",
-  -- dev = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
