@@ -62,10 +62,10 @@ local lualine_config = function()
 
   require("lualine").setup({
     options = {
-      theme = require("core.vars").colorscheme,
+      theme = require("core.vars").statusline_colorscheme,
       component_separators = "|",
       section_separators = { left = "", right = "" },
-      disabled_filetypes = require("core.vars").ignore_filetypes,
+      disabled_filetypes = require("core.vars").ignore_buftypes,
     },
     sections = {
       lualine_a = {
@@ -110,7 +110,7 @@ local lualine_config = function()
         file_component,
       },
     },
-    extensions = { "lazy", "nvim-tree", "quickfix", "trouble", "nvim-dap-ui" },
+    extensions = { "lazy", "oil", "quickfix", "nvim-dap-ui" },
   })
 end
 

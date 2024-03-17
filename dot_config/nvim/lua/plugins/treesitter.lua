@@ -1,45 +1,17 @@
 local treesitter_config = function()
   require("nvim-treesitter.configs").setup({
-    ensure_installed = {
-      "bash",
-      "c",
-      "comment",
-      "cpp",
-      "dockerfile",
-      "git_config",
-      "git_rebase",
-      "gitcommit",
-      "gitignore",
-      "go",
-      "ini",
-      "vimdoc",
-      "json",
-      "jsonc",
-      "javascript",
-      "lua",
-      "make",
-      "markdown",
-      "markdown_inline",
-      "python",
-      "regex",
-      "rust",
-      "scala",
-      "sql",
-      "typescript",
-      "toml",
-      "vim",
-      "yaml",
-      "hyprlang",
-    },
+    ensure_installed = require("core.vars").treesitter_parsers,
     sync_install = false,
     auto_install = true,
     highlight = {
       enable = true,
       disable = function(_, bufnr)
-        local max_filesize = 1024 * 1024 -- 1 MiB
-        local max_lines = 15000 -- Max 15000 lines will be rendered, else treesitter will be disabled
+        local max_lines = 8000 -- Max 15000 lines will be rendered, else treesitter will be disabled
         local ok, stats = pcall(require("core.utils").uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-        if (ok and stats and stats.size > max_filesize) or vim.api.nvim_buf_line_count(bufnr) > max_lines then
+        if
+          (ok and stats and stats.size > require("core.vars").max_filesize)
+          or vim.api.nvim_buf_line_count(bufnr) > max_lines
+        then
           return true
         end
       end,
@@ -69,8 +41,12 @@ local treesitter_config = function()
     },
   })
 
+  -- Specify parser for specific file patterns
   vim.filetype.add({
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
+    extension = {
+      tmpl = "gotmpl",
+    },
   })
 end
 

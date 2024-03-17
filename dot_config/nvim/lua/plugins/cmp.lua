@@ -136,11 +136,17 @@ local cmp_config = function()
         keyword_length = 0,
         priority = 100,
       },
-      { name = "luasnip", option = { show_autosnippets = true }, priority = 130 },
-    }, {
+      { name = "luasnip", option = { show_autosnippets = true }, priority = 130, max_item_count = 5 },
+      {
+        name = "async_path",
+        option = {
+          trailing_slash = false,
+          label_trailing_slash = true,
+          show_hidden_files_by_default = true,
+        },
+      },
       {
         name = "buffer",
-        max_item_count = 10,
         priority = 30,
         option = {
           get_bufnrs = function()
@@ -217,5 +223,8 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",
     "saadparwaiz1/cmp_luasnip",
+    {
+      "https://codeberg.org/FelipeLema/cmp-async-path",
+    },
   },
 }

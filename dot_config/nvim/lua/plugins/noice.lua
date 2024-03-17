@@ -1,8 +1,7 @@
-local function nvim_notify_setup()
-  local nonicons_extention = require("nvim-nonicons.extentions.nvim-notify")
+local constants = require("core.constants")
 
+local function nvim_notify_setup()
   require("notify").setup({
-    icons = nonicons_extention.icons,
     background_colour = "#000000",
   })
 end
@@ -53,6 +52,20 @@ local function noice_setup()
     views = {
       mini = {
         size = { height = "auto", width = "auto", max_height = 5 },
+      },
+      cmdline_popup = {
+        border = {
+          padding = { 0, 1 },
+          style = constants.border_styles.rounded,
+        },
+        filter_options = {},
+        win_options = {
+          winhighlight = {
+            NormalFloat = "NormalFloat",
+            FloatTitle = "TelescopePromptTitle",
+            FloatBorder = "TelescopePromptBorder",
+          },
+        },
       },
     },
     routes = {

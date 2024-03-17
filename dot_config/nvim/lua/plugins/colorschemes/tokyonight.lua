@@ -46,6 +46,8 @@ local function tokyonight_config()
       }
     end,
   })
+
+  vim.cmd([[colorscheme tokyonight]])
 end
 
 return {

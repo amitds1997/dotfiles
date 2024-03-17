@@ -1,6 +1,6 @@
 local lsp_config = function()
   local lspconfig = require("lspconfig")
-  local python_exec_path = vim.fn.exepath("python")
+  local python_interpreter_path = vim.fn.exepath("python")
   local mason_lspconfig = require("mason-lspconfig")
 
   require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -34,12 +34,16 @@ local lsp_config = function()
   local function on_attach(client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    if client.server_capabilities.documentSymbolProvider then
-      require("nvim-navbuddy").attach(client, bufnr)
-    end
-
     if client.server_capabilities.inlayHintProvider then
       vim.lsp.inlay_hint.enable(bufnr, true)
+    end
+
+    if client.server_capabilities.codeLensProvider then
+      vim.lsp.codelens.refresh()
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+        buffer = bufnr,
+        callback = vim.lsp.codelens.refresh,
+      })
     end
 
     local bufopts = { buffer = bufnr }
@@ -47,59 +51,57 @@ local lsp_config = function()
 
     local wk_maps = {
       ["<leader>l"] = {
-        name = "lsp",
+        name = "LSP",
 
-        -- LSP movements
-        D = { lsp_buf.declaration, "Go to symbol declaration" },
-        i = {
-          function()
-            require("trouble").open("lsp_implementations")
-          end,
-          "Go to symbol implementations",
+        h = { lsp_buf.hover, "Show symbol hover info" },
+        s = {
+          name = "Symbol actions",
+
+          a = { "<cmd>Lspsaga finder<CR>", "Show all symbol details" },
+          c = { "<cmd>Lspsaga finder dec<CR>", "Show symbol declaration" },
+          d = { "<cmd>Lspsaga finder def<CR>", "Show symbol definition" },
+          i = { "<cmd>Lspsaga finder imp<CR>", "Show symbol implementations" },
+          r = { "<cmd>Lspsaga finder ref<CR>", "Show symbol references" },
+        },
+        g = {
+          name = "Go to definition",
+
+          d = { "<cmd>Lspsaga goto_definition<CR>", "Go to definition" },
+          t = { "<cmd>Lspsaga goto_type_definition<CR>", "Go to type definition" },
+        },
+        p = {
+          name = "Peek definition",
+
+          d = { "<cmd>Lspsaga peek_definition<CR>", "Peek symbol definition" },
+          t = { "<cmd>Lspsaga peek_type_definition<CR>", "Peek symbol type definition" },
+        },
+        c = {
+          name = "Code action + Call hierarchy",
+
+          a = { "<cmd>Lspsaga code_action<CR>", "Show possible code actions" },
+          i = { "<cmd>Lspsaga incoming_calls<CR>", "Show all incoming calls" },
+          o = { "<cmd>Lspsaga outgoing_calls<CR>", "Show all outgoing calls" },
         },
         d = {
-          function()
-            require("trouble").open("lsp_definitions")
-          end,
-          "Go to symbol definition",
+          name = "Document actions",
+          o = { "<cmd>Lspsaga outline<CR>", "Show document symbol outline" },
+          s = { "<cmd>Telescope lsp_document_symbols<CR>", "Search document symbols" },
         },
-        rr = {
-          function()
-            require("trouble").open("lsp_references")
-          end,
-          "Go to symbol references",
-        },
-        t = {
-          function()
-            require("trouble").open("lsp_type_definitions")
-          end,
-          "Go to type definitions",
-        },
+        e = {
+          name = "Extras",
 
-        -- Show LSP information
-        h = { lsp_buf.hover, "Show symbol hover info" },
-        s = { lsp_buf.signature_help, "Show symbol signature info" },
-        c = { lsp_buf.code_action, "Show code actions" },
-        n = { require("nvim-navbuddy").open, "Open symbol tree explorer" },
-        o = { require("lspconfig.ui.lspinfo"), "Display attached, active, and configured LSP servers" },
-
-        -- LSP changes
-        rn = {
+          o = { require("lspconfig.ui.lspinfo"), "Display attached, active, and configured LSP servers" },
+          c = { vim.lsp.codelens.run, "Run codelens on the line" },
+        },
+        r = {
           function()
             return ":IncRename " .. vim.fn.expand("<cword>")
           end,
           "Rename symbol",
           expr = true,
         },
-        f = {
-          function()
-            lsp_buf.format({ async = true })
-          end,
-          "Format code",
-        },
-
         w = {
-          name = "lsp-workspace",
+          name = "Workspace actions",
 
           a = { lsp_buf.add_workspace_folder, "Add workspace folder" },
           r = { lsp_buf.remove_workspace_folder, "Remove workspace folder" },
@@ -126,54 +128,32 @@ local lsp_config = function()
           capabilities = capabilities,
         })
       end,
+      gopls = function()
+        lspconfig.gopls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = require("plugins.lsp.server-config.gopls"),
+        })
+      end,
       jsonls = function()
         lspconfig.jsonls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = {
-            json = {
-              schemas = require("schemastore").json.schemas(),
-              validate = { enable = false },
-            },
-          },
+          settings = require("plugins.lsp.server-config.jsonls"),
         })
       end,
       yamlls = function()
         lspconfig.yamlls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = {
-            yaml = {
-              schemaStore = {
-                enable = false,
-                url = "",
-              },
-              schemas = require("schemastore").yaml.schemas(),
-            },
-          },
+          settings = require("plugins.lsp.server-config.yamlls"),
         })
       end,
       lua_ls = function()
         lspconfig.lua_ls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = {
-            Lua = {
-              runtime = {
-                version = "LuaJIT",
-              },
-              hint = {
-                enable = true,
-              },
-              format = {
-                -- stylua runs using conform
-                enable = false,
-              },
-            },
-            workspace = {
-              vim.env.VIMRUNTIME,
-            },
-          },
+          settings = require("plugins.lsp.server-config.lua_ls"),
         })
       end,
       ruff_lsp = function()
@@ -188,22 +168,7 @@ local lsp_config = function()
         lspconfig.pyright.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = {
-            pyright = {
-              disableOrganizeImports = true,
-            },
-            python = {
-              analysis = {
-                autoImportCompletions = true,
-                autoSearchPaths = true,
-                typeCheckingMode = "standard",
-                diagnosticMode = "workspace",
-                -- Add rules from here: https://microsoft.github.io/pyright/#/configuration?id=type-check-diagnostics-settings
-                diagnosticSeverityOverrides = {},
-              },
-              pythonPath = python_exec_path,
-            },
-          },
+          settings = require("plugins.lsp.server-config.pyright")(python_interpreter_path),
         })
       end,
     },
@@ -217,8 +182,8 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "SmiteshP/nvim-navbuddy",
     "smjonas/inc-rename.nvim",
+    "nvimdev/lspsaga.nvim",
     "b0o/schemastore.nvim", -- Enable schemas availability for JSON and YAML
     "hrsh7th/cmp-nvim-lsp",
   },

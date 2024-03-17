@@ -36,7 +36,7 @@ function L:bootstrap()
     },
     install = {
       missing = true,
-      colorscheme = { "habamax" },
+      colorscheme = { require("core.vars").colorscheme, "habamax" },
     },
     change_detection = { notify = false },
     checker = { enabled = true, notify = false },
@@ -81,21 +81,22 @@ function L:bootstrap()
   }
   lazy.setup("plugins", lazy_opts)
 
+  local function load_everything_else()
+    require("core.autocmds")
+    require("core.keymaps")
+    require("core.diagnostics")
+  end
+
   if vim.fn.argc(-1) == 0 then
     -- autocmds and keymaps can wait to load
     vim.api.nvim_create_autocmd("User", {
       group = vim.api.nvim_create_augroup("LazyVim", { clear = true }),
       pattern = "VeryLazy",
-      callback = function()
-        require("core.autocmds")
-        require("core.keymaps")
-      end,
+      callback = load_everything_else,
     })
   else
-    require("core.autocmds")
-    require("core.keymaps")
+    load_everything_else()
   end
-  vim.cmd.colorscheme(require("core.vars").colorscheme)
 end
 
 return L

@@ -1,5 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "runtime": {
+    "version": "LuaJIT"
+  },
   "completion": {
     "callSnippet": "Both",
     "keywordSnippet": "Both"
@@ -7,7 +10,14 @@
   "workspace": {
     "checkThirdParty": false,
     "library": [
-      "$VIMRUNTIME"
-    ]
+      "$VIMRUNTIME",
+      "lua",
+      "$XDG_DATA_HOME/nvim/lazy/telescope.nvim/lua"
+    ],
+    "ignoreDir": [
+      "tests",
+      "test"
+    ],
+    "userThirdParty": []
   }
 }

@@ -25,8 +25,23 @@ local telescope_config = function()
         },
       },
       mappings = {
-        i = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble },
-        n = { ["<c-t>"] = require("trouble.providers.telescope").open_with_trouble, ["<C-u>"] = false },
+        i = {
+          ["<C-g>"] = function(prompt_bufnr)
+            -- Use nvim-window-picker to choose the window by dynamically attaching a function
+            local action_set = require("telescope.actions.set")
+            local action_state = require("telescope.actions.state")
+
+            local picker = action_state.get_current_picker(prompt_bufnr)
+            picker.get_selection_window = function(pckr, _)
+              local picked_window_id = require("window-picker").pick_window() or vim.api.nvim_get_current_win()
+              -- Unbind after using so next instance of the picker acts normally
+              pckr.get_selection_window = nil
+              return picked_window_id
+            end
+
+            return action_set.edit(prompt_bufnr, "edit")
+          end,
+        },
       },
     },
     pickers = {
@@ -49,7 +64,15 @@ local telescope_config = function()
           },
           n = {
             ["q"] = actions.close,
-            ["d"] = actions.delete_buffer,
+            ["d"] = function(bufnr)
+              local current_picker = require("telescope.actions.state").get_current_picker(bufnr)
+              current_picker:delete_selection(function(selection)
+                local force = vim.api.nvim_get_option_value("buftype", {
+                  buf = selection.bufnr,
+                }) == "terminal"
+                require("mini.bufremove").delete(selection.bufnr, force)
+              end)
+            end,
             ["<Tab>"] = actions.move_selection_next,
             ["<S-Tab>"] = actions.move_selection_previous,
           },
@@ -59,6 +82,7 @@ local telescope_config = function()
   })
 
   local built_in = require("telescope.builtin")
+  telescope.load_extension("live_grep_args")
 
   require("which-key").register({
     ["<leader>t"] = {
@@ -72,7 +96,7 @@ local telescope_config = function()
       p = { telescope.extensions.projects.projects, "Open projects window" },
       r = { built_in.resume, "Resume last telescope operation" },
       t = { "<cmd>Telescope<CR>", "Open telescope" },
-      w = { built_in.live_grep, "Find word" },
+      w = { telescope.extensions.live_grep_args.live_grep_args, "Find word" },
       [":"] = { built_in.command_history, "Show commands executed recently and run them on <CR>" },
       ["/"] = { built_in.current_buffer_fuzzy_find, "Fuzzy find in the current buffer" },
     },
@@ -91,5 +115,11 @@ return {
       build = "make",
     },
     "folke/which-key.nvim",
+    {
+      "nvim-telescope/telescope-live-grep-args.nvim",
+      -- This will not install any breaking changes.
+      -- For major updates, this must be adjusted manually.
+      version = "^1.0.0",
+    },
   },
 }

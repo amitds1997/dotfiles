@@ -1,10 +1,4 @@
-local function conform_setup()
-  local pkg_list = { "stylua", "isort", "black", "sqlfmt", "mdformat", "yamlfix", "shfmt" }
-
-  for _, pkg in ipairs(pkg_list) do
-    require("custom.mason_installer"):install(pkg)
-  end
-
+local function install_mdformat_extra_packages()
   local mdformat = require("mason-registry").get_package("mdformat")
   mdformat:on("install:success", function()
     local pip_path = require("core.utils").path_join(mdformat:get_install_path(), "venv", "bin", "pip")
@@ -25,6 +19,15 @@ local function conform_setup()
       })
       :start()
   end)
+end
+
+local function conform_setup()
+  for _, pkg in ipairs(require("core.vars").formatters) do
+    require("custom.mason_installer"):install(pkg)
+  end
+
+  -- Special handling for mdformat
+  install_mdformat_extra_packages()
 
   local function handle_disabling_formatting(bufnr, default)
     -- Check if formatting has been disabled on the buffer
@@ -34,15 +37,16 @@ local function conform_setup()
     return default
   end
 
-  local js_formatter = { { "prettierd", "prettier", "lsp" } }
+  local js_formatter = { { "prettierd", "prettier" } }
   require("conform").setup({
     log_level = vim.log.levels.DEBUG,
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "isort", "black" },
-      markdown = { "mdformat", "injected" },
+      markdown = { "mdformat" },
       sql = { "sqlfmt" },
       yaml = { "yamlfix" },
+      go = { "goimports", "gofumpt" },
       sh = { "shfmt" },
       css = js_formatter,
       scss = js_formatter,

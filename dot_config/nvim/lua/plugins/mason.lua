@@ -6,6 +6,10 @@ local function mason_config()
       upgrade_pip = true,
     },
   })
+
+  for _, pkg in ipairs(require("core.vars").mason_auto_installed) do
+    require("custom.mason_installer"):install(pkg)
+  end
 end
 
 return {

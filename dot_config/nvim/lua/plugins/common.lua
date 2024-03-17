@@ -1,21 +1,7 @@
-local function load_nested(dir)
-  local path = require("core.utils").path_join(vim.fn.stdpath("config"), "lua", "plugins", dir)
-  assert(type(path) == "string", "Config path should be a string")
-
-  return require("core.utils").get_plugins(path)
-end
-
-local common_modules = {
+return {
   {
     "tpope/vim-sleuth",
     event = "InsertEnter",
-  },
-  {
-    "folke/todo-comments.nvim",
-    cmd = { "TodoTrouble" },
-    config = true,
-    event = "BufReadPost",
-    dependencies = { "nvim-lua/plenary.nvim" },
   },
   {
     "folke/which-key.nvim",
@@ -27,6 +13,9 @@ local common_modules = {
     opts = {
       window = {
         border = "rounded",
+      },
+      icons = {
+        group = "",
       },
     },
   },
@@ -62,7 +51,7 @@ local common_modules = {
           "lsp",
           "treesitter",
         },
-        filetypes_denylist = require("core.vars").ignore_filetypes,
+        filetypes_denylist = require("core.vars").ignore_buftypes,
       })
     end,
   },
@@ -93,9 +82,36 @@ local common_modules = {
     "ibhagwan/smartyank.nvim",
     event = "BufReadPost",
   },
+  {
+    "lukas-reineke/headlines.nvim",
+    event = "BufReadPost *.md",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true,
+  },
+  {
+    "norcalli/nvim-colorizer.lua",
+    event = "BufReadPost",
+    config = function()
+      require("colorizer").setup({
+        "*",
+        "!notify",
+      })
+    end,
+  },
+  {
+    "nmac427/guess-indent.nvim",
+    event = "BufReadPost",
+    opts = {
+      buftype_exclude = require("core.vars").ignore_buftypes,
+    },
+  },
+  {
+    "s1n7ax/nvim-window-picker",
+    name = "window-picker",
+    event = "VeryLazy",
+    version = "2.*",
+    opts = {
+      hint = "floating-big-letter",
+    },
+  },
 }
-
-common_modules = vim.list_extend(common_modules, load_nested("colorschemes"))
-common_modules = vim.list_extend(common_modules, load_nested("debugger"))
-
-return common_modules

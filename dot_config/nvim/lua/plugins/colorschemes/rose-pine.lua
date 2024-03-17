@@ -4,8 +4,12 @@ local function rose_pine_config()
   local telescope_bg_color = is_transparent and p.none or p.overlay
   local telescope_fg_color = is_transparent and p.none or p.rose
 
+  local title_hl = { bg = telescope_fg_color, fg = telescope_bg_color }
+  local border_hl = { bg = telescope_bg_color, fg = telescope_bg_color }
+
   require("rose-pine").setup({
     dim_inactive_windows = not is_transparent,
+    variant = "moon",
     extend_background_behind_borders = true,
     styles = {
       bold = true,
@@ -18,18 +22,21 @@ local function rose_pine_config()
       IlluminatedWordRead = { bg = p.highlight_med },
       IlluminatedWordWrite = { bg = p.highlight_med },
       TelescopeNormal = { bg = telescope_bg_color, fg = telescope_fg_color },
-      TelescopeBorder = { bg = telescope_bg_color, fg = telescope_bg_color },
+      TelescopeBorder = border_hl,
       TelescopePromptNormal = { bg = telescope_bg_color },
-      TelescopePromptBorder = { bg = telescope_bg_color, fg = telescope_bg_color },
-      TelescopePromptTitle = { bg = telescope_fg_color, fg = telescope_bg_color },
-      TelescopePreviewTitle = { bg = telescope_fg_color, fg = telescope_bg_color },
-      TelescopeResultsTitle = { bg = telescope_fg_color, fg = telescope_bg_color },
+      TelescopePromptBorder = border_hl,
+      TelescopePromptTitle = title_hl,
+      TelescopePreviewTitle = title_hl,
+      TelescopeResultsTitle = title_hl,
       TelescopeSelection = { fg = "text", bg = "highlight_med" },
       TelescopeSelectionCaret = { fg = "love", bg = "highlight_med" },
       TelescopeMultiSelection = { fg = "text", bg = "highlight_high" },
       TelescopeTitle = { fg = "base", bg = "love" },
+      LspInlayHint = { link = "Comment" },
     },
   })
+
+  vim.cmd([[colorscheme rose-pine]])
 end
 
 return {

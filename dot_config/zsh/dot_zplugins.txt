@@ -13,6 +13,10 @@ mattmc3/zephyr path:plugins/zfunctions
 # Vim plugin
 jeffreytse/zsh-vi-mode
 
+# Custom completion scripts
+$ZDOTDIR/completions kind:fpath
+
+
 # FZF handler
 Aloxaf/fzf-tab
 
@@ -20,9 +24,6 @@ Aloxaf/fzf-tab
 zsh-users/zsh-completions path:src kind:fpath
 zsh-users/zsh-autosuggestions
 MichaelAquilina/zsh-you-should-use
-
-# Custom completion scripts
-$ZDOTDIR/completions kind:fpath
 
 # Completion handler
 belak/zsh-utils path:completion

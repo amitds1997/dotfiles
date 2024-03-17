@@ -44,18 +44,7 @@ local function nvim_lint()
 end
 
 local function nvim_lint_config(_, opts)
-  local pkg_list = {
-    "selene",
-    "vulture",
-    "markdownlint",
-    "shellcheck",
-    "hadolint",
-    "jsonlint",
-    "golangci-lint",
-    "yamllint",
-    "sqlfluff",
-  }
-  for _, pkg in ipairs(pkg_list) do
+  for _, pkg in ipairs(require("core.vars").linters) do
     require("custom.mason_installer"):install(pkg)
   end
 
@@ -70,7 +59,7 @@ end
 
 return {
   "mfussenegger/nvim-lint",
-  event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+  event = { "BufReadPost", "BufNewFile", "BufWritePost" },
   opts = {
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     linters_by_ft = {

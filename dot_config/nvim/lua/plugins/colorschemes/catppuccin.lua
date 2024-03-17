@@ -3,6 +3,9 @@ return {
   name = "catppuccin",
   lazy = require("core.vars").colorscheme ~= "catppuccin",
   priority = 1000,
+  config = function()
+    vim.cmd([[colorscheme catppuccin]])
+  end,
   opts = {
     flavour = "mocha",
     background = { light = "latte", dark = "mocha" },
@@ -26,7 +29,6 @@ return {
         enabled = true,
         enabled_ui = true,
       },
-      lsp_trouble = true,
       which_key = true,
       illuminate = {
         enabled = true,

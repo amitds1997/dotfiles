@@ -1,19 +1,12 @@
 return {
+  ["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump to previous diagnostic" },
+  ["]d"] = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump to next diagnostic" },
   ["<leader>d"] = {
-    name = "diagnostic",
+    name = "Diagnostics",
 
-    w = { function () require("trouble").open("workspace_diagnostics") end, "Open workspace diagnostics" },
-    d = { function () require("trouble").open("document_diagnostics") end, "Open document diagnostics" },
-    l = { function () require("trouble").open("loclist") end, "Open loclist" },
-    q = { function () require("trouble").open("quickfix") end, "Open quickfix" },
-    ["]"] = { vim.diagnostic.goto_next, "Go to next diagnostic" },
-    ["["] = { vim.diagnostic.goto_prev, "Go to previous diagnostic" },
-
-    a = {
-      name = "diagnostic-add",
-
-      l = { vim.diagnostic.setloclist, "Add buffer diagnostics to loclist" },
-      q = { vim.diagnostic.setqflist, "Add all diagnostics to quicklist" },
-    }
-  }
+    c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Show diagnostic for the word under cursor" },
+    l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Show diagnostic for the line" },
+    b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Show diagnostic for the buffer" },
+    w = { "<cmd>Lspsaga show_workspace_diagnostics<CR>", "Show diagnostic for the workspace" },
+  },
 }

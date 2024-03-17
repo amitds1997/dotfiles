@@ -4,7 +4,6 @@ local U = {}
 U.is_windows = package.config:sub(1, 1) == "\\" and true or false
 U.path_sep = U.is_windows and "\\" or "/"
 U.uv = vim.fn.has("nvim-0.10") and vim.uv or vim.loop
-
 -- Join paths correctly using the correct path separator
 function U.path_join(...)
   return table.concat({ ... }, U.path_sep)

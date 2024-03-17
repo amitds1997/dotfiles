@@ -1,7 +1,3 @@
-local function explorer_toggle()
-  require("nvim-tree.api").tree.toggle { find_file = false, focus = true, update_root = false }
-end
-
 return {
   -- Move b/w windows
   ["<C-h>"] = { "<cmd>wincmd h<CR>", "Move to window on left" },
@@ -21,6 +17,6 @@ return {
 
     q = { "<cmd>close<CR>", "Close window" },
     o = { "<cmd>only<CR>", "Close every other window except current" },
-    e = { explorer_toggle, "Open directory explorer" },
+    e = { "<cmd>Oil --float<CR>", "Open directory explorer" },
   },
 }
