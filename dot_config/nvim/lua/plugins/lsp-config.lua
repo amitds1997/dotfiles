@@ -16,6 +16,7 @@ local lsp_config = function()
     "yamlls",
     "ruff_lsp",
     "rust_analyzer",
+    "texlab",
   }
 
   local ensure_lsp_installed = {
@@ -31,6 +32,9 @@ local lsp_config = function()
     end
   end
 
+  ---Function to execute on LSP getting attached
+  ---@param client vim.lsp.Client
+  ---@param bufnr any
   local function on_attach(client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
@@ -38,7 +42,10 @@ local lsp_config = function()
       vim.lsp.inlay_hint.enable(bufnr, true)
     end
 
-    if client.server_capabilities.codeLensProvider then
+    if
+      client.server_capabilities.codeLensProvider ~= nil
+      and not vim.tbl_isempty(client.server_capabilities.codeLensProvider)
+    then
       vim.lsp.codelens.refresh()
       vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
         buffer = bufnr,

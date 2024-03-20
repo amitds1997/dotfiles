@@ -46,3 +46,7 @@
     - neotest integration
     - venv selector
     - Auto f-strings
+
+## Fun stuff
+
+- Set up SQL highlighting in strings using nvim-treesitter in Python

@@ -4,7 +4,7 @@ return {
     "nvim-neotest/neotest-go",
     "nvim-neotest/neotest-plenary",
   },
-  event = { "VeryLazy", "LspAttach" },
+  event = { "LspAttach" },
   config = function()
     local neotest_ns = vim.api.nvim_create_namespace("neotest")
     vim.diagnostic.config({

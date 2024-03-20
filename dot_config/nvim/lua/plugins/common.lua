@@ -79,12 +79,6 @@ return {
     event = "BufReadPost",
   },
   {
-    "lukas-reineke/headlines.nvim",
-    event = "BufReadPost *.md",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    config = true,
-  },
-  {
     "norcalli/nvim-colorizer.lua",
     event = "BufReadPost",
     config = function()
@@ -109,5 +103,12 @@ return {
     opts = {
       hint = "floating-big-letter",
     },
+  },
+  {
+    "chrisgrieser/nvim-puppeteer",
+    lazy = false, -- As per docs, should lazy load itself automatically
+    init = function()
+      vim.g.puppeteer_disable_filetypes = {}
+    end,
   },
 }

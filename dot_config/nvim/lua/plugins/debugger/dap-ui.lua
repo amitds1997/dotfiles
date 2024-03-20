@@ -43,6 +43,7 @@ return {
       "theHamsta/nvim-dap-virtual-text",
       config = true,
     },
+    "nvim-neotest/nvim-nio",
   },
   config = dap_ui_config,
 }

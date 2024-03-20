@@ -44,10 +44,8 @@ local treesitter_config = function()
   -- Specify parser for specific file patterns
   vim.filetype.add({
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
-    extension = {
-      tmpl = "gotmpl",
-    },
   })
+  vim.treesitter.language.register("gotmpl", "template")
 end
 
 return {

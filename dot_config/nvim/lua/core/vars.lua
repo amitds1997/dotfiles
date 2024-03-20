@@ -1,9 +1,9 @@
 return {
   max_filesize = 1024 * 1024, -- 1 MiB
-  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"
-  colorscheme = "rose-pine",
-  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"
-  statusline_colorscheme = "rose-pine",
+  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"
+  colorscheme = "kanagawa",
+  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"
+  statusline_colorscheme = "kanagawa",
   ---@type boolean
   transparent_background = true,
   oil = {
@@ -73,7 +73,7 @@ return {
     "stylua",
     "isort",
     "black",
-    "sqlfmt",
+    "sql-formatter",
     "mdformat",
     "yamlfix",
     "shfmt",

@@ -44,7 +44,7 @@ local function conform_setup()
       lua = { "stylua" },
       python = { "isort", "black" },
       markdown = { "mdformat" },
-      sql = { "sqlfmt" },
+      sql = { "sql_formatter" },
       yaml = { "yamlfix" },
       go = { "goimports", "gofumpt" },
       sh = { "shfmt" },
