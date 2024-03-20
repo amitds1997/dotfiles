@@ -2,6 +2,6 @@
 
 CHEZMOI_SYNC_PATH=$1
 
-echo "Syncing $CHEZMOI_SYNC_PATH"
+echo "Syncing $CHEZMOI_SYNC_PATH to chezmoi configuration"
 chezmoi forget "$CHEZMOI_SYNC_PATH"
 chezmoi add "$CHEZMOI_SYNC_PATH"

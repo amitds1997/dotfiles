@@ -29,6 +29,7 @@ go
 grim
 gst-plugin-pipewire
 htop
+hyprcursor-git
 hypridle-git
 hyprland-git
 hyprlock-git
