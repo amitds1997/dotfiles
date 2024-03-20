@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+CHEZMOI_SYNC_PATH=$1
+
+echo "Syncing $CHEZMOI_SYNC_PATH"
+chezmoi forget "$CHEZMOI_SYNC_PATH"
+chezmoi add "$CHEZMOI_SYNC_PATH"
