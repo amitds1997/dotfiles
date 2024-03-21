@@ -45,7 +45,6 @@
   - [Python improvements](https://www.lazyvim.org/extras/lang/python)
     - neotest integration
     - venv selector
-    - Auto f-strings
 
 ## Fun stuff
 

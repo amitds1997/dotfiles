@@ -1,6 +1,7 @@
-import "lib/session"
+import "lib/session";
+import PowerMenu from "widgets/powermenu/PowerMenu";
+import Verification from "widgets/powermenu/Verification";
 
 App.config({
-  onConfigParsed: () => {},
-  windows: [],
-})
+  windows: () => [PowerMenu(), Verification()],
+});

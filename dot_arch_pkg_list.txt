@@ -64,6 +64,7 @@ nvidia
 nvidia-prime
 nvidia-settings
 nvtop
+nwg-look
 obs-studio
 openssh
 otf-font-awesome

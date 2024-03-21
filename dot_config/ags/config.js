@@ -1,22 +1,47 @@
-const entry = App.configDir + "/main.ts";
-const outdir = "/tmp/ags/js";
+import GLib from "gi://GLib";
+
+const main = "/tmp/ags/main.js";
+const entry = `${App.configDir}/main.ts`;
+const bundler = GLib.getenv("AGS_BUNDLER") || "bun";
 
 try {
-  await Utils.execAsync([
-    "bun",
-    "build",
-    entry,
-    "--outdir",
-    outdir,
-    "--external",
-    "resource://*",
-    "--external",
-    "gi://*",
-  ]);
+  switch (bundler) {
+    case "bun":
+      await Utils.execAsync([
+        "bun",
+        "build",
+        entry,
+        "--outfile",
+        main,
+        "--external",
+        "resource://*",
+        "--external",
+        "gi://*",
+        "--external",
+        "file://*",
+      ]);
+      break;
+
+    case "esbuild":
+      await Utils.execAsync([
+        "esbuild",
+        "--bundle",
+        entry,
+        "--format=esm",
+        `--outfile=${main}`,
+        "--external:resource://*",
+        "--external:gi://*",
+        "--external:file://*",
+      ]);
+      break;
+
+    default:
+      throw `"${bundler}" is not a valid bundler`;
+  }
+  await import(`file://${main}`);
 } catch (error) {
   console.error(error);
 }
 
-const main = await import(`file://${outdir}/main.js`);
+export {};
 
-export default main.default;

@@ -42,7 +42,7 @@ esac
 
 if [ "$CURRENT_WALLPAPER" != "$LAST_APPLIED_WALLPAPER" ]; then
 	swww img "${CURRENT_WALLPAPER}" --transition-fps 30 --transition-type center --transition-duration 1
-	wal -i "${CURRENT_WALLPAPER}" -n -q
+	wal -i "${CURRENT_WALLPAPER}" -n -s -t -q
 
 	# If everything succeeded, write this as the last applied wallpaper
 	echo "$CURRENT_WALLPAPER" >"$WALLPAPER_CACHE_FILE"
