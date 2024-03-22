@@ -1,17 +1,17 @@
-import options from "options";
-import type Gtk from "gi://Gtk?version=3.0";
-import { EventBoxProps } from "types/widgets/eventbox";
-import { type RevealerProps } from "types/widgets/revealer";
-import { type WindowProps } from "types/widgets/window";
+import options from "options"
+import type Gtk from "gi://Gtk?version=3.0"
+import { EventBoxProps } from "types/widgets/eventbox"
+import { type RevealerProps } from "types/widgets/revealer"
+import { type WindowProps } from "types/widgets/window"
 
-type Transition = RevealerProps["transition"];
-type Child = WindowProps["child"];
+type Transition = RevealerProps["transition"]
+type Child = WindowProps["child"]
 
 type PopupWindowProps = Omit<WindowProps, "name"> & {
-  name: string;
-  layout?: keyof ReturnType<typeof Layout>;
-  transition?: Transition;
-};
+  name: string
+  layout?: keyof ReturnType<typeof Layout>
+  transition?: Transition
+}
 
 export const Padding = (
   name: string,
@@ -23,7 +23,7 @@ export const Padding = (
     can_focus: false,
     child: Widget.Box({ css }),
     setup: (w) => w.on("button-press-event", () => App.toggleWindow(name)),
-  });
+  })
 
 const PopupRevealer = (
   name: string,
@@ -43,10 +43,10 @@ const PopupRevealer = (
       transition_duration: options.transition.bind(),
       setup: (self) =>
         self.hook(App, (_, wname, visible) => {
-          if (wname == name) self.reveal_child = visible;
+          if (wname == name) self.reveal_child = visible
         }),
     }),
-  );
+  )
 
 const Layout = (name: string, child: Child, transition?: Transition) => ({
   center: () =>
@@ -134,7 +134,7 @@ const Layout = (name: string, child: Child, transition?: Transition) => ({
       ),
       Padding(name),
     ),
-});
+})
 
 export default ({
   name,
@@ -155,4 +155,4 @@ export default ({
     anchor: ["top", "left", "right", "bottom"],
     child: Layout(name, child, transition)[layout](),
     ...props,
-  });
+  })

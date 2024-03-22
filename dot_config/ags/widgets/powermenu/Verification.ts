@@ -1,5 +1,5 @@
-import powermenu from "services/powermenu";
-import PopupWindow from "widgets/window/PopupWindow";
+import powermenu from "services/powermenu"
+import PopupWindow from "widgets/window/PopupWindow"
 
 export default () =>
   PopupWindow({
@@ -34,18 +34,18 @@ export default () =>
               on_clicked: () => App.toggleWindow("verification"),
               setup: (self) =>
                 self.hook(App, (_, name: string, visible: boolean) => {
-                  if (name === "verification" && visible) self.grab_focus();
+                  if (name === "verification" && visible) self.grab_focus()
                 }),
             }),
             Widget.Button({
               child: Widget.Label("Yes"),
               on_clicked: () => {
-                App.toggleWindow("verification");
-                Utils.execAsync(powermenu.cmd);
+                App.toggleWindow("verification")
+                Utils.execAsync(powermenu.cmd)
               },
             }),
           ],
         }),
       ],
     }),
-  });
+  })

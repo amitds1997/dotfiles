@@ -1,4 +1,4 @@
-import options from "options";
+import options from "options"
 
 export type Action =
   | "suspend"
@@ -6,10 +6,9 @@ export type Action =
   | "logout"
   | "shutdown"
   | "lock"
-  | "hibernate";
+  | "hibernate"
 
-const { suspend, reboot, logout, shutdown, lock, hibernate } =
-  options.powermenu;
+const { suspend, reboot, logout, shutdown, lock, hibernate } = options.powermenu
 
 class PowerMenu extends Service {
   static {
@@ -20,42 +19,42 @@ class PowerMenu extends Service {
         title: ["string"],
         cmd: ["string"],
       },
-    );
+    )
   }
 
-  #title = "";
-  #cmd = "";
+  #title = ""
+  #cmd = ""
 
   get title() {
-    return this.#title;
+    return this.#title
   }
 
   get cmd() {
-    return this.#cmd;
+    return this.#cmd
   }
 
   action(action: Action) {
-    [this.#cmd, this.#title] = {
+    ;[this.#cmd, this.#title] = {
       suspend: [suspend.value, "Suspend"],
       reboot: [reboot.value, "Reboot"],
       logout: [logout.value, "Log out"],
       shutdown: [shutdown.value, "Shutdown"],
       lock: [lock.value, "Lock"],
       hibernate: [hibernate.value, "Hibernate"],
-    }[action];
+    }[action]
 
-    this.notify("cmd");
-    this.notify("title");
-    this.emit("changed");
-    App.closeWindow("powermenu");
-    App.openWindow("verification");
+    this.notify("cmd")
+    this.notify("title")
+    this.emit("changed")
+    App.closeWindow("powermenu")
+    App.openWindow("verification")
   }
 
   readonly shutdown = () => {
-    this.action("shutdown");
-  };
+    this.action("shutdown")
+  }
 }
 
-const powermenu = new PowerMenu();
-Object.assign(globalThis, { powermenu });
-export default powermenu;
+const powermenu = new PowerMenu()
+Object.assign(globalThis, { powermenu })
+export default powermenu

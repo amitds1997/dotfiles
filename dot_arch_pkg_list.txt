@@ -14,7 +14,6 @@ cliphist
 dart-sass
 ddcutil
 discord
-dunst
 efibootmgr
 fd
 firefox

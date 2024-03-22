@@ -1,10 +1,10 @@
-import Gtk from "gi://Gtk?version=3.0";
-import icons from "lib/icons";
-import options from "options";
-import powermenu, { type Action } from "services/powermenu";
-import PopupWindow from "widgets/window/PopupWindow";
+import Gtk from "gi://Gtk?version=3.0"
+import icons from "lib/icons"
+import options from "options"
+import powermenu, { type Action } from "services/powermenu"
+import PopupWindow from "widgets/window/PopupWindow"
 
-const { layout, labels } = options.powermenu;
+const { layout, labels } = options.powermenu
 
 const SysButton = (action: Action, label: string) =>
   Widget.Button({
@@ -20,7 +20,7 @@ const SysButton = (action: Action, label: string) =>
         }),
       ],
     }),
-  });
+  })
 
 export default () =>
   PopupWindow({
@@ -30,8 +30,8 @@ export default () =>
       class_name: "powermenu horizontal",
       setup: (self) =>
         self.hook(layout, () => {
-          self.toggleClassName("box", layout.value === "box");
-          self.toggleClassName("line", layout.value === "line");
+          self.toggleClassName("box", layout.value === "box")
+          self.toggleClassName("line", layout.value === "line")
         }),
       children: layout.bind().as((layout) => {
         switch (layout) {
@@ -43,7 +43,7 @@ export default () =>
               SysButton("hibernate", "Hibernate"),
               SysButton("shutdown", "Shut down"),
               SysButton("reboot", "Reboot"),
-            ];
+            ]
           case "box":
             return [
               Widget.Box(
@@ -58,8 +58,8 @@ export default () =>
                 SysButton("shutdown", "Shut down"),
                 SysButton("reboot", "Reboot"),
               ),
-            ];
+            ]
         }
       }),
     }),
-  });
+  })
