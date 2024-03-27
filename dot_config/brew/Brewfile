@@ -85,6 +85,7 @@ brew "docker"
 brew "docker-buildx", link: false
 brew "docker-compose", link: false
 brew "docutils"
+brew "eza"
 brew "fd"
 brew "isl"
 brew "mpfr"

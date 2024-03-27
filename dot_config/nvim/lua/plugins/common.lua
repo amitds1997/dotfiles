@@ -104,11 +104,4 @@ return {
       hint = "floating-big-letter",
     },
   },
-  {
-    "chrisgrieser/nvim-puppeteer",
-    lazy = false, -- As per docs, should lazy load itself automatically
-    init = function()
-      vim.g.puppeteer_disable_filetypes = {}
-    end,
-  },
 }

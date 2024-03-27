@@ -3,6 +3,7 @@ local utils = require("core.utils")
 
 -- Set mapleader
 g.mapleader = " "
+g.maplocalleader = " "
 vim.keymap.set({ "n", "x", "v" }, g.mapleader, "", { noremap = true })
 
 -- Disable loading extra providers
@@ -96,12 +97,13 @@ o.completeopt = "menu,menuone,noselect" -- Completion menu style
 o.scrolloff = 4 -- Stay 4 lines away from top-bottom border
 o.sidescrolloff = 8 -- Stay 8 characters away from left-right border
 
--- Search options
+-- Search and substitute options
 o.hlsearch = true
 o.incsearch = true
 o.ignorecase = true -- Ignore case when searching
 o.smartcase = true -- Follow ignore case unless there is a capital, then case-sensitive
 o.tagcase = "followscs" -- When searching tag files, follow smartcase
+o.inccommand = "split" -- Show substitutions in a partial off-window
 
 -- Wrapping options
 o.wrap = true

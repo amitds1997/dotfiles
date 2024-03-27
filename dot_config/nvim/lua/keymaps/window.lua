@@ -17,6 +17,11 @@ return {
 
     q = { "<cmd>close<CR>", "Close window" },
     o = { "<cmd>only<CR>", "Close every other window except current" },
-    e = { "<cmd>Oil --float<CR>", "Open directory explorer" },
+    e = {
+      function()
+        require("mini.files").open()
+      end,
+      "Open directory explorer",
+    },
   },
 }
