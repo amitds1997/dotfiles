@@ -19,12 +19,7 @@ return {
     s = { "<cmd>setlocal spell!<CR>", "Toggle spellcheck" },
     l = { "<cmd>luafile %<CR>", "Run luafile" },
     m = { "<cmd>Mason<CR>", "Open Mason" },
-    n = {
-      function()
-        require("notify").dismiss()
-      end,
-      "Dismiss active notifications",
-    },
+    n = { "<cmd>Noice dismiss<CR>", "Dismiss active notifications" },
     f = {
       function()
         vim.b.disable_autoformat = not (vim.b.disable_autoformat or false)

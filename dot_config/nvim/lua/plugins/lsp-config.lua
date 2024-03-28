@@ -2,6 +2,7 @@ local lsp_config = function()
   local lspconfig = require("lspconfig")
   local python_interpreter_path = vim.fn.exepath("python")
   local mason_lspconfig = require("mason-lspconfig")
+  local lsp_protocol_methods = vim.lsp.protocol.Methods
 
   require("lspconfig.ui.windows").default_options.border = "rounded"
 
@@ -38,11 +39,11 @@ local lsp_config = function()
   local function on_attach(client, bufnr)
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
-    if client.supports_method("textDocument/inlayHint") then
+    if client.supports_method(lsp_protocol_methods.textDocument_inlayHint) then
       vim.lsp.inlay_hint.enable(bufnr, true)
     end
 
-    if client.supports_method("textDocument/codeLens") then
+    if client.supports_method(lsp_protocol_methods.textDocument_codeLens) then
       vim.lsp.codelens.refresh()
       vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
         buffer = bufnr,

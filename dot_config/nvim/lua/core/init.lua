@@ -111,6 +111,7 @@ function L:bootstrap()
     require("core.autocmds")
     require("core.keymaps")
     require("core.diagnostics")
+    require("filetype")
   end
 
   if vim.fn.argc(-1) == 0 then
