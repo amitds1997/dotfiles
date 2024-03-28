@@ -22,6 +22,8 @@ if [[ $(uname) == "Darwin" ]]; then
   export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_332)
   path=(
     /opt/homebrew/{,s}bin(N)
+    /usr/local/opt/llvm/bin
     $path
   )
+  export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 fi

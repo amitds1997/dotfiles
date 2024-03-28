@@ -35,6 +35,7 @@ zsh-users/zsh-history-substring-search
 
 # Oh-my-zsh plugins require compinit to have already been executed
 ohmyzsh/ohmyzsh path:plugins/extract
+ohmyzsh/ohmyzsh path:plugins/git
 
 # Utility plugins
 zdharma-continuum/fast-syntax-highlighting

@@ -76,7 +76,7 @@ brew "snappy"
 brew "vde"
 brew "qemu"
 brew "lima"
-brew "colima"
+brew "colima", restart_service: true
 brew "commitizen"
 brew "coreutils"
 brew "ctop"
