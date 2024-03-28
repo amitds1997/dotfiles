@@ -20,19 +20,11 @@ local lualine_config = function()
 
   local icons = require("nvim-nonicons")
   local devicons = require("nvim-web-devicons")
-  local mode = {
-    NORMAL = { icon = icons.get("vim-normal-mode") },
-    INSERT = { icon = icons.get("vim-insert-mode") },
-    VISUAL = { icon = icons.get("vim-visual-mode") },
-    REPLACE = { icon = icons.get("vim-replace-mode") },
-    COMMAND = { icon = icons.get("vim-command-mode") },
-    ["V-LINE"] = { icon = icons.get("vim-visual-mode") },
-  }
   local file_component = {
     "filename",
     symbols = {
       unnamed = "",
-      modified = icons.get("pencil") .. " ",
+      modified = icons.get("dot-fill"),
       readonly = icons.get("lock"),
     },
   }
@@ -63,20 +55,17 @@ local lualine_config = function()
   require("lualine").setup({
     options = {
       theme = require("core.vars").statusline_colorscheme,
-      component_separators = "|",
-      section_separators = { left = "", right = "" },
+      component_separators = "┃",
+      section_separators = "",
       disabled_filetypes = require("core.vars").ignore_buftypes,
     },
     sections = {
       lualine_a = {
         {
           "mode",
-          fmt = function(mode_str)
-            if mode[mode_str] ~= nil then
-              return mode[mode_str].icon .. " "
-            end
-            return mode_str:sub(1, 1)
-          end,
+          icons_enabled = true,
+          separator = { left = "" },
+          padding = { right = 1 },
         },
       },
       lualine_b = {
@@ -97,20 +86,31 @@ local lualine_config = function()
       },
       lualine_x = {
         {
-          require("noice").api.status.mode.get,
+          require("noice").api.status.mode.get_hl,
           cond = require("noice").api.status.mode.has,
-          color = { bg = "NoiceCmdline" },
+        },
+        "selectioncount",
+      },
+      lualine_y = {
+        "location",
+      },
+      lualine_z = {
+        {
+          get_lsp_clients,
+        },
+        {
+          "progress",
+          separator = { right = "" },
+          padding = { left = 1 },
         },
       },
-      lualine_y = { { "location", icon = "" } },
-      lualine_z = { get_lsp_clients },
     },
     inactive_sections = {
       lualine_c = {
         file_component,
       },
     },
-    extensions = { "lazy", "oil", "quickfix", "nvim-dap-ui" },
+    extensions = { "lazy", "quickfix", "nvim-dap-ui" },
   })
 end
 
