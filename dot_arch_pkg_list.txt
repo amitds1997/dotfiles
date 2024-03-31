@@ -116,7 +116,6 @@ vdpauinfo
 vlc
 vulkan-radeon
 vulkan-tools
-waybar
 wayland-protocols
 wezterm
 wf-recorder

@@ -48,7 +48,8 @@ class ColorPicker extends Service {
     this.#notifID = await Utils.notify({
       id: this.#notifID,
       iconName: icons.ui.colorpicker,
-      summary: color,
+      body: `Selected color is ${color}`,
+      summary: "Color Picker",
     })
   }
 }
