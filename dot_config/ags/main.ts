@@ -10,10 +10,11 @@ import Overview from "widgets/overview/Overview"
 import PowerMenu from "widgets/powermenu/PowerMenu"
 import Verification from "widgets/powermenu/Verification"
 import { setupQuickSettings } from "widgets/quicksettings/QuickSettings"
+import init from "lib/init"
 
 App.config({
   onConfigParsed: () => {
-    setupQuickSettings(), setupDateMenu()
+    setupQuickSettings(), setupDateMenu(), init()
   },
   windows: () => [
     ...forMonitors(Bar),

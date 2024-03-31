@@ -60,6 +60,7 @@ export default {
     settings: "emblem-system-symbolic",
   },
   battery: {
+    charged: "battery-full-symbolic",
     charging: "battery-good-charging-symbolic",
     warning: "battery-empty-symbolic",
   },

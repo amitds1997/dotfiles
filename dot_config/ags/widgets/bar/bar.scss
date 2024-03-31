@@ -199,24 +199,6 @@ $button-radius: $radius;
       }
     }
 
-    @for $i from 1 through $bar-battery-blocks {
-      block:nth-child(#{$i}).filled {
-        background-color: color.mix($bg, $primary-bg, $i * 3);
-      }
-
-      &.low block:nth-child(#{$i}).filled {
-        background-color: color.mix($bg, $error-bg, $i * 3);
-      }
-
-      &.charging block:nth-child(#{$i}).filled {
-        background-color: color.mix($bg, $charging-bg, $i * 3);
-      }
-
-      &:active .regular block:nth-child(#{$i}).filled {
-        background-color: color.mix($bg, $primary-fg, $i * 3);
-      }
-    }
-
     &.low image {
       color: $error-bg;
     }

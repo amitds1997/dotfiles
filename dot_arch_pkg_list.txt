@@ -78,7 +78,6 @@ pipewire
 pipewire-alsa
 pipewire-jack
 pipewire-pulse
-playerctl
 podman
 podman-compose
 podman-docker

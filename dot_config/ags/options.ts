@@ -134,8 +134,6 @@ const options = mkOptions(OPTIONS, {
       low: opt(20),
       bar: opt<"hidden" | "regular" | "whole">("regular"),
       charging: opt("#00D787"),
-      blocks: opt(7),
-      width: opt(50),
     },
     media: {
       monochrome: opt(true),

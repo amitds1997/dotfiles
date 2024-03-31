@@ -150,7 +150,7 @@ export const Media = () =>
     class_name: "media vertical",
     children: players.as((p) =>
       p
-        .filter((p) => p.bus_name != "org.mpris.MediaPlayer2.playerctld")
+        // .filter((p) => p.bus_name != "org.mpris.MediaPlayer2.playerctld")
         .map(Player),
     ),
   })
