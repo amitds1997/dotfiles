@@ -20,6 +20,10 @@
 
 ## New features
 
+- [ ] Add volume, brightness OSD
+- [ ] Add NumLock, CapsLock, Microphone, Camera indicator, Screen
+  recording indicator (with a bright color)
+- [ ] Set transition for closing pop down windows
 - [ ] Add launcher icon (hyprland icon to the left)
 - [ ] Inhibit flag?
 - [ ] Switch b/w light and dark mode?
@@ -28,6 +32,8 @@
 - [ ] Replace rofi-wallpaper with ags
 - [ ] Add notifications when your battery is low
 - [ ] Instead of exiting when shutting down, give apps some time to quit (pls!)
+- [ ] Allow bigger scroll for Application launcher
+- [ ] Add tomato timer similar to [Tomato.C](https://github.com/gabrielzschmitz/Tomato.C)
 
 ## Later
 

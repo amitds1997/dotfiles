@@ -116,7 +116,6 @@ vlc
 vulkan-radeon
 vulkan-tools
 wayland-protocols
-wezterm
 wf-recorder
 wget
 wireplumber
