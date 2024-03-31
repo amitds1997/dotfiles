@@ -22,7 +22,12 @@ return {
         gitsigns = true,
         noice = true,
         notify = true,
-        mini = true,
+        mini = {
+          enabled = true,
+          indentscope_color = "lavender",
+        },
+        neotest = true,
+        neogit = true,
         dap = {
           enabled = true,
           enabled_ui = true,

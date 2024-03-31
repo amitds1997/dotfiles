@@ -10,7 +10,6 @@
 ## Wish list
 
 - Tooltip generator. Teaches you something new about Neovim.
-- Integrate oil with [window-picker](https://github.com/s1n7ax/nvim-window-picker)
 - Mason independent command runner that can be hooked anywhere in the setup
 - Make mason installations more robust with bells and whistles
 - Add disabled neovim on large files. For now, just do `nvim --clean`

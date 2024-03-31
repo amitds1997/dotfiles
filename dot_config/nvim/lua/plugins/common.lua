@@ -95,13 +95,4 @@ return {
       buftype_exclude = require("core.vars").ignore_buftypes,
     },
   },
-  {
-    "s1n7ax/nvim-window-picker",
-    name = "window-picker",
-    event = "VeryLazy",
-    version = "2.*",
-    opts = {
-      hint = "floating-big-letter",
-    },
-  },
 }
