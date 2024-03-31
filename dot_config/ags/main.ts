@@ -1,4 +1,5 @@
 import "lib/session"
+import "style/style"
 import { forMonitors } from "lib/utils"
 import Bar from "widgets/bar/Bar"
 import { setupDateMenu } from "widgets/datemenu/DateMenu"
