@@ -63,3 +63,4 @@
 3. Setup keybindings to
    - Switch b/w successive workspaces
    - Send window to monitor on the right or left
+4. Fix clight not adjusting colors properly
