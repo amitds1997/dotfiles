@@ -2,7 +2,7 @@ import icons from "lib/icons"
 import PanelButton from "../PanelButton"
 import options from "options"
 import { MprisPlayer } from "types/service/mpris"
-import { icon } from "lib/utils"
+import { icon, singleSpaceWidget } from "lib/utils"
 
 const mpris = await Service.import("mpris")
 const { length, direction, preferred, monochrome, format } = options.bar.media
@@ -21,7 +21,7 @@ const Content = (player: MprisPlayer) => {
         if (current === player.track_title) return
 
         current = player.track_title
-        self.reveal_child = true
+        self.reveal_child = false
         Utils.timeout(3000, () => {
           !self.is_destroyed && (self.reveal_child = false)
         })
@@ -61,8 +61,8 @@ const Content = (player: MprisPlayer) => {
       .bind()
       .as((d) =>
         d === "right"
-          ? [playerIcon, playingContent]
-          : [playingContent, playerIcon],
+          ? [playerIcon, singleSpaceWidget(), playingContent]
+          : [playingContent, singleSpaceWidget(), playerIcon],
       ),
   })
 }
@@ -92,9 +92,10 @@ export default () => {
     btn.on_hover = () => {
       revealer.reveal_child = true
     }
-    btn.on_hover_lost = () => {
+    // See: https://github.com/Aylur/ags/issues/351
+    btn.on("leave-notify-event", () => {
       revealer.reveal_child = false
-    }
+    })
   }
 
   return btn.hook(preferred, update).hook(mpris, update, "notify::players")

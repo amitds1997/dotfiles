@@ -4,13 +4,15 @@ import Bar from "widgets/bar/Bar"
 import { setupDateMenu } from "widgets/datemenu/DateMenu"
 import Launcher from "widgets/launcher/Launcher"
 import NotificationPopups from "widgets/notifications/NotificationPopups"
-import OSD from "widgets/osd/OSD"
+// import OSD from "widgets/osd/OSD"
+import Overview from "widgets/overview/Overview"
 import PowerMenu from "widgets/powermenu/PowerMenu"
 import Verification from "widgets/powermenu/Verification"
+import { setupQuickSettings } from "widgets/quicksettings/QuickSettings"
 
 App.config({
   onConfigParsed: () => {
-    setupDateMenu()
+    setupQuickSettings(), setupDateMenu()
   },
   windows: () => [
     ...forMonitors(Bar),
@@ -18,6 +20,7 @@ App.config({
     // ...forMonitors(OSD),
     Launcher(),
     PowerMenu(),
+    Overview(),
     Verification(),
   ],
 })

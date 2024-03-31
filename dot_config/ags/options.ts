@@ -46,31 +46,46 @@ const options = mkOptions(OPTIONS, {
 
   transition: opt(200),
 
+  overview: {
+    scale: opt(9),
+    workspaces: opt(7),
+    monochromeIcon: opt(true),
+  },
+
+  quicksettings: {
+    position: opt<"left" | "center" | "right">("center"),
+    width: opt(380),
+    media: {
+      monochromeIcon: opt(true),
+      coverSize: opt(100),
+    },
+  },
+
   bar: {
     flatButtons: opt(true),
     position: opt<"top" | "bottom">("top"),
     layout: {
       start: opt<BarWidget[]>([
         // "launcher",
-        // "workspaces",
+        "workspaces",
         // "taskbar",
+        "messages",
         "expander",
-        // "messages",
       ]),
       center: opt<BarWidget[]>(["date"]),
       end: opt<BarWidget[]>([
-        "media",
         "expander",
-        // "systray",
-        // "colorpicker",
-        // "screenrecord",
-        // "system",
+        "media",
+        "systray",
+        "colorpicker",
+        "screenrecord",
+        "system",
         "battery",
         "powermenu",
       ]),
     },
     date: {
-      format: opt("%H:%M - %A %e."),
+      format: opt("%H:%M - %A %e"),
       action: opt(() => App.toggleWindow("datemenu")),
     },
     battery: {
@@ -84,13 +99,20 @@ const options = mkOptions(OPTIONS, {
     media: {
       monochrome: opt(true),
       preferred: opt("firefox"),
-      direction: opt<"left" | "right">("right"),
+      direction: opt<"left" | "right">("left"),
       format: opt("{artists} - {title}"),
       length: opt(40),
     },
     powermenu: {
       monochrome: opt(true),
       action: opt(() => App.toggleWindow("powermenu")),
+    },
+    workspaces: opt(5),
+    systray: {
+      ignore: opt(["spotify-client"]),
+    },
+    messages: {
+      action: opt(() => App.toggleWindow("datemenu")),
     },
   },
 

@@ -1,6 +1,7 @@
 import options from "options"
 import PanelButton from "../PanelButton"
 import icons from "lib/icons"
+import { singleSpaceWidget } from "lib/utils"
 
 const battery = await Service.import("battery")
 const { percentage, bar, blocks, width, low } = options.bar.battery
@@ -76,7 +77,7 @@ const WholeButton = () =>
 const Regular = () =>
   Widget.Box({
     class_name: "regular",
-    children: [Indicator(), PercentLabel(), LevelBar()],
+    children: [Indicator(), singleSpaceWidget(), PercentLabel()], //LevelBar()],
   })
 
 export default () =>

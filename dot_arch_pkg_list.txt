@@ -7,6 +7,7 @@ bluez
 bluez-utils
 buildah
 bun-bin
+bun-bin-debug
 chezmoi
 clang
 clight
@@ -24,6 +25,7 @@ git
 git-credential-manager-core-bin
 git-delta
 github-cli
+gnome-bluetooth-3.0
 go
 grim
 gst-plugin-pipewire
@@ -69,6 +71,7 @@ openssh
 otf-font-awesome
 pacman-contrib
 pass
+pavucontrol
 pipewire
 pipewire-alsa
 pipewire-jack
@@ -93,6 +96,7 @@ selene
 slurp
 sof-firmware
 speech-dispatcher
+swappy
 swww
 tk
 tlp
@@ -113,6 +117,7 @@ vulkan-tools
 waybar
 wayland-protocols
 wezterm
+wf-recorder
 wget
 wireplumber
 wl-clipboard
