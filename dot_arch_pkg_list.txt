@@ -133,6 +133,7 @@ xorg-xinit
 xorg-xinput
 xorg-xwayland
 yay
+youtube-music-bin
 yq
 zip
 zoxide

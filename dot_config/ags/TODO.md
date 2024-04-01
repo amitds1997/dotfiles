@@ -3,8 +3,6 @@
 ## Fixes
 
 - [ ] Fix OSD
-- [ ] Fix music player icon not hiding when no music is playing
-- [ ] Fix music player layout
 - [ ] Fix workspaces
   - Use numbers
   - Use window previews on the previews
@@ -17,6 +15,8 @@
   - Systray (after quitting the apps through systray)
 - [x] Fix colorpicker notification
 - [x] Add tooltip to battery showing how much time is remaining
+- [x] Fix music player icon not hiding when no music is playing
+- [x] Fix music player layout
 
 ## New features
 

@@ -34,6 +34,12 @@ const Player = (player: MprisPlayer) => {
 
   const title = Widget.Label({
     class_name: "title",
+    tooltip_text: player.bind("track_title").as((a) => {
+      if (a.length > 20) {
+        return a
+      }
+      return ""
+    }),
     max_width_chars: 20,
     truncate: "end",
     hpack: "start",
@@ -43,6 +49,11 @@ const Player = (player: MprisPlayer) => {
   const artist = Widget.Label({
     class_name: "artist",
     max_width_chars: 20,
+    tooltip_text: player.bind("track_artists").as((a) => {
+      const artists = a.join(", ")
+      if (artists.length > 20) return artists
+      return ""
+    }),
     truncate: "end",
     hpack: "start",
     label: player.bind("track_artists").as((a) => a.join(", ")),
@@ -88,7 +99,6 @@ const Player = (player: MprisPlayer) => {
     class_name: "icon",
     hexpand: true,
     hpack: "end",
-    vpack: "start",
     tooltip_text: player.identity || "",
     icon: Utils.merge(
       [player.bind("entry"), media.monochromeIcon.bind()],
@@ -131,16 +141,27 @@ const Player = (player: MprisPlayer) => {
   return Widget.Box(
     { class_name: "player", vexpand: false },
     cover,
-    Widget.Box({ vertical: true }, Widget.Box([title, playerIcon])),
-    artist,
-    Widget.Box({ vexpand: true }),
-    positionSlider,
-    Widget.CenterBox({
-      class_name: "footer horizontal",
-      start_widget: positionLabel,
-      center_widget: Widget.Box([prev, playPause, next]),
-      end_widget: lengthLabel,
-    }),
+    Widget.Box(
+      { vertical: true, hexpand: true },
+      Widget.Box({ vexpand: false, hexpand: false }, title, playerIcon),
+      artist,
+      Widget.Box({
+        vexpand: true,
+        visible: positionSlider.visible,
+      }),
+      positionSlider,
+      Widget.CenterBox({
+        class_name: "footer horizontal",
+        start_widget: positionLabel,
+        center_widget: Widget.Box(
+          { vexpand: !positionSlider.visible },
+          prev,
+          playPause,
+          next,
+        ),
+        end_widget: lengthLabel,
+      }),
+    ),
   )
 }
 
@@ -148,9 +169,5 @@ export const Media = () =>
   Widget.Box({
     vertical: true,
     class_name: "media vertical",
-    children: players.as((p) =>
-      p
-        // .filter((p) => p.bus_name != "org.mpris.MediaPlayer2.playerctld")
-        .map(Player),
-    ),
+    children: players.as((p) => p.map(Player)),
   })
