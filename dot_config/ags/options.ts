@@ -167,7 +167,7 @@ const options = mkOptions(OPTIONS, {
 
   font: {
     size: opt(13),
-    name: opt("Rec Mono Casual"),
+    name: opt("Rec Mono SemiCasual"),
   },
 })
 

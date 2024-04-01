@@ -19,7 +19,7 @@ return {
     o = { "<cmd>only<CR>", "Close every other window except current" },
     e = {
       function()
-        require("mini.files").open()
+        require("oil").toggle_float()
       end,
       "Open directory explorer",
     },

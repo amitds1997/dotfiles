@@ -69,7 +69,7 @@ function MicrophoneMute() {
     Utils.idle(() => {
       if (mute != audio.microphone.stream?.is_muted) {
         mute = audio.microphone.stream!.is_muted
-        icon.icon = icons.audio.mic[mute ? "muted" : "high"]
+        icon.icon = icons.audio.microphone[mute ? "muted" : "high"]
         revealer.reveal_child = true
         count++
 

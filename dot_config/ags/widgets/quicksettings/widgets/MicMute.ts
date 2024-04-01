@@ -5,8 +5,8 @@ const { microphone } = await Service.import("audio")
 
 const icon = () =>
   microphone.is_muted || microphone.stream?.is_muted
-    ? icons.audio.mic.muted
-    : icons.audio.mic.high
+    ? icons.audio.microphone.muted
+    : icons.audio.microphone.high
 
 const label = () =>
   microphone.is_muted || microphone.stream?.is_muted ? "Muted" : "Unmuted"
@@ -14,7 +14,9 @@ const label = () =>
 export const MicMute = () =>
   SimpleToggleButton({
     icon: Utils.watch(icon(), microphone, icon),
-    label: Utils.watch(icon(), microphone, label),
-    toggle: () => (microphone.is_muted = !microphone.is_muted),
-    connection: [microphone, () => microphone?.is_muted || false],
+    label: Utils.watch(label(), microphone, label),
+    toggle: () => {
+      microphone.is_muted = !microphone.is_muted
+    },
+    connection: [microphone, () => !microphone?.is_muted || false],
   })

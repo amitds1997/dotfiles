@@ -1,5 +1,7 @@
 import icons from "lib/icons"
 import PanelButton from "../PanelButton"
+import { audio_icon } from "lib/icon_utils"
+import { icon } from "lib/utils"
 
 const audio = await Service.import("audio")
 const network = await Service.import("network")
@@ -14,13 +16,14 @@ const MicrophoneIndicator = () =>
         (self.visible =
           audio.recorders.length > 0 ||
           audio.microphone.stream?.is_muted ||
-          audio.microphone.is_muted),
+          audio.microphone.is_muted ||
+          false),
     )
     .hook(audio.microphone, (self) => {
-      const vol = audio.microphone.stream!.is_muted
+      const vol = audio.microphone.stream?.is_muted
         ? 0
         : audio.microphone.volume
-      const { muted, low, medium, high } = icons.audio.mic
+      const { muted, low, medium, high } = icons.audio.microphone
       const cons = [
         [67, high],
         [34, medium],
@@ -61,18 +64,9 @@ const NetworkIndicator = () =>
 
 const AudioIndicator = () =>
   Widget.Icon({
-    icon: audio.speaker.bind("volume").as((vol) => {
-      const { muted, low, medium, high, overamplified } = icons.audio.volume
-      const cons = [
-        [101, overamplified],
-        [67, high],
-        [34, medium],
-        [1, low],
-        [0, muted],
-      ] as const
-      const icon = cons.find(([n]) => n <= vol * 100)?.[1] || ""
-      return audio.speaker.is_muted ? muted : icon
-    }),
+    icon: audio.speaker
+      .bind("icon_name")
+      .as((i) => icon(i || "", audio_icon(audio, "speaker"))),
   })
 
 export default () =>

@@ -1,15 +1,23 @@
 # To do list
 
-## Fixes
+## Next in line
 
-- [ ] Fix OSD
 - [ ] Fix workspaces
   - Use numbers
   - Use window previews on the previews
-- [ ] Fix logout kernel panic
+
+## Fixes
+
+- [ ] Fix logout kernel panic and logic handling of closing windows before
+  shutdown, reboot, hibernate, etc.
+- [ ] Fix OSD
+- [ ] In application selector, automatically select the top
+  result; Enter should launch it
 - [ ] Fix wifi menu
 - [ ] Fix bluetooth menu
 - [ ] Fix settings (use a single icon of settings)
+- [ ] Fix appmixer
+- [ ] Fix sink selector
 - [ ] Fix widget destruction in
   - Screen recorder (after recording completion)
   - Systray (after quitting the apps through systray)
@@ -17,10 +25,13 @@
 - [x] Add tooltip to battery showing how much time is remaining
 - [x] Fix music player icon not hiding when no music is playing
 - [x] Fix music player layout
+- [x] Fix microphone
+- [x] Fix speaker/microphone icons
 
 ## New features
 
 - [ ] Add volume, brightness OSD
+- [ ] Add source selector
 - [ ] Add NumLock, CapsLock, Microphone, Camera indicator, Screen
   recording indicator (with a bright color)
 - [ ] Set transition for closing pop down windows

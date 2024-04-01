@@ -20,13 +20,13 @@ export default {
   },
   audio: {
     mixer: "",
-    mic: {
+    microphone: {
       muted: "microphone-sensitivity-muted-symbolic",
       high: "microphone-sensitivity-high-symbolic",
       low: "microphone-sensitivity-low-symbolic",
       medium: "microphone-sensitivity-medium-symbolic",
     },
-    volume: {
+    speaker: {
       muted: "audio-volume-muted-symbolic",
       low: "audio-volume-low-symbolic",
       medium: "audio-volume-medium-symbolic",
@@ -35,7 +35,7 @@ export default {
     },
     type: {
       speaker: "audio-speakers-symbolic",
-      headset: "",
+      headset: "audio-headphones-symbolic",
     },
   },
   bluetooth: {

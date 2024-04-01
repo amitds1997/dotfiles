@@ -1,5 +1,5 @@
 amd-ucode
-aylurs-gtk-shell
+aylurs-gtk-shell-git
 base
 base-devel
 bat
