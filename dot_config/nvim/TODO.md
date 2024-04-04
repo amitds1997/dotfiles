@@ -48,3 +48,4 @@
 ## Fun stuff
 
 - Set up SQL highlighting in strings using nvim-treesitter in Python
+- Add current venv indicator in the lualine

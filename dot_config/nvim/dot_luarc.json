@@ -12,7 +12,7 @@
     "library": [
       "$VIMRUNTIME",
       "lua",
-      "$XDG_DATA_HOME/nvim/lazy/telescope.nvim/lua"
+      "$XDG_DATA_HOME/nvim/lazy/telescope.nvim/lua",
     ],
     "ignoreDir": [
       "tests",
