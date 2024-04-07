@@ -7,7 +7,7 @@ import { audio_icon } from "lib/icon_utils"
 const audio = await Service.import("audio")
 type Type = "microphone" | "speaker"
 
-const VolumeIndicator = (type: Type = "speaker") =>
+export const VolumeIndicator = (type: Type = "speaker") =>
   Widget.Button({
     vpack: "center",
     on_clicked: () => (audio[type].is_muted = !audio[type].is_muted),
@@ -21,7 +21,7 @@ const VolumeIndicator = (type: Type = "speaker") =>
     }),
   })
 
-const VolumeSlider = (type: Type = "speaker") =>
+export const VolumeSlider = (type: Type = "speaker") =>
   Widget.Slider({
     hexpand: true,
     draw_value: false,

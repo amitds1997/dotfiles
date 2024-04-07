@@ -43,25 +43,15 @@
 ## To do
 
 1. Configure
-   - [ags](https://github.com/Aylur/ags/?tab=readme-ov-file)
-     - For notification
-     - For status bar (including music)
-     - Screenshotting
-     - For OSD support
-     - To pause CLight handling things
-     - For colorpicker using hyprpicker
-     - For Rofi??
-     - Adjusting individual monitor's brightness
-   - Display manager (but do I need one)
    - Bindings viewer (Low priority)
    - Find mouse cursor (cursor gets bigger on moving it rapidly)
    - `tlp-rdw` does not kill wifi on ethernet connection
    - Set up same time on windows and linux (prevent out of sync)
    - On audio device disconnect, pause the media (if playing)
-2. Beautify
-   - Rofi (but ags comes first)
-3. Setup keybindings to
+   - Fix microphone not found when nothing is connected
+2. Setup keybindings to
    - Switch b/w successive workspaces
    - Send window to monitor on the right or left
-4. Fix clight not adjusting colors properly
-5. Fix clight not respecting clight Inhibit
+3. Fix clight not adjusting colors properly
+4. Fix keyboard dropping off and not reconnecting (even if the
+   cable is bad :/, it should reconnect automatically)

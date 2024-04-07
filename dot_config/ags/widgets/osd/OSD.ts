@@ -62,13 +62,13 @@ function MicrophoneMute() {
   })
 
   let count = 0
-  console.log(audio.microphone)
-  let mute = audio.microphone.stream?.is_muted ?? false
+  console.log(audio.a)
+  let mute = audio.aud
 
-  return revealer.hook(audio.microphone, () =>
+  return revealer.hook(audio.a, () =>
     Utils.idle(() => {
-      if (mute != audio.microphone.stream?.is_muted) {
-        mute = audio.microphone.stream!.is_muted
+      if (mute != audio.stream?.is_muted) {
+        mute = audio.is_muted
         icon.icon = icons.audio.microphone[mute ? "muted" : "high"]
         revealer.reveal_child = true
         count++
