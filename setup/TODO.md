@@ -55,3 +55,5 @@
 3. Fix clight not adjusting colors properly
 4. Fix keyboard dropping off and not reconnecting (even if the
    cable is bad :/, it should reconnect automatically)
+5. Integrate secrets for password in NetworkManager
+6. enable system-resolvd.service
