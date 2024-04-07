@@ -99,6 +99,9 @@ local lualine_config = function()
           get_lsp_clients,
         },
         {
+          require("plugins.lualine-components.venv").current_venv,
+        },
+        {
           "progress",
           separator = { right = "" },
           padding = { left = 1 },
