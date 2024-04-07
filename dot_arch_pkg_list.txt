@@ -13,6 +13,7 @@ clang
 clight
 clight-gui-git
 cliphist
+cmake
 dart-sass
 ddcutil
 discord
@@ -61,6 +62,7 @@ mesa-vdpau
 miniconda3
 neovim-git
 networkmanager
+ninja
 noto-fonts-emoji
 npm
 nvidia
@@ -103,6 +105,8 @@ tk
 tlp
 tlp-rdw
 tomlplusplus
+transmission-cli
+transmission-gtk
 tree-sitter-cli
 ttf-fantasque-nerd
 ttf-ibm-plex

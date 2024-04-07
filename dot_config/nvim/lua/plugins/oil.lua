@@ -24,5 +24,15 @@ return {
         return check_hidden(require("core.vars").oil.always_hidden_patterns, name)
       end,
     },
+    float = {
+      win_options = {
+        winhl = "Normal:Normal,Float:Float",
+      },
+    },
+    preview = {
+      win_options = {
+        winhl = "Normal:Normal,Float:Float",
+      },
+    },
   },
 }
