@@ -102,6 +102,14 @@ const options = mkOptions(OPTIONS, {
     },
   },
 
+  preferences: {
+    position: opt<"left" | "center" | "right">("center"),
+    width: opt(380),
+    media: {
+      coverSize: opt(100),
+    },
+  },
+
   bar: {
     flatButtons: opt(true),
     position: opt<"top" | "bottom">("top"),
@@ -117,10 +125,12 @@ const options = mkOptions(OPTIONS, {
       end: opt<BarWidget[]>([
         "expander",
         "media",
+        "microphone",
+        "screenrecord",
         "systray",
         "colorpicker",
-        "screenrecord",
         "system",
+        "preferences",
         "battery",
         "powermenu",
       ]),
@@ -163,6 +173,10 @@ const options = mkOptions(OPTIONS, {
     gaps: opt(2.4),
     inactiveBorder: opt("#3333ff"),
     gapsWhenOnly: opt(false),
+  },
+
+  microphone: {
+    whitelist: opt(["org.PulseAudio.pavucontrol"]),
   },
 
   font: {

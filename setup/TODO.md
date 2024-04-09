@@ -26,16 +26,20 @@
    - [automatic mounting (or atleast a notification)](https://wiki.hyprland.org/Useful-Utilities/Other/#automatically-mounting-using-udiskie)
    - AUR for font packages
 2. Fix errors while booting up (if any)
-3. Delete
+3. How to logout properly? Currently, it logs out the user but hangs the system
+4. The inbuilt microphone is not detected
+5. Fix situation where when you open an image in Nemo (file manager),
+   the image goes out of screen
+6. Delete
    1. Awesomewm
    2. picom
    3. libinput-gestures (???)
    4. x11 packages
    5. /etc/X11/xorg.conf.d/30-touchpad.conf
-4. Maybe [plugins](https://wiki.hyprland.org/Plugins/Using-Plugins/#getting-plugins)
+7. Maybe [plugins](https://wiki.hyprland.org/Plugins/Using-Plugins/#getting-plugins)
    - [Awesomewm like workspaces](https://github.com/Duckonaut/split-monitor-workspaces?tab=readme-ov-file)
    - [i3 like workspaces](https://github.com/outfoxxed/hy3)
-5. Try out
+8. Try out
    - Automatically adjust brigtness [wluma](https://github.com/maximbaz/wluma?tab=readme-ov-file)
    - Gamma simulation: [hyprshade](https://github.com/loqusion/hyprshade)
    - Dim inactive windows: [hyprdim](https://github.com/donovanglover/hyprdim)
@@ -57,3 +61,4 @@
    cable is bad :/, it should reconnect automatically)
 5. Integrate secrets for password in NetworkManager
 6. enable system-resolvd.service
+7. Reintegrate clight

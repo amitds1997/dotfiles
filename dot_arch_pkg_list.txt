@@ -14,8 +14,11 @@ clight
 clight-gui-git
 cliphist
 cmake
+d-spy
 dart-sass
+ddcci-driver-linux-dkms
 ddcutil
+ddcutil-service
 discord
 efibootmgr
 eza
@@ -60,6 +63,7 @@ man-pages
 mesa-utils
 mesa-vdpau
 miniconda3
+nemo
 neovim-git
 networkmanager
 ninja
@@ -97,6 +101,7 @@ rofi-lbonn-wayland-git
 sbctl
 selene
 slurp
+socat
 sof-firmware
 speech-dispatcher
 swappy

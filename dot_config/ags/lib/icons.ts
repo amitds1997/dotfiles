@@ -6,6 +6,9 @@ export const substitues = {
 
 export default {
   missing: "image-missing-symbolic",
+  brightness: {
+    indicator: "display-brightness-symbolic",
+  },
   fallback: {
     executable: "application-x-executable-symbolic",
     notification: "dialog-information-symbolic",
@@ -73,7 +76,14 @@ export default {
     full: "user-trash-full-symbolic",
     empty: "user-trash-symbolic",
   },
+  screenshot: "applets-screenshooter-symbolic",
   recorder: {
     recording: "media-record-symbolic",
+    stop: "media-playback-stop-symbolic",
+  },
+  preferences: "controls-symbolic",
+  theme: {
+    dark: "dark-mode-symbolic",
+    light: "light-mode-symbolic",
   },
 }

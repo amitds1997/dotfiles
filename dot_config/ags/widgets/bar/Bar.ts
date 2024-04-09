@@ -1,14 +1,16 @@
 import options from "options"
-import Battery from "./buttons/Battery"
 import Date from "./buttons/Date"
 import Media from "./buttons/Media"
-import PowerMenu from "./buttons/PowerMenu"
 import Workspaces from "./buttons/Workspaces"
-import SysTray from "./buttons/SysTray"
 import ColorPicker from "./buttons/ColorPicker"
-import ScreenRecord from "./buttons/ScreenRecord"
 import Messages from "./buttons/Messages"
 import SystemIndicators from "./buttons/SystemIndicators"
+import Battery from "./widgets/Battery"
+import PowerMenu from "./widgets/PowerMenu"
+import SystemTray from "./widgets/SystemTray"
+import Preferences from "./widgets/Preferences"
+import ScreenRecordingIndicator from "./widgets/ScreenRecordingIndicator"
+import MicrophoneIndicator from "./widgets/MicrophoneIndicator"
 
 const { start, center, end } = options.bar.layout
 const pos = options.bar.position.bind()
@@ -17,14 +19,16 @@ export type BarWidget = keyof typeof widget
 
 const widget = {
   battery: Battery,
+  powermenu: PowerMenu,
+  systray: SystemTray,
   date: Date,
   media: Media,
-  powermenu: PowerMenu,
   workspaces: Workspaces,
-  systray: SysTray,
-  screenrecord: ScreenRecord,
+  screenrecord: ScreenRecordingIndicator,
+  microphone: MicrophoneIndicator,
   colorpicker: ColorPicker,
   messages: Messages,
+  preferences: Preferences,
   system: SystemIndicators,
   expander: () => Widget.Box({ expand: true }),
 }
