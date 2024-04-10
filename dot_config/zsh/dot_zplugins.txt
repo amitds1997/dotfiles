@@ -4,7 +4,6 @@ mattmc3/zephyr path:plugins/zfunctions
 romkatv/powerlevel10k
 
 # Zephyr plugins
-mattmc3/zephyr kind:zsh path:lib
 mattmc3/zephyr path:plugins/color
 mattmc3/zephyr path:plugins/editor
 mattmc3/zephyr path:plugins/history

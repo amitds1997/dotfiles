@@ -11,6 +11,7 @@ import SystemTray from "./widgets/SystemTray"
 import Preferences from "./widgets/Preferences"
 import ScreenRecordingIndicator from "./widgets/ScreenRecordingIndicator"
 import MicrophoneIndicator from "./widgets/MicrophoneIndicator"
+import Bluetooth from "./widgets/Bluetooth"
 
 const { start, center, end } = options.bar.layout
 const pos = options.bar.position.bind()
@@ -30,6 +31,7 @@ const widget = {
   messages: Messages,
   preferences: Preferences,
   system: SystemIndicators,
+  bluetooth: Bluetooth,
   expander: () => Widget.Box({ expand: true }),
 }
 

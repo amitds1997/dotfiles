@@ -78,16 +78,16 @@
         - [ ] Known networks
         - [ ] Found networks
       - [ ] (Right-button-click shows active network details)
-    - [ ] Bluetooth panel
-      - [ ] Panel
-        - [ ] On/off toggle
-        - [ ] Re-scan
-      - [ ] Bluetooth device list
-        - [ ] Known devices
-        - [ ] Found devices
-      - [ ] (Right-button-click shows active Bluetooth details)
+    - [x] Bluetooth panel
+      - [x] Panel
+        - [x] On/off toggle
+        - [x] Re-scan (available through app)
+      - [x] Bluetooth device list
+        - [x] Known devices
+        - [x] Found devices
+        - [ ] Filter out null name bluetooth devices maybe?
     - [ ] Quick access
-      - [ ] Panel
+      - [x] Panel
         - [x] Screenshot
         - [x] Screen recorder
         - [x] Do not disturb

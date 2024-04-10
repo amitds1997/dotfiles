@@ -3,7 +3,7 @@ import PanelWidget from "../PanelWidget"
 import options from "options"
 
 const audio = await Service.import("audio")
-const { whitelist } = options.microphone
+const { blacklist } = options.microphone
 
 export default () =>
   PanelWidget({
@@ -12,7 +12,7 @@ export default () =>
       .bind("recorders")
       .as(
         (rs) =>
-          rs.filter((r) => !whitelist.value.includes(r["application-id"]))
+          rs.filter((r) => !blacklist.value.includes(r["application-id"]))
             .length > 0,
       ),
     child: Widget.Icon(icons.audio.microphone.high),

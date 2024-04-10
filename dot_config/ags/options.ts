@@ -124,11 +124,12 @@ const options = mkOptions(OPTIONS, {
       center: opt<BarWidget[]>(["date"]),
       end: opt<BarWidget[]>([
         "expander",
-        "media",
+        // "media",
         "microphone",
         "screenrecord",
         "systray",
         "colorpicker",
+        "bluetooth",
         "system",
         "preferences",
         "battery",
@@ -176,7 +177,11 @@ const options = mkOptions(OPTIONS, {
   },
 
   microphone: {
-    whitelist: opt(["org.PulseAudio.pavucontrol"]),
+    blacklist: opt(["org.PulseAudio.pavucontrol"]),
+  },
+
+  systemtray: {
+    blocklist: opt([]),
   },
 
   font: {

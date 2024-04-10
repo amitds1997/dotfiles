@@ -16,6 +16,7 @@ const layout = Utils.derive(
 const PreferenceBox = () =>
   Widget.Box({
     vertical: true,
+    hexpand: true,
     class_name: "preferences vertical",
     css: preferences.width.bind().as((w) => `min-width: ${w}px;`),
     children: [
@@ -25,7 +26,6 @@ const PreferenceBox = () =>
         children: [DND(), Screenshoter(), ScreenRecorder(), DarkModeToggle()],
       }),
       Brightness(),
-      // Row(), // Light/dark mode, screenshot, screen recorder, do not disturb
       Widget.Box({
         visible: media.as((l) => l.length > 0),
         child: Media(),

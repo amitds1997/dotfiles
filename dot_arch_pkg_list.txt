@@ -3,6 +3,7 @@ aylurs-gtk-shell-git
 base
 base-devel
 bat
+blueberry
 bluez
 bluez-utils
 brightnessctl
@@ -21,6 +22,7 @@ ddcutil
 ddcutil-service
 discord
 efibootmgr
+expect
 eza
 fd
 firefox

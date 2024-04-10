@@ -1,8 +1,10 @@
 import { type TrayItem } from "types/service/systemtray"
 import PanelWidget from "../PanelWidget"
 import Gdk from "gi://Gdk?version=3.0"
+import options from "options"
 
 const systemtray = await Service.import("systemtray")
+const { blocklist } = options.systemtray
 
 const SystemTrayItem = (item: TrayItem) =>
   PanelWidget({
@@ -23,5 +25,9 @@ export default () =>
   Widget.Box({
     children: systemtray
       .bind("items")
-      .as((tray_item) => tray_item.map(SystemTrayItem)),
+      .as((tray_item) =>
+        tray_item
+          .filter((m) => !blocklist.value.includes(m.title))
+          .map(SystemTrayItem),
+      ),
   })

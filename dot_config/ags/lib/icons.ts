@@ -44,6 +44,7 @@ export default {
   bluetooth: {
     enabled: "bluetooth-active-symbolic",
     disabled: "bluetooth-disabled-symbolic",
+    scan: "view-refresh-symbolic",
   },
   powermenu: {
     hibernate: "night-light-symbolic",
