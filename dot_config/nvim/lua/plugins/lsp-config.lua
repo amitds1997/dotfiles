@@ -21,8 +21,9 @@ local lsp_config = function()
   }
 
   local ensure_lsp_installed = {
-    node = { "eslint", "tsserver", "pyright" },
+    node = { "eslint", "tsserver" },
     go = { "gopls" },
+    python = { "basedpyright" },
   }
 
   for binary, lsp in pairs(ensure_lsp_installed) do
@@ -98,13 +99,7 @@ local lsp_config = function()
           o = { require("lspconfig.ui.lspinfo"), "Display attached, active, and configured LSP servers" },
           c = { vim.lsp.codelens.run, "Run codelens on the line" },
         },
-        r = {
-          function()
-            return ":IncRename " .. vim.fn.expand("<cword>")
-          end,
-          "Rename symbol",
-          expr = true,
-        },
+        r = { "<cmd>Lspsaga rename<CR>", "Rename symbol" },
         w = {
           name = "Workspace actions",
 
@@ -169,11 +164,11 @@ local lsp_config = function()
           end,
         })
       end,
-      pyright = function()
-        lspconfig.pyright.setup({
+      basedpyright = function()
+        lspconfig.basedpyright.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.pyright")(python_interpreter_path),
+          settings = require("plugins.lsp.server-config.basedpyright")(python_interpreter_path),
         })
       end,
     },
@@ -187,7 +182,6 @@ return {
   dependencies = {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    "smjonas/inc-rename.nvim",
     "nvimdev/lspsaga.nvim",
     "b0o/schemastore.nvim", -- Enable schemas availability for JSON and YAML
     "hrsh7th/cmp-nvim-lsp",

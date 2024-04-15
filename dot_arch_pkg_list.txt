@@ -37,6 +37,7 @@ gnome-bluetooth-3.0
 go
 grim
 gst-plugin-pipewire
+gtk3-demos
 htop
 hyprcursor-git
 hypridle-git
@@ -64,9 +65,11 @@ man-db
 man-pages
 mesa-utils
 mesa-vdpau
+meson
 miniconda3
 nemo
 neovim-git
+network-manager-applet
 networkmanager
 ninja
 noto-fonts-emoji
@@ -120,6 +123,7 @@ ttf-ibm-plex
 ttf-nerd-fonts-symbols
 ttf-recursive
 ttf-victor-mono-nerd
+typescript
 unzip
 upower
 vdpauinfo

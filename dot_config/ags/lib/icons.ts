@@ -14,6 +14,7 @@ export default {
     notification: "dialog-information-symbolic",
     audio: "audio-x-generic-symbolic",
     video: "video-x-generic-symbolic",
+    network: "network-transmit-receive-symbolic",
   },
   mpris: {
     playing: "media-playback-pause-symbolic",
@@ -22,12 +23,13 @@ export default {
     next: "media-skip-forward-symbolic",
   },
   audio: {
-    mixer: "",
+    mixer: "sound-mixer",
     microphone: {
       muted: "microphone-sensitivity-muted-symbolic",
       high: "microphone-sensitivity-high-symbolic",
       low: "microphone-sensitivity-low-symbolic",
       medium: "microphone-sensitivity-medium-symbolic",
+      overamplified: "microphone-sensitivity-high-symbolic",
     },
     speaker: {
       muted: "audio-volume-muted-symbolic",
@@ -59,6 +61,7 @@ export default {
     colorpicker: "color-select-symbolic",
     arrow: {
       right: "pan-end-symbolic",
+      bottom: "pan-down-symbolic",
     },
     tick: "object-select-symbolic",
     settings: "emblem-system-symbolic",
@@ -86,5 +89,11 @@ export default {
   theme: {
     dark: "dark-mode-symbolic",
     light: "light-mode-symbolic",
+  },
+  network: {
+    error: "network-offline-symbolic",
+    ap: "network-wireless-no-route-symbolic",
+    selected: "object-select-symbolic",
+    scan: "view-refresh-symbolic",
   },
 }

@@ -64,19 +64,16 @@
     - [x] Color picker
       - [x] Fix colorpicker notification
     - [ ] Volume
-      - [ ] Default speaker volume (with percentage number)
-      - [ ] Default microphone volume (with percentage number)
+      - [x] Default speaker volume (with percentage number)
+      - [x] Default microphone volume (with percentage number)
       - [ ] Applications (App Mixer)
       - [ ] Input selector
       - [ ] Output selector
-    - [ ] WiFi/Ethernet
-      - [ ] Panel
-        - [ ] On/off toggle
-        - [ ] Re-scan
-        - [ ] Lock current network
-      - [ ] Available WiFi List
-        - [ ] Known networks
-        - [ ] Found networks
+    - [x] WiFi/Ethernet
+      - [x] Panel
+        - [x] On/off toggle
+        - [x] Re-scan
+      - [x] Available WiFi List
       - [ ] (Right-button-click shows active network details)
     - [x] Bluetooth panel
       - [x] Panel

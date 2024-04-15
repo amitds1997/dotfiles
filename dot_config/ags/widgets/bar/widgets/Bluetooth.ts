@@ -3,29 +3,26 @@ import PanelWidget from "../PanelWidget"
 
 const bluetooth = await Service.import("bluetooth")
 
-const DisabledWidget = () =>
-  Widget.Icon({
-    icon: icons.bluetooth.disabled,
-    tooltip_text: "Bluetooth is disabled",
-  })
-
-const EnabledWidget = () =>
-  Widget.Icon({
-    icon: icons.bluetooth.enabled,
-    tooltip_text: bluetooth.bind("connected_devices").as((p) => {
-      if (p.length == 0) return "No devices connected"
-      if (p.length == 1) return `Connected to ${p[0].alias}`
-
-      return `${bluetooth.connected_devices.length} devices connected`
+const BluetoothWidget = () =>
+  Widget.Overlay({
+    class_name: "bluetooth",
+    pass_through: true,
+    child: Widget.Icon({
+      icon: icons.bluetooth.enabled,
+      visible: bluetooth.bind("enabled"),
+    }),
+    overlay: Widget.Label({
+      hpack: "end",
+      vpack: "start",
+      label: bluetooth.bind("connected_devices").as((c) => `${c.length}`),
+      visible: bluetooth.bind("connected_devices").as((c) => c.length > 0),
     }),
   })
 
 export default () =>
   PanelWidget({
     class_name: "bluetooth",
-    child: bluetooth
-      .bind("enabled")
-      .as((e) => (e ? EnabledWidget() : DisabledWidget())),
+    child: BluetoothWidget(),
     tooltip_text: Utils.watch("Disabled", bluetooth, () => {
       if (!bluetooth.enabled) return "Bluetooth is disabled"
 

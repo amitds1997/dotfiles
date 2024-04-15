@@ -7,7 +7,7 @@ local lsp_server_names = {
   jsonls = { name = "JSON LS", priority = 20 },
   lua_ls = { name = "Lua LS", priority = 20 },
   marksman = { name = "Marksman", priority = 20 },
-  pyright = { name = "Pyright", priority = 20 },
+  basedpyright = { name = "Python LS", priority = 20 },
   ruff_lsp = { name = "Ruff LS", priority = 15 },
   terraformls = { name = "Terraform LS", priority = 20 },
   tsserver = { name = "Typescript LS", priority = 20 },

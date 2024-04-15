@@ -1,6 +1,6 @@
 import icons from "lib/icons"
 import { SimpleToggleButton } from "../ToggleButton"
-import { audio_icon } from "lib/icon_utils"
+import { stream_icon } from "lib/icon_utils"
 import { icon } from "lib/utils"
 
 const audio = await Service.import("audio")
@@ -20,7 +20,9 @@ export const MicMute = () =>
   SimpleToggleButton({
     icon: microphone
       .bind("icon_name")
-      .as((i) => icon(i || "", audio_icon(audio, "microphone"))),
+      .as((i) =>
+        icon(i || "", stream_icon(audio.microphone, icons.audio.microphone)),
+      ),
     label: Utils.watch(label(), microphone, label),
     toggle: () => {
       microphone.is_muted = !microphone.is_muted

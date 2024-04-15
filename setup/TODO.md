@@ -62,3 +62,5 @@
 5. Integrate secrets for password in NetworkManager
 6. enable system-resolvd.service
 7. Reintegrate clight
+8. Setup better [screensharing](https://wiki.hyprland.org/Useful-Utilities/Screen-Sharing/)
+9. Remove [KDE-based file-chooser??](https://wiki.hyprland.org/Useful-Utilities/xdg-desktop-portal-hyprland/#using-the-kde-file-picker-with-xdph)

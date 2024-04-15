@@ -13,6 +13,7 @@ return {
         mason = true,
         semantic_tokens = true,
         treesitter = true,
+        treesitter_context = true,
         nvimtree = true,
         telescope = {
           enabled = true,

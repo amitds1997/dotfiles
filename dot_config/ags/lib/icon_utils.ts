@@ -1,8 +1,10 @@
 import icons from "./icons"
-import { type Audio } from "types/service/audio"
+import { type Stream } from "types/service/audio"
 
-export function audio_icon(audio: Audio, type: string) {
-  const { muted, low, medium, high, overamplified } = icons.audio[type]
+type AudioIcon = typeof icons.audio.speaker
+
+export function stream_icon(stream: Stream, audio_icon_group: AudioIcon) {
+  const { muted, low, medium, high, overamplified } = audio_icon_group
   const cons = [
     [101, overamplified],
     [67, high],
@@ -10,6 +12,6 @@ export function audio_icon(audio: Audio, type: string) {
     [1, low],
     [0, muted],
   ] as const
-  const icon = cons.find(([n]) => n <= audio[type].volume * 100)?.[1] || ""
-  return audio[type].is_muted ? muted : icon
+  const icon = cons.find(([n]) => n <= stream.volume * 100)?.[1] || ""
+  return stream.is_muted ? muted : icon
 }

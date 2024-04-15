@@ -12,6 +12,8 @@ import Preferences from "./widgets/Preferences"
 import ScreenRecordingIndicator from "./widgets/ScreenRecordingIndicator"
 import MicrophoneIndicator from "./widgets/MicrophoneIndicator"
 import Bluetooth from "./widgets/Bluetooth"
+import Network from "./widgets/Network"
+import Audio from "./widgets/Audio"
 
 const { start, center, end } = options.bar.layout
 const pos = options.bar.position.bind()
@@ -31,7 +33,9 @@ const widget = {
   messages: Messages,
   preferences: Preferences,
   system: SystemIndicators,
+  audio: Audio,
   bluetooth: Bluetooth,
+  network: Network,
   expander: () => Widget.Box({ expand: true }),
 }
 

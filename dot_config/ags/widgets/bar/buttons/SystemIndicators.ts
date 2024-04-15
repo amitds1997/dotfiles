@@ -1,6 +1,6 @@
 import icons from "lib/icons"
 import PanelButton from "../PanelButton"
-import { audio_icon } from "lib/icon_utils"
+import { stream_icon } from "lib/icon_utils"
 import { icon } from "lib/utils"
 
 const audio = await Service.import("audio")
@@ -66,7 +66,9 @@ const AudioIndicator = () =>
   Widget.Icon({
     icon: audio.speaker
       .bind("icon_name")
-      .as((i) => icon(i || "", audio_icon(audio, "speaker"))),
+      .as((i) =>
+        icon(i || "", stream_icon(audio.speaker, icons.audio.speaker)),
+      ),
   })
 
 export default () =>

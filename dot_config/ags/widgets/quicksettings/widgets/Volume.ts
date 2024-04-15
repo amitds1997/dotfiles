@@ -2,7 +2,7 @@ import icons from "lib/icons"
 import { icon, zsh } from "lib/utils"
 import { Arrow, Menu } from "../ToggleButton"
 import { Stream } from "types/service/audio"
-import { audio_icon } from "lib/icon_utils"
+import { stream_icon } from "lib/icon_utils"
 
 const audio = await Service.import("audio")
 type Type = "microphone" | "speaker"
@@ -14,7 +14,7 @@ export const VolumeIndicator = (type: Type = "speaker") =>
     child: Widget.Icon({
       icon: audio[type]
         .bind("icon_name")
-        .as((i) => icon(i || "", audio_icon(audio, type))),
+        .as((i) => icon(i || "", stream_icon(audio[type], icons.audio[type]))),
       tooltipText: audio[type]
         .bind("volume")
         .as((vol) => `Volume: ${Math.floor(vol * 100)}%`),
