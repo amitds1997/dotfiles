@@ -56,19 +56,20 @@
       - [x] Panel
         - [x] Time (with seconds)
         - [x] Calendar
-  - [ ] Right
+  - [x] Right
     - [x] Transient widgets
       - [x] Screen recording (blinking and red)
       - [x] Microphone (not blinking but bright orange)
     - [x] System tray
     - [x] Color picker
       - [x] Fix colorpicker notification
-    - [ ] Volume
+    - [x] Volume
       - [x] Default speaker volume (with percentage number)
       - [x] Default microphone volume (with percentage number)
-      - [ ] Applications (App Mixer)
-      - [ ] Input selector
-      - [ ] Output selector
+      - [x] Applications (App Mixer)
+      - [x] Input selector
+      - [x] Output selector
+      - [ ] Add application volume selector
     - [x] WiFi/Ethernet
       - [x] Panel
         - [x] On/off toggle

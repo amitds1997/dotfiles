@@ -8,8 +8,9 @@ const BluetoothWidget = () =>
     class_name: "bluetooth",
     pass_through: true,
     child: Widget.Icon({
-      icon: icons.bluetooth.enabled,
-      visible: bluetooth.bind("enabled"),
+      icon: bluetooth
+        .bind("enabled")
+        .as((e) => (e ? icons.bluetooth.enabled : icons.bluetooth.disabled)),
     }),
     overlay: Widget.Label({
       hpack: "end",

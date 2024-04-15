@@ -1,10 +1,8 @@
 return function(interpreter_path)
   return {
     settings = {
-      pyright = {
+      basedpyright = {
         disableOrganizeImports = true,
-      },
-      python = {
         analysis = {
           autoImportCompletions = true,
           autoSearchPaths = true,
@@ -13,6 +11,8 @@ return function(interpreter_path)
           -- Add rules from here: https://microsoft.github.io/pyright/#/configuration?id=type-check-diagnostics-settings
           diagnosticSeverityOverrides = {},
         },
+      },
+      python = {
         pythonPath = interpreter_path,
       },
     },
