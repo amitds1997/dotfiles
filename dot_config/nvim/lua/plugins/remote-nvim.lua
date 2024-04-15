@@ -2,24 +2,14 @@ local remote_nvim_config = function()
   require("remote-nvim").setup({
     offline_mode = {
       enabled = true,
-      no_github = true,
-    },
-    remote = {
-      copy_dirs = {
-        data = {
-          dirs = { "lazy" },
-          compression = {
-            enabled = true,
-            additional_opts = { "--exclude-vcs" },
-          },
-        },
-      },
+      no_github = false,
     },
     client_callback = function(port, workspace_config)
-      local cmd = ("wezterm cli set-tab-title --pane-id $(wezterm cli spawn nvim --server localhost:%s --remote-ui) %s"):format(
-        port,
-        ("'Remote: %s'"):format(workspace_config.host)
-      )
+      local cmd = ("kitty nvim --server localhost:%s --remote-ui"):format(port)
+      -- local cmd = ("wezterm cli set-tab-title --pane-id $(wezterm cli spawn nvim --server localhost:%s --remote-ui) %s"):format(
+      --   port,
+      --   ("'Remote: %s'"):format(workspace_config.host)
+      -- )
       vim.fn.jobstart(cmd, {
         detach = true,
         on_exit = function(job_id, exit_code, event_type)

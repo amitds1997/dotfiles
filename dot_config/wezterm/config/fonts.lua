@@ -3,7 +3,7 @@ local machine = require("utils.machine")
 
 local fantasque_sans_mono_font = (machine.platform.is_mac and "FantasqueSansMono Nerd Font Mono")
 	or "FantasqueSansM Nerd Font Mono"
-local font_size = machine.platform.is_mac and 17 or 12
+local font_size = machine.platform.is_mac and 16 or 12
 
 return {
 	font = wezterm.font_with_fallback({
