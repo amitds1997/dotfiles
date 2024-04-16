@@ -2,14 +2,7 @@ import { type Opt } from "lib/options"
 import { zsh } from "lib/utils"
 import options from "options"
 
-const deps = [
-  "font",
-  "theme",
-  "bar.flatButtons",
-  "bar.position",
-  "bar.battery.charging",
-  "bar.battery.blocks",
-]
+const deps = ["font", "theme", "bar.position", "bar.battery.charging"]
 
 const {
   dark,
@@ -105,6 +98,7 @@ async function resetCSS() {
     const scss = [`@import '${vars}';`, ...files].join("\n")
     const css = await zsh(`echo "${scss}" | sass --stdin`)
 
+    await Utils.writeFile(css, "/tmp/ags/style.css")
     App.applyCss(css, true)
   } catch (error) {
     logError(error)

@@ -1,7 +1,7 @@
 import icons from "lib/icons"
 import GObject from "gi://GObject"
 import options from "options"
-import PopupWindow from "widgets/window/PopupWindow"
+import PopupWindow from "widgets/PopupWindow"
 import { debounce, icon } from "lib/utils"
 
 const { bar, preferences } = options

@@ -2,7 +2,7 @@ import { Binding } from "lib/utils"
 import * as AppLauncher from "./AppLauncher"
 import icons from "lib/icons"
 import options from "options"
-import PopupWindow, { Padding } from "widgets/window/PopupWindow"
+import PopupWindow, { Padding } from "widgets/PopupWindow"
 
 const { width, margin } = options.launcher
 

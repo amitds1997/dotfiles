@@ -5,21 +5,19 @@ type PanelWidgetProps = ButtonProps & {
 }
 
 export default ({
-  window_class = "",
+  window_class: child_class_name = "",
   child,
   setup,
   ...rest
 }: PanelWidgetProps) =>
   Widget.Button({
-    class_name: "panel-widget",
-    child: Widget.Box({ child }),
+    child: Widget.Box({ class_name: child_class_name, child: child }),
     setup: (self) => {
       let open = false
 
-      self.toggleClassName(window_class)
-
+      self.toggleClassName("panel-widget")
       self.hook(App, (_, win, visible) => {
-        if (win !== window_class) return
+        if (win !== child_class_name) return
 
         // TODO: Do we need to do this? Ideally, windows should automatically handle their visibility; but this might be a good fallback to have. Will revisit this once the rest of the work is done
         if (open && !visible) {

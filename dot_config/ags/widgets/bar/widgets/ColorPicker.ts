@@ -1,6 +1,6 @@
 import Gdk30 from "gi://Gdk?version=3.0"
-import PanelButton from "../PanelButton"
 import colorpicker from "services/colorpicker"
+import PanelWidget from "../PanelWidget"
 
 const css = (color: string) => `
 * {
@@ -27,7 +27,7 @@ export default () => {
     ),
   })
 
-  return PanelButton({
+  return PanelWidget({
     class_name: "color-picker",
     child: Widget.Icon("color-select-symbolic"),
     tooltip_text: colorpicker.bind("colors").as((v) => `${v.length} colors`),

@@ -1,13 +1,13 @@
 import options from "options"
-import PanelButton from "../PanelButton"
 import icons from "lib/icons"
+import PanelWidget from "../PanelWidget"
 
 const n = await Service.import("notifications")
 const notifs = n.bind("notifications")
 const action = options.bar.messages.action.bind()
 
 export default () =>
-  PanelButton({
+  PanelWidget({
     class_name: "messages",
     on_clicked: action,
     visible: notifs.as((n) => n.length > 0),

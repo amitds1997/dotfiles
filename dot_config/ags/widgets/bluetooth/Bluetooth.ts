@@ -3,7 +3,7 @@ import { icon } from "lib/utils"
 import options from "options"
 import GObject from "gi://GObject"
 import { BluetoothDevice } from "types/service/bluetooth"
-import PopupWindow from "widgets/window/PopupWindow"
+import PopupWindow from "widgets/PopupWindow"
 
 const { bar, preferences } = options
 const layout = Utils.derive(

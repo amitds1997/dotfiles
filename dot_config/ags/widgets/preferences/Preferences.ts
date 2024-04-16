@@ -1,6 +1,6 @@
 import options from "options"
-import { Media } from "widgets/quicksettings/widgets/Media"
-import PopupWindow from "widgets/window/PopupWindow"
+import { Media } from "widgets/preferences/widgets/Media"
+import PopupWindow from "widgets/PopupWindow"
 import { DND } from "./widgets/DND"
 import { ScreenRecorder, Screenshoter } from "./widgets/ScreenRecWidgets"
 import { DarkModeToggle } from "./widgets/DarkMode"

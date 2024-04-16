@@ -34,10 +34,6 @@
 ## Pending tasks
 
 - [ ] Login manager (Display manager)
-- [x] App launcher
-  - [ ] Automatically select the first available result
-  - [ ] Neovim does not launch. It works from the rofi menu
-  - [ ] Allow bigger scroll for Application launcher
 - [ ] OSD
   - [ ] Volume
   - [ ] Brightness
@@ -46,63 +42,29 @@
   - [ ] Allow moving window from one workspace to other
   - [ ] Show layout and content in those windows
   - [ ] Attach it to three finger swipe up
-- [ ] Top bar
-  - [ ] Left
-    - [ ] Hyprland workspaces
-    - [ ] Pending notifications
-  - [x] Center
-    - [x] Date & time
-      - [x] Notifications
-      - [x] Panel
-        - [x] Time (with seconds)
-        - [x] Calendar
-  - [x] Right
-    - [x] Transient widgets
-      - [x] Screen recording (blinking and red)
-      - [x] Microphone (not blinking but bright orange)
-    - [x] System tray
-    - [x] Color picker
-      - [x] Fix colorpicker notification
-    - [x] Volume
-      - [x] Default speaker volume (with percentage number)
-      - [x] Default microphone volume (with percentage number)
-      - [x] Applications (App Mixer)
-      - [x] Input selector
-      - [x] Output selector
-      - [ ] Add application volume selector
-    - [x] WiFi/Ethernet
-      - [x] Panel
-        - [x] On/off toggle
-        - [x] Re-scan
-      - [x] Available WiFi List
-      - [ ] (Right-button-click shows active network details)
-    - [x] Bluetooth panel
-      - [x] Panel
-        - [x] On/off toggle
-        - [x] Re-scan (available through app)
-      - [x] Bluetooth device list
-        - [x] Known devices
-        - [x] Found devices
-        - [ ] Filter out null name bluetooth devices maybe?
+- App launcher
+  - [ ] Automatically select the first available result
+  - [ ] Neovim does not launch. It works from the rofi menu
+  - [ ] Allow bigger scroll for Application launcher
+- Top bar
+  - Right
+    - Audio
+      - [ ] Add application volume sink selector
+    - WiFi/Ethernet
+      - [ ] Right click opens settings
+    - Bluetooth panel
+      - Bluetooth device list
+        - [ ] Filter out null name bluetooth devices
     - [ ] Quick access
-      - [x] Panel
-        - [x] Screenshot
-        - [x] Screen recorder
-        - [x] Do not disturb
-        - [x] Dark mode
-          - [ ] Replace pywal with matugen and integrate with ags
-          - [ ] Figure out how the colors change and adjust the toggle to
-            apply the theme to the wider OS
-        - [x] Brightness
-          - [x] Pause auto-adjust
-          - [x] Selector for each monitor
-          - [ ] Do a gradual increase instead of a curve ball
-      - [x] Music player
-        - [x] Fix music player icon not hiding when no music is playing
-        - [x] Fix music player layout
+      - Dark mode
+        - [ ] Replace pywal with matugen and integrate with ags
+        - [ ] Figure out how the colors change and adjust the toggle to
+          apply the theme to the wider OS
+      - Brightness
+        - [ ] Do a gradual increase instead of a curve ball
+      - Music player
         - [ ] If no icon is available drop the widget of icon
-    - [x] Battery
+    - Battery
       - [ ] Add toggle to activate battery saving mode on click to battery
-      - [x] Add tooltip to battery showing how much time is remaining
-    - [x] Power menu
-      - [ ] Switch layout to vertical for powermenu
+    - Power menu
+      - [ ] Switch layout to horizontal for powermenu

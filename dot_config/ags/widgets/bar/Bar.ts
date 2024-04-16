@@ -1,10 +1,8 @@
 import options from "options"
-import Date from "./buttons/Date"
-import Media from "./buttons/Media"
-import Workspaces from "./buttons/Workspaces"
-import ColorPicker from "./buttons/ColorPicker"
-import Messages from "./buttons/Messages"
-import SystemIndicators from "./buttons/SystemIndicators"
+import Date from "./widgets/Date"
+import Workspaces from "./widgets/Workspaces"
+import ColorPicker from "./widgets/ColorPicker"
+import Messages from "./widgets/Messages"
 import Battery from "./widgets/Battery"
 import PowerMenu from "./widgets/PowerMenu"
 import SystemTray from "./widgets/SystemTray"
@@ -25,14 +23,12 @@ const widget = {
   powermenu: PowerMenu,
   systray: SystemTray,
   date: Date,
-  media: Media,
   workspaces: Workspaces,
   screenrecord: ScreenRecordingIndicator,
   microphone: MicrophoneIndicator,
   colorpicker: ColorPicker,
   messages: Messages,
   preferences: Preferences,
-  system: SystemIndicators,
   audio: Audio,
   bluetooth: Bluetooth,
   network: Network,

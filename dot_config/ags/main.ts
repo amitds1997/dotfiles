@@ -8,13 +8,12 @@ import NotificationPopups from "widgets/notifications/NotificationPopups"
 import Overview from "widgets/overview/Overview"
 import PowerMenu from "widgets/powermenu/PowerMenu"
 import Verification from "widgets/powermenu/Verification"
-import { setupQuickSettings } from "widgets/quicksettings/QuickSettings"
 import init from "lib/init"
 import { setUpPreferences } from "widgets/preferences/Preferences"
 
 App.config({
   onConfigParsed: () => {
-    setupQuickSettings(), setupDateMenu(), init(), setUpPreferences()
+    setupDateMenu(), init(), setUpPreferences()
   },
   windows: () => [
     ...forMonitors(Bar),

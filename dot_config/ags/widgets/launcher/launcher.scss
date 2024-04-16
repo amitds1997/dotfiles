@@ -8,7 +8,6 @@ window#launcher .launcher {
     @include spacing;
 
     button {
-      @include button($flat: true);
       padding: $padding;
     }
   }
@@ -40,7 +39,7 @@ window#launcher .launcher {
   }
 
   button.app-item {
-    @include button($flat: true, $reactive: false);
+    @include button($reactive: false);
 
     > box {
       @include spacing(0.5);
@@ -93,7 +92,7 @@ window#launcher .launcher {
 
   button.help,
   button.nix-item {
-    @include button($flat: true, $reactive: false);
+    @include button($reactive: false);
     padding: 0 ($padding * 0.5);
 
     label {
@@ -128,7 +127,7 @@ window#launcher .launcher {
   }
 
   button.sh-item {
-    @include button($flat: true, $reactive: false);
+    @include button($reactive: false);
     padding: 0 ($padding * 0.5);
 
     transition: $transition;

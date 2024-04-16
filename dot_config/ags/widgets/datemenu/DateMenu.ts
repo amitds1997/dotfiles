@@ -1,5 +1,5 @@
 import options from "options"
-import PopupWindow from "widgets/window/PopupWindow"
+import PopupWindow from "widgets/PopupWindow"
 import NotificationColumn from "./NotificationColumn"
 import DateColumn from "./DateColumn"
 

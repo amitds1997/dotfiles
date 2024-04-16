@@ -3,85 +3,58 @@
 $bar-spacing: $spacing * 0.3;
 $button-radius: $radius;
 
-@mixin panel-button($flat: true, $reactive: true) {
-  @include accs-button($flat, $reactive);
-
+@mixin panel-widget($reactive: true) {
   > * {
     border-radius: $button-radius;
-    margin: $bar-spacing;
   }
 
-  label,
   image {
     font-weight: bold;
-  }
-
-  > * {
-    padding: $padding * 0.4 $padding * 0.8;
   }
 }
 
 .bar {
-  background-color: $bg;
+  background-color: transparent;
 
-  .panel-button {
-    @include panel-button;
-
-    &:not(.flat) {
-      @include accs-button($flat: false);
-    }
-  }
-
-  .launcher {
-    .colored {
-      color: transparentize($primary-bg, 0.2);
-    }
-
-    &:hover .colored {
-      color: $primary-bg;
-    }
-
-    &:active .colored,
-    &.active .colored {
-      color: $primary-fg;
-    }
+  .panel-widget {
+    @include panel-widget;
   }
 
   .workspaces {
-    label {
+    button {
       font-size: 10pt;
-      min-width: 15pt;
-      min-height: 15pt;
-      border-radius: $radius * 0.6;
+      min-width: 10pt;
+      min-height: 10pt;
+      border-radius: $radius;
       box-shadow: inset 0 0 0 $border-width $hover-bg;
       margin: 0 $padding * 0.5;
       background-color: transparentize($bg, 0.8);
 
       &.occupied {
         background-color: transparentize($fg, 0.8);
-        min-width: 15pt;
+        min-width: 12pt;
       }
 
       &.active {
         background-color: $primary-bg;
-        min-width: 20pt;
+        min-width: 14pt;
       }
     }
 
-    &.active,
-    &:active {
-      label {
-        background-color: transparentize($primary-fg, 0.3);
+    // &.active,
+    // &:active {
+    //   button {
+    //     background-color: transparentize($primary-fg, 0.3);
 
-        &.occupied {
-          background-color: transparentize($primary-fg, 0.15);
-        }
+    //     &.occupied {
+    //       background-color: transparentize($primary-fg, 0.15);
+    //     }
 
-        &.active {
-          background-color: $primary-fg;
-        }
-      }
-    }
+    //     &.active {
+    //       background-color: $primary-fg;
+    //     }
+    //   }
+    // }
   }
 
   .media label {
@@ -96,7 +69,7 @@ $button-radius: $radius;
     margin: 2pt;
   }
 
-  .powermenu.colored,
+  .powermenu,
   .recorder {
     image {
       color: transparentize($error-bg, 0.3);

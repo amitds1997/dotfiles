@@ -4,7 +4,7 @@ import icons from "lib/icons"
 import { icon } from "lib/utils"
 import options from "options"
 import { Stream } from "types/service/audio"
-import PopupWindow from "widgets/window/PopupWindow"
+import PopupWindow from "widgets/PopupWindow"
 
 const { bar, preferences } = options
 const layout = Utils.derive(

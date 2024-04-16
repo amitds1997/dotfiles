@@ -111,16 +111,9 @@ const options = mkOptions(OPTIONS, {
   },
 
   bar: {
-    flatButtons: opt(true),
     position: opt<"top" | "bottom">("top"),
     layout: {
-      start: opt<BarWidget[]>([
-        // "launcher",
-        "workspaces",
-        // "taskbar",
-        "messages",
-        "expander",
-      ]),
+      start: opt<BarWidget[]>(["workspaces", "messages", "expander"]),
       center: opt<BarWidget[]>(["date"]),
       end: opt<BarWidget[]>([
         "expander",
@@ -131,7 +124,6 @@ const options = mkOptions(OPTIONS, {
         "bluetooth",
         "network",
         "audio",
-        "system",
         "preferences",
         "battery",
         "powermenu",
