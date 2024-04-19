@@ -1,15 +1,11 @@
 import icons from "lib/icons"
-import { icon } from "lib/utils"
+import { get_icon } from "lib/utils"
 import options from "options"
 import GObject from "gi://GObject"
 import { BluetoothDevice } from "types/service/bluetooth"
-import PopupWindow from "widgets/PopupWindow"
+import BarWindow from "widgets/BarWindow"
 
-const { bar, preferences } = options
-const layout = Utils.derive(
-  [bar.position, preferences.position],
-  (bar, p) => `${bar}-${p}` as const,
-)
+const { preferences } = options
 const bluetooth = await Service.import("bluetooth")
 const apps = await Service.import("applications")
 
@@ -26,7 +22,7 @@ const DeviceItem = (device: BluetoothDevice) => {
           hpack: "start",
           children: [
             Widget.Icon(
-              icon(device.icon_name + "-symbolic", icons.bluetooth.enabled),
+              get_icon(device.icon_name + "-symbolic", icons.bluetooth.enabled),
             ),
             Widget.Label(device.alias),
           ],
@@ -53,8 +49,7 @@ const DeviceItem = (device: BluetoothDevice) => {
 const BluetoothPreferences = () =>
   Widget.Box({
     vertical: true,
-    class_name: "bluetooth-preferences vertical",
-    css: preferences.width.bind().as((w) => `min-width: ${w}px;`),
+    class_name: "bluetooth-preferences",
     children: [
       Widget.Box({
         vertical: false,
@@ -144,12 +139,7 @@ const BluetoothPreferences = () =>
   })
 
 export default () =>
-  PopupWindow({
+  BarWindow({
     name: "bluetooth",
-    exclusivity: "exclusive",
-    transition: bar.position
-      .bind()
-      .as((p) => (p === "top" ? "slide_down" : "slide_up")),
-    layout: layout.value,
     child: BluetoothPreferences(),
   })

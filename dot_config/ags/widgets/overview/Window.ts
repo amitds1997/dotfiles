@@ -1,7 +1,7 @@
 import Gdk from "gi://Gdk"
 import Gtk from "gi://Gtk?version=3.0"
 import icons from "lib/icons"
-import { createSurfaceFromWidget, icon } from "lib/utils"
+import { createSurfaceFromWidget, get_icon } from "lib/utils"
 import options from "options"
 import { type Client } from "types/service/hyprland"
 
@@ -27,7 +27,7 @@ export default ({ address, size: [w, h], class: c, title }: Client) =>
         const app = apps.list.find((app) => app.match(c))
         if (!app) return icons.fallback.executable
 
-        return icon(
+        return get_icon(
           app.icon_name + (m ? "-symbolic" : ""),
           icons.fallback.executable,
         )

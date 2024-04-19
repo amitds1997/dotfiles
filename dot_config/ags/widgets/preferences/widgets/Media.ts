@@ -1,5 +1,5 @@
 import icons from "lib/icons"
-import { icon } from "lib/utils"
+import { get_icon } from "lib/utils"
 import options from "options"
 import { type MprisPlayer } from "types/service/mpris"
 
@@ -104,7 +104,7 @@ const Player = (player: MprisPlayer) => {
       [player.bind("entry"), media.monochromeIcon.bind()],
       (e, s) => {
         const name = `${e}${s ? "-symbolic" : ""}`
-        return icon(name, icons.fallback.audio)
+        return get_icon(name, icons.fallback.audio)
       },
     ),
   })

@@ -1,49 +1,36 @@
 import Gtk from "gi://Gtk?version=3.0"
-import { stream_icon } from "lib/icon_utils"
 import icons from "lib/icons"
-import { icon } from "lib/utils"
+import { get_icon, get_stream_icon } from "lib/utils"
 import options from "options"
 import { Stream } from "types/service/audio"
-import PopupWindow from "widgets/PopupWindow"
+import BarWindow from "widgets/BarWindow"
 
-const { bar, preferences } = options
-const layout = Utils.derive(
-  [bar.position, preferences.position],
-  (bar, p) => `${bar}-${p}` as const,
-)
+const { preferences } = options
 const audio = await Service.import("audio")
 
-type AudioSourceSinkType = "microphones" | "speakers"
-type AudioArrType = AudioSourceSinkType | "apps"
-type AudioItemsType = {
+type SourceSinkType = "microphones" | "speakers"
+type MixerType = SourceSinkType | "apps"
+type MixerItemType = {
   name: string
-  item_creator_icon: string
+  icon: string
   class_name: string
-  bind_item: AudioArrType
+  mixer_type: MixerType
 }
-type AudioIcon = typeof icons.audio.microphone
+type MixerIconType = typeof icons.audio.microphone
 
-const StreamVolumeIcon = (stream: Stream, fallback_icon: AudioIcon) =>
+const StreamVolumeIcon = (stream: Stream, fallback_icon: MixerIconType) =>
   Widget.Button({
     on_clicked: () => {
       stream.is_muted = !stream.is_muted
     },
-    child: Widget.Icon({
-      tooltipText: stream
-        .bind("is_muted")
-        .as((is_muted) => (is_muted ? "Unmute audio" : "Mute audio")),
-      setup: (self) => {
-        self.hook(
-          stream,
-          (self) => {
-            self.icon = icon(
-              stream.icon_name || "",
-              stream_icon(stream, fallback_icon),
-            )
-          },
-          "changed",
-        )
-      },
+    tooltipText: stream
+      .bind("is_muted")
+      .as((is_muted) => (is_muted ? "Unmute audio" : "Mute audio")),
+    child: Widget.Icon().hook(stream, (self) => {
+      self.icon = get_icon(
+        stream.icon_name || "",
+        get_stream_icon(stream, fallback_icon),
+      )
     }),
   })
 
@@ -61,11 +48,19 @@ const StreamVolumeLabel = (stream: Stream) =>
     label: stream.bind("volume").as((vol) => `${Math.floor(vol * 100)}%`),
   })
 
-const StreamVolume = (stream: Stream, fallback_icon: AudioIcon) =>
+const StreamDescription = (stream: Stream) =>
+  Widget.Label({
+    hpack: "start",
+    xalign: 0,
+    truncate: "end",
+    label: stream.bind("description").as((d) => d || "No description"),
+  })
+
+const StreamVolume = (stream: Stream, fallback_icon: MixerIconType) =>
   Widget.Box({
     hexpand: true,
     vertical: false,
-    class_name: "volume",
+    class_name: "stream-volume",
     children: [
       StreamVolumeIcon(stream, fallback_icon),
       StreamVolumeSlider(stream),
@@ -73,8 +68,11 @@ const StreamVolume = (stream: Stream, fallback_icon: AudioIcon) =>
     ],
   })
 
-const SelectorItem = (stream: Stream, bind_item_type: AudioSourceSinkType) => {
-  const audio_type = bind_item_type === "speakers" ? "speaker" : "microphone"
+const SourceSinkSelectorItem = (
+  stream: Stream,
+  selector_type: SourceSinkType,
+) => {
+  const audio_type = selector_type === "speakers" ? "speaker" : "microphone"
 
   return Widget.Box({
     hexpand: true,
@@ -87,15 +85,7 @@ const SelectorItem = (stream: Stream, bind_item_type: AudioSourceSinkType) => {
           Widget.Box({
             hexpand: true,
             children: [
-              Widget.Label({
-                hpack: "start",
-                xalign: 0,
-                truncate: "end",
-                max_width_chars: 28,
-                label: stream
-                  .bind("description")
-                  .as((d) => d || "No description"),
-              }),
+              StreamDescription(stream),
               Widget.ToggleButton({
                 hexpand: true,
                 hpack: "end",
@@ -121,20 +111,7 @@ const SelectorItem = (stream: Stream, bind_item_type: AudioSourceSinkType) => {
           }),
           Widget.Box({
             hexpand: true,
-            children: [
-              Widget.Slider({
-                hexpand: true,
-                draw_value: false,
-                value: stream.bind("volume"),
-                on_change: ({ value }) => (stream.volume = value),
-              }),
-              Widget.Label({
-                hpack: "end",
-                label: stream
-                  .bind("volume")
-                  .as((vol) => `${Math.floor(vol * 100)}%`),
-              }),
-            ],
+            children: [StreamVolumeSlider(stream), StreamVolumeLabel(stream)],
           }),
         ],
       }),
@@ -142,7 +119,7 @@ const SelectorItem = (stream: Stream, bind_item_type: AudioSourceSinkType) => {
   })
 }
 
-const MixerItem = (stream: Stream, bind_item_type: AudioArrType) => {
+const AppMixerItem = (stream: Stream) => {
   return Widget.Box({
     hexpand: true,
     children: [
@@ -153,44 +130,28 @@ const MixerItem = (stream: Stream, bind_item_type: AudioArrType) => {
         children: [
           Widget.Box({
             hexpand: true,
-            children: [
-              Widget.Label({
-                hexpand: true,
-                hpack: "start",
-                xalign: 0,
-                truncate: "end",
-                label: stream
-                  .bind("description")
-                  .as((d) => d || "No description"),
-              }),
-              Widget.Label({
-                hpack: "end",
-                label: stream
-                  .bind("volume")
-                  .as((vol) => `${Math.floor(vol * 100)}%`),
-              }),
-            ],
+            children: [StreamDescription(stream), StreamVolumeLabel(stream)],
           }),
-          Widget.Slider({
-            hexpand: true,
-            draw_value: false,
-            value: stream.bind("volume"),
-            on_change: ({ value }) => (stream.volume = value),
-          }),
+          StreamVolumeSlider(stream),
         ],
       }),
     ],
   })
 }
 
-type HandlerProps = {
+type AudioSelectorProps = {
   name: string
   icon_name: string
   class_name: string
   content: Gtk.Widget[]
 }
 
-const Handler = ({ name, icon_name, class_name, content }: HandlerProps) => {
+const AudioSelector = ({
+  name,
+  icon_name,
+  class_name,
+  content,
+}: AudioSelectorProps) => {
   const opened = Variable(false)
 
   const arrow_icon = Widget.Icon({
@@ -198,7 +159,7 @@ const Handler = ({ name, icon_name, class_name, content }: HandlerProps) => {
   })
 
   return Widget.Box({
-    class_names: ["handler-menu", class_name],
+    class_names: ["audio-selector", class_name],
     vertical: true,
     children: [
       Widget.Box({
@@ -235,7 +196,7 @@ const Handler = ({ name, icon_name, class_name, content }: HandlerProps) => {
         transition: "slide_down",
         reveal_child: opened.bind().as((v) => v),
         child: Widget.Box({
-          class_names: ["handler-menu", name],
+          class_names: ["audio-selector-menu", name],
           vertical: true,
           children: content,
         }),
@@ -243,29 +204,29 @@ const Handler = ({ name, icon_name, class_name, content }: HandlerProps) => {
     ],
   })
 }
-const ItemCreator = ({
+const AudioMixerItem = ({
   name,
-  item_creator_icon,
+  icon,
   class_name,
-  bind_item,
-}: AudioItemsType) => {
-  return Handler({
+  mixer_type,
+}: MixerItemType) => {
+  return AudioSelector({
     name: name,
-    icon_name: item_creator_icon,
+    icon_name: icon,
     class_name: class_name,
     content: [
       Widget.Separator({
-        visible: audio.bind(bind_item).as((p) => p.length > 0),
+        visible: audio.bind(mixer_type).as((p) => p.length > 0),
       }),
       Widget.Box({
         vertical: true,
         class_name: "content vertical",
-        children: audio.bind(bind_item).as((p) => {
+        children: audio.bind(mixer_type).as((p) => {
           return p.map((mi) => {
-            if (bind_item === "apps") {
-              return MixerItem(mi, bind_item)
+            if (mixer_type === "apps") {
+              return AppMixerItem(mi)
             } else {
-              return SelectorItem(mi, bind_item)
+              return SourceSinkSelectorItem(mi, mixer_type)
             }
           })
         }),
@@ -283,34 +244,29 @@ const AudioBox = () =>
     children: [
       StreamVolume(audio.speaker, icons.audio.speaker),
       StreamVolume(audio.microphone, icons.audio.microphone),
-      ItemCreator({
+      AudioMixerItem({
         name: "App mixer",
-        item_creator_icon: icons.audio.mixer,
+        icon: icons.audio.mixer,
         class_name: "app-mixer",
-        bind_item: "apps",
+        mixer_type: "apps",
       }),
-      ItemCreator({
+      AudioMixerItem({
         name: "Sink selector",
-        item_creator_icon: icons.audio.mixer,
+        icon: icons.audio.mixer,
         class_name: "sink-selector",
-        bind_item: "speakers",
+        mixer_type: "speakers",
       }),
-      ItemCreator({
+      AudioMixerItem({
         name: "Source selector",
-        item_creator_icon: icons.audio.mixer,
+        icon: icons.audio.mixer,
         class_name: "source-selector",
-        bind_item: "microphones",
+        mixer_type: "microphones",
       }),
     ],
   })
 
 export default () =>
-  PopupWindow({
+  BarWindow({
     name: "audio",
-    exclusivity: "exclusive",
-    transition: bar.position
-      .bind()
-      .as((p) => (p === "top" ? "slide_down" : "slide_up")),
-    layout: layout.value,
     child: AudioBox(),
   })

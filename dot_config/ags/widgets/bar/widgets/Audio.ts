@@ -1,5 +1,4 @@
-import { stream_icon } from "lib/icon_utils"
-import { icon } from "lib/utils"
+import { get_icon, get_stream_icon } from "lib/utils"
 import PanelWidget from "../PanelWidget"
 import icons from "lib/icons"
 
@@ -13,7 +12,10 @@ export default () =>
       icon: audio.speaker
         .bind("icon_name")
         .as((i) =>
-          icon(i || "", stream_icon(audio.speaker, icons.audio.speaker)),
+          get_icon(
+            i || "",
+            get_stream_icon(audio.speaker, icons.audio.speaker),
+          ),
         ),
     }),
     on_clicked: () => App.toggleWindow("audio"),

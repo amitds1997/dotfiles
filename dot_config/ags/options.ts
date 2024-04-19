@@ -174,7 +174,7 @@ const options = mkOptions(OPTIONS, {
   },
 
   systemtray: {
-    blocklist: opt([]),
+    blocklist: opt<string[]>([]),
   },
 
   font: {

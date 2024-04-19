@@ -1,4 +1,4 @@
-import { icon } from "lib/utils"
+import { get_icon } from "lib/utils"
 import PanelWidget from "../PanelWidget"
 import icons from "lib/icons"
 
@@ -8,14 +8,14 @@ const WiFiWidget = () =>
   Widget.Icon({
     icon: network.wifi
       .bind("icon_name")
-      .as((i) => icon(i, icons.fallback.network)),
+      .as((i) => get_icon(i, icons.fallback.network)),
   })
 
 const WiredWidget = () =>
   Widget.Icon({
     icon: network.wired
       .bind("icon_name")
-      .as((i) => icon(i, icons.fallback.network)),
+      .as((i) => get_icon(i, icons.fallback.network)),
   })
 
 export default () =>

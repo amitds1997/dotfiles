@@ -1,4 +1,4 @@
-export const substitues = {
+export const substitutes = {
   "transmission-gtk": "transmission",
   "com.github.Aylur.ags": "controls-symbolic",
   "com.github.Aylur.ags-symbolic": "controls-symbolic",

@@ -2,7 +2,7 @@ import icons from "lib/icons"
 import GObject from "gi://GObject"
 import options from "options"
 import PopupWindow from "widgets/PopupWindow"
-import { debounce, icon } from "lib/utils"
+import { debounce, get_icon } from "lib/utils"
 
 const { bar, preferences } = options
 const layout = Utils.derive(
@@ -79,7 +79,7 @@ const APItem = (ap: APType) =>
         Widget.Box({
           hpack: "start",
           children: [
-            Widget.Icon(icon(ap.iconName || null, icons.network.ap)),
+            Widget.Icon(get_icon(ap.iconName || null, icons.network.ap)),
             Widget.Label(ap.ssid!),
           ],
         }),
@@ -91,7 +91,7 @@ const APItem = (ap: APType) =>
               visible: wifi
                 .bind("internet")
                 .as((i) => isActiveAp(ap) && i === "connected"),
-              icon: icon(icons.network.selected),
+              icon: get_icon(icons.network.selected),
             }),
             Widget.Spinner({
               active: wifi.bind("internet").as((i) => i === "connecting"),

@@ -1,5 +1,5 @@
 import icons from "lib/icons"
-import { icon, launchApp } from "lib/utils"
+import { get_icon, launchApp } from "lib/utils"
 import options from "options"
 import { type Application } from "types/service/applications"
 
@@ -17,7 +17,7 @@ const QuickAppButton = (app: Application) =>
     },
     child: Widget.Icon({
       size: iconSize.bind(),
-      icon: icon(app.icon_name, icons.fallback.executable),
+      icon: get_icon(app.icon_name, icons.fallback.executable),
     }),
   })
 
@@ -43,7 +43,7 @@ const AppItem = (app: Application) => {
   })
 
   const appIcon = Widget.Icon({
-    icon: icon(app.icon_name, icons.fallback.executable),
+    icon: get_icon(app.icon_name, icons.fallback.executable),
     size: iconSize.bind(),
   })
 
