@@ -3,7 +3,7 @@ import { get_icon } from "lib/utils"
 import options from "options"
 import GObject from "gi://GObject"
 import { BluetoothDevice } from "types/service/bluetooth"
-import BarWindow from "widgets/BarWindow"
+import BarWindow, { setUpBarWindow } from "widgets/BarWindow"
 
 const { preferences } = options
 const bluetooth = await Service.import("bluetooth")
@@ -138,8 +138,6 @@ const BluetoothPreferences = () =>
     ],
   })
 
-export default () =>
-  BarWindow({
-    name: "bluetooth",
-    child: BluetoothPreferences(),
-  })
+export function setUpBluetoothMenu() {
+  setUpBarWindow({ name: "bluetooth", child: BluetoothPreferences() })
+}

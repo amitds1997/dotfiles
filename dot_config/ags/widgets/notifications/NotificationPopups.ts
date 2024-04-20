@@ -83,7 +83,7 @@ function PoupList() {
 export default (monitor: number) =>
   Widget.Window({
     monitor,
-    name: `notifications${monitor}`,
+    name: `notifications-${monitor}`,
     anchor: position.bind(),
     class_name: "notifications",
     child: Widget.Box({

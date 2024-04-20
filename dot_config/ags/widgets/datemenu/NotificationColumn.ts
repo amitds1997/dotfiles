@@ -6,7 +6,7 @@ import Notification from "widgets/notifications/Notification"
 const notifications = await Service.import("notifications")
 const notifs = notifications.bind("notifications")
 
-const Animated = (n: Notif) =>
+const AnimatedNotifs = (n: Notif) =>
   Widget.Revealer({
     transition_duration: options.transition.value,
     transition: "slide_down",
@@ -56,11 +56,11 @@ const PlaceHolder = () =>
   })
 
 const NotificationList = () => {
-  const map: Map<number, ReturnType<typeof Animated>> = new Map()
+  const map: Map<number, ReturnType<typeof AnimatedNotifs>> = new Map()
   const box = Widget.Box({
     vertical: true,
     children: notifications.notifications.map((n) => {
-      const w = Animated(n)
+      const w = AnimatedNotifs(n)
       map.set(n.id, w)
       return w
     }),
@@ -86,7 +86,7 @@ const NotificationList = () => {
 
         const n = notifications.getNotification(id)!
 
-        const w = Animated(n)
+        const w = AnimatedNotifs(n)
         map.set(id, w)
         box.children = [w, ...box.children]
       }

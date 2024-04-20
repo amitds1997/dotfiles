@@ -2,18 +2,26 @@ import "lib/session"
 import "style/style"
 import { forMonitors } from "lib/utils"
 import Bar from "widgets/bar/Bar"
-import { setupDateMenu } from "widgets/datemenu/DateMenu"
+import { setUpDateMenu } from "widgets/datemenu/DateMenu"
 import Launcher from "widgets/launcher/Launcher"
 import NotificationPopups from "widgets/notifications/NotificationPopups"
 import Overview from "widgets/overview/Overview"
 import PowerMenu from "widgets/powermenu/PowerMenu"
 import Verification from "widgets/powermenu/Verification"
 import init from "lib/init"
-import { setUpPreferences } from "widgets/preferences/Preferences"
+import { setUpPreferencesMenu } from "widgets/preferences/Preferences"
+import { setUpBluetoothMenu } from "widgets/bluetooth/Bluetooth"
+import { setUpNetworkMenu } from "widgets/network/Network"
+import { setUpAudioMenu } from "widgets/audio/Audio"
 
 App.config({
   onConfigParsed: () => {
-    setupDateMenu(), init(), setUpPreferences()
+    setUpDateMenu()
+    setUpBluetoothMenu()
+    setUpNetworkMenu()
+    setUpAudioMenu()
+    init()
+    setUpPreferencesMenu()
   },
   windows: () => [
     ...forMonitors(Bar),

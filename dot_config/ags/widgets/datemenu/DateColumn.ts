@@ -11,7 +11,7 @@ export default () =>
         children: [
           Widget.Label({
             class_name: "clock",
-            label: clock.bind().as((t) => t.format("%H:%M")!),
+            label: clock.bind().as((t) => t.format("%H:%M:%S")!),
           }),
         ],
       }),

@@ -3,12 +3,9 @@ import GObject from "gi://GObject"
 import options from "options"
 import PopupWindow from "widgets/PopupWindow"
 import { debounce, get_icon } from "lib/utils"
+import { setUpBarWindow } from "widgets/BarWindow"
 
-const { bar, preferences } = options
-const layout = Utils.derive(
-  [bar.position, preferences.position],
-  (bar, p) => `${bar}-${p}` as const,
-)
+const { preferences } = options
 const network = await Service.import("network")
 const { wired, wifi } = network
 const apps = await Service.import("applications")
@@ -225,15 +222,11 @@ const WiredPreferences = () => {
   })
 }
 
-export default () =>
-  PopupWindow({
+export function setUpNetworkMenu() {
+  setUpBarWindow({
     name: "network",
-    exclusivity: "exclusive",
-    transition: bar.position
-      .bind()
-      .as((p) => (p === "top" ? "slide_down" : "slide_up")),
-    layout: layout.value,
     child: network
       .bind("primary")
       .as((p) => (p == "wired" ? WiredPreferences() : WiFiPreferences())),
   })
+}

@@ -1,3 +1,4 @@
+act
 amd-ucode
 aylurs-gtk-shell-git
 base
@@ -45,7 +46,6 @@ hyprland-git
 hyprlock-git
 hyprpicker
 inetutils
-iwd
 jc
 jq
 kitty

@@ -16,16 +16,18 @@ vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter" }, {
     if vim.bo.filetype == "python" then
       ---@diagnostic disable-next-line: undefined-field
       local venv_name = (vim.uv.os_getenv("CONDA_DEFAULT_ENV") or vim.uv.os_getenv("VIRTUAL_ENV") or "")
-      local python_version = vim
-        .system({ "python", "--version" }, {
-          timeout = 200,
-        })
-        :wait()
+      local python_version = vim.fn.has("nvim-0.10") == 1
+          and vim
+            .system({ "python", "--version" }, {
+              timeout = 200,
+            })
+            :wait().stdout
+        or vim.fn.system("python --version")
 
       if venv_name and venv_name ~= "" then
-        M.venv = venv_name .. " (" .. vim.trim(python_version.stdout) .. ")"
+        M.venv = venv_name .. " (" .. vim.trim(python_version) .. ")"
       else
-        M.venv = vim.trim(python_version.stdout)
+        M.venv = vim.trim(python_version)
       end
     end
   end,

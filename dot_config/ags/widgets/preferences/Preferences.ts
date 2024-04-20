@@ -1,17 +1,13 @@
 import options from "options"
 import { Media } from "widgets/preferences/widgets/Media"
-import PopupWindow from "widgets/PopupWindow"
 import { DND } from "./widgets/DND"
 import { ScreenRecorder, Screenshoter } from "./widgets/ScreenRecWidgets"
 import { DarkModeToggle } from "./widgets/DarkMode"
 import { Brightness } from "./widgets/Brightness"
+import { setUpBarWindow } from "widgets/BarWindow"
 
-const { bar, preferences } = options
+const { preferences } = options
 const media = (await Service.import("mpris")).bind("players")
-const layout = Utils.derive(
-  [bar.position, preferences.position],
-  (bar, p) => `${bar}-${p}` as const,
-)
 
 const PreferenceBox = () =>
   Widget.Box({
@@ -33,21 +29,9 @@ const PreferenceBox = () =>
     ],
   })
 
-const Preferences = () =>
-  PopupWindow({
+export function setUpPreferencesMenu() {
+  setUpBarWindow({
     name: "preferences",
-    exclusivity: "exclusive",
-    transition: bar.position
-      .bind()
-      .as((p) => (p === "top" ? "slide_down" : "slide_up")),
-    layout: layout.value,
     child: PreferenceBox(),
-  })
-
-export function setUpPreferences() {
-  App.addWindow(Preferences())
-  layout.connect("changed", () => {
-    App.removeWindow("preferences")
-    App.addWindow(Preferences())
   })
 }
