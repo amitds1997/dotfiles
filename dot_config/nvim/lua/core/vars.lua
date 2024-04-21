@@ -34,6 +34,7 @@ return {
     "query",
     "svn",
     "terminal",
+    "sagarename",
   },
   treesitter_parsers = {
     "bash",
