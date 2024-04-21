@@ -1,5 +1,6 @@
 import GLib from "gi://GLib?version=2.0"
 import icons from "lib/icons"
+import { get_icon } from "lib/utils"
 import { type Notification } from "types/service/notifications"
 
 const time = (time: number, format = "%H:%M") =>
@@ -22,11 +23,6 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
     })
   }
 
-  let icon = icons.fallback.notification
-  if (Utils.lookUpIcon(app_icon)) icon = app_icon
-
-  if (Utils.lookUpIcon(app_entry || "")) icon = app_entry || ""
-
   return Widget.Box({
     vpack: "start",
     hexpand: false,
@@ -36,7 +32,10 @@ const NotificationIcon = ({ app_entry, app_icon, image }: Notification) => {
         min-width: 78px;
     `,
     child: Widget.Icon({
-      icon,
+      icon: get_icon(
+        app_icon,
+        get_icon(app_entry || "", icons.fallback.notification),
+      ),
       size: 58,
       hpack: "center",
       hexpand: true,

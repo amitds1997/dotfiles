@@ -43,7 +43,7 @@
   - [ ] Show layout and content in those windows
   - [ ] Attach it to three finger swipe up
 - App launcher
-  - [ ] Automatically select the first available result
+  - [ ] Automatically highlight the first selected search item
   - [ ] Neovim does not launch. It works from the rofi menu
   - [ ] Allow bigger scroll for Application launcher
 - Top bar

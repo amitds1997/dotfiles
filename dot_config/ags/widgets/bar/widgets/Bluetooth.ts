@@ -1,5 +1,6 @@
 import icons from "lib/icons"
 import PanelWidget from "../PanelWidget"
+import { PopupNames } from "widgets/PopupWindow"
 
 const bluetooth = await Service.import("bluetooth")
 
@@ -32,5 +33,5 @@ export default () =>
 
       return `${bluetooth.connected_devices.length} devices connected`
     }),
-    on_clicked: () => App.toggleWindow("bluetooth"),
+    on_clicked: () => App.toggleWindow(PopupNames.Bluetooth),
   })

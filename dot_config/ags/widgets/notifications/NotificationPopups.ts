@@ -6,7 +6,7 @@ const { transition } = options
 const { position } = options.notifications
 const { timeout, idle } = Utils
 
-function Animated(id: number) {
+function AnimatedNotificationPopup(id: number) {
   const n = notifications.getNotification(id)!
   const widget = Notification(n)
 
@@ -47,8 +47,11 @@ function Animated(id: number) {
   })
 }
 
-function PoupList() {
-  const map: Map<number, ReturnType<typeof Animated>> = new Map()
+function NotificationPopupList() {
+  const map: Map<
+    number,
+    ReturnType<typeof AnimatedNotificationPopup>
+  > = new Map()
   const box = Widget.Box({
     hpack: "end",
     vertical: true,
@@ -69,7 +72,7 @@ function PoupList() {
 
           if (notifications.dnd) return
 
-          const w = Animated(id)
+          const w = AnimatedNotificationPopup(id)
           map.set(id, w)
           box.children = [w, ...box.children]
         }
@@ -88,6 +91,6 @@ export default (monitor: number) =>
     class_name: "notifications",
     child: Widget.Box({
       css: "padding: 2px;",
-      child: PoupList(),
+      child: NotificationPopupList(),
     }),
   })

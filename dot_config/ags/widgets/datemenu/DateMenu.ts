@@ -1,6 +1,7 @@
 import NotificationColumn from "./NotificationColumn"
 import DateColumn from "./DateColumn"
 import { setUpBarWindow } from "widgets/BarWindow"
+import { PopupNames } from "widgets/PopupWindow"
 
 const DateMenu = () =>
   Widget.Box({
@@ -14,5 +15,5 @@ const DateMenu = () =>
   })
 
 export function setUpDateMenu() {
-  setUpBarWindow({ name: "datemenu", child: DateMenu() })
+  setUpBarWindow({ name: PopupNames.DateMenu, child: DateMenu() })
 }

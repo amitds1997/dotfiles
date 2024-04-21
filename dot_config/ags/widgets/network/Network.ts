@@ -1,7 +1,7 @@
 import icons from "lib/icons"
 import GObject from "gi://GObject"
 import options from "options"
-import PopupWindow from "widgets/PopupWindow"
+import PopupWindow, { PopupNames } from "widgets/PopupWindow"
 import { debounce, get_icon } from "lib/utils"
 import { setUpBarWindow } from "widgets/BarWindow"
 
@@ -11,17 +11,17 @@ const { wired, wifi } = network
 const apps = await Service.import("applications")
 type APType = (typeof wifi.access_points)[number]
 
-const debounced_scan = debounce(wifi.scan, 2000)
+const debouncedWiFiScan = debounce(wifi.scan, 2000)
 
-const isActiveAp = (ap: APType) => {
+const isActiveAP = (ap: APType) => {
   return wifi.ssid === ap.ssid && wifi.frequency === ap.frequency
 }
 
-const APItem = (ap: APType) =>
+const WiFiAPItem = (ap: APType) =>
   Widget.ToggleButton({
     hexpand: true,
     on_toggled: () => {
-      if (isActiveAp(ap)) {
+      if (isActiveAP(ap)) {
         const cmd = `bash -c "nmcli -t -f FILENAME,UUID connection show --active | grep -i '${ap.ssid}' | cut -d ':' -f 2 | xargs -I {} nmcli connection down {}"`
         Utils.execAsync(cmd).catch((err) =>
           console.error(
@@ -38,7 +38,7 @@ const APItem = (ap: APType) =>
           ) {
             // If there is need for a password, show the popup now
             const password_input_window = PopupWindow({
-              name: "password-input",
+              name: PopupNames.PasswordInput,
               exclusivity: "exclusive",
               keymode: "exclusive",
               layout: "center",
@@ -56,8 +56,8 @@ const APItem = (ap: APType) =>
                         err,
                       )
                     })
-                    App.closeWindow("password-input")
-                    App.removeWindow(App.getWindow("password-input")!)
+                    App.closeWindow(PopupNames.PasswordInput)
+                    App.removeWindow(App.getWindow(PopupNames.PasswordInput)!)
                   },
                 }),
               }),
@@ -87,14 +87,14 @@ const APItem = (ap: APType) =>
             Widget.Icon({
               visible: wifi
                 .bind("internet")
-                .as((i) => isActiveAp(ap) && i === "connected"),
+                .as((i) => isActiveAP(ap) && i === "connected"),
               icon: get_icon(icons.network.selected),
             }),
             Widget.Spinner({
               active: wifi.bind("internet").as((i) => i === "connecting"),
               visible: wifi
                 .bind("internet")
-                .as((i) => i === "connecting" && isActiveAp(ap)),
+                .as((i) => i === "connecting" && isActiveAP(ap)),
             }),
           ],
         }),
@@ -127,7 +127,7 @@ const WiFiPreferences = () =>
             visible: wifi.bind("enabled"),
             child: Widget.Icon(icons.network.scan),
             on_clicked: () => {
-              debounced_scan()
+              debouncedWiFiScan()
             },
           }),
           Widget.Switch({
@@ -186,7 +186,7 @@ const WiFiPreferences = () =>
 
                     return ap2.strength - ap1.strength
                   })
-                  .map(APItem),
+                  .map(WiFiAPItem),
               ),
             }),
           }),

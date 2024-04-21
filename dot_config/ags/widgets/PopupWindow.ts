@@ -7,8 +7,19 @@ import { type WindowProps } from "types/widgets/window"
 type Transition = RevealerProps["transition"]
 type Child = WindowProps["child"]
 
-type PopupWindowProps = Omit<WindowProps, "name"> & {
-  name: string
+export enum PopupNames {
+  Launcher = "launcher",
+  Bluetooth = "bluetooth",
+  PowerMenu = "powermenu",
+  PowerMenuVerification = "verification",
+  DateMenu = "datemenu",
+  Overview = "overview",
+  PasswordInput = "password-input",
+  Preferences = "preferences",
+}
+
+export type PopupWindowProps = Omit<WindowProps, "name"> & {
+  name: PopupNames
   layout?: keyof ReturnType<typeof Layout>
   transition?: Transition
 }

@@ -2,20 +2,19 @@ import Gdk from "gi://Gdk"
 import Gtk from "gi://Gtk?version=3.0"
 import options from "options"
 import Window from "./Window"
+import { PopupNames } from "widgets/PopupWindow"
 
-const TARGET = [Gtk.TargetEntry.new("text/plain", Gtk.TargetFlags.SAME_APP, 0)]
-const scale = (size: number) => (options.overview.scale.value / 100) * size
 const hyprland = await Service.import("hyprland")
 
+const scale = (size: number) => (options.overview.scale.value / 100) * size
 const dispatch = (args: string) => hyprland.messageAsync(`dispatch ${args}`)
+const getWorkspaceDimensions = (workspaceID: number) => {
+  const default_dimensions = { h: 1080, w: 1920 }
+  const ws = hyprland.getWorkspace(workspaceID)
+  if (!ws) return default_dimensions
 
-const size = (id: number) => {
-  const def = { h: 1080, w: 1920 }
-  const ws = hyprland.getWorkspace(id)
-  if (!ws) return def
-
-  const mon = hyprland.getMonitor(ws.monitorID)
-  return mon ? { h: mon.height, w: mon.width } : def
+  const monitor = hyprland.getMonitor(ws.monitorID)
+  return monitor ? { h: monitor.height, w: monitor.width } : default_dimensions
 }
 
 export default (id: number) => {
@@ -42,8 +41,8 @@ export default (id: number) => {
     vpack: "center",
     css: options.overview.scale.bind().as(
       (v) => `
-        min-width: ${(v / 100) * size(id).w}px;
-        min-height: ${(v / 100) * size(id).h}px;
+        min-width: ${(v / 100) * getWorkspaceDimensions(id).w}px;
+        min-height: ${(v / 100) * getWorkspaceDimensions(id).h}px;
         `,
     ),
     setup: (box) =>
@@ -56,13 +55,13 @@ export default (id: number) => {
     child: Widget.EventBox({
       expand: true,
       on_primary_click: () => {
-        App.closeWindow("overview")
+        App.closeWindow(PopupNames.Overview)
         dispatch(`workspace ${id}`)
       },
       setup: (eventBox) => {
         eventBox.drag_dest_set(
           Gtk.DestDefaults.ALL,
-          TARGET,
+          [Gtk.TargetEntry.new("text/plain", Gtk.TargetFlags.SAME_APP, 0)],
           Gdk.DragAction.COPY,
         )
         eventBox.connect("drag-data-received", (_w, _c, _x, _y, data) => {

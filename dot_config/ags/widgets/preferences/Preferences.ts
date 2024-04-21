@@ -5,6 +5,7 @@ import { ScreenRecorder, Screenshoter } from "./widgets/ScreenRecWidgets"
 import { DarkModeToggle } from "./widgets/DarkMode"
 import { Brightness } from "./widgets/Brightness"
 import { setUpBarWindow } from "widgets/BarWindow"
+import { PopupNames } from "widgets/PopupWindow"
 
 const { preferences } = options
 const media = (await Service.import("mpris")).bind("players")
@@ -31,7 +32,7 @@ const PreferenceBox = () =>
 
 export function setUpPreferencesMenu() {
   setUpBarWindow({
-    name: "preferences",
+    name: PopupNames.Preferences,
     child: PreferenceBox(),
   })
 }

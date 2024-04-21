@@ -4,6 +4,7 @@ import options from "options"
 import GObject from "gi://GObject"
 import { BluetoothDevice } from "types/service/bluetooth"
 import BarWindow, { setUpBarWindow } from "widgets/BarWindow"
+import { PopupNames } from "widgets/PopupWindow"
 
 const { preferences } = options
 const bluetooth = await Service.import("bluetooth")
@@ -139,5 +140,5 @@ const BluetoothPreferences = () =>
   })
 
 export function setUpBluetoothMenu() {
-  setUpBarWindow({ name: "bluetooth", child: BluetoothPreferences() })
+  setUpBarWindow({ name: PopupNames.Bluetooth, child: BluetoothPreferences() })
 }

@@ -4,9 +4,9 @@ import icons from "lib/icons"
 import { createSurfaceFromWidget, get_icon } from "lib/utils"
 import options from "options"
 import { type Client } from "types/service/hyprland"
+import { PopupNames } from "widgets/PopupWindow"
 
 const monochrome = options.overview.monochromeIcon
-const TARGET = [Gtk.TargetEntry.new("text/plain", Gtk.TargetFlags.SAME_APP, 0)]
 const apps = await Service.import("applications")
 const hyprland = await Service.import("hyprland")
 const dispatch = (args: string) => hyprland.messageAsync(`dispatch ${args}`)
@@ -36,7 +36,7 @@ export default ({ address, size: [w, h], class: c, title }: Client) =>
     on_secondary_click: () => dispatch(`closewindow address:${address}`),
     on_clicked: () => {
       dispatch(`focuswindow address:${address}`)
-      App.closeWindow("overview")
+      App.closeWindow(PopupNames.Overview)
     },
     setup: (btn) =>
       btn
@@ -50,7 +50,7 @@ export default ({ address, size: [w, h], class: c, title }: Client) =>
         .on("drag-end", () => btn.toggleClassName("hidden", false))
         .drag_source_set(
           Gdk.ModifierType.BUTTON1_MASK,
-          TARGET,
+          [Gtk.TargetEntry.new("text/plain", Gtk.TargetFlags.SAME_APP, 0)],
           Gdk.DragAction.COPY,
         ),
   })

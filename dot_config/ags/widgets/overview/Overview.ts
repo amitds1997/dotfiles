@@ -1,6 +1,6 @@
 import { range } from "lib/utils"
 import options from "options"
-import PopupWindow from "widgets/PopupWindow"
+import PopupWindow, { PopupNames } from "widgets/PopupWindow"
 import Workspace from "./Workspace"
 
 const hyprland = await Service.import("hyprland")
@@ -43,7 +43,7 @@ const Overview = (ws: number) =>
 
 export default () =>
   PopupWindow({
-    name: "overview",
+    name: PopupNames.Overview,
     layout: "center",
     child: options.overview.workspaces.bind().as(Overview),
   })

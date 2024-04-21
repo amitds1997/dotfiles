@@ -1,4 +1,5 @@
 import options from "options"
+import { PopupNames } from "widgets/PopupWindow"
 
 export type Action =
   | "suspend"
@@ -46,8 +47,8 @@ class PowerMenu extends Service {
     this.notify("cmd")
     this.notify("title")
     this.emit("changed")
-    App.closeWindow("powermenu")
-    App.openWindow("verification")
+    App.closeWindow(PopupNames.PowerMenu)
+    App.openWindow(PopupNames.PowerMenuVerification)
   }
 
   readonly shutdown = () => {

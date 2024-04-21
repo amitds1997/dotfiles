@@ -1,9 +1,9 @@
 import powermenu from "services/powermenu"
-import PopupWindow from "widgets/PopupWindow"
+import PopupWindow, { PopupNames } from "widgets/PopupWindow"
 
 export default () =>
   PopupWindow({
-    name: "verification",
+    name: PopupNames.PowerMenuVerification,
     transition: "crossfade",
     child: Widget.Box({
       class_name: "verification",
@@ -31,16 +31,18 @@ export default () =>
           children: [
             Widget.Button({
               child: Widget.Label("No"),
-              on_clicked: () => App.toggleWindow("verification"),
+              on_clicked: () =>
+                App.toggleWindow(PopupNames.PowerMenuVerification),
               setup: (self) =>
                 self.hook(App, (_, name: string, visible: boolean) => {
-                  if (name === "verification" && visible) self.grab_focus()
+                  if (name === PopupNames.PowerMenuVerification && visible)
+                    self.grab_focus()
                 }),
             }),
             Widget.Button({
               child: Widget.Label("Yes"),
               on_clicked: () => {
-                App.toggleWindow("verification")
+                App.toggleWindow(PopupNames.PowerMenuVerification)
                 Utils.execAsync(powermenu.cmd)
               },
             }),

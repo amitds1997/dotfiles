@@ -1,64 +1,25 @@
-import { Binding } from "lib/utils"
 import * as AppLauncher from "./AppLauncher"
 import icons from "lib/icons"
 import options from "options"
-import PopupWindow, { Padding } from "widgets/PopupWindow"
+import PopupWindow, { Padding, PopupNames } from "widgets/PopupWindow"
 
 const { width, margin } = options.launcher
 
 function Launcher() {
-  const favs = AppLauncher.Favourites()
+  const favApps = AppLauncher.Favourites()
   const appLauncher = AppLauncher.Launcher()
-
-  function HelpButton(cmd: string, desc: string | Binding<string>) {
-    return Widget.Box(
-      { vertical: true },
-      Widget.Separator(),
-      Widget.Button(
-        {
-          class_name: "help",
-          on_clicked: () => {
-            entry.grab_focus()
-            entry.text = `:${cmd} `
-            entry.set_position(-1)
-          },
-        },
-        Widget.Box([
-          Widget.Label({
-            class_name: "name",
-            label: `:${cmd}`,
-          }),
-          Widget.Label({
-            hexpand: true,
-            hpack: "end",
-            class_name: "description",
-            label: desc,
-          }),
-        ]),
-      ),
-    )
-  }
-
-  const help = Widget.Revealer({
-    child: Widget.Box(
-      { vertical: true },
-      HelpButton("sh", "run a binary"),
-      Widget.Box(),
-    ),
-  })
 
   const entry = Widget.Entry({
     hexpand: true,
     primary_icon_name: icons.ui.search,
     on_accept: () => {
       appLauncher.launchFirst()
-      App.toggleWindow("launcher")
+      App.toggleWindow(PopupNames.Launcher)
       entry.text = ""
     },
     on_change: ({ text }) => {
       text ||= ""
-      favs.reveal_child = text === ""
-      help.reveal_child = text.split(" ").length === 1 && text?.startsWith(":")
+      favApps.reveal_child = text === ""
 
       appLauncher.filter(text)
     },
@@ -69,7 +30,7 @@ function Launcher() {
     entry.set_position(-1)
     entry.select_region(0, -1)
     entry.grab_focus()
-    favs.reveal_child = true
+    favApps.reveal_child = true
   }
 
   const layout = Widget.Box({
@@ -79,12 +40,12 @@ function Launcher() {
     vpack: "start",
     setup: (self) =>
       self.hook(App, (_, win, visible) => {
-        if (win !== "launcher") return
+        if (win !== PopupNames.Launcher) return
 
         entry.text = ""
         if (visible) focus()
       }),
-    children: [Widget.Box([entry]), favs, help, appLauncher],
+    children: [Widget.Box([entry]), favApps, appLauncher],
   })
 
   return Widget.Box(
@@ -99,7 +60,7 @@ function Launcher() {
 
 export default () =>
   PopupWindow({
-    name: "launcher",
+    name: PopupNames.Launcher,
     layout: "top",
     child: Launcher(),
   })

@@ -2,7 +2,7 @@ import Gtk from "gi://Gtk?version=3.0"
 import icons from "lib/icons"
 import options from "options"
 import powermenu, { type Action } from "services/powermenu"
-import PopupWindow from "widgets/PopupWindow"
+import PopupWindow, { PopupNames } from "widgets/PopupWindow"
 
 const { layout, labels } = options.powermenu
 
@@ -24,7 +24,7 @@ const SysButton = (action: Action, label: string) =>
 
 export default () =>
   PopupWindow({
-    name: "powermenu",
+    name: PopupNames.PowerMenu,
     transition: "crossfade",
     child: Widget.Box<Gtk.Widget>({
       class_name: "powermenu horizontal",

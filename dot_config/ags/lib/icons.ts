@@ -57,7 +57,7 @@ export default {
     suspend: "media-playback-pause-symbolic",
   },
   ui: {
-    search: "search-system-symbolic",
+    search: "system-search-symbolic",
     colorpicker: "color-select-symbolic",
     arrow: {
       right: "pan-end-symbolic",

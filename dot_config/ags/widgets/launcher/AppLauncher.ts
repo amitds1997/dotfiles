@@ -2,17 +2,18 @@ import icons from "lib/icons"
 import { get_icon, launchApp } from "lib/utils"
 import options from "options"
 import { type Application } from "types/service/applications"
+import { PopupNames } from "widgets/PopupWindow"
 
 const apps = await Service.import("applications")
 const { query } = apps
 const { iconSize } = options.launcher.apps
 
-const QuickAppButton = (app: Application) =>
+const FavouriteAppButton = (app: Application) =>
   Widget.Button({
     hexpand: true,
     tooltip_text: app.name,
     on_clicked: () => {
-      App.closeWindow("launcher")
+      App.closeWindow(PopupNames.Launcher)
       launchApp(app)
     },
     child: Widget.Icon({
@@ -47,7 +48,7 @@ const AppItem = (app: Application) => {
     size: iconSize.bind(),
   })
 
-  const textBox = Widget.Box({
+  const appBox = Widget.Box({
     vertical: true,
     vpack: "center",
     children: app.description ? [title, description] : [title],
@@ -57,10 +58,10 @@ const AppItem = (app: Application) => {
     class_name: "app-item",
     attribute: { app },
     child: Widget.Box({
-      children: [appIcon, textBox],
+      children: [appIcon, appBox],
     }),
     on_clicked: () => {
-      App.closeWindow("launcher")
+      App.closeWindow(PopupNames.Launcher)
       launchApp(app)
     },
   })
@@ -80,7 +81,7 @@ export function Favourites() {
             children: fs
               .map((f) => query(f)?.[0])
               .filter((f) => f)
-              .map(QuickAppButton),
+              .map(FavouriteAppButton),
           }),
         ]),
       ),

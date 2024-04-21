@@ -1,5 +1,5 @@
 import options from "options"
-import PopupWindow from "widgets/PopupWindow"
+import PopupWindow, { PopupNames, PopupWindowProps } from "widgets/PopupWindow"
 
 const { bar, preferences } = options
 const layout = Utils.derive(
@@ -7,18 +7,7 @@ const layout = Utils.derive(
   (bar, p) => `${bar}-${p}` as const,
 )
 
-export default ({ name, child }) =>
-  PopupWindow({
-    name: name,
-    exclusivity: "exclusive",
-    transition: bar.position
-      .bind()
-      .as((p) => (p === "top" ? "slide_down" : "slide_up")),
-    layout: layout.value,
-    child: child,
-  })
-
-export function setUpBarWindow({ name, child }) {
+export function setUpBarWindow({ name, child }: PopupWindowProps) {
   const BarWindow = () =>
     PopupWindow({
       name: name,
@@ -32,7 +21,7 @@ export function setUpBarWindow({ name, child }) {
 
   App.addWindow(BarWindow())
   layout.connect("changed", () => {
-    App.removeWindow("datemenu")
+    App.removeWindow(PopupNames.DateMenu)
     App.addWindow(BarWindow())
   })
 }

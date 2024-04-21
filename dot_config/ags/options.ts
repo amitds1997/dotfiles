@@ -1,4 +1,5 @@
 import { mkOptions, opt } from "lib/options"
+import { PopupNames } from "widgets/PopupWindow"
 import { BarWidget } from "widgets/bar/Bar"
 
 const options = mkOptions(OPTIONS, {
@@ -131,7 +132,7 @@ const options = mkOptions(OPTIONS, {
     },
     date: {
       format: opt("%H:%M - %A %e"),
-      action: opt(() => App.toggleWindow("datemenu")),
+      action: opt(() => App.toggleWindow(PopupNames.DateMenu)),
     },
     battery: {
       percentage: opt(true),
@@ -148,14 +149,14 @@ const options = mkOptions(OPTIONS, {
     },
     powermenu: {
       monochrome: opt(true),
-      action: opt(() => App.toggleWindow("powermenu")),
+      action: opt(() => App.toggleWindow(PopupNames.PowerMenu)),
     },
     workspaces: opt(5),
     systray: {
       ignore: opt(["spotify-client"]),
     },
     messages: {
-      action: opt(() => App.toggleWindow("datemenu")),
+      action: opt(() => App.toggleWindow(PopupNames.DateMenu)),
     },
   },
 
