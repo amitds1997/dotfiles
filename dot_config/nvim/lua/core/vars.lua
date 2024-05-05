@@ -1,8 +1,8 @@
 return {
   max_filesize = 1024 * 1024, -- 1 MiB
-  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"
+  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"|"cyberdream"
   colorscheme = "catppuccin",
-  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"
+  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"|"cyberdream"
   statusline_colorscheme = "catppuccin",
   ---@type boolean
   transparent_background = true,
@@ -85,7 +85,7 @@ return {
     "gofumpt",
   },
   linters = {
-    "selene",
+    -- "selene",
     "vulture",
     "markdownlint",
     "shellcheck",

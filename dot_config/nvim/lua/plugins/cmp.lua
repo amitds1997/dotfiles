@@ -134,9 +134,9 @@ local cmp_config = function()
       {
         name = "nvim_lsp",
         keyword_length = 0,
-        priority = 100,
+        priority = 150,
       },
-      { name = "luasnip", option = { show_autosnippets = true }, priority = 130, max_item_count = 5 },
+      { name = "luasnip", option = { show_autosnippets = true }, priority = 50, max_item_count = 3 },
       {
         name = "async_path",
         option = {

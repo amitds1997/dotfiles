@@ -13,6 +13,11 @@ return {
     codeLens = {
       enable = true,
     },
+    diagnostics = {
+      disable = {
+        "unused-local", -- Covered by selene.
+      },
+    },
   },
   workspace = {
     vim.env.VIMRUNTIME,

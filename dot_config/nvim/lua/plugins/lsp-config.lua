@@ -1,6 +1,5 @@
 local lsp_config = function()
   local lspconfig = require("lspconfig")
-  local python_interpreter_path = vim.fn.exepath("python")
   local mason_lspconfig = require("mason-lspconfig")
   local lsp_protocol_methods = vim.lsp.protocol.Methods
 
@@ -44,13 +43,13 @@ local lsp_config = function()
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
 
-    if client.supports_method(lsp_protocol_methods.textDocument_codeLens) then
-      vim.lsp.codelens.refresh()
-      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        buffer = bufnr,
-        callback = vim.lsp.codelens.refresh,
-      })
-    end
+    -- if client.supports_method(lsp_protocol_methods.textDocument_codeLens) then
+    --   vim.lsp.codelens.refresh()
+    --   vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+    --     buffer = bufnr,
+    --     callback = vim.lsp.codelens.refresh,
+    --   })
+    -- end
 
     local bufopts = { buffer = bufnr }
     local wk, lsp_buf = package.loaded["which-key"], vim.lsp.buf
@@ -117,7 +116,12 @@ local lsp_config = function()
     wk.register(wk_maps, bufopts)
   end
 
-  local capabilities = require("cmp_nvim_lsp").default_capabilities()
+  local capabilities = vim.tbl_deep_extend(
+    "force",
+    vim.lsp.protocol.make_client_capabilities(),
+    require("cmp_nvim_lsp").default_capabilities()
+  )
+
   mason_lspconfig.setup({
     ensure_installed = ensure_installed,
     automatic_installation = true,
@@ -168,7 +172,7 @@ local lsp_config = function()
         lspconfig.basedpyright.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.basedpyright")(python_interpreter_path),
+          settings = require("plugins.lsp.server-config.basedpyright"),
         })
       end,
     },
