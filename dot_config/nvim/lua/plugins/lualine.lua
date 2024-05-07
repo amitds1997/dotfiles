@@ -7,6 +7,7 @@ local lualine_config = function()
   local devicons = require("nvim-web-devicons")
   local file_component = {
     "filename",
+    separator = { right = "" },
     symbols = {
       unnamed = "",
       modified = icons.get("dot-fill"),
@@ -55,12 +56,11 @@ local lualine_config = function()
         },
       },
       lualine_b = {
-        file_component,
         {
           "branch",
-          -- icon = icons.get("git-branch"),
           icon = constants.icons.GitBranch,
         },
+        file_component,
       },
       lualine_c = {
         {

@@ -136,28 +136,28 @@ local lsp_config = function()
         lspconfig.gopls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.gopls"),
+          settings = require("plugins.lsp-config.gopls"),
         })
       end,
       jsonls = function()
         lspconfig.jsonls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.jsonls"),
+          settings = require("plugins.lsp-config.jsonls"),
         })
       end,
       yamlls = function()
         lspconfig.yamlls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.yamlls"),
+          settings = require("plugins.lsp-config.yamlls"),
         })
       end,
       lua_ls = function()
         lspconfig.lua_ls.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.lua_ls"),
+          settings = require("plugins.lsp-config.lua_ls"),
         })
       end,
       ruff_lsp = function()
@@ -172,7 +172,7 @@ local lsp_config = function()
         lspconfig.basedpyright.setup({
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = require("plugins.lsp.server-config.basedpyright"),
+          settings = require("plugins.lsp-config.basedpyright"),
         })
       end,
     },

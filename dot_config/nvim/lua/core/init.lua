@@ -1,6 +1,7 @@
 local L = {}
 L.__index = L
 local uv = require("core.utils").uv
+local constants = require("core.constants")
 
 -- Make sure that the package manager is installed
 function L:ensure_lazy_nvim_installed()
@@ -38,25 +39,25 @@ function L:bootstrap()
       icons = {
         cmd = " ",
         config = " ",
-        event = "",
+        event = " ",
         ft = " ",
         init = "󰅕 ",
         import = "󰋺 ",
-        keys = " ",
+        keys = "󰌓 ",
         lazy = "󰒲 ",
         loaded = "◍",
         not_loaded = "○",
         plugin = " ",
-        runtime = " ",
-        require = "󰢱 ",
+        runtime = constants.icons.NeovimIcon,
+        require = " ",
         source = " ",
         start = " ",
-        task = "✔",
+        task = " ",
         list = {
           "●",
           "◍",
           "◌",
-          "‒",
+          "✹",
         },
       },
     },
@@ -105,7 +106,12 @@ function L:bootstrap()
       fallback = true,
     },
   }
-  lazy.setup("plugins", lazy_opts)
+  -- lazy.setup("plugins", lazy_opts)
+  lazy.setup({
+    { import = "plugins" },
+    { import = "plugins.colorschemes" },
+    { import = "plugins.debugger" },
+  }, lazy_opts)
 
   local function load_everything_else()
     require("core.autocmds")

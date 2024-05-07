@@ -13,6 +13,10 @@
       "$VIMRUNTIME",
       "lua",
       "$XDG_DATA_HOME/nvim/lazy/telescope.nvim/lua",
+      "$XDG_DATA_HOME/nvim/lazy/remote-nvim/lua",
+      "$XDG_DATA_HOME/nvim/lazy/nvim-cmp/lua",
+      "$XDG_DATA_HOME/nvim/lazy/lazy.nvim/lua",
+      "$XDG_DATA_HOME/nvim/lazy/conform.nvim/lua"
     ],
     "ignoreDir": [
       "tests",

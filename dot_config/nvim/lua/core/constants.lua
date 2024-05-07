@@ -110,7 +110,7 @@ local C = {
     NeovimIcon = "",
     ScrollText = "",
     GitBranch = "",
-    Ellipsis = " ",
+    Ellipsis = "...",
   },
   kind_icons = {
     Array = " ",
