@@ -58,14 +58,28 @@ return {
     },
     lazy = true,
     config = function()
+      -- Define mappings: nvim-nonicons name => nvim-web-devicons name
+      local icon_mappings = {
+        python = { "ipynb", "py", "pyd", "pyi", "pyo", "pyx", "py.typed" },
+        lua = { "lua" },
+        markdown = { "rmd" },
+      }
+
+      local icon_map = {}
+      for icon_name, file_type_lst in pairs(icon_mappings) do
+        for _, filetype in ipairs(file_type_lst) do
+          icon_map[filetype] = icon_name
+        end
+      end
+
       local all_icons = require("nvim-web-devicons").get_icons()
       local nonicons = require("nvim-nonicons.mapping")
 
       local user_icons = {}
       for key, val in pairs(all_icons) do
-        if nonicons[key] ~= nil then
+        if nonicons[key] ~= nil or icon_map[key] ~= nil then
           user_icons[key] = val
-          user_icons[key]["icon"] = require("nvim-nonicons").get(key)
+          user_icons[key]["icon"] = require("nvim-nonicons").get(icon_map[key] or key)
         end
       end
 

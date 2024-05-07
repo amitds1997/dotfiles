@@ -80,6 +80,7 @@ local telescope_config = function()
       o = { built_in.oldfiles, "Open previously opened files" },
       p = { telescope.extensions.projects.projects, "Open projects window" },
       r = { built_in.resume, "Resume last telescope operation" },
+      s = { built_in.lsp_document_symbols, "Get LSP symbols from current document" },
       t = { "<cmd>Telescope<CR>", "Open telescope" },
       w = { telescope.extensions.live_grep_args.live_grep_args, "Find word" },
       [":"] = { built_in.command_history, "Show commands executed recently and run them on <CR>" },

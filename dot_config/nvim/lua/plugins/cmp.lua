@@ -1,3 +1,4 @@
+local constants = require("core.constants")
 local under_comparator = function(entry1, entry2)
   local _, entry1_under = entry1.completion_item.label:find("^_+")
   local _, entry2_under = entry2.completion_item.label:find("^_+")
@@ -11,7 +12,8 @@ local under_comparator = function(entry1, entry2)
 end
 
 local cmp_config = function()
-  local cmp, luasnip, lspkind, str = require("cmp"), require("luasnip"), require("lspkind"), require("cmp.utils.str")
+  local MAX_ABBR_WIDTH, MAX_MENU_WIDTH = 25, 30
+  local cmp, luasnip = require("cmp"), require("luasnip")
 
   local has_words_before = function()
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -44,24 +46,30 @@ local cmp_config = function()
     formatting = {
       expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
-      format = lspkind.cmp_format({
-        mode = "symbol_text",
-        preset = "codicons",
-        maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-        -- can also be a function to dynamically calculate max width such as
-        -- maxwidth = function() return math.floor(0.45 * vim.o.columns) end,
-        ellipsis_char = "...",
-        -- See [lspkind-nvim#30](https://github.com/onsails/lspkind-nvim/pull/30)
-        before = function(entry, vim_item)
-          local word = entry:get_insert_text()
-          if entry.completion_item.snippet then
-            word = vim.lsp.util.parse_snippet(word)
-          end
+      format = function(entry, item)
+        item.kind = (constants.kind_icons[item.kind] or constants.kind_icons.Text)
 
-          vim_item.abbr = str.oneline(word)
-          return vim_item
-        end,
-      }),
+        if entry.source.name == "nvim_lsp" then
+          local client_name = entry.source.source.client.name
+          item.menu = vim.tbl_get(constants.lsps[client_name], "name") or client_name
+        else
+          item.menu = ({
+            luasnip = "Snippet",
+            async_path = "Path",
+            buffer = "Buffer",
+          })[entry.source.name]
+        end
+
+        if vim.api.nvim_strwidth(item.abbr) > MAX_ABBR_WIDTH then
+          item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_ABBR_WIDTH) .. constants.icons.Ellipsis
+        end
+
+        if vim.api.nvim_strwidth(item.abbr) > MAX_MENU_WIDTH then
+          item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_MENU_WIDTH) .. constants.icons.Ellipsis
+        end
+
+        return item
+      end,
     },
     preselect = cmp.PreselectMode.None,
     window = {
@@ -193,7 +201,6 @@ return {
       build = "make install_jsregexp",
       dependencies = { "rafamadriz/friendly-snippets" },
     },
-    "onsails/lspkind.nvim",
     {
       "windwp/nvim-autopairs",
       config = function()
@@ -226,5 +233,6 @@ return {
     {
       "https://codeberg.org/FelipeLema/cmp-async-path",
     },
+    "yamatsum/nvim-nonicons",
   },
 }

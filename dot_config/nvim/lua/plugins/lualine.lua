@@ -1,19 +1,4 @@
-local lsp_server_names = {
-  bashls = { name = "Bash LS", priority = 20 },
-  clangd = { name = "Clang LS", priority = 20 },
-  dockerls = { name = "Docker LS", priority = 20 },
-  eslint = { name = "ESLint", priority = 15 },
-  gopls = { name = "Go LS", priority = 20 },
-  jsonls = { name = "JSON LS", priority = 20 },
-  lua_ls = { name = "Lua LS", priority = 20 },
-  marksman = { name = "Marksman", priority = 20 },
-  basedpyright = { name = "Python LS", priority = 20 },
-  ruff_lsp = { name = "Ruff LS", priority = 15 },
-  terraformls = { name = "Terraform LS", priority = 20 },
-  tsserver = { name = "Typescript LS", priority = 20 },
-  yamlls = { name = "YAML LS", priority = 20 },
-  cssls = { name = "CSS LS", priority = 20 },
-}
+local constants = require("core.constants")
 
 local lualine_config = function()
   vim.o.laststatus = 3 -- Always show statusline
@@ -35,7 +20,7 @@ local lualine_config = function()
 
     local assorted = {}
     for _, lsp in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-      table.insert(assorted, lsp_server_names[lsp.name] or { name = lsp.name, priority = 15 })
+      table.insert(assorted, constants.lsps[lsp.name] or { name = lsp.name, priority = 15 })
     end
     table.sort(assorted, function(x, y)
       return x.priority >= y.priority
@@ -43,7 +28,7 @@ local lualine_config = function()
 
     if #assorted > 0 then
       local active_client = assorted[1]
-      lsp_label = file_icon .. " " .. (lsp_server_names[active_client.name] or active_client.name)
+      lsp_label = file_icon .. " " .. (constants.lsps[active_client.name] or active_client.name)
       if #assorted > 1 then
         lsp_label = lsp_label .. ("(+%s)"):format(#assorted - 1)
       end
@@ -64,6 +49,7 @@ local lualine_config = function()
         {
           "mode",
           icons_enabled = true,
+          icon = constants.icons.NeovimIcon,
           separator = { left = "" },
           padding = { right = 1 },
         },
@@ -72,7 +58,8 @@ local lualine_config = function()
         file_component,
         {
           "branch",
-          icon = icons.get("git-branch"),
+          -- icon = icons.get("git-branch"),
+          icon = constants.icons.GitBranch,
         },
       },
       lualine_c = {
@@ -100,11 +87,13 @@ local lualine_config = function()
         },
         {
           require("plugins.lualine-components.venv").current_venv,
+          icon = icons.get("python"),
         },
         {
           "progress",
           separator = { right = "" },
           padding = { left = 1 },
+          icon = constants.icons.ScrollText,
         },
       },
     },
