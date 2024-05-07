@@ -1,34 +1,32 @@
 local M = {
   venv = "",
+  python_version = "",
 }
 
-function M.current_venv()
-  if vim.bo.filetype == "python" then
-    return M.venv
+function M.current_env()
+  local label = ""
+  if M.venv ~= "" then
+    label = label .. " | " .. M.venv
   end
-  return ""
+
+  if M.python_version ~= "" then
+    label = label .. " | " .. M.python_version
+  end
+
+  return label
 end
 
-vim.api.nvim_create_autocmd({ "LspAttach", "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "LspAttach" }, {
   pattern = "*.py",
   callback = function()
-    -- Returns correct virtual environment (for Python)
     if vim.bo.filetype == "python" then
+      vim.system({ "python", "--version" }, { text = true }, function(obj)
+        M.python_version = vim.trim(obj.stdout)
+      end)
+
       ---@diagnostic disable-next-line: undefined-field
       local venv_name = (vim.uv.os_getenv("CONDA_DEFAULT_ENV") or vim.uv.os_getenv("VIRTUAL_ENV") or "")
-      local python_version = vim.fn.has("nvim-0.10") == 1
-          and vim
-            .system({ "python", "--version" }, {
-              timeout = 200,
-            })
-            :wait().stdout
-        or vim.fn.system("python --version")
-
-      if venv_name and venv_name ~= "" then
-        M.venv = venv_name .. " (" .. vim.trim(python_version) .. ")"
-      else
-        M.venv = vim.trim(python_version)
-      end
+      M.venv = (venv_name and venv_name ~= "") and venv_name or ""
     end
   end,
 })

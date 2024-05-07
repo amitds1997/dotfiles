@@ -1,5 +1,12 @@
 local constants = require("core.constants")
 
+local space = {
+  function()
+    return " "
+  end,
+  color = "lualine_b_inactive",
+}
+
 local lualine_config = function()
   vim.o.laststatus = 3 -- Always show statusline
 
@@ -7,7 +14,8 @@ local lualine_config = function()
   local devicons = require("nvim-web-devicons")
   local file_component = {
     "filename",
-    separator = { right = "" },
+    padding = { right = 0, left = 1 },
+    separator = { left = "", right = "" },
     symbols = {
       unnamed = "",
       modified = icons.get("dot-fill"),
@@ -35,14 +43,18 @@ local lualine_config = function()
       end
     end
 
+    if vim.bo.filetype == "python" then
+      lsp_label = lsp_label .. require("plugins.lualine-components.venv").current_env()
+    end
+
     return lsp_label
   end
 
   require("lualine").setup({
     options = {
       theme = require("core.vars").statusline_colorscheme,
-      component_separators = "┃",
-      section_separators = "",
+      component_separators = { left = "", right = "" },
+      section_separators = { left = "", right = "" },
       disabled_filetypes = require("core.vars").ignore_buftypes,
     },
     sections = {
@@ -51,16 +63,19 @@ local lualine_config = function()
           "mode",
           icons_enabled = true,
           icon = constants.icons.NeovimIcon,
-          separator = { left = "" },
-          padding = { right = 1 },
+          padding = { right = 0, left = 0 },
+          separator = { left = "", right = "" },
         },
       },
       lualine_b = {
+        file_component,
+        space,
         {
           "branch",
           icon = constants.icons.GitBranch,
+          padding = { right = 1, left = 1 },
+          separator = { left = "", right = "" },
         },
-        file_component,
       },
       lualine_c = {
         {
@@ -79,15 +94,18 @@ local lualine_config = function()
         "selectioncount",
       },
       lualine_y = {
-        "location",
+        {
+          get_lsp_clients,
+          padding = { left = 0, right = 0 },
+          separator = { left = "", right = "" },
+        },
+        space,
       },
       lualine_z = {
         {
-          get_lsp_clients,
-        },
-        {
-          require("plugins.lualine-components.venv").current_venv,
-          icon = icons.get("python"),
+          "location",
+          padding = { right = 0, left = 0 },
+          separator = { left = "" },
         },
         {
           "progress",
