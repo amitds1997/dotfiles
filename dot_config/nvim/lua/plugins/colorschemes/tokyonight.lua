@@ -45,6 +45,9 @@ local function tokyonight_config()
         link = "Comment",
       }
     end,
+    on_colors = function(colors)
+      colors.bg_statusline = colors.none -- or "NONE"
+    end,
   })
 
   vim.cmd([[colorscheme tokyonight]])
