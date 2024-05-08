@@ -11,7 +11,19 @@ local dap_config = function()
     local buf_filetype = get_current_buf_filetype()
 
     if buf_filetype == "lua" then
-      require("osv").run_this()
+      vim.ui.select({ "Launch the current file", "Launch connection with other debugger" }, {
+        prompt = "Choose debugging method",
+      }, function(choice)
+        if choice == nil then
+          return
+        end
+
+        if choice == "Launch the current file" then
+          require("osv").run_this()
+        elseif choice == "Launch connection with other debugger" then
+          dap.continue()
+        end
+      end)
     else
       dap.continue()
     end
@@ -45,7 +57,7 @@ local dap_config = function()
       name = "debugger",
 
       -- Session management
-      s = {
+      d = {
         name = "debugging-session",
 
         l = { launch_debugging_session, "Launch debugging session" },
@@ -74,31 +86,22 @@ local dap_config = function()
 
       -- Operation
       c = { dap_continue, "Continue execution" },
-      o = {
-        function()
-          dap.step_over()
-        end,
-        "Step over",
-      },
-      i = {
-        function()
-          dap.step_into()
-        end,
-        "Step into",
-      },
-      R = {
-        function()
-          dap.run_to_cursor()
-        end,
-        "Run till cursor location",
-      },
+      o = { dap.step_over, "Step over" },
+      i = { dap.step_into, "Step into" },
+      R = { dap.run_to_cursor, "Run till cursor location" },
 
       -- Debugger UI
-      u = {
-        function()
-          dapui.toggle()
-        end,
-        "Toggle debugger UI",
+      u = { dapui.toggle, "Toggle debugger UI" },
+
+      s = {
+        name = "debugger-specific options",
+
+        l = {
+          function()
+            require("osv").launch({ port = 8086 })
+          end,
+          "Launch neovim debugee instance",
+        },
       },
     },
   })

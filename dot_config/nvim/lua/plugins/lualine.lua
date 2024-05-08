@@ -37,7 +37,7 @@ local lualine_config = function()
 
     if #assorted > 0 then
       local active_client = assorted[1]
-      lsp_label = file_icon .. " " .. (constants.lsps[active_client.name] or active_client.name)
+      lsp_label = file_icon .. "  " .. (constants.lsps[active_client.name] or active_client.name)
       if #assorted > 1 then
         lsp_label = lsp_label .. ("(+%s)"):format(#assorted - 1)
       end
@@ -73,6 +73,14 @@ local lualine_config = function()
         {
           "branch",
           icon = constants.icons.GitBranch,
+          padding = { right = 1, left = 1 },
+          separator = { left = "", right = "" },
+        },
+        space,
+        {
+          function()
+            return vim.g.remote_neovim_host and ("Remote: %s"):format(vim.uv.os_gethostname()) or ""
+          end,
           padding = { right = 1, left = 1 },
           separator = { left = "", right = "" },
         },

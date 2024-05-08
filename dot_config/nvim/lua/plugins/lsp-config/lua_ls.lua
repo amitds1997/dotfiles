@@ -5,6 +5,9 @@ return {
     },
     hint = {
       enable = true,
+      arrayIndex = "Disable",
+      semicolon = "Disable",
+      setType = true,
     },
     format = {
       -- stylua runs using conform

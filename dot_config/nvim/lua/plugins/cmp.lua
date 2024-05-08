@@ -46,6 +46,8 @@ local cmp_config = function()
     formatting = {
       expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
+      ---@param entry cmp.Entry
+      ---@param item vim.CompletedItem
       format = function(entry, item)
         item.kind = (constants.kind_icons[item.kind] or constants.kind_icons.Text)
 
@@ -64,8 +66,8 @@ local cmp_config = function()
           item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_ABBR_WIDTH) .. constants.icons.Ellipsis
         end
 
-        if vim.api.nvim_strwidth(item.abbr) > MAX_MENU_WIDTH then
-          item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_MENU_WIDTH) .. constants.icons.Ellipsis
+        if vim.api.nvim_strwidth(item.menu) > MAX_MENU_WIDTH then
+          item.menu = vim.fn.strcharpart(item.menu, 0, MAX_MENU_WIDTH) .. constants.icons.Ellipsis
         end
 
         return item
