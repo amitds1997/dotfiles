@@ -10,7 +10,10 @@ end
 return {
   "stevearc/oil.nvim",
   cmd = "Oil",
-  event = "VeryLazy",
+  -- event = "VeryLazy",
+  keys = {
+    { "<leader>we", desc = "Open Oil explorer" },
+  },
   opts = {
     default_file_explorer = true,
     delete_to_trash = true,

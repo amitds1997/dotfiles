@@ -156,6 +156,12 @@ local C = {
     yamlls = { name = "YAML LS", priority = 20 },
     cssls = { name = "CSS LS", priority = 20 },
   },
+  severity_icons = {
+    [vim.diagnostic.severity.ERROR] = "󰅚 ",
+    [vim.diagnostic.severity.WARN] = "󰗖 ",
+    [vim.diagnostic.severity.INFO] = " ",
+    [vim.diagnostic.severity.HINT] = " ",
+  },
 }
 
 return C

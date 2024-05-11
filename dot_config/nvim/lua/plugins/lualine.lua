@@ -101,6 +101,12 @@ local lualine_config = function()
           sources = {
             "nvim_diagnostic",
           },
+          symbols = {
+            error = constants.severity_icons[vim.diagnostic.severity.ERROR],
+            warn = constants.severity_icons[vim.diagnostic.severity.WARN],
+            info = constants.severity_icons[vim.diagnostic.severity.INFO],
+            hint = constants.severity_icons[vim.diagnostic.severity.HINT],
+          },
         },
       },
       lualine_x = {
