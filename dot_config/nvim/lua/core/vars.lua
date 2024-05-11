@@ -1,9 +1,9 @@
 return {
   max_filesize = 1024 * 1024, -- 1 MiB
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"|"cyberdream"
-  colorscheme = "tokyonight",
+  colorscheme = "rose-pine",
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"|"cyberdream"
-  statusline_colorscheme = "tokyonight",
+  statusline_colorscheme = "rose-pine",
   ---@type boolean
   transparent_background = true,
   oil = {

@@ -19,6 +19,7 @@
       "$XDG_DATA_HOME/nvim/lazy/conform.nvim/lua",
       "$XDG_DATA_HOME/nvim/lazy/lualine.nvim/lua",
       "$XDG_DATA_HOME/nvim/lazy/cmp-nvim-lsp/lua",
+      "$XDG_DATA_HOME/nvim/lazy/lualine.nvim/lua",
     ],
     "ignoreDir": [
       "tests",

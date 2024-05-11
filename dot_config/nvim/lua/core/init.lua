@@ -106,7 +106,6 @@ function L:bootstrap()
       fallback = true,
     },
   }
-  -- lazy.setup("plugins", lazy_opts)
   lazy.setup({
     { import = "plugins" },
     { import = "plugins.colorschemes" },

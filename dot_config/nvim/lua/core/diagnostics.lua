@@ -6,7 +6,7 @@ local severity_icons = {
 }
 
 vim.diagnostic.config({
-  update_in_insert = false,
+  -- update_in_insert = false,
   severity_sort = true,
   signs = {
     text = severity_icons,

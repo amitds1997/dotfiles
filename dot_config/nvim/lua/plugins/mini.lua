@@ -22,7 +22,5 @@ return {
       center = true,
       ignore_filetype = require("core.vars").ignore_buftypes,
     })
-    -- Mini file handler
-    require("mini.files").setup()
   end,
 }

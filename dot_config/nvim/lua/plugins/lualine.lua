@@ -1,11 +1,14 @@
 local constants = require("core.constants")
 
-local space = {
-  function()
-    return " "
-  end,
-  color = "lualine_b_inactive",
-}
+local function space_handler(cond)
+  return {
+    function()
+      return " "
+    end,
+    cond = cond,
+    color = "lualine_a_inactive",
+  }
+end
 
 local lualine_config = function()
   vim.o.laststatus = 3 -- Always show statusline
@@ -69,14 +72,21 @@ local lualine_config = function()
       },
       lualine_b = {
         file_component,
-        space,
+        space_handler(function()
+          return require("lualine.components.branch.git_branch").get_branch() ~= ""
+        end),
         {
           "branch",
           icon = constants.icons.GitBranch,
-          padding = { right = 1, left = 1 },
+          padding = { right = 0, left = 0 },
           separator = { left = "", right = "" },
+          on_click = function()
+            vim.cmd("Neogit")
+          end,
         },
-        space,
+        space_handler(function()
+          return vim.g.remote_neovim_host or false
+        end),
         {
           function()
             return vim.g.remote_neovim_host and ("Remote: %s"):format(vim.uv.os_gethostname()) or ""
@@ -89,7 +99,6 @@ local lualine_config = function()
         {
           "diagnostics",
           sources = {
-            "nvim_lsp",
             "nvim_diagnostic",
           },
         },
@@ -106,8 +115,13 @@ local lualine_config = function()
           get_lsp_clients,
           padding = { left = 0, right = 0 },
           separator = { left = "", right = "" },
+          on_click = function()
+            vim.cmd("LspInfo")
+          end,
         },
-        space,
+        space_handler(function()
+          return #vim.lsp.get_clients({ bufnr = 0 }) > 0
+        end),
       },
       lualine_z = {
         {
