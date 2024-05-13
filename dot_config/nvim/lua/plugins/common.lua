@@ -109,4 +109,10 @@ return {
       buftype_exclude = require("core.vars").ignore_buftypes,
     },
   },
+  {
+    "akinsho/toggleterm.nvim",
+    cmd = "ToggleTerm",
+    version = "*",
+    config = true,
+  },
 }

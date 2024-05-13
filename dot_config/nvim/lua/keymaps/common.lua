@@ -31,7 +31,10 @@ return {
       end,
       "Toggle formatting status",
     },
-    t = { "<cmd>Lspsaga term_toggle<CR>", "Toggle terminal" },
+    t = {
+      "<cmd>ToggleTerm<CR>",
+      "Toggle terminal",
+    },
   },
 
   ["<leader>g"] = {
