@@ -7,5 +7,6 @@ vim.filetype.add({
     [".*/hypr/.*%.conf"] = "hyprlang",
     ["tsconfig*.json"] = "jsonc",
     [".*/%.vscode/.*%.json"] = "jsonc",
+    [".*%.pyn"] = "pyn",
   },
 })

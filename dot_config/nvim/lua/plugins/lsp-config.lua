@@ -1,3 +1,5 @@
+-- This is a test line
+-- Is this a test line
 local lsp_config = function()
   local lspconfig = require("lspconfig")
   local mason_lspconfig = require("mason-lspconfig")

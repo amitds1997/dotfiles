@@ -6,7 +6,7 @@ local treesitter_config = function()
     highlight = {
       enable = true,
       disable = function(_, bufnr)
-        local max_lines = 8000 -- Max 15000 lines will be rendered, else treesitter will be disabled
+        local max_lines = 8000 -- Max 8000 lines will be rendered, else treesitter will be disabled
         local ok, stats = pcall(require("core.utils").uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
         if
           (ok and stats and stats.size > require("core.vars").max_filesize)
@@ -18,7 +18,7 @@ local treesitter_config = function()
       additional_vim_regex_highlighting = false,
     },
     indent = {
-      enable = true,
+      enable = false,
     },
     incremental_selection = {
       enable = true,
@@ -43,6 +43,7 @@ local treesitter_config = function()
 
   -- Specify parser for specific file patterns
   vim.treesitter.language.register("gotmpl", "template")
+  vim.treesitter.language.register("python", "pyn")
 end
 
 return {

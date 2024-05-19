@@ -4,13 +4,15 @@ local telescope_config = function()
 
   telescope.setup({
     defaults = {
+      path_display = {
+        "filename_first",
+      },
       preview = {
         filesize_limit = 0.1,
       },
       initial_mode = "insert",
       prompt_prefix = " " .. require("nvim-nonicons").get("telescope") .. "  ",
       layout_strategy = "horizontal",
-      path_display = { "absolute" },
       file_ignore_patterns = { ".git/", "node_modules/", ".cache", "*.pdf", "*.zip" },
       results_title = false,
       selection_caret = "  ",
@@ -91,7 +93,7 @@ end
 
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  -- branch = "0.1.x",
   keys = {
     { "<leader>t", desc = "Telescope" },
   },

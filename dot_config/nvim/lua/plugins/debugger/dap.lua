@@ -92,6 +92,12 @@ local dap_config = function()
 
       -- Debugger UI
       u = { dapui.toggle, "Toggle debugger UI" },
+      ["?"] = {
+        function()
+          dapui.eval({ nil, enter = true })
+        end,
+        "Show value of variable under cursor/highlight",
+      },
 
       s = {
         name = "debugger-specific options",

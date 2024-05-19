@@ -1,4 +1,4 @@
-local o, g = vim.o, vim.g
+local o, g = vim.opt, vim.g
 local utils = require("core.utils")
 
 -- Set mapleader
@@ -21,7 +21,7 @@ o.relativenumber = true -- Show relative numbers
 o.hidden = true -- Hide buffers instead of closing them when switching to another
 o.showmode = false -- Do not show messages on last line; this is anyway disabled by cmdheight
 o.cmdheight = 0 -- Hide command bar when not used
-o.showtabline = 0 -- Never show tabline
+o.showtabline = 1 -- Never show tabline
 o.signcolumn = "yes" -- Show sign column
 o.shortmess = "costaFACTIOw" -- Avoid hit-enter file prompts
 o.fcs = "eob: " -- Hide the ~ character at the end of buffer
@@ -29,7 +29,7 @@ o.termguicolors = true -- Enable 24-bit colors
 o.laststatus = 0 -- We disable statusline here. It gets overriden by lualine
 o.autoread = true -- Automatically read changes in file if they happen outside Neovim
 o.errorbells = false -- No error bells please
-o.conceallevel = 3 -- Hide concealed characters
+-- o.conceallevel = 3 -- Hide concealed characters
 o.clipboard = "unnamedplus" -- Use "unnamedplus" register for copy-paste things
 o.undofile = true -- Save undo tree to a file
 o.virtualedit = "block" -- Allow virtual editing in visual block mode
@@ -42,7 +42,8 @@ o.timeoutlen = 300
 o.list = true
 o.listchars = "tab:» ,nbsp:+,trail:·,extends:→,precedes:←"
 
-o.formatoptions = "qjl1" -- Don't autoformat comments
+-- o.formatoptions = "qjl1" -- Don't autoformat comments
+o.formatoptions:remove("o") -- Don't have `o`/`O` add comments
 
 -- Window options
 o.winwidth = 30 -- Minimum columns per window
@@ -71,7 +72,7 @@ o.breakindentopt = "min:20,sbr"
 
 -- Show matching brace
 o.showmatch = true -- Briefly jump to the matching bracket
-o.matchtime = 1 -- Show it for (n/10)th of a second
+o.matchtime = 2 -- Show it for (n/10)th of a second
 
 -- Enable spellcheck
 o.spell = false -- Disable spellchecking (we can toggle this using <leader>cs keymap)
@@ -90,8 +91,8 @@ o.wildignorecase = true -- Ignore case when completing file names and directorie
 o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
 
 -- Completions
-o.infercase = true
-o.completeopt = "menu,menuone,noselect" -- Completion menu style
+-- o.infercase = true
+o.completeopt = { "menu", "menuone", "noselect" } -- Completion menu style
 
 -- Keep my cursor away from the end
 o.scrolloff = 4 -- Stay 4 lines away from top-bottom border

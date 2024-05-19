@@ -2,7 +2,7 @@ local remote_nvim_config = function()
   require("remote-nvim").setup({
     offline_mode = {
       enabled = true,
-      no_github = true,
+      no_github = false,
     },
     client_callback = function(port, workspace_config)
       local cmd = ("wezterm cli set-tab-title --pane-id $(wezterm cli spawn nvim --server localhost:%s --remote-ui) %s"):format(

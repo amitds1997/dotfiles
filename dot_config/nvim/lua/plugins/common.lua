@@ -21,11 +21,6 @@ return {
     config = true,
   },
   {
-    "chrishrb/gx.nvim",
-    keys = { { "gx", "<cmd>Browse<CR>", mode = { "n", "x" } } },
-    config = true,
-  },
-  {
     "karb94/neoscroll.nvim",
     event = "BufReadPost",
     opts = {
@@ -89,10 +84,6 @@ return {
     end,
   },
   {
-    "ibhagwan/smartyank.nvim",
-    event = "BufReadPost",
-  },
-  {
     "norcalli/nvim-colorizer.lua",
     event = "BufReadPost",
     config = function()
@@ -113,6 +104,12 @@ return {
     "akinsho/toggleterm.nvim",
     cmd = "ToggleTerm",
     version = "*",
+    config = true,
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = "BufReadPost",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
   },
 }

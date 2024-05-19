@@ -18,23 +18,12 @@ local function noice_setup()
         filter = { icon = nonicons.get("terminal") .. " ", title = " Shell " },
         lua = { icon = nonicons.get("lua") .. " " },
         help = { icon = nonicons.get("question") .. " " },
-        IncRename = {
-          pattern = "^:%s*IncRename%s+",
-          title = " Rename ",
-          conceal = true,
-          icon = nonicons.get("sync"),
-          opts = {
-            relative = "cursor",
-            size = { min_width = 30 },
-            position = { row = -2, col = 0 },
-          },
-        },
       },
     },
     popupmenu = {
       enabled = true,
       ---@type 'nui'|'cmp'
-      backend = "nui",
+      backend = "cmp",
     },
     lsp = {
       override = {

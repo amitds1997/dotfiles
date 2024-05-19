@@ -5,6 +5,7 @@ local function mason_config()
     pip = {
       upgrade_pip = true,
     },
+    PATH = "append",
   })
 
   for _, pkg in ipairs(require("core.vars").mason_auto_installed) do
