@@ -112,4 +112,8 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
   },
+  {
+    "sindrets/diffview.nvim",
+    event = "CmdlineEnter",
+  },
 }
