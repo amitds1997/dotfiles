@@ -5,7 +5,7 @@ import { type MprisPlayer } from "types/service/mpris"
 
 const mpris = await Service.import("mpris")
 const players = mpris.bind("players")
-const { media } = options.quicksettings
+const { media } = options.preferences
 
 function lengthStr(length: number) {
   const min = Math.floor(length / 60)
@@ -100,13 +100,9 @@ const Player = (player: MprisPlayer) => {
     hexpand: true,
     hpack: "end",
     tooltip_text: player.identity || "",
-    icon: Utils.merge(
-      [player.bind("entry"), media.monochromeIcon.bind()],
-      (e, s) => {
-        const name = `${e}${s ? "-symbolic" : ""}`
-        return get_icon(name, icons.fallback.audio)
-      },
-    ),
+    icon: player
+      .bind("entry")
+      .as((e) => get_icon(`${e}-symbolic`, icons.fallback.audio)),
   })
 
   const playPause = Widget.Button({

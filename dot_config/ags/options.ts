@@ -91,16 +91,6 @@ const options = mkOptions(OPTIONS, {
   overview: {
     scale: opt(9),
     workspaces: opt(7),
-    monochromeIcon: opt(true),
-  },
-
-  quicksettings: {
-    position: opt<"left" | "center" | "right">("center"),
-    width: opt(380),
-    media: {
-      monochromeIcon: opt(true),
-      coverSize: opt(100),
-    },
   },
 
   preferences: {
@@ -141,14 +131,12 @@ const options = mkOptions(OPTIONS, {
       charging: opt("#00D787"),
     },
     media: {
-      monochrome: opt(true),
       preferred: opt("firefox"),
       direction: opt<"left" | "right">("left"),
       format: opt("{artists} - {title}"),
       length: opt(40),
     },
     powermenu: {
-      monochrome: opt(true),
       action: opt(() => App.toggleWindow(PopupNames.PowerMenu)),
     },
     workspaces: opt(5),

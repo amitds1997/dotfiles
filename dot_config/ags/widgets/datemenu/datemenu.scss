@@ -1,4 +1,4 @@
-@import "../notifications/notification.scss";
+@import "../notifications/notifications.scss";
 
 @mixin calendar {
   @include widget;
@@ -6,6 +6,10 @@
 
   calendar {
     all: unset;
+
+    &.button {
+      @include button($flat: true);
+    }
 
     &:selected {
       box-shadow:
@@ -93,6 +97,10 @@ window#datemenu .datemenu {
 
     .clock {
       font-size: 5em;
+    }
+
+    .uptime {
+      color: transparentize($fg, 0.2);
     }
   }
 

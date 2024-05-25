@@ -3,74 +3,78 @@
 $bar-spacing: $spacing * 0.3;
 $button-radius: $radius;
 
-@mixin panel-widget($reactive: true) {
+@mixin panel-widget($flat: true, $reactive: true) {
+  @include accs-button($flat, $reactive);
+
   > * {
     border-radius: $button-radius;
+    margin: $bar-spacing;
   }
 
+  label,
   image {
     font-weight: bold;
+  }
+
+  > * {
+    padding: $padding * 0.4 $padding * 0.8;
   }
 }
 
 .bar {
-  background-color: transparent;
+  background-color: $bg;
 
   .panel-widget {
     @include panel-widget;
+
+    &:not(.flat) {
+      @include accs-button($flat: false);
+    }
   }
 
   .workspaces {
     button {
-      font-size: 10pt;
-      min-width: 10pt;
-      min-height: 10pt;
-      border-radius: $radius;
-      box-shadow: inset 0 0 0 $border-width $hover-bg;
+      font-size: 0;
+      min-width: 5pt;
+      min-height: 5pt;
+      border-radius: $radius * 0.6;
+      box-shadow: inset 0 0 0 $border-width $border-color;
       margin: 0 $padding * 0.5;
-      background-color: transparentize($bg, 0.8);
+      transition: $transition * 0.5;
+      background-color: transparentize($fg, 0.8);
 
       &.occupied {
-        background-color: transparentize($fg, 0.8);
-        min-width: 12pt;
+        background-color: transparentize($fg, 0.2);
+        min-width: 7pt;
+        min-height: 7pt;
       }
 
       &.active {
-        background-color: $primary-bg;
-        min-width: 14pt;
+        // background-color: $primary-bg;
+        background-image: $active-gradient;
+        min-width: 20pt;
+        min-height: 12pt;
       }
     }
 
-    // &.active,
-    // &:active {
-    //   button {
-    //     background-color: transparentize($primary-fg, 0.3);
+    &.active,
+    &:active {
+      label {
+        background-color: transparentize($primary-fg, 0.3);
 
-    //     &.occupied {
-    //       background-color: transparentize($primary-fg, 0.15);
-    //     }
+        &.occupied {
+          background-color: transparentize($primary-fg, 0.15);
+        }
 
-    //     &.active {
-    //       background-color: $primary-fg;
-    //     }
-    //   }
-    // }
-  }
-
-  .media label {
-    margin: 0 ($spacing * 0.5);
-  }
-
-  .taskbar .indicator.active {
-    background-color: $primary-bg;
-    border-radius: $radius;
-    min-height: 4pt;
-    min-width: 6pt;
-    margin: 2pt;
+        &.active {
+          background-color: $primary-fg;
+        }
+      }
+    }
   }
 
   .powermenu,
-  .recorder {
+  .screen-recorder {
     image {
       color: transparentize($error-bg, 0.3);
     }
@@ -84,11 +88,11 @@ $button-radius: $radius;
     }
   }
 
-  .quicksettings > box > box {
+  .preferences > box > box {
     @include spacing($spacing: if($bar-spacing==0, $padding / 2, $bar-spacing));
   }
 
-  .quicksettings:not(.active):not(:active) {
+  .preferences:not(.active):not(:active) {
     .bluetooth {
       color: $primary-bg;
 
@@ -97,87 +101,6 @@ $button-radius: $radius;
         color: $fg;
         text-shadow: $text-shadow;
       }
-    }
-  }
-
-  .battery-bar {
-    > * {
-      padding: 0;
-    }
-
-    &.bar-hidden > box {
-      padding: 0 $spacing * 0.5;
-
-      image {
-        margin: 0;
-      }
-    }
-
-    levelbar * {
-      all: unset;
-      transition: $transition;
-    }
-
-    .whole {
-      @if $shadows {
-        image {
-          -gtk-icon-shadow: $text-shadow;
-        }
-
-        label {
-          text-shadow: $text-shadow;
-        }
-      }
-    }
-
-    .regular image {
-      margin-left: $spacing * 0.5;
-    }
-
-    trough {
-      @include widget;
-      min-height: 12pt;
-      min-width: 12pt;
-    }
-
-    .regular trough {
-      margin-right: $spacing * 0.5;
-    }
-
-    block {
-      margin: 0;
-
-      &:last-child {
-        border-radius: 0 $button-radius $button-radius 0;
-      }
-
-      &:first-child {
-        border-radius: $button-radius 0 0 $button-radius;
-      }
-    }
-
-    .vertical {
-      block {
-        &:last-child {
-          border-radius: 0 0 $button-radius $button-radius;
-        }
-
-        &:first-child {
-          border-radius: $button-radius $button-radius 0 0;
-        }
-      }
-    }
-
-    &.low image {
-      color: $error-bg;
-    }
-
-    &.charging image {
-      color: $charging-bg;
-    }
-
-    &:active image {
-      color: $primary-fg;
     }
   }
 }

@@ -18,9 +18,10 @@ const PreferenceBox = () =>
     css: preferences.width.bind().as((w) => `min-width: ${w}px;`),
     children: [
       Widget.Box({
+        class_name: "header",
         vertical: false,
         hexpand: true,
-        children: [DND(), Screenshoter(), ScreenRecorder(), DarkModeToggle()],
+        children: [Screenshoter(), ScreenRecorder(), DND(), DarkModeToggle()],
       }),
       Brightness(),
       Widget.Box({

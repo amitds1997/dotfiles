@@ -6,7 +6,6 @@ import options from "options"
 import { type Client } from "types/service/hyprland"
 import { PopupNames } from "widgets/PopupWindow"
 
-const monochrome = options.overview.monochromeIcon
 const apps = await Service.import("applications")
 const hyprland = await Service.import("hyprland")
 const dispatch = (args: string) => hyprland.messageAsync(`dispatch ${args}`)
@@ -23,15 +22,10 @@ export default ({ address, size: [w, h], class: c, title }: Client) =>
           min-height: ${(v / 100) * h}px;
           `,
       ),
-      icon: monochrome.bind().as((m) => {
-        const app = apps.list.find((app) => app.match(c))
-        if (!app) return icons.fallback.executable
-
-        return get_icon(
-          app.icon_name + (m ? "-symbolic" : ""),
-          icons.fallback.executable,
-        )
-      }),
+      icon: get_icon(
+        apps.list.find((app) => app.match(c))?.icon_name + "-symbolic",
+        icons.fallback.executable,
+      ),
     }),
     on_secondary_click: () => dispatch(`closewindow address:${address}`),
     on_clicked: () => {
