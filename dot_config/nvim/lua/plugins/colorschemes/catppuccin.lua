@@ -8,6 +8,7 @@ return {
       flavour = "mocha",
       background = { light = "latte", dark = "mocha" },
       transparent_background = require("core.vars").transparent_background,
+      kitty = true,
       term_colors = true,
       integrations = {
         mason = true,

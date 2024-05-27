@@ -4,7 +4,10 @@ local function buf_switcher()
     vim.notify("Only one buffer is open")
     return
   end
-  require("telescope.builtin").buffers()
+  require("telescope.builtin").buffers({
+    show_all_buffers = false,
+    select_current = true,
+  })
 end
 
 return {

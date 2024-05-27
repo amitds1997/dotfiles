@@ -53,9 +53,14 @@ local lualine_config = function()
     return lsp_label
   end
 
+  local theme_name = require("core.vars").statusline_colorscheme
+  if theme_name == "neofusion" then
+    theme_name = require("neofusion.lualine")
+  end
+
   require("lualine").setup({
     options = {
-      theme = require("core.vars").statusline_colorscheme,
+      theme = theme_name,
       component_separators = { left = "", right = "" },
       section_separators = { left = "", right = "" },
       disabled_filetypes = require("core.vars").ignore_buftypes,

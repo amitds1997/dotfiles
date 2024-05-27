@@ -148,6 +148,13 @@ local lsp_config = function()
           settings = require("plugins.lsp-config.jsonls"),
         })
       end,
+      bashls = function()
+        lspconfig.bashls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = require("plugins.lsp-config.bashls"),
+        })
+      end,
       yamlls = function()
         lspconfig.yamlls.setup({
           on_attach = on_attach,
