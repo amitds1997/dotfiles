@@ -47,4 +47,5 @@
 
 ## Fun stuff
 
-- Set up SQL highlighting in strings using nvim-treesitter in Python
+- Allow toggling inlay hints with a keybind
+- Add keybind to find/replace word under cursor

@@ -16,7 +16,7 @@ local lsp_config = function()
     "jsonls",
     "marksman",
     "yamlls",
-    "ruff_lsp",
+    "ruff",
     "rust_analyzer",
     "texlab",
   }
@@ -169,8 +169,8 @@ local lsp_config = function()
           settings = require("plugins.lsp-config.lua_ls"),
         })
       end,
-      ruff_lsp = function()
-        lspconfig.ruff_lsp.setup({
+      ruff = function()
+        lspconfig.ruff.setup({
           on_attach = function(client, bufnr)
             client.server_capabilities.hoverProvider = false
             on_attach(client, bufnr)

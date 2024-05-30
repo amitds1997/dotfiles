@@ -1,9 +1,9 @@
 return {
   max_filesize = 1024 * 1024, -- 1 MiB
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"|"cyberdream"|"neofusion"
-  colorscheme = "catppuccin",
+  colorscheme = "rose-pine",
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"|"cyberdream"|"neofusion"
-  statusline_colorscheme = "catppuccin",
+  statusline_colorscheme = "rose-pine",
   ---@type boolean
   transparent_background = true,
   oil = {
@@ -61,6 +61,7 @@ return {
     "markdown",
     "markdown_inline",
     "python",
+    "query",
     "regex",
     "rust",
     "scala",

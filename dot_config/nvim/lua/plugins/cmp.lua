@@ -32,8 +32,6 @@ local cmp_config = function()
     formatting = {
       expandable_indicator = true,
       fields = { "kind", "abbr", "menu" },
-      ---@param entry cmp.Entry
-      ---@param item vim.CompletedItem
       format = function(entry, item)
         item.menu = entry:get_completion_item().detail or item.kind
         item.kind = (constants.kind_icons[item.kind] or constants.kind_icons.Text)
@@ -64,9 +62,7 @@ local cmp_config = function()
     },
     preselect = cmp.PreselectMode.None,
     window = {
-      completion = cmp.config.window.bordered({
-        scrollbar = false,
-      }),
+      completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({

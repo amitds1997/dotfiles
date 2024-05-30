@@ -10,12 +10,25 @@ local remote_nvim_config = function()
       copy_dirs = {
         config = {
           base = vim.env.XDG_CONFIG_HOME .. "/weird-nvim", -- Path from where data has to be copied
-          dirs = "*", -- Directories that should be copied over. "*" means all directories. To specify a subset, use a list like {"lazy", "mason"} where "lazy", "mason" are subdirectories
+          dirs = { "lua", "init.lua" }, -- Directories that should be copied over. "*" means all directories. To specify a subset, use a list like {"lazy", "mason"} where "lazy", "mason" are subdirectories
           -- under path specified in `base`.
           compression = {
             enabled = false, -- Should compression be enabled or not
             additional_opts = {}, -- Any additional options that should be used for compression. Any argument that is passed to `tar` (for compression) can be passed here as separate elements.
           },
+        },
+        data = {
+          base = vim.env.XDG_DATA_HOME .. "/nvim", -- Path from where data has to be copied
+          dirs = { "remote-nvim.nvim", "telescope_history" }, -- Directories that should be copied over. "*" means all directories. To specify a subset, use a list like {"lazy", "mason"} where "lazy", "mason" are subdirectories
+          -- under path specified in `base`.
+          compression = {
+            enabled = false, -- Should compression be enabled or not
+            additional_opts = {}, -- Any additional options that should be used for compression. Any argument that is passed to `tar` (for compression) can be passed here as separate elements.
+          },
+        },
+        cache = {
+          base = vim.env.XDG_CACHE_HOME .. "/nvim",
+          dirs = "*",
         },
       },
     },
@@ -43,7 +56,7 @@ return {
   version = "*",
   config = remote_nvim_config,
   event = "CmdlineEnter",
-  -- dev = true,
+  dev = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
