@@ -1,10 +1,12 @@
 import icons from "lib/icons"
 import screenrecorder from "services/screenrecord"
 import { ToggleButton } from "./ToggleButton"
+import { PopupNames } from "widgets/PopupWindow"
 
 export const ScreenRecorder = () =>
   ToggleButton({
     toggle_action: () => {
+      App.closeWindow(PopupNames.Preferences)
       if (screenrecorder.recording) screenrecorder.stop()
       else screenrecorder.start()
     },

@@ -1,6 +1,7 @@
 act
 amd-ucode
 aylurs-gtk-shell-git
+aylurs-gtk-shell-git-debug
 base
 base-devel
 bat
@@ -10,7 +11,6 @@ bluez-utils
 brightnessctl
 buildah
 bun-bin
-bun-bin-debug
 chezmoi
 clang
 clight
@@ -22,7 +22,6 @@ dart-sass
 ddcci-driver-linux-dkms
 ddcutil
 ddcutil-service
-ddcutil-service-debug
 discord
 efibootmgr
 expect
@@ -44,7 +43,7 @@ gtk3-demos
 htop
 hyprcursor-git
 hypridle-git
-hyprland-git
+hyprland
 hyprlock-git
 hyprpicker
 inetutils
@@ -113,7 +112,6 @@ sof-firmware
 speech-dispatcher
 swappy
 swww
-swww-debug
 tk
 tlp
 tlp-rdw
@@ -139,7 +137,6 @@ wget
 wireplumber
 wl-clipboard
 wlogout
-wlogout-debug
 wmctrl
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
