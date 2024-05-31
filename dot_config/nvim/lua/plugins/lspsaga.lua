@@ -3,15 +3,17 @@ local constants = require("core.constants")
 local function lspsaga_config()
   require("lspsaga").setup({
     symbol_in_winbar = {
+      enable = false,
       hide_keyword = true,
       folder_level = 0,
     },
     code_action = {
-      extend_gitsigns = true,
+      extend_gitsigns = false,
       show_server_name = true,
     },
     diagnostic = {
       extend_relatedInformation = true,
+      diagnostic_only_current = true,
     },
     finder = {
       default = "dec+def+imp+ref",

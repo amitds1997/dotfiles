@@ -1,7 +1,6 @@
 act
 amd-ucode
 aylurs-gtk-shell-git
-aylurs-gtk-shell-git-debug
 base
 base-devel
 bat
