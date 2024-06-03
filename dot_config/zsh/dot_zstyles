@@ -1,5 +1,3 @@
-# .zstylerc - zstyle settings for features/plugins that need them
-
 # Antidote
 zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins.txt
 zstyle ':antidote:bundle' use-friendly-names 'yes'
@@ -8,20 +6,19 @@ zstyle ':antidote:plugin:*' defer-options '-p'
 # Editor
 zstyle :zle:edit-command-line editor nvim
 
-# FZF-tab
+# Completion related configuration
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' # Match case-insensitively if there are no matches
 
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
+# fzf-tab provides a nicer autocomplete with the power of fzf so it's configuration follows
+zstyle ':completion:*:git-checkout:*' sort false # disable sort when completing `git checkout`
+zstyle ':completion:*:descriptions' format '[%d]' # set descriptions format to enable group support
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # set list-colors to enable filename colorizing
+zstyle ':completion:*' menu no # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not shown
+zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s)' --preview-label=' Preview ' # Noice flags
+zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
+
+# Custom fzf-tab previews
 zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --icons=always --color=always $realpath'
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
 
 # vim: ft=zsh sw=2 ts=2 et

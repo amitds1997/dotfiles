@@ -14,6 +14,7 @@ end
 local cmp_config = function()
   local MAX_ABBR_WIDTH, MAX_MENU_WIDTH = 25, 30
   local cmp, luasnip = require("cmp"), require("luasnip")
+  local suggestion = require("supermaven-nvim.completion_preview")
 
   -- Setup luasnip
   require("luasnip.loaders.from_vscode").lazy_load()
@@ -21,8 +22,8 @@ local cmp_config = function()
   cmp.setup({
     enabled = function()
       local context = require("cmp.config.context")
-      -- Disable completions in comment blocks
-      return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+      -- Disable completions in comment blocks unless they are documentation related
+      return not (context.in_treesitter_capture("comment") or context.in_syntax_group("Comment"))
     end,
     snippet = {
       expand = function(args)
@@ -84,6 +85,8 @@ local cmp_config = function()
       ["<c-j>"] = cmp.mapping(function()
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
+        elseif suggestion.has_suggestion() then
+          suggestion.on_accept_suggestion()
         end
       end, { "i", "s" }),
       ["<c-k>"] = cmp.mapping(function()
@@ -122,6 +125,7 @@ local cmp_config = function()
         priority = 150,
       },
       { name = "luasnip", option = { show_autosnippets = true }, priority = 50, max_item_count = 3 },
+      { name = "supermaven" },
       {
         name = "async_path",
         option = {
@@ -207,9 +211,16 @@ return {
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",
     "saadparwaiz1/cmp_luasnip",
-    {
-      "https://codeberg.org/FelipeLema/cmp-async-path",
-    },
+    "https://codeberg.org/FelipeLema/cmp-async-path",
     "yamatsum/nvim-nonicons",
+    {
+      "supermaven-inc/supermaven-nvim",
+      config = function()
+        require("supermaven-nvim").setup({
+          disable_keymaps = true,
+          disable_inline_completion = true,
+        })
+      end,
+    },
   },
 }

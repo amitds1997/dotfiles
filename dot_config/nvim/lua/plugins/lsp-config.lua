@@ -1,5 +1,3 @@
--- This is a test line
--- Is this a test line
 local lsp_config = function()
   local lspconfig = require("lspconfig")
   local mason_lspconfig = require("mason-lspconfig")
@@ -44,14 +42,6 @@ local lsp_config = function()
     if client.supports_method(lsp_protocol_methods.textDocument_inlayHint) then
       vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
     end
-
-    -- if client.supports_method(lsp_protocol_methods.textDocument_codeLens) then
-    --   vim.lsp.codelens.refresh()
-    --   vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-    --     buffer = bufnr,
-    --     callback = vim.lsp.codelens.refresh,
-    --   })
-    -- end
 
     local bufopts = { buffer = bufnr }
     local wk, lsp_buf = package.loaded["which-key"], vim.lsp.buf
