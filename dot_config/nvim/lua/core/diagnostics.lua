@@ -3,8 +3,9 @@ vim.diagnostic.config({
   signs = {
     text = require("core.constants").severity_icons,
   },
-  virtual_text = {
-    source = false,
-    prefix = "",
-  },
+  virtual_text = false,
+  -- virtual_text = {
+  --   source = false,
+  --   prefix = "",
+  -- },
 })

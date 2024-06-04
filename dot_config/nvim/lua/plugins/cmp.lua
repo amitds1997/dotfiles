@@ -14,7 +14,6 @@ end
 local cmp_config = function()
   local MAX_ABBR_WIDTH, MAX_MENU_WIDTH = 25, 30
   local cmp, luasnip = require("cmp"), require("luasnip")
-  local suggestion = require("supermaven-nvim.completion_preview")
 
   -- Setup luasnip
   require("luasnip.loaders.from_vscode").lazy_load()
@@ -85,8 +84,6 @@ local cmp_config = function()
       ["<c-j>"] = cmp.mapping(function()
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
-        elseif suggestion.has_suggestion() then
-          suggestion.on_accept_suggestion()
         end
       end, { "i", "s" }),
       ["<c-k>"] = cmp.mapping(function()
@@ -125,7 +122,6 @@ local cmp_config = function()
         priority = 150,
       },
       { name = "luasnip", option = { show_autosnippets = true }, priority = 50, max_item_count = 3 },
-      { name = "supermaven" },
       {
         name = "async_path",
         option = {
@@ -213,14 +209,5 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "https://codeberg.org/FelipeLema/cmp-async-path",
     "yamatsum/nvim-nonicons",
-    {
-      "supermaven-inc/supermaven-nvim",
-      config = function()
-        require("supermaven-nvim").setup({
-          disable_keymaps = true,
-          disable_inline_completion = true,
-        })
-      end,
-    },
   },
 }
