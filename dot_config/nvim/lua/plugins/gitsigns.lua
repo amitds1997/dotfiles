@@ -1,13 +1,19 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufRead", "BufNewFile" },
+  dependencies = {
+    {
+      "linrongbin16/gitlinker.nvim",
+      opts = true,
+    },
+  },
   opts = {
     signcolumn = true,
     numhl = true,
     diff_opts = { internal = true },
     on_attach = function(bufnr)
       local gs, wk = package.loaded.gitsigns, package.loaded["which-key"]
-      local gs_buf_opts = { buffer = bufnr }
+      local gs_buf_opts = { buffer = bufnr, mode = { "n", "v" } }
 
       local wk_maps = {
         ["<leader>g"] = {
@@ -60,6 +66,16 @@ return {
               gs.blame_line({ full = true })
             end,
             "Git blame current line with preview",
+          },
+          e = {
+            name = "extras",
+
+            l = {
+              function()
+                require("gitlinker").link({ action = require("gitlinker.actions").clipboard })
+              end,
+              "Copy share-able path URIs",
+            },
           },
         },
         ["<leader>gt"] = {
