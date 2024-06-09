@@ -148,6 +148,29 @@ local cmp_config = function()
     }),
   })
 
+  -- Completions on cmdline
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = "async_path" },
+    }, {
+      {
+        name = "cmdline",
+        options = {
+          ignore_cmds = { "Man", "!" },
+        },
+      },
+    }),
+  })
+
+  -- Completions for /
+  cmp.setup.cmdline({ "/", "?" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
+
   -- Disable completion for certain filetypes
   cmp.setup.filetype("TelescopePrompt", {
     enabled = false,
@@ -170,7 +193,7 @@ return {
       buf = 0,
     }) ~= "prompt" or require("cmp_dap").is_dap_buffer()
   end,
-  event = { "InsertEnter" },
+  event = { "InsertEnter", "CmdlineEnter" },
   dependencies = {
     {
       "L3MON4D3/LuaSnip",
@@ -206,6 +229,7 @@ return {
     "hrsh7th/cmp-buffer",
     "hrsh7th/cmp-nvim-lsp",
     "rcarriga/cmp-dap",
+    "hrsh7th/cmp-cmdline",
     "saadparwaiz1/cmp_luasnip",
     "https://codeberg.org/FelipeLema/cmp-async-path",
     "yamatsum/nvim-nonicons",

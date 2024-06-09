@@ -1,16 +1,9 @@
 local dap_config = function()
   local dap, dapui = require("dap"), require("dapui")
 
-  -- Get current buffer's filetype
-  local function get_current_buf_filetype()
-    return vim.bo[vim.api.nvim_get_current_buf()].filetype
-  end
-
   -- Launch debugging session
   local function launch_debugging_session()
-    local buf_filetype = get_current_buf_filetype()
-
-    if buf_filetype == "lua" then
+    if vim.bo.filetype == "lua" then
       vim.ui.select({ "Launch the current file", "Launch connection with other debugger" }, {
         prompt = "Choose debugging method",
       }, function(choice)
@@ -31,9 +24,7 @@ local dap_config = function()
 
   -- Restart debugging session
   local function restart_debugging_session()
-    local buf_filetype = get_current_buf_filetype()
-
-    if dap.session() ~= nil and buf_filetype == "lua" then
+    if dap.session() ~= nil and vim.bo.filetype == "lua" then
       dap.terminate()
       launch_debugging_session()
     else
@@ -43,9 +34,7 @@ local dap_config = function()
 
   -- DAP continue session
   local function dap_continue()
-    local buf_filetype = get_current_buf_filetype()
-
-    if buf_filetype == "lua" and dap.session() == nil then
+    if vim.bo.filetype == "lua" and dap.session() == nil then
       launch_debugging_session()
     else
       dap.continue()
@@ -56,39 +45,37 @@ local dap_config = function()
     ["<leader>b"] = {
       name = "debugger",
 
-      -- Session management
-      d = {
-        name = "debugging-session",
+      s = {
+        name = "session",
 
-        l = { launch_debugging_session, "Launch debugging session" },
-        r = { restart_debugging_session, "Restart current debugging session" },
-        t = {
-          function()
-            dap.terminate()
-          end,
-          "Terminate debugging session",
-        },
+        s = { launch_debugging_session, "Start debug session" },
+        r = { restart_debugging_session, "Re-start debug session" },
+        t = { dap.terminate, "Terminate debug session" },
       },
-
-      -- Breakpoint
+      o = { dap.step_over, "Step over" },
+      i = { dap.step_into, "Step into" },
+      c = { dap_continue, "Continue execution" },
+      C = { dap.run_to_cursor, "Run till cursor location" },
       b = {
         function()
           dap.toggle_breakpoint()
         end,
         "Toggle breakpoint",
       },
-      C = {
+      B = {
         function()
           dap.set_breakpoint(nil, nil, vim.fn.input("Condition: "))
         end,
         "Set conditional breakpoint",
       },
-
-      -- Operation
-      c = { dap_continue, "Continue execution" },
-      o = { dap.step_over, "Step over" },
-      i = { dap.step_into, "Step into" },
-      R = { dap.run_to_cursor, "Run till cursor location" },
+      ["<C-j>"] = {
+        dap.up,
+        "Move up the current stacktrace",
+      },
+      ["<C-k>"] = {
+        dap.down,
+        "Move up the current stacktrace",
+      },
 
       -- Debugger UI
       u = { dapui.toggle, "Toggle debugger UI" },
@@ -99,7 +86,8 @@ local dap_config = function()
         "Show value of variable under cursor/highlight",
       },
 
-      s = {
+      -- Extras
+      e = {
         name = "debugger-specific options",
 
         l = {
@@ -110,6 +98,8 @@ local dap_config = function()
         },
       },
     },
+  }, {
+    mode = { "n", "v" },
   })
 
   require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {

@@ -150,7 +150,7 @@ local C = {
     lua_ls = { name = "Lua LS", priority = 20 },
     marksman = { name = "Marksman", priority = 20 },
     basedpyright = { name = "Python LS", priority = 20 },
-    ruff_lsp = { name = "Ruff LS", priority = 15 },
+    ruff = { name = "Ruff LS", priority = 15 },
     terraformls = { name = "Terraform LS", priority = 20 },
     tsserver = { name = "Typescript LS", priority = 20 },
     yamlls = { name = "YAML LS", priority = 20 },

@@ -114,6 +114,8 @@ local lsp_config = function()
     require("cmp_nvim_lsp").default_capabilities()
   )
 
+  require("lazydev").setup()
+
   mason_lspconfig.setup({
     ensure_installed = ensure_installed,
     automatic_installation = true,
@@ -186,7 +188,8 @@ return {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "nvimdev/lspsaga.nvim",
-    "b0o/schemastore.nvim", -- Enable schemas availability for JSON and YAML
+    "b0o/schemastore.nvim",
     "hrsh7th/cmp-nvim-lsp",
+    "folke/lazydev.nvim",
   },
 }

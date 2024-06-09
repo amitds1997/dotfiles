@@ -1,6 +1,3 @@
-export EDITOR=nvim
-export VISUAL=nvim
-
 # Needed to run git commit correctly with GPG
 export GPG_TTY=$TTY
 

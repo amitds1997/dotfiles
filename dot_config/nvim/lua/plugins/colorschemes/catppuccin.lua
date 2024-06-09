@@ -23,11 +23,13 @@ return {
         cmp = true,
         gitsigns = true,
         noice = true,
+        diffview = true,
         notify = true,
         mini = {
           enabled = true,
           indentscope_color = "lavender",
         },
+        fidget = true,
         neotest = true,
         neogit = true,
         dap = {
@@ -39,6 +41,7 @@ return {
           enabled = true,
           lsp = false,
         },
+        lsp_saga = true,
       },
     })
     vim.cmd([[colorscheme catppuccin]])

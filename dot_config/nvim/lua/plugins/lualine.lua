@@ -115,10 +115,10 @@ local lualine_config = function()
         },
       },
       lualine_x = {
-        {
-          require("noice").api.status.mode.get_hl,
-          cond = require("noice").api.status.mode.has,
-        },
+        -- {
+        --   require("noice").api.status.mode.get_hl,
+        --   cond = require("noice").api.status.mode.has,
+        -- },
         "selectioncount",
       },
       lualine_y = {
