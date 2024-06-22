@@ -13,7 +13,6 @@ local function lspsaga_config()
     },
     diagnostic = {
       extend_relatedInformation = true,
-      diagnostic_only_current = true,
     },
     finder = {
       default = "dec+def+imp+ref",

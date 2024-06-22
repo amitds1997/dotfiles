@@ -1,6 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
-  event = { "BufRead", "BufNewFile" },
+  lazy = false,
+  -- event = { "BufRead", "BufNewFile" },
   dependencies = {
     {
       "linrongbin16/gitlinker.nvim",

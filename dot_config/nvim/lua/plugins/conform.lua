@@ -29,9 +29,12 @@ local function conform_setup()
   -- Special handling for mdformat
   install_mdformat_extra_packages()
 
+  ---@param default conform.FormatOpts
+  ---@return conform.FormatOpts
   local function handle_disabling_formatting(bufnr, default)
     -- Check if formatting has been disabled on the buffer
     if vim.b[bufnr].disable_autoformat then
+      ---@diagnostic disable-next-line: missing-return-value
       return
     end
     return default
@@ -67,6 +70,13 @@ local function conform_setup()
           lang_to_formatters = {
             yaml = {}, -- Do not try to format YAML (because it is also used for frontmatter)
           },
+        },
+      },
+      yamlfix = {
+        env = {
+          YAMLFIX_preserve_quotes = "TRUE",
+          YAMLFIX_WHITELINES = "1",
+          YAMLFIX_SECTION_WHITELINES = "1",
         },
       },
     },

@@ -4,6 +4,12 @@ My Neovim dot files
 
 ## Pending upgrades
 
+### Broken stuff
+
+- [ ] Pyright LSP does not respect `reportUnusedImport = false`
+- [ ] Show the search count in the statusbar `4/15`
+- [ ] GitSigns not working with the default events (Works if lazy loading is off)
+
 ### Major upgrades
 
 - [ ] Debugging setup

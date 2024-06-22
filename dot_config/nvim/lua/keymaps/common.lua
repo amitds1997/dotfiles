@@ -47,4 +47,23 @@ return {
       "Open Neogit",
     },
   },
+
+  ["<leader>l"] = {
+    name = "LSP",
+
+    e = {
+      name = "extras",
+
+      i = {
+        function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({
+            bufnr = 0,
+          }), {
+            bufnr = 0,
+          })
+        end,
+        "Toggle LSP inlay hints",
+      },
+    },
+  },
 }

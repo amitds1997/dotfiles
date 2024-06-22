@@ -17,6 +17,7 @@ local lsp_config = function()
     "ruff",
     "rust_analyzer",
     "texlab",
+    "helm_ls",
   }
 
   local ensure_lsp_installed = {
@@ -40,7 +41,7 @@ local lsp_config = function()
     vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = bufnr })
 
     if client.supports_method(lsp_protocol_methods.textDocument_inlayHint) then
-      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
     end
 
     local bufopts = { buffer = bufnr }
@@ -116,6 +117,8 @@ local lsp_config = function()
 
   require("lazydev").setup()
 
+  -- If you need to add a manual lspconfig.setup() calls, do it before this call, because
+  -- this will always try to install LSP server if available.
   mason_lspconfig.setup({
     ensure_installed = ensure_installed,
     automatic_installation = true,
@@ -145,6 +148,19 @@ local lsp_config = function()
           on_attach = on_attach,
           capabilities = capabilities,
           settings = require("plugins.lsp-config.bashls"),
+        })
+      end,
+      helm_ls = function()
+        lspconfig.helm_ls.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          settings = {
+            ["helm-ls"] = {
+              yamlls = {
+                path = "yaml-language-server",
+              },
+            },
+          },
         })
       end,
       yamlls = function()
@@ -191,5 +207,6 @@ return {
     "b0o/schemastore.nvim",
     "hrsh7th/cmp-nvim-lsp",
     "folke/lazydev.nvim",
+    { "towolf/vim-helm", ft = "helm" },
   },
 }
