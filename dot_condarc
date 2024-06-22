@@ -1,6 +1,5 @@
 channels:
   - conda-forge
-  - defaults
 channel_priority: flexible
 auto_update_conda: false
 always_yes: false
