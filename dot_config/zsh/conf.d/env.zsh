@@ -22,9 +22,6 @@ if [[ $(uname) == "Darwin" ]]; then
     $path
   )
   export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
-
-  # Replace cat
-  alias cat="bat --theme=\$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo OneHalfDark || echo OneHalfLight)"
 fi
 
 if [[ $TERM == "xterm-kitty" ]]; then
