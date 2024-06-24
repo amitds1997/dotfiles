@@ -6,6 +6,7 @@ typeset -ga zopts_general=(
   INTERACTIVE_COMMENTS      # Enable comments in interactive shell
   RC_QUOTES                 # Allow 'Hitchhiker''s Guide' instead of 'Hitchhiker'\''s Guide'
   NO_MAIL_WARNING           # Don't print a warning if a mail file was accessed
+  NO_BEEP                   # No beeping from shell please
 )
 
 # Job options
@@ -79,10 +80,6 @@ fpath=($ZDOTDIR/completions(/N) $fpath)
 # Aliases
 alias hist='fc -li'
 alias dirh='dirs -v'
-
-# Load more specific 'run-help' function from $fpath.
-(( $+aliases[run-help] )) && unalias run-help && autoload -Uz run-help
-alias help=run-help
 
 # Use built-in paste magic
 autoload -Uz bracketed-paste-url-magic

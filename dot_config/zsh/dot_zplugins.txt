@@ -1,33 +1,22 @@
-mattmc3/zephyr path:plugins/zfunctions
+romkatv/powerlevel10k # Prompt plugin
 
-# Prompt plugins
-romkatv/powerlevel10k
+mattmc3/zephyr path:plugins/zfunctions # Lazy load functions directory
+mattmc3/zephyr path:plugins/color # Make everything colorful
+mattmc3/zephyr path:plugins/editor # Sane editor defaults
+mattmc3/zephyr path:plugins/history # Sane history settings
+mattmc3/zephyr path:plugins/utility # Utilities such as pbcopy for OS-agnostic copy, etc.
+mattmc3/zephyr path:plugins/completion # Completion related sane settings
+mattmc3/zephyr path:plugins/confd # Use confd structure to organize configuration
 
-# Zephyr plugins
-mattmc3/zephyr path:plugins/color
-mattmc3/zephyr path:plugins/editor
-mattmc3/zephyr path:plugins/history
-mattmc3/zephyr path:plugins/utility
+zsh-users/zsh-completions path:src kind:fpath # Provides completion for common commands
+$ZDOTDIR/completions kind:fpath # Custom command completions
+zsh-users/zsh-autosuggestions # Show command suggestion based on history and completions
 
-# Custom completion scripts
-$ZDOTDIR/completions kind:fpath
+Aloxaf/fzf-tab # FZF-based completions
+Freed-Wu/fzf-tab-source # Different sources for fzf tab completion
 
-# FZF handler
-Aloxaf/fzf-tab
-Freed-Wu/fzf-tab-source
+zsh-users/zsh-history-substring-search # Search through history using substring
+zdharma-continuum/fast-syntax-highlighting # Syntax highlighting for commands
+jeffreytse/zsh-vi-mode # Vim mode
 
-# Completion plugins
-zsh-users/zsh-completions path:src kind:fpath
-zsh-users/zsh-autosuggestions
-
-# Completion handler
-belak/zsh-utils path:completion
-
-# Final plugins
-mattmc3/zephyr path:plugins/confd
-zsh-users/zsh-history-substring-search
-
-# Utility plugins
-zdharma-continuum/fast-syntax-highlighting
-
-# vim: ft=zsh sw=2 ts=2 et
+# vim: ft=zsh:sw=2:ts=2:foldmethod=marker
