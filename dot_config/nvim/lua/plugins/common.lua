@@ -135,4 +135,9 @@ return {
       },
     },
   },
+  {
+    "chentoast/marks.nvim",
+    event = "BufReadPost",
+    config = true,
+  },
 }

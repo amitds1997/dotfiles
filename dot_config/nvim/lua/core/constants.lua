@@ -155,6 +155,7 @@ local C = {
     tsserver = { name = "Typescript LS", priority = 20 },
     yamlls = { name = "YAML LS", priority = 20 },
     cssls = { name = "CSS LS", priority = 20 },
+    rust_analyzer = { name = "Rust LS", priority = 20 },
   },
   severity_icons = {
     [vim.diagnostic.severity.ERROR] = "󰅚 ",

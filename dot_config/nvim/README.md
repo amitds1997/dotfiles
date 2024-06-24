@@ -7,22 +7,23 @@ My Neovim dot files
 ### Broken stuff
 
 - [ ] Pyright LSP does not respect `reportUnusedImport = false`
-- [ ] Show the search count in the statusbar `4/15`
+- [x] Show the search count in the statusbar `4/15`
 - [ ] GitSigns not working with the default events (Works if lazy loading is off)
+- [ ] Setup code folding (also setup mkview and loadview)
+- [ ] Setup cursorline correctly (so that I can see where I'm at)
+- [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
+- [ ] Sometimes, the folds show the numbers :(
+- [ ] Add more support for marks
 
 ### Major upgrades
 
-- [ ] Debugging setup
-- [ ] Test runner setup (if possible, with codelens)
-  - Python, Go, Lua
+- [ ] Debugging and test runner setup for Python, Go, Lua, Rust
 
 ### Todo
 
-- [ ] Integrate [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo)
 - [ ] Run `remote-nvim.nvim` plenary tests from inside Neovim
 - [ ] For `python`, `docker`, the indent line should not span until the new line
 - Add keybindings
-  - [ ] to toggle inlay hints
   - [ ] to find/replace word under cursor
 - [ ] Add more treesitter textobjects for movement
 
@@ -36,7 +37,6 @@ My Neovim dot files
 
 ### Refactoring series
 
-- [ ] Integrate [lazydev.nvim](https://github.com/folke/lazydev.nvim)
 - [ ] Re-organize keymaps
 - [ ] Add types for completion elements
 
@@ -47,6 +47,7 @@ My Neovim dot files
 - Vim motions
 - Treesitter objects
 - Text objects
+- All the registers
 - Use these more
   - `mini.surround`
   - `mini.ai`

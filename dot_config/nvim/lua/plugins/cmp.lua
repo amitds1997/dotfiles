@@ -17,6 +17,10 @@ local cmp_config = function()
 
   -- Setup luasnip
   require("luasnip.loaders.from_vscode").lazy_load()
+  local snippets_dir = vim.fn.stdpath("config") .. "/snippets/"
+  require("luasnip.loaders.from_lua").load({
+    paths = { snippets_dir },
+  })
 
   cmp.setup({
     enabled = function()
@@ -91,6 +95,16 @@ local cmp_config = function()
           luasnip.jump(-1)
         end
       end, { "i", "s" }),
+      ["<c-h>"] = cmp.mapping(function()
+        if luasnip.choice_active() then
+          luasnip.change_choice(-1)
+        end
+      end),
+      ["<c-l>"] = cmp.mapping(function()
+        if luasnip.choice_active() then
+          luasnip.change_choice(1)
+        end
+      end),
     }),
     sorting = {
       priority_weight = 2,
@@ -116,12 +130,12 @@ local cmp_config = function()
       },
     },
     sources = cmp.config.sources({
+      { name = "luasnip", option = { show_autosnippets = true }, priority = 150, max_item_count = 3 },
       {
         name = "nvim_lsp",
         keyword_length = 0,
-        priority = 150,
+        priority = 100,
       },
-      { name = "luasnip", option = { show_autosnippets = true }, priority = 50, max_item_count = 3 },
       {
         name = "async_path",
         option = {

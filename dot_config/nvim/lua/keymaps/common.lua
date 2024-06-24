@@ -16,8 +16,8 @@ return {
   ["<leader>c"] = {
     name = "common-op",
 
-    s = { "<cmd>setlocal spell!<CR>", "Toggle spellcheck" },
-    l = { "<cmd>luafile %<CR>", "Run luafile" },
+    s = { "<cmd>mkview<CR>", "Save the current view of the buffer" },
+    l = { "<cmd>loadview<CR>", "Restore previous saved view" },
     m = { "<cmd>Mason<CR>", "Open Mason" },
     n = { "<cmd>Noice dismiss<CR>", "Dismiss active notifications" },
     f = {

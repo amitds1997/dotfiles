@@ -50,11 +50,13 @@ o.winwidth = 30 -- Minimum columns per window
 o.winblend = 0 -- Needed to create transparent windows
 
 -- Fold options
-o.foldmethod = "expr" --'foldexpr' determines the fold level of a line.
-o.foldexpr = "nvim_treesitter#foldexpr()"
+-- o.foldmethod = "expr" --'foldexpr' determines the fold level of a line.
+-- o.foldexpr = "nvim_treesitter#foldexpr()"
+o.foldlevel = 99 -- Start with no folds
 o.foldlevelstart = 99 -- Start with no folds
 o.foldnestmax = 10 -- Deepest fold is 10 levels
 o.foldenable = true -- Don't fold by default
+o.foldcolumn = "1" -- Do not show fold column
 
 -- Tab control
 o.expandtab = true -- Expand <Tab> into spaces
@@ -69,6 +71,7 @@ o.shiftwidth = 2 -- Number of spaces for each step of (auto) indent
 o.shiftround = true -- Round indent to a multiple of 'shiftwidth'
 o.breakindent = true -- Wrapped lines indent visually aligned
 o.breakindentopt = "min:20,sbr"
+o.smoothscroll = true -- Turn on smooth scrolling
 
 -- Show matching brace
 o.showmatch = true -- Briefly jump to the matching bracket
@@ -119,9 +122,18 @@ o.pumheight = 10 -- Show 10 items in the pop-up menu
 o.cursorline = true
 o.cursorlineopt = "number"
 
-o.fillchars = "eob: " -- Don't show `~` outside of buffer
+o.fillchars = {
+  eob = " ",
+  foldopen = "󰅀",
+  foldclose = "󰅂",
+  fold = " ",
+  foldsep = " ",
+}
 o.backup = false -- Don't store backup while overwriting the file
 o.writebackup = false -- Don't store backup while overwriting the file
+
+o.autowrite = true
+o.autowriteall = true
 
 -- If we have rg installed, use rg to grep
 if vim.fn.executable("rg") == 1 then

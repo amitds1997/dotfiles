@@ -120,6 +120,23 @@ local function noice_setup()
         },
         view = "mini",
       },
+      -- Treesitter :Inspect output
+      { filter = { event = "msg_show", find = "Treesitter.*- @" }, view = "popup" },
+      { -- Mason
+        filter = {
+          event = "notify",
+          cond = function(msg)
+            return msg.opts and (msg.opts.title or ""):find("mason")
+          end,
+        },
+        view = "mini",
+      },
+      -- nvim-treesitter
+      { filter = { event = "msg_show", find = "^%[nvim%-treesitter%]" }, view = "mini" },
+      { filter = { event = "notify", find = "All parsers are up%-to%-date" }, view = "mini" },
+
+      -- code actions
+      { filter = { event = "notify", find = "No code actions available" }, skip = true },
     },
   })
 end

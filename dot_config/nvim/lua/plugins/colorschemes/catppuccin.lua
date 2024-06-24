@@ -25,6 +25,7 @@ return {
         noice = true,
         diffview = true,
         notify = true,
+        ufo = true,
         mini = {
           enabled = true,
           indentscope_color = "lavender",
@@ -32,10 +33,8 @@ return {
         fidget = true,
         neotest = true,
         neogit = true,
-        dap = {
-          enabled = true,
-          enabled_ui = true,
-        },
+        dap = true,
+        dap_ui = true,
         which_key = true,
         illuminate = {
           enabled = true,

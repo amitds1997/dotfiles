@@ -55,6 +55,7 @@ local lualine_config = function()
 
   local theme_name = require("core.vars").statusline_colorscheme
   if theme_name == "neofusion" then
+    ---@diagnostic disable-next-line: cast-local-type
     theme_name = require("neofusion.lualine")
   end
 
@@ -115,10 +116,14 @@ local lualine_config = function()
         },
       },
       lualine_x = {
-        -- {
-        --   require("noice").api.status.mode.get_hl,
-        --   cond = require("noice").api.status.mode.has,
-        -- },
+        {
+          require("noice").api.status.mode.get_hl,
+          cond = require("noice").api.status.mode.has,
+        },
+        {
+          require("noice").api.status.search.get_hl,
+          cond = require("noice").api.status.search.has,
+        },
         "selectioncount",
       },
       lualine_y = {

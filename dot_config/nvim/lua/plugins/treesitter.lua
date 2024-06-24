@@ -1,4 +1,5 @@
 local treesitter_config = function()
+  ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
     ensure_installed = require("core.vars").treesitter_parsers,
     sync_install = false,
@@ -25,6 +26,7 @@ local treesitter_config = function()
     },
   })
 
+  ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
     textobjects = {
       swap = {
