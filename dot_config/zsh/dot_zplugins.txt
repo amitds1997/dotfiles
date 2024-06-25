@@ -15,8 +15,10 @@ zsh-users/zsh-autosuggestions # Show command suggestion based on history and com
 Aloxaf/fzf-tab # FZF-based completions
 Freed-Wu/fzf-tab-source # Different sources for fzf tab completion
 
+jeffreytse/zsh-vi-mode # Vim mode
+
+# These plugins like to be loaded last and in this order
 zsh-users/zsh-history-substring-search # Search through history using substring
 zdharma-continuum/fast-syntax-highlighting # Syntax highlighting for commands
-jeffreytse/zsh-vi-mode # Vim mode
 
 # vim: ft=zsh:sw=2:ts=2:foldmethod=marker
