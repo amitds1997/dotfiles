@@ -41,6 +41,9 @@ local treesitter_config = function()
     },
   })
 
+  -- Prefer Git over HTTPS
+  require("nvim-treesitter.install").prefer_git = true
+
   -- Specify parser for specific file patterns
   vim.treesitter.language.register("gotmpl", "template")
   vim.treesitter.language.register("python", "pyn")

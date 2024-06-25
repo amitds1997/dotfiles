@@ -109,6 +109,7 @@ local cmp_config = function()
     sorting = {
       priority_weight = 2,
       comparators = {
+        require("copilot_cmp.comparators").prioritize,
         cmp.config.compare.offset,
         function(...) -- Locality bonus (distance-based sort)
           return require("cmp_buffer"):compare_locality(...)
@@ -130,6 +131,7 @@ local cmp_config = function()
       },
     },
     sources = cmp.config.sources({
+      { name = "copilot", priority = 190 },
       { name = "luasnip", option = { show_autosnippets = true }, priority = 150, max_item_count = 3 },
       {
         name = "nvim_lsp",
@@ -247,5 +249,6 @@ return {
     "saadparwaiz1/cmp_luasnip",
     "https://codeberg.org/FelipeLema/cmp-async-path",
     "yamatsum/nvim-nonicons",
+    "zbirenbaum/copilot-cmp",
   },
 }

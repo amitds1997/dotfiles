@@ -7,13 +7,13 @@ My Neovim dot files
 ### Broken stuff
 
 - [ ] Pyright LSP does not respect `reportUnusedImport = false`
-- [x] Show the search count in the statusbar `4/15`
 - [ ] GitSigns not working with the default events (Works if lazy loading is off)
 - [ ] Setup code folding (also setup mkview and loadview)
 - [ ] Setup cursorline correctly (so that I can see where I'm at)
 - [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
 - [ ] Sometimes, the folds show the numbers :(
 - [ ] Add more support for marks
+- [ ] Sometimes the `cmp` window gets left behind :/
 
 ### Major upgrades
 

@@ -34,6 +34,9 @@ local lualine_config = function()
     for _, lsp in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
       table.insert(assorted, constants.lsps[lsp.name] or { name = lsp.name, priority = 15 })
     end
+    assorted = vim.tbl_filter(function(lsp_record)
+      return lsp_record.name ~= "copilot"
+    end, assorted)
     table.sort(assorted, function(x, y)
       return x.priority >= y.priority
     end)
@@ -138,6 +141,28 @@ local lualine_config = function()
         space_handler(function()
           return #vim.lsp.get_clients({ bufnr = 0 }) > 0
         end),
+        {
+          "copilot",
+          padding = { left = 0, right = 1 },
+          separator = { left = "", right = "" },
+          symbols = {
+            status = {
+              icons = {
+                enabled = " ",
+                sleep = " ", -- auto-trigger disabled
+                disabled = " ",
+                warning = " ",
+                unknown = "",
+              },
+            },
+            spinners = require("copilot-lualine.spinners").dots,
+          },
+          show_colors = false,
+          show_loading = true,
+          on_click = function()
+            vim.cmd("Copilot toggle")
+          end,
+        },
       },
       lualine_z = {
         {
@@ -168,5 +193,6 @@ return {
   event = "VeryLazy",
   dependencies = {
     "nvim-tree/nvim-web-devicons",
+    "AndreM222/copilot-lualine",
   },
 }

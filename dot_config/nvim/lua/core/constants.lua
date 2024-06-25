@@ -116,6 +116,7 @@ local C = {
     Array = " ",
     Class = " ",
     Color = " ",
+    Copilot = "󰚩 ",
     Constant = " ",
     Constructor = " ",
     Enum = " ",
