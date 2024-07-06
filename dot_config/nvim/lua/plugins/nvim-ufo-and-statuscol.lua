@@ -1,7 +1,6 @@
 return {
   {
     "kevinhwang91/nvim-ufo",
-    dependencies = { "kevinhwang91/promise-async" },
     opts = {
       provider_selector = function(_, _, _)
         return { "treesitter", "indent" }
@@ -42,7 +41,7 @@ return {
         },
       },
     },
-    event = "VimEnter",
+    event = "VeryLazy",
     init = function()
       vim.keymap.set("n", "zR", function()
         require("ufo").openAllFolds()
@@ -54,20 +53,23 @@ return {
         require("ufo").peekFoldedLinesUnderCursor()
       end, { desc = "Peek fold" })
     end,
-  },
-  {
-    "luukvbaal/statuscol.nvim",
-    event = { "BufReadPost" },
-    config = function()
-      local builtin = require("statuscol.builtin")
-      require("statuscol").setup({
-        -- relculright = true,
-        segments = {
-          { text = { "%s" } },
-          { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-          { text = { builtin.foldfunc, " " }, condition = { true, builtin.not_empty }, click = "v:lua.ScFa" },
-        },
-      })
-    end,
+    dependencies = {
+      "kevinhwang91/promise-async",
+      {
+        "luukvbaal/statuscol.nvim",
+        event = { "VeryLazy" },
+        config = function()
+          local builtin = require("statuscol.builtin")
+          require("statuscol").setup({
+            -- relculright = true,
+            segments = {
+              { text = { "%s" } },
+              { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
+              { text = { builtin.foldfunc, " " }, condition = { true, builtin.not_empty }, click = "v:lua.ScFa" },
+            },
+          })
+        end,
+      },
+    },
   },
 }

@@ -10,7 +10,6 @@ end
 return {
   "stevearc/oil.nvim",
   cmd = "Oil",
-  event = "VeryLazy",
   opts = {
     default_file_explorer = true,
     delete_to_trash = true,

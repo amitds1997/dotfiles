@@ -11,8 +11,6 @@ My Neovim dot files
 - [ ] Setup code folding (also setup mkview and loadview)
 - [ ] Setup cursorline correctly (so that I can see where I'm at)
 - [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
-- [ ] Sometimes, the folds show the numbers :(
-- [ ] Add more support for marks
 - [ ] Sometimes the `cmp` window gets left behind :/
 
 ### Major upgrades
@@ -26,6 +24,7 @@ My Neovim dot files
 - Add keybindings
   - [ ] to find/replace word under cursor
 - [ ] Add more treesitter textobjects for movement
+- [ ] Add more support for marks
 
 ### Nice to have
 
@@ -85,13 +84,54 @@ My Neovim dot files
 #### Default motions
 
 - `w` - until the start of the next word, EXCLUDING its first character
+
 - `e` - to the end of the current word, INCLUDING the last character
+
 - `0` - to the start of the line
+
 - `^` - to the first non-whitespace character on the line
+
 - `$` - to the end of the line, INCLUDING the last character
+
 - `gg` - to the start of the file
+
 - `G` - to the end of the file
+
 - `<line-number>G` - to the start of the line with number `<line-number>`
+
+- `}` and `{` - Move b/w paragraphs
+
+- `)` and `(` - Move b/w sentences
+
+- `H`, `M` and `L` - Move to top, middle, bottom of the screen page
+
+- `zt` - Bring the current line near the top of your screen
+
+- `zz` - Bring the current line to the middle of your screen
+
+- `zb` - Bring the current line near the bottom of your screen
+
+- `Ctrl-E` - Scroll down a line
+
+- `Ctrl-D` - Scroll down half screen
+
+- `Ctrl-F` - Scroll down whole screen
+
+- `Ctrl-Y` - Scroll up a line
+
+- `Ctrl-U` - Scroll up half screen
+
+- `Ctrl-B` - Scroll up whole screen
+
+- `[[` -  Go to the previous section
+
+- `]]` -  Go to the next section
+
+- `'` -  Go to the marked line
+
+- `<backtick>` -  Go to the marked position
+
+- `:tag` -  Jump to tag definition
 
 #### Other motions
 
