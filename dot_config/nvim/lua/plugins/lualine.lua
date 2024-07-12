@@ -56,10 +56,13 @@ local lualine_config = function()
     return lsp_label
   end
 
-  local theme_name = require("core.vars").statusline_colorscheme
-  if theme_name == "neofusion" then
-    ---@diagnostic disable-next-line: cast-local-type
+  local color_scheme = require("core.vars").colorscheme
+  ---@type string|table
+  local theme_name = color_scheme
+  if color_scheme == "neofusion" then
     theme_name = require("neofusion.lualine")
+  elseif color_scheme == "material" then
+    theme_name = "material-stealth"
   end
 
   require("lualine").setup({
@@ -67,7 +70,7 @@ local lualine_config = function()
       theme = theme_name,
       component_separators = { left = "", right = "" },
       section_separators = { left = "", right = "" },
-      disabled_filetypes = require("core.vars").ignore_buftypes,
+      disabled_filetypes = require("core.vars").temp_buf_filetypes,
     },
     sections = {
       lualine_a = {
@@ -143,6 +146,16 @@ local lualine_config = function()
         end),
         {
           "copilot",
+          cond = function()
+            if not package.loaded["copilot"] then
+              return
+            end
+            local ok, clients = pcall(vim.lsp.get_clients, { name = "copilot", bufnr = 0 })
+            if not ok then
+              return false
+            end
+            return ok and #clients > 0
+          end,
           padding = { left = 0, right = 1 },
           separator = { left = "", right = "" },
           symbols = {
@@ -160,7 +173,12 @@ local lualine_config = function()
           show_colors = false,
           show_loading = true,
           on_click = function()
-            vim.cmd("Copilot toggle")
+            local copilot_lualine = require("copilot-lualine")
+            if copilot_lualine.is_enabled() then
+              vim.cmd([[Copilot disable]])
+            else
+              vim.cmd([[Copilot enable]])
+            end
           end,
         },
       },
@@ -183,16 +201,19 @@ local lualine_config = function()
         file_component,
       },
     },
-    extensions = { "lazy", "quickfix", "nvim-dap-ui" },
+    extensions = { "lazy", "quickfix", "nvim-dap-ui", "oil" },
   })
 end
 
 return {
-  "nvim-lualine/lualine.nvim",
-  config = lualine_config,
-  event = "VeryLazy",
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
-    "AndreM222/copilot-lualine",
+  {
+    "nvim-lualine/lualine.nvim",
+    config = lualine_config,
+    event = "VeryLazy",
   },
+  {
+    "nvim-tree/nvim-web-devicons",
+  },
+
+  { "AndreM222/copilot-lualine" },
 }

@@ -1,5 +1,4 @@
 local function setup_go_dap()
-  local _ = require("custom.mason_installer"):install("delve")
   require("dap-go").setup({
     dap_configurations = {
       {

@@ -1,14 +1,14 @@
 local treesitter_config = function()
   ---@diagnostic disable-next-line: missing-fields
   require("nvim-treesitter.configs").setup({
-    ensure_installed = require("core.vars").treesitter_parsers,
+    ensure_installed = require("core.vars").ts_parsers,
     sync_install = false,
     auto_install = true,
     highlight = {
       enable = true,
       disable = function(_, bufnr)
         local max_lines = 8000 -- Max 8000 lines will be rendered, else treesitter will be disabled
-        local ok, stats = pcall(require("core.utils").uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+        local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
         if
           (ok and stats and stats.size > require("core.vars").max_filesize)
           or vim.api.nvim_buf_line_count(bufnr) > max_lines

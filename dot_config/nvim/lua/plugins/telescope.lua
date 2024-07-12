@@ -70,6 +70,7 @@ local telescope_config = function()
 
   local built_in = require("telescope.builtin")
   telescope.load_extension("live_grep_args")
+  telescope.load_extension("fzf")
 
   require("which-key").register({
     ["<leader>t"] = {
@@ -92,24 +93,25 @@ local telescope_config = function()
 end
 
 return {
-  "nvim-telescope/telescope.nvim",
-  keys = {
-    { "<leader>t", desc = "Telescope" },
+  {
+    "nvim-telescope/telescope.nvim",
+    keys = {
+      { "<leader>t", desc = "Telescope" },
+    },
+    cmd = "Telescope",
+    config = telescope_config,
+    dependencies = {},
   },
-  cmd = "Telescope",
-  config = telescope_config,
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-    },
-    "folke/which-key.nvim",
-    {
-      "nvim-telescope/telescope-live-grep-args.nvim",
-      -- This will not install any breaking changes.
-      -- For major updates, this must be adjusted manually.
-      version = "^1.0.0",
-    },
+  { "nvim-lua/plenary.nvim" },
+  { "folke/which-key.nvim" },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make",
+  },
+  {
+    "nvim-telescope/telescope-live-grep-args.nvim",
+    -- This will not install any breaking changes.
+    -- For major updates, this must be adjusted manually.
+    version = "^1.0.0",
   },
 }

@@ -36,14 +36,14 @@ local remote_nvim_config = function()
 end
 
 return {
-  "amitds1997/remote-nvim.nvim",
-  version = "*",
-  config = remote_nvim_config,
-  event = "CmdlineEnter",
-  dev = true,
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "MunifTanjim/nui.nvim",
-    "nvim-telescope/telescope.nvim",
+  {
+    "amitds1997/remote-nvim.nvim",
+    version = "*",
+    config = remote_nvim_config,
+    event = "CmdlineEnter",
+    dev = true,
   },
+  { "nvim-lua/plenary.nvim" },
+  { "nvim-telescope/telescope.nvim" },
+  { "MunifTanjim/nui.nvim" },
 }

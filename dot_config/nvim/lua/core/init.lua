@@ -1,16 +1,19 @@
 local L = {}
 L.__index = L
-local uv = require("core.utils").uv
-local constants = require("core.constants")
 
 -- Make sure that the package manager is installed
 function L:ensure_lazy_nvim_installed()
-  local lazy_path = require("core.utils").path_join(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
-  local state = uv.fs_stat(lazy_path)
+  local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
+  local state = vim.uv.fs_stat(lazy_path)
 
   if not state then
-    print("Did not find the package manager - lazy.nvim - locally. Will install now.")
-    vim.fn.system({
+    vim.api.nvim_echo({
+      {
+        "Did not find the package manager - lazy.nvim - installed locally. Installing it now...\n\n",
+        "DiagnosticInfo",
+      },
+    }, true, {})
+    local ok, out = pcall(vim.fn.system, {
       "git",
       "clone",
       "--filter=blob:none",
@@ -18,24 +21,42 @@ function L:ensure_lazy_nvim_installed()
       "--branch=stable", -- latest stable release
       lazy_path,
     })
-    print("Installed lazy.nvim successfully")
+    if not ok or vim.v.shell_error ~= 0 then
+      vim.api.nvim_echo({
+        { "Failed to clone lazy.nvim\n", "ErrorMsg" },
+        { vim.trim(out or ""), "WarningMsg" },
+        { "\nPress any key to exit...", "MoreMsg" },
+      }, true, {})
+      vim.fn.getchar()
+      os.exit()
+    else
+      vim.api.nvim_echo({
+        { "Installed lazy.nvim successfully", "DiagnosticInfo" },
+      }, true, {})
+    end
   end
   vim.opt.runtimepath:prepend(lazy_path)
 end
 
 function L:bootstrap()
   self:ensure_lazy_nvim_installed()
-  local lazy = require("lazy")
-
-  require("lazy.core.cache").enable()
+  -- Sane vim.options for my own setup
   require("core.options")
 
   local lazy_opts = {
+    dev = {
+      path = vim.fs.joinpath(vim.env.HOME, "personal", "nvim-plugins"),
+      fallback = true,
+    },
     defaults = { lazy = true },
+    install = {
+      missing = true,
+      colorscheme = { require("core.vars").colorscheme, "habamax" },
+    },
     ui = {
       border = "rounded",
       backdrop = 100,
-      title = " Plugin manager ",
+      title = " Lazy 󰒲  ",
       icons = {
         cmd = " ",
         config = " ",
@@ -48,7 +69,7 @@ function L:bootstrap()
         loaded = "◍",
         not_loaded = "○",
         plugin = " ",
-        runtime = constants.icons.NeovimIcon,
+        runtime = require("core.constants").icons.NeovimIcon,
         require = " ",
         source = " ",
         start = " ",
@@ -61,9 +82,8 @@ function L:bootstrap()
         },
       },
     },
-    install = {
-      missing = true,
-      colorscheme = { require("core.vars").colorscheme, "habamax" },
+    diff = {
+      cmd = "terminal_git",
     },
     change_detection = { notify = false },
     checker = { enabled = true, notify = false },
@@ -101,24 +121,24 @@ function L:bootstrap()
         },
       },
     },
-    dev = {
-      path = "~/personal/nvim-plugins/",
-      fallback = true,
+    profiling = {
+      require = true,
     },
   }
-  lazy.setup({
+
+  require("lazy").setup({
     { import = "plugins" },
     { import = "plugins.colorschemes" },
     { import = "plugins.debugger" },
   }, lazy_opts)
 
   local function load_everything_else()
-    require("core.autocmds")
+    require("core.common")
     require("core.keymaps")
     require("core.diagnostics")
-    require("core.filetype")
   end
 
+  -- If no arguments have been passed, then we can lazy load everything else we need to load everything NOW
   if vim.fn.argc(-1) == 0 then
     -- autocmds and keymaps can wait to load
     vim.api.nvim_create_autocmd("User", {

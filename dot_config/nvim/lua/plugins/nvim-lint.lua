@@ -44,10 +44,6 @@ local function nvim_lint()
 end
 
 local function nvim_lint_config(_, opts)
-  for _, pkg in ipairs(require("core.vars").linters) do
-    require("custom.mason_installer"):install(pkg)
-  end
-
   local lint = require("lint")
   lint.linters_by_ft = opts.linters_by_ft
 

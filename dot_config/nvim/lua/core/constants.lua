@@ -112,6 +112,7 @@ local C = {
     GitBranch = "",
     Ellipsis = "...",
   },
+  -- Used in completion menu for LSP completions
   kind_icons = {
     Array = " ",
     Class = " ",
@@ -141,6 +142,7 @@ local C = {
     Value = "󰎠 ",
     Variable = "α",
   },
+  -- Provide pretty names to LSPs in the status line
   lsps = {
     bashls = { name = "Bash LS", priority = 20 },
     clangd = { name = "Clang LS", priority = 20 },
@@ -158,6 +160,7 @@ local C = {
     cssls = { name = "CSS LS", priority = 20 },
     rust_analyzer = { name = "Rust LS", priority = 20 },
   },
+  -- Use custom icons for diagnostic messages
   severity_icons = {
     [vim.diagnostic.severity.ERROR] = "󰅚 ",
     [vim.diagnostic.severity.WARN] = "󰗖 ",

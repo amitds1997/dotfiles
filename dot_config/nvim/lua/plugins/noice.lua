@@ -29,7 +29,6 @@ local function noice_setup()
     },
     popupmenu = {
       enabled = true,
-      ---@type 'nui'|'cmp'
       backend = "cmp",
     },
     lsp = {
@@ -103,6 +102,7 @@ local function noice_setup()
             { find = "%d+ more lines" }, -- Multiple lines pasted
             { find = "%d+ lines yanked" }, -- Multiple lines yanked
             { find = "%d+ lines changed" }, -- Multiple lines changed
+            { find = "chore:" }, -- Remove all autocmd chores
           },
         },
         opts = {
@@ -145,7 +145,6 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   dependencies = {
-    "MunifTanjim/nui.nvim",
     {
       "rcarriga/nvim-notify",
       config = nvim_notify_setup,

@@ -1,21 +1,30 @@
-local function mason_config()
-  require("mason").setup({
-    log_level = vim.log.levels.DEBUG,
-    ui = { border = "rounded", icons = require("nvim-nonicons.extentions.mason").icons },
-    pip = {
-      upgrade_pip = true,
-    },
-    PATH = "append",
-  })
-
-  for _, pkg in ipairs(require("core.vars").mason_auto_installed) do
-    require("custom.mason_installer"):install(pkg)
-  end
-end
-
 return {
-  "williamboman/mason.nvim",
-  cmd = "Mason",
-  build = ":MasonUpdate",
-  config = mason_config,
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    build = ":MasonUpdate",
+    opts = {
+      ui = { border = "rounded", icons = require("nvim-nonicons.extentions.mason").icons },
+      pip = {
+        upgrade_pip = true,
+      },
+      PATH = "append",
+    },
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    lazy = false,
+    config = function()
+      local auto_install_list = {}
+      vim.list_extend(auto_install_list, require("core.vars").tools)
+      vim.list_extend(auto_install_list, require("core.vars").linters)
+      vim.list_extend(auto_install_list, require("core.vars").formatters)
+
+      require("mason-tool-installer").setup({
+        ensure_installed = auto_install_list,
+        debounce_hours = 1,
+        start_delay = 3000,
+      })
+    end,
+  },
 }

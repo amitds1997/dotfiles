@@ -42,7 +42,7 @@ return {
           "lsp",
           "treesitter",
         },
-        filetypes_denylist = require("core.vars").ignore_buftypes,
+        filetypes_denylist = require("core.vars").temp_buf_filetypes,
       })
     end,
   },
@@ -97,19 +97,13 @@ return {
     "nmac427/guess-indent.nvim",
     event = "BufReadPost",
     opts = {
-      buftype_exclude = require("core.vars").ignore_buftypes,
+      buftype_exclude = require("core.vars").temp_buf_filetypes,
     },
   },
   {
     "akinsho/toggleterm.nvim",
     cmd = "ToggleTerm",
     version = "*",
-    config = true,
-  },
-  {
-    "folke/todo-comments.nvim",
-    event = "BufReadPost",
-    dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
   },
   {

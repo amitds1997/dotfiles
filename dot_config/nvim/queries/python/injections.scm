@@ -1,3 +1,5 @@
+;extends
+
 ; Highlight SQL strings with SQL highlighting
 (string 
   (string_content) @injection.content

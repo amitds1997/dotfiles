@@ -1,18 +1,22 @@
+-- Quickly switch b/w buffers using Tab/Shift-Tab
 local function buf_switcher()
   local buffers = vim.fn.getbufinfo({ buflisted = 1 })
   if #buffers <= 1 then
     vim.notify("Only one buffer is open")
     return
   end
-  require("telescope.builtin").buffers()
+  require("telescope.builtin").buffers({
+    show_all_buffers = false,
+    select_current = true,
+  })
 end
 
 return {
-  ["<ESC>"] = { "<cmd>nohlsearch<CR>", "Remove active search highlight" },
-  ["<TAB>"] = { buf_switcher, "Switch buffers using menu", mode = "v" },
-  ["<S-TAB>"] = { buf_switcher, "Switch buffers using menu", mode = "v" },
-  ["<S-Tab>"] = { "<C-d>", "De-tab", mode = "i" },
-
+  ["<ESC>"] = { "<C-\\><C-n>", "Escape terminal into normal mode", mode = "t" },
+  ["<TAB>"] = { buf_switcher, "Switch buffers using menu" },
+  ["<S-TAB>"] = { buf_switcher, "Switch buffers using menu" },
+  ["[d"] = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Jump to previous diagnostic" },
+  ["]d"] = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Jump to next diagnostic" },
   ["<leader>c"] = {
     name = "common-op",
 
@@ -35,6 +39,15 @@ return {
       "<cmd>ToggleTerm<CR>",
       "Toggle terminal",
     },
+  },
+
+  ["<leader>d"] = {
+    name = "Diagnostics",
+
+    c = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Show diagnostic for the word under cursor" },
+    l = { "<cmd>Lspsaga show_line_diagnostics<CR>", "Show diagnostic for the line" },
+    b = { "<cmd>Lspsaga show_buf_diagnostics<CR>", "Show diagnostic for the buffer" },
+    w = { "<cmd>Lspsaga show_workspace_diagnostics<CR>", "Show diagnostic for the workspace" },
   },
 
   ["<leader>g"] = {
@@ -65,5 +78,13 @@ return {
         "Toggle LSP inlay hints",
       },
     },
+  },
+
+  ["<leader>z"] = {
+    name = "lazy",
+    z = { "<cmd>Lazy<CR>", "Open Lazy window" },
+    s = { "<cmd>Lazy sync<CR>", "Sync all plugins" },
+    u = { "<cmd>Lazy update<CR>", "Update all installed plugins" },
+    p = { "<cmd>Lazy profile<CR>", "Open Lazy profile window" },
   },
 }

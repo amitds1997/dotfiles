@@ -12,6 +12,7 @@ My Neovim dot files
 - [ ] Setup cursorline correctly (so that I can see where I'm at)
 - [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
 - [ ] Sometimes the `cmp` window gets left behind :/
+- [ ] Set up DAP for python
 
 ### Major upgrades
 
@@ -30,8 +31,6 @@ My Neovim dot files
 
 - [ ] Handle disabling mostly everything without having to do `nvim --clean` on
   large files
-- [ ] Combine our custom mason installer with either the one offered by a plugin
-  or make it more robust / UX friendly
 - [ ] Support completions showing up in DAP console
 
 ### Refactoring series
@@ -155,6 +154,7 @@ General operation is: `<operator> <count> <motion>`
 
 ### Shorthands
 
+- `i_CTRL-D` and `i_CTRL-T` to dedent and indent line in insert mode by shiftwidth.
 - `C` for `c$` - Change till end of line
 - `<count>CTRL-A` - Add `[count]` to the number or alphabetic character at
   or after the cursor
@@ -183,5 +183,5 @@ General operation is: `<operator> <count> <motion>`
 - `:verbose set history` shows where the value was last set from
 - `;` - After searching for something using `t`/`T`/`f`/`F`, use `;` to jump to
   the next match
-- `gM` - Go to half the length of the text of the line.
-- `gm` - Go to half the length of the screen length.
+- `gM` - Go to half the length (middle) of the text of the line.
+- `gm` - Go to half the length (middle) of the screen length.

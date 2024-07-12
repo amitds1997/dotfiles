@@ -1,9 +1,8 @@
 return {
+  -- Max filesize limit for certain plugins and/or functionalities
   max_filesize = 1024 * 1024, -- 1 MiB
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"|"cyberdream"|"neofusion"
-  colorscheme = "rose-pine",
-  ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material-stealth"|"kanagawa"|"cyberdream"|"neofusion"
-  statusline_colorscheme = "rose-pine",
+  colorscheme = "tokyonight",
   ---@type boolean
   transparent_background = true,
   oil = {
@@ -17,7 +16,7 @@ return {
       "^%.%.$",
     },
   },
-  ignore_buftypes = {
+  temp_buf_filetypes = {
     "TelescopePrompt",
     "checkhealth",
     "gitcommit",
@@ -36,26 +35,33 @@ return {
     "terminal",
     "sagarename",
   },
-  treesitter_parsers = {
+  -- These will be auto-installed by treesitter
+  ts_parsers = {
     "bash",
     "c",
     "comment",
     "cpp",
+    "csv",
+    "diff",
     "dockerfile",
+    "editorconfig",
     "git_config",
     "git_rebase",
     "gitcommit",
     "gitignore",
     "go",
-    "gosum",
     "gomod",
+    "gosum",
+    "gotmpl",
     "gowork",
+    "helm",
+    "html",
+    "hyprlang",
     "ini",
-    "vimdoc",
+    "javascript",
     "json",
     "json5",
     "jsonc",
-    "javascript",
     "lua",
     "make",
     "markdown",
@@ -63,14 +69,16 @@ return {
     "python",
     "query",
     "regex",
+    "requirements",
     "rust",
     "scala",
     "sql",
-    "typescript",
     "toml",
+    "typescript",
     "vim",
+    "vimdoc",
+    "xml",
     "yaml",
-    "hyprlang",
   },
   formatters = {
     "stylua",
@@ -86,7 +94,6 @@ return {
     "gofumpt",
   },
   linters = {
-    -- "selene",
     "vulture",
     "markdownlint",
     "shellcheck",
@@ -96,5 +103,8 @@ return {
     "yamllint",
     "sqlfluff",
   },
-  mason_auto_installed = {},
+  tools = {
+    "delve",
+    "debugpy",
+  },
 }

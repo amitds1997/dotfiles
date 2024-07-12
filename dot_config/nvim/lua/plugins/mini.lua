@@ -20,7 +20,7 @@ return {
     -- Restore cursor position
     require("mini.misc").setup_restore_cursor({
       center = true,
-      ignore_filetype = require("core.vars").ignore_buftypes,
+      ignore_filetype = require("core.vars").temp_buf_filetypes,
     })
   end,
 }

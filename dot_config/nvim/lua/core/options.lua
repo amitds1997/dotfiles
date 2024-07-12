@@ -1,5 +1,4 @@
 local o, g = vim.opt, vim.g
-local utils = require("core.utils")
 
 -- Set mapleader
 g.mapleader = " "
@@ -14,14 +13,14 @@ g.loaded_node_provider = 0
 
 o.history = 2000 -- History retains last n cmdline and search commands
 o.ruler = true -- Need no ruler
-o.swapfile = false -- We do not need swap files
+o.swapfile = false -- Do not need swap files
 o.mouse = "a" -- Enable mouse control for all modes
 o.number = true -- Show line number
 o.relativenumber = true -- Show relative numbers
 o.hidden = true -- Hide buffers instead of closing them when switching to another
 o.showmode = false -- Do not show messages on last line; this is anyway disabled by cmdheight
 o.cmdheight = 0 -- Hide command bar when not used
-o.showtabline = 1 -- Never show tabline
+o.showtabline = 1 -- Only if there are two or more tab pages
 o.signcolumn = "yes" -- Show sign column
 o.shortmess = "costlFACTIO" -- Avoid hit-enter file prompts
 o.fcs = "eob: " -- Hide the ~ character at the end of buffer
@@ -29,7 +28,6 @@ o.termguicolors = true -- Enable 24-bit colors
 o.laststatus = 0 -- We disable statusline here. It gets overriden by lualine
 o.autoread = true -- Automatically read changes in file if they happen outside Neovim
 o.errorbells = false -- No error bells please
--- o.conceallevel = 3 -- Hide concealed characters
 o.clipboard = "unnamedplus" -- Use "unnamedplus" register for copy-paste things
 o.undofile = true -- Save undo tree to a file
 o.virtualedit = "block" -- Allow virtual editing in visual block mode
@@ -38,20 +36,15 @@ o.virtualedit = "block" -- Allow virtual editing in visual block mode
 o.timeout = true
 o.timeoutlen = 300
 
--- Render invisible characters
+-- Show invisible characters like tab, end of line spaces, etc.
 o.list = true
 o.listchars = "tab:» ,nbsp:+,trail:·,extends:→,precedes:←"
-
--- o.formatoptions = "qjl1" -- Don't autoformat comments
-o.formatoptions:remove("o") -- Don't have `o`/`O` add comments
 
 -- Window options
 o.winwidth = 30 -- Minimum columns per window
 o.winblend = 0 -- Needed to create transparent windows
 
 -- Fold options
--- o.foldmethod = "expr" --'foldexpr' determines the fold level of a line.
--- o.foldexpr = "nvim_treesitter#foldexpr()"
 o.foldlevel = 99 -- Start with no folds
 o.foldlevelstart = 99 -- Start with no folds
 o.foldnestmax = 10 -- Deepest fold is 10 levels
@@ -81,7 +74,7 @@ o.matchtime = 2 -- Show it for (n/10)th of a second
 o.spell = false -- Disable spellchecking (we can toggle this using <leader>cs keymap)
 o.spelllang = "en_us" -- Use US English for completions
 o.spelloptions = "camel" -- In camel-cased words, each camel case denotes a new word
-o.spellfile = utils.path_join(vim.fn.stdpath("config"), "spell", "en.utf-8.add")
+o.spellfile = vim.fs.joinpath(vim.fn.stdpath("config"), "spell", "en.utf-8.add")
 
 -- Split behavior
 o.splitbelow = true -- If horizontal, split below
@@ -94,7 +87,6 @@ o.wildignorecase = true -- Ignore case when completing file names and directorie
 o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
 
 -- Completions
--- o.infercase = true
 o.completeopt = { "menu", "menuone", "noselect" } -- Completion menu style
 
 -- Keep my cursor away from the end
@@ -120,7 +112,7 @@ o.pumheight = 10 -- Show 10 items in the pop-up menu
 
 -- Cursor line options
 o.cursorline = true
-o.cursorlineopt = "number"
+o.cursorlineopt = "both"
 
 o.fillchars = {
   eob = " ",

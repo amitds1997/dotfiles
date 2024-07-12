@@ -153,7 +153,7 @@ local cmp_config = function()
           get_bufnrs = function()
             local buf = vim.api.nvim_get_current_buf()
             local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-            if byte_size > 1024 * 1024 then -- 1 Megabyte max
+            if byte_size > require("core.vars").max_filesize then
               vim.notify("Current buffer exceeds set size limit: 1MB. Not indexing current buffer for auto-complete")
               return {}
             end
@@ -177,14 +177,6 @@ local cmp_config = function()
         },
       },
     }),
-  })
-
-  -- Completions for /
-  cmp.setup.cmdline({ "/", "?" }, {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = "buffer" },
-    },
   })
 
   -- Disable completion for certain filetypes

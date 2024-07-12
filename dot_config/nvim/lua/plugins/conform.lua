@@ -1,7 +1,7 @@
 local function install_mdformat_extra_packages()
   local mdformat = require("mason-registry").get_package("mdformat")
   mdformat:on("install:success", function()
-    local pip_path = require("core.utils").path_join(mdformat:get_install_path(), "venv", "bin", "pip")
+    local pip_path = vim.fs.joinpath(mdformat:get_install_path(), "venv", "bin", "pip")
     local args = { "install", "mdformat-gfm", "mdformat-frontmatter", "mdformat-footnote" }
 
     require("plenary.job")
@@ -22,10 +22,6 @@ local function install_mdformat_extra_packages()
 end
 
 local function conform_setup()
-  for _, pkg in ipairs(require("core.vars").formatters) do
-    require("custom.mason_installer"):install(pkg)
-  end
-
   -- Special handling for mdformat
   install_mdformat_extra_packages()
 
@@ -45,7 +41,7 @@ local function conform_setup()
     log_level = vim.log.levels.DEBUG,
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black" },
+      python = { "ruff_fix", "isort", "black" },
       markdown = { "mdformat" },
       sql = { "sql_formatter" },
       yaml = { "yamlfix" },
