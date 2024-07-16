@@ -36,7 +36,6 @@ if [[ $(uname) == "Darwin" ]]; then
     # sdkman setup
     export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
     [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-    command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
     handle_conda_setup "/usr/local/Caskroom/miniconda/base"
 
 elif [[ $(uname) == "Linux" ]]; then

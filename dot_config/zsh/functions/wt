@@ -41,6 +41,10 @@ INITIAL_DIR=$PWD
 
 function switch_worktree() {
   WORKTREE_LIST=$(git worktree list | grep -v bare | sed 's/\[\(.*\)\]/\1/')
+  if [[ -z $WORKTREE_LIST ]]; then
+    log_error "no worktrees found. Create a worktree first"
+    return 0
+  fi
   declare -A worktree_map
 
   # Create map to track worktree path with branch name
@@ -69,7 +73,7 @@ if git rev-parse 2>/dev/null; then
   fi
 else
   log_error "not a git repository (or any of the parent directories): .git"
-  exit 1
+  return 1
 fi
 
 # vim: set ft=zsh:

@@ -1,6 +1,9 @@
 # If we need to profile ZSH, start it now
 [[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
 
+# These operations write to stdout so should be run before starting instant prompt
+command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
+
 # Load p10k instant prompt {{{
 # Use p10k instant prompt to load the prompt while rest of the config loads in the background.
 # All console inputs should go above this block. This is disabled if we run zsh profiling using `zprofrc` alias.
