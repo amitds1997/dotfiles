@@ -136,6 +136,7 @@ function L:bootstrap()
     require("core.common")
     require("core.keymaps")
     require("core.diagnostics")
+    require("utils")
   end
 
   -- If no arguments have been passed, then we can lazy load everything else we need to load everything NOW

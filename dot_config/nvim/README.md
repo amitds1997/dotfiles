@@ -8,11 +8,13 @@ My Neovim dot files
 
 - [ ] Pyright LSP does not respect `reportUnusedImport = false`
 - [ ] GitSigns not working with the default events (Works if lazy loading is off)
-- [ ] Setup code folding (also setup mkview and loadview)
-- [ ] Setup cursorline correctly (so that I can see where I'm at)
+- [ ] Setup mkview and loadview
 - [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
 - [ ] Sometimes the `cmp` window gets left behind :/
 - [ ] Set up DAP for python
+- [ ] Remove cursor highlighting from folded code.
+- [ ] Add ignore filetypes for tailwindCSS (ignore markdown)
+- [ ] Improve keymap setup
 
 ### Major upgrades
 

@@ -72,24 +72,27 @@ local telescope_config = function()
   telescope.load_extension("live_grep_args")
   telescope.load_extension("fzf")
 
-  require("which-key").register({
-    ["<leader>t"] = {
-      name = "telescope",
-      b = { built_in.buffers, "Select from open buffers" },
-      c = { built_in.colorscheme, "Change colorscheme" },
-      f = { built_in.find_files, "Find file" },
-      g = { built_in.git_files, "Find file in git repo" },
-      k = { built_in.keymaps, "Open keymap window" },
-      o = { built_in.oldfiles, "Open previously opened files" },
-      p = { telescope.extensions.projects.projects, "Open projects window" },
-      r = { built_in.resume, "Resume last telescope operation" },
-      s = { built_in.lsp_document_symbols, "Get LSP symbols from current document" },
-      t = { "<cmd>Telescope<CR>", "Open telescope" },
-      w = { telescope.extensions.live_grep_args.live_grep_args, "Find word" },
-      [":"] = { built_in.command_history, "Show commands executed recently and run them on <CR>" },
-      ["/"] = { built_in.current_buffer_fuzzy_find, "Fuzzy find in the current buffer" },
-    },
+  vim.keymap.set("n", "<leader>t/", built_in.current_buffer_fuzzy_find, {
+    desc = "Fuzzy find in the current buffer",
   })
+  vim.keymap.set("n", "<leader>t/", built_in.current_buffer_fuzzy_find, { desc = "Fuzzy find in the current buffer" })
+  vim.keymap.set(
+    "n",
+    "<leader>t:",
+    built_in.command_history,
+    { desc = "Show commands executed recently and run them on <CR>" }
+  )
+  vim.keymap.set("n", "<leader>tb", built_in.buffers, { desc = "Select from open buffers" })
+  vim.keymap.set("n", "<leader>tc", built_in.colorscheme, { desc = "Change colorscheme" })
+  vim.keymap.set("n", "<leader>tf", built_in.find_files, { desc = "Find file" })
+  vim.keymap.set("n", "<leader>tg", built_in.git_files, { desc = "Find file in git repo" })
+  vim.keymap.set("n", "<leader>tk", built_in.keymaps, { desc = "Open keymap window" })
+  vim.keymap.set("n", "<leader>to", built_in.oldfiles, { desc = "Open previously opened files" })
+  vim.keymap.set("n", "<leader>tp", telescope.extensions.projects.projects, { desc = "Open projects window" })
+  vim.keymap.set("n", "<leader>tr", built_in.resume, { desc = "Resume last telescope operation" })
+  vim.keymap.set("n", "<leader>ts", built_in.lsp_document_symbols, { desc = "Get LSP symbols from current document" })
+  vim.keymap.set("n", "<leader>tt", "<cmd>Telescope<CR>", { desc = "Open telescope" })
+  vim.keymap.set("n", "<leader>tw", telescope.extensions.live_grep_args.live_grep_args, { desc = "Find word" })
 end
 
 return {

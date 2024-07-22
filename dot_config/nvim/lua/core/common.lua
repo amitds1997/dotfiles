@@ -15,9 +15,9 @@ vim.filetype.add({
 -- Certain conveniences can be setup for such filetypes such as:
 -- 1. Quit the buffer window using `q`
 vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("amitds1997/close_with_q", { clear = true }),
   pattern = require("core.vars").temp_buf_filetypes,
   callback = function(event)
-    -- vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
   end,
 })
@@ -25,6 +25,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Keep neovim directories clean by:
 -- 1. Cleaning up viewdir and undodir files older than 30 days
 vim.api.nvim_create_autocmd({ "FocusLost" }, {
+  group = vim.api.nvim_create_augroup("amitds1997/cleanup_old_files", { clear = true }),
   once = true,
   callback = function()
     local view_dir = vim.fs.joinpath(vim.env.XDG_STATE_HOME, "nvim", "view")
@@ -37,6 +38,7 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, {
 
 -- Save buffer if there are changes regularly to avoid having to do :w so many times
 vim.api.nvim_create_autocmd({ "FocusLost", "InsertLeave", "BufLeave" }, {
+  group = vim.api.nvim_create_augroup("amitds1997/autosave_buffers", { clear = true }),
   callback = function(ctx)
     local bufnr = ctx.buf
     local bo = vim.bo[bufnr]
@@ -59,5 +61,17 @@ vim.api.nvim_create_autocmd({ "FocusLost", "InsertLeave", "BufLeave" }, {
       end)
       b.save_queued = false
     end, debounce_ms)
+  end,
+})
+
+-- Highlight yanked text
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("amitds1997/yank_highlight", { clear = true }),
+  desc = "Highlight text on being yanked",
+  callback = function()
+    vim.highlight.on_yank({
+      higroup = "IncSearch",
+      priority = 250,
+    })
   end,
 })

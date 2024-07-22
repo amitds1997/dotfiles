@@ -92,9 +92,6 @@ local lualine_config = function()
           icon = constants.icons.GitBranch,
           padding = { right = 0, left = 0 },
           separator = { left = "", right = "" },
-          on_click = function()
-            vim.cmd("Neogit")
-          end,
         },
         space_handler(function()
           return vim.g.remote_neovim_host or false

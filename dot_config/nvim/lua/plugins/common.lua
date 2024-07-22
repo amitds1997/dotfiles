@@ -7,7 +7,7 @@ return {
       vim.o.timeoutlen = 100
     end,
     opts = {
-      window = {
+      win = {
         border = "rounded",
       },
       icons = {
@@ -99,12 +99,6 @@ return {
     opts = {
       buftype_exclude = require("core.vars").temp_buf_filetypes,
     },
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    cmd = "ToggleTerm",
-    version = "*",
-    config = true,
   },
   {
     "sindrets/diffview.nvim",

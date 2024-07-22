@@ -40,19 +40,6 @@ local cmp_config = function()
         item.menu = entry:get_completion_item().detail or item.kind
         item.kind = (constants.kind_icons[item.kind] or constants.kind_icons.Text)
 
-        -- Useful for debugging bogus completions
-        --
-        -- if entry.source.name == "nvim_lsp" then
-        --   local client_name = entry.source.source.client.name
-        --   item.menu = vim.tbl_get(constants.lsps[client_name], "name") or client_name
-        -- else
-        --   item.menu = ({
-        --     luasnip = "Snippet",
-        --     async_path = "Path",
-        --     buffer = "Buffer",
-        --   })[entry.source.name]
-        -- end
-
         if vim.api.nvim_strwidth(item.abbr) > MAX_ABBR_WIDTH then
           item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_ABBR_WIDTH) .. constants.icons.Ellipsis
         end

@@ -41,66 +41,33 @@ local dap_config = function()
     end
   end
 
-  require("which-key").register({
-    ["<leader>b"] = {
-      name = "debugger",
-
-      s = {
-        name = "session",
-
-        s = { launch_debugging_session, "Start debug session" },
-        r = { restart_debugging_session, "Re-start debug session" },
-        t = { dap.terminate, "Terminate debug session" },
-      },
-      o = { dap.step_over, "Step over" },
-      i = { dap.step_into, "Step into" },
-      c = { dap_continue, "Continue execution" },
-      C = { dap.run_to_cursor, "Run till cursor location" },
-      b = {
-        function()
-          dap.toggle_breakpoint()
-        end,
-        "Toggle breakpoint",
-      },
-      B = {
-        function()
-          dap.set_breakpoint(nil, nil, vim.fn.input("Condition: "))
-        end,
-        "Set conditional breakpoint",
-      },
-      ["<C-j>"] = {
-        dap.up,
-        "Move up the current stacktrace",
-      },
-      ["<C-k>"] = {
-        dap.down,
-        "Move up the current stacktrace",
-      },
-
-      -- Debugger UI
-      u = { dapui.toggle, "Toggle debugger UI" },
-      ["?"] = {
-        function()
-          dapui.eval({ nil, enter = true })
-        end,
-        "Show value of variable under cursor/highlight",
-      },
-
-      -- Extras
-      e = {
-        name = "debugger-specific options",
-
-        l = {
-          function()
-            require("osv").launch({ port = 8086 })
-          end,
-          "Launch neovim debugee instance",
-        },
-      },
-    },
-  }, {
-    mode = { "n", "v" },
+  vim.keymap.set("n", "<leader>b<C-j>", dap.up, { desc = "Move up the current stacktrace" })
+  vim.keymap.set("n", "<leader>b<C-k>", dap.down, { desc = "Move up the current stacktrace" })
+  vim.keymap.set("n", "<leader>b?", function()
+    dapui.eval({ nil, enter = true })
+  end, {
+    desc = "Show value of variable under cursor/highlight",
   })
+  vim.keymap.set("n", "<leader>bB", function()
+    dap.set_breakpoint(nil, nil, vim.fn.input("Condition: "))
+  end, {
+    desc = "Set conditional breakpoint",
+  })
+  vim.keymap.set("n", "<leader>bC", dap.run_to_cursor, { desc = "Run till cursor location" })
+  vim.keymap.set("n", "<leader>bb", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+  vim.keymap.set("n", "<leader>bc", dap_continue, { desc = "Continue execution" })
+  vim.keymap.set("n", "<leader>bel", function()
+    require("osv").launch({ port = 8086 })
+  end, {
+
+    desc = "Launch neovim debugee instance",
+  })
+  vim.keymap.set("n", "<leader>bi", dap.step_into, { desc = "Step into" })
+  vim.keymap.set("n", "<leader>bo", dap.step_over, { desc = "Step over" })
+  vim.keymap.set("n", "<leader>bsr", restart_debugging_session, { desc = "Re-start debug session" })
+  vim.keymap.set("n", "<leader>bss", launch_debugging_session, { desc = "Start debug session" })
+  vim.keymap.set("n", "<leader>bst", dap.terminate, { desc = "Terminate debug session" })
+  vim.keymap.set("n", "<leader>bu", dapui.toggle, { desc = "Toggle debugger UI" })
 
   require("cmp").setup.filetype({ "dap-repl", "dapui_watches", "dapui_hover" }, {
     sources = {
