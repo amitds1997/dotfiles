@@ -8,8 +8,6 @@ return {
       diff_opts = { internal = true },
       on_attach = function(bufnr)
         local gs = require("gitsigns")
-        -- local gs, wk = package.loaded.gitsigns, package.loaded["which-key"]
-        -- local gs_buf_opts = { buffer = bufnr, mode = { "n", "v" } }
 
         vim.keymap.set({ "n", "v" }, "[", function()
           if vim.wo.diff then

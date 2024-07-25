@@ -15,6 +15,8 @@ My Neovim dot files
 - [ ] Remove cursor highlighting from folded code.
 - [ ] Add ignore filetypes for tailwindCSS (ignore markdown)
 - [ ] Improve keymap setup
+- [ ] Replace plugins:
+  - GitLinker
 
 ### Major upgrades
 
