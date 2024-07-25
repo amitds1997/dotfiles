@@ -1,4 +1,4 @@
-source ../utils.zsh
+source $ZDOTDIR/utils.zsh
 
 if command -v aws-vault &> /dev/null; then
   PROFILE=$(aws-vault list | awk '{print $1}' | tail -n +3 | awk '{print "󰸏",$1}' | fzf --prompt "Select the profile to setup: " --height 50% --reverse | awk '{print $2}')

@@ -1,4 +1,4 @@
-source ../utils.zsh
+source $ZDOTDIR/utils.zsh
 
 INITIAL_DIR=$PWD
 
