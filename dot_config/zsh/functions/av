@@ -1,0 +1,22 @@
+source ../utils.zsh
+
+if command -v aws-vault &> /dev/null; then
+  PROFILE=$(aws-vault list | awk '{print $1}' | tail -n +3 | awk '{print "󰸏",$1}' | fzf --prompt "Select the profile to setup: " --height 50% --reverse | awk '{print $2}')
+  if [[ -z $PROFILE ]]; then
+    log_warn "no profile selected"
+    return
+  else
+    # To prevent accidentally unsetting environment variables set manually or by processes other than AWS Vault, we first check if AWS_VAULT has been set
+    # Unsetting environment variables is required because without it, aws-vault would not let you switch profiles without exiting the current shell
+    if [[ -v AWS_VAULT ]]; then
+      for var in $(printenv | grep AWS_ | awk -F= '{print $1}'); do
+        unset $var
+      done
+    fi
+    export $(aws-vault exec ${PROFILE} -- env | grep AWS_)
+  fi
+else
+  log_error "AWS Vault is not installed. Please install aws-vault."
+fi
+
+# vim: set ft=zsh:
