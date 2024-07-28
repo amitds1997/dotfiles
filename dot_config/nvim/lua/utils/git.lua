@@ -1,4 +1,4 @@
-G = {}
+local G = {}
 
 function G.get_permalink() end
 vim.api.nvim_create_user_command("GetPermalink", function(o)

@@ -135,8 +135,17 @@ local function noice_setup()
       { filter = { event = "msg_show", find = "^%[nvim%-treesitter%]" }, view = "mini" },
       { filter = { event = "notify", find = "All parsers are up%-to%-date" }, view = "mini" },
 
-      -- code actions
-      { filter = { event = "notify", find = "No code actions available" }, skip = true },
+      -- Skip certain notifications
+      {
+        filter = {
+          event = "notify",
+          any = {
+            { find = "No code actions available" }, -- Do not show code actions not available
+            { find = "No information available" }, -- Do not show no hover information available notifications
+          },
+        },
+        opts = { skip = true },
+      },
     },
   })
 end

@@ -5,6 +5,8 @@ return {
   colorscheme = "tokyonight",
   ---@type boolean
   transparent_background = true,
+  ---@type boolean
+  is_remote = vim.g.remote_neovim_host and true or false,
   oil = {
     hidden_file_patterns = {
       "^%.git$",
@@ -39,7 +41,6 @@ return {
   ts_parsers = {
     "bash",
     "c",
-    "comment",
     "cpp",
     "csv",
     "diff",

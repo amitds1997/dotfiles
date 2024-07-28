@@ -1,19 +1,24 @@
-local constants = require("core.constants")
-local under_comparator = function(entry1, entry2)
-  local _, entry1_under = entry1.completion_item.label:find("^_+")
-  local _, entry2_under = entry2.completion_item.label:find("^_+")
-  entry1_under = entry1_under or 0
-  entry2_under = entry2_under or 0
-  if entry1_under > entry2_under then
-    return false
-  elseif entry1_under < entry2_under then
-    return true
+local python_hidden_params_comparator = function(entry1, entry2)
+  local e1_first_two = entry1.completion_item.label:sub(1, 2)
+  local e2_first_two = entry2.completion_item.label:sub(1, 2)
+  local e1_double_us = e1_first_two == "__"
+  local e2_double_us = e2_first_two == "__"
+
+  if e1_double_us ~= e2_double_us then
+    return e2_double_us
+  end
+
+  local e1_single_us = e1_first_two[1] == "_"
+  local e2_single_us = e2_first_two[1] == "_"
+
+  if e1_single_us ~= e2_single_us then
+    return e1_single_us
   end
 end
 
 local cmp_config = function()
   local MAX_ABBR_WIDTH, MAX_MENU_WIDTH = 25, 30
-  local cmp, luasnip = require("cmp"), require("luasnip")
+  local cmp, luasnip, constants = require("cmp"), require("luasnip"), require("core.constants")
 
   -- Setup luasnip
   require("luasnip.loaders.from_vscode").lazy_load()
@@ -57,7 +62,7 @@ local cmp_config = function()
       documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
-      ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4)),
+      ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4)),
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
       ["<C-p>"] = cmp.mapping.select_prev_item({
         behavior = cmp.SelectBehavior.Insert,
@@ -97,24 +102,24 @@ local cmp_config = function()
       priority_weight = 2,
       comparators = {
         require("copilot_cmp.comparators").prioritize,
+        cmp.config.compare.exact,
+        cmp.config.compare.recently_used,
         cmp.config.compare.offset,
         function(...) -- Locality bonus (distance-based sort)
           return require("cmp_buffer"):compare_locality(...)
         end,
-        cmp.config.compare.exact,
-        cmp.config.compare.score, -- Fuzzy search score (kind-of)
-        cmp.config.compare.recently_used,
-        cmp.config.compare.kind,
         cmp.config.compare.scopes,
-        under_comparator,
-        cmp.config.compare.sort_text,
+        python_hidden_params_comparator,
+        cmp.config.compare.kind,
+        cmp.config.compare.score, -- Fuzzy search score (kind-of)
         cmp.config.compare.length,
         cmp.config.compare.order,
+        cmp.config.compare.sort_text,
       },
     },
     experimental = {
       ghost_text = {
-        hl_group = "Comment",
+        hl_group = "CmpGhostText",
       },
     },
     sources = cmp.config.sources({
@@ -133,6 +138,7 @@ local cmp_config = function()
           show_hidden_files_by_default = true,
         },
       },
+    }, {
       {
         name = "buffer",
         priority = 30,
@@ -171,11 +177,6 @@ local cmp_config = function()
     enabled = false,
   })
 
-  -- Setup nvim autopairs
-  require("nvim-autopairs").setup({
-    check_ts = true,
-  })
-
   local cmp_autopairs = require("nvim-autopairs.completion.cmp")
   cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 end
@@ -199,7 +200,10 @@ return {
     {
       "windwp/nvim-autopairs",
       config = function()
-        require("nvim-autopairs").setup()
+        require("nvim-autopairs").setup({
+          disable_filetype = require("core.vars").temp_buf_filetypes,
+          check_ts = true,
+        })
 
         for _, punc in pairs({ ",", ";" }) do
           require("nvim-autopairs").add_rules({
@@ -227,7 +231,6 @@ return {
     "hrsh7th/cmp-cmdline",
     "saadparwaiz1/cmp_luasnip",
     "https://codeberg.org/FelipeLema/cmp-async-path",
-    "yamatsum/nvim-nonicons",
     "zbirenbaum/copilot-cmp",
   },
 }

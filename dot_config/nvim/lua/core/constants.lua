@@ -1,6 +1,6 @@
 local C = {
   ---@enum border_styles
-  -- Shamelessly copied over from: https://github.com/mikesmithgh/borderline.nvim/blob/1bc8237a41f5277b35aaf153635f927aa8fa5224/lua/borderline/borders.lua
+  -- Copied from: https://github.com/mikesmithgh/borderline.nvim/blob/1bc8237a41f5277b35aaf153635f927aa8fa5224/lua/borderline/borders.lua
   border_styles = {
     -- no border
     none = { "", "", "", "", "", "", "", "" },

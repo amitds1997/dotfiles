@@ -13,7 +13,8 @@ return {
   },
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    lazy = false,
+    lazy = not require("core.vars").is_remote,
+    event = { "BufReadPost" },
     config = function()
       local auto_install_list = {}
       vim.list_extend(auto_install_list, require("core.vars").tools)

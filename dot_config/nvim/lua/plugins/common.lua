@@ -20,7 +20,7 @@ return {
     event = "BufRead",
     config = true,
   },
-  {
+  { -- mini.animate has some weird kinks for my preferences, so not using it
     "karb94/neoscroll.nvim",
     event = "BufReadPost",
     opts = {
@@ -84,12 +84,23 @@ return {
     end,
   },
   {
-    "norcalli/nvim-colorizer.lua",
+    "NvChad/nvim-colorizer.lua",
     event = "BufReadPost",
     config = function()
+      local filetypes = vim.tbl_map(
+        function(ft)
+          return ("!%s"):format(ft)
+        end,
+        vim.tbl_filter(function(ft)
+          return not vim.list_contains({ "help" }, ft)
+        end, require("core.vars").temp_buf_filetypes)
+      )
+      table.insert(filetypes, 1, "*")
       require("colorizer").setup({
-        "*",
-        "!notify",
+        filetypes = filetypes,
+        user_default_options = {
+          tailwind = true,
+        },
       })
     end,
   },
