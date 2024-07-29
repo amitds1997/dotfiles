@@ -17,12 +17,18 @@ export function get_icon(
   name: string | null,
   fallback = icons.missing,
 ): string {
-  if (!name) return fallback || ""
+  if (!name) {
+    return fallback || ""
+  }
 
-  if (GLib.file_test(name, GLib.FileTest.EXISTS)) return name
+  if (GLib.file_test(name, GLib.FileTest.EXISTS)) {
+    return name
+  }
 
   const icon = substitutes[name] || name
-  if (Utils.lookUpIcon(icon)) return icon
+  if (Utils.lookUpIcon(icon)) {
+    return icon
+  }
 
   console.debug(
     `no icon substitute "${icon}" for "${name}", using fallback: "${fallback}"`,
@@ -35,7 +41,8 @@ export function get_icon(
  *
  * @param stream The audio stream object for which to retrieve the icon.
  * @param audio_icon_group The group of icons representing different audio levels, including muted.
- * @returns The path of the icon corresponding to the volume level of the stream, or the muted icon if the stream is muted.
+ * @returns The path of the icon corresponding to the volume level of the stream,
+ * or the muted icon if the stream is muted.
  */
 export function get_stream_icon(
   stream: Stream,
@@ -56,9 +63,12 @@ export function get_stream_icon(
 /**
  * Executes a Zsh command asynchronously with optional interpolated values.
  *
- * @param strings A template string array or a single string containing the Zsh command with placeholders for interpolation.
- * @param values Values to be interpolated into the Zsh command string. Can be omitted if `strings` is a single string.
- * @returns A promise that resolves with the output of the executed Zsh command, or an empty string if an error occurs.
+ * @param strings A template string array or a single string containing the Zsh command with
+ * placeholders for interpolation.
+ * @param values Values to be interpolated into the Zsh command string. Can be omitted if `strings`
+ * is a single string.
+ * @returns A promise that resolves with the output of the executed Zsh command, or an empty string
+ * if an error occurs.
  */
 export async function zsh(
   strings: TemplateStringsArray | string,

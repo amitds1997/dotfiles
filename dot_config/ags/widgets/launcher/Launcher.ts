@@ -40,10 +40,10 @@ function Launcher() {
     vpack: "start",
     setup: (self) =>
       self.hook(App, (_, win, visible) => {
-        if (win !== PopupNames.Launcher) return
+        if (win !== PopupNames.Launcher) {return}
 
         entry.text = ""
-        if (visible) focus()
+        if (visible) {focus()}
       }),
     children: [Widget.Box([entry]), favApps, appLauncher],
   })

@@ -36,7 +36,7 @@ local function conform_setup()
     return default
   end
 
-  local js_formatter = { { "prettierd", "prettier" } }
+  local js_formatter = { "prettierd", "prettier", stop_after_first = true }
   require("conform").setup({
     log_level = vim.log.levels.DEBUG,
     formatters_by_ft = {

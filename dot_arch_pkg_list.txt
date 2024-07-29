@@ -68,7 +68,7 @@ mesa-vdpau
 meson
 miniconda3
 nemo
-neovim-git
+neovim
 network-manager-applet
 networkmanager
 ninja
@@ -127,6 +127,7 @@ typescript
 unzip
 upower
 vdpauinfo
+visual-studio-code-bin
 vlc
 vulkan-radeon
 vulkan-tools

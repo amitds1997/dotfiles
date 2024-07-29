@@ -120,10 +120,14 @@ export default (notification: Notification) => {
     vexpand: false,
     on_primary_click: notification.dismiss,
     on_hover() {
-      if (actionsBox) actionsBox.reveal_child = true
+      if (actionsBox) {
+        actionsBox.reveal_child = true
+      }
     },
     on_hover_lost() {
-      if (actionsBox) actionsBox.reveal_child = false
+      if (actionsBox) {
+        actionsBox.reveal_child = false
+      }
 
       notification.dismiss()
     },

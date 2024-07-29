@@ -19,9 +19,11 @@ const {
 
 const popoverPaddingMultiplier = 1.6
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const t = (dark: Opt<any> | string, light: Opt<any> | string) =>
   scheme.value === "dark" ? `${dark}` : `${light}`
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const $ = (name: string, value: string | Opt<any>) => `$${name}: ${value};`
 
 const variables = () => [
@@ -67,14 +69,20 @@ const variables = () => [
 
   $(
     "active-gradient",
-    `linear-gradient(to right, ${t(dark.primary.bg, light.primary.bg)}, darken(${t(dark.primary.bg, light.primary.bg)}, 4%))`,
+    `linear-gradient(to right, ${t(
+      dark.primary.bg,
+      light.primary.bg,
+    )}, darken(${t(dark.primary.bg, light.primary.bg)}, 4%))`,
   ),
   $("shadow-color", t("rgba(0,0,0,.6)", "rgba(0,0,0,.4)")),
   $("text-shadow", t("2pt 2pt 2pt $shadow-color", "none")),
 
   $(
     "popover-border-color",
-    `transparentize(${t(dark.border, light.border)}, ${Math.max((border.opacity.value - 1) / 100, 0)})`,
+    `transparentize(${t(
+      dark.border,
+      light.border,
+    )}, ${Math.max((border.opacity.value - 1) / 100, 0)})`,
   ),
   $("popover-padding", `$padding * ${popoverPaddingMultiplier}`),
   $("popover-radius", radius.value === 0 ? "0" : "$radius + $popover-padding"),

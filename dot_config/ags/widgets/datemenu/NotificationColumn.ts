@@ -13,7 +13,9 @@ const AnimatedNotifs = (n: Notif) =>
     child: Notification(n),
     setup: (self) =>
       Utils.timeout(options.transition.value, () => {
-        if (!self.is_destroyed) self.reveal_child = true
+        if (!self.is_destroyed) {
+          self.reveal_child = true
+        }
       }),
   })
 
@@ -82,7 +84,9 @@ const NotificationList = () => {
     notifications,
     (_, id: number) => {
       if (id !== undefined) {
-        if (map.has(id)) remove(null, id)
+        if (map.has(id)) {
+          remove(null, id)
+        }
 
         const n = notifications.getNotification(id)!
 

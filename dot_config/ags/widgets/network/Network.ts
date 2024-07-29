@@ -1,28 +1,31 @@
 import icons from "lib/icons"
-import GObject from "gi://GObject"
 import options from "options"
 import PopupWindow, { PopupNames } from "widgets/PopupWindow"
 import { debounce, get_icon } from "lib/utils"
 import { setUpBarWindow } from "widgets/BarWindow"
+import { WiFiPreferences } from "./WiFiPreferences"
 
 const { preferences } = options
 const network = await Service.import("network")
 const { wired, wifi } = network
-const apps = await Service.import("applications")
-type APType = (typeof wifi.access_points)[number]
+export const apps = await Service.import("applications")
+export type APType = (typeof wifi.access_points)[number]
 
-const debouncedWiFiScan = debounce(wifi.scan, 2000)
+export const debouncedWiFiScan = debounce(wifi.scan, 2000)
 
 const isActiveAP = (ap: APType) => {
   return wifi.ssid === ap.ssid && wifi.frequency === ap.frequency
 }
 
-const WiFiAPItem = (ap: APType) =>
+export const WiFiAPItem = (ap: APType) =>
   Widget.ToggleButton({
     hexpand: true,
     on_toggled: () => {
       if (isActiveAP(ap)) {
-        const cmd = `bash -c "nmcli -t -f FILENAME,UUID connection show --active | grep -i '${ap.ssid}' | cut -d ':' -f 2 | xargs -I {} nmcli connection down {}"`
+        const cmd = `bash -c "nmcli -t -f FILENAME,UUID connection show --active | \
+        grep -i '${ap.ssid}' | \
+        cut -d ':' -f 2 | \
+        xargs -I {} nmcli connection down {}"`
         Utils.execAsync(cmd).catch((err) =>
           console.error(
             `Error disconnecting from ${ap.ssid} (${ap.bssid})`,
@@ -102,99 +105,6 @@ const WiFiAPItem = (ap: APType) =>
     }),
   })
 
-const WiFiPreferences = () =>
-  Widget.Box({
-    vertical: true,
-    class_name: "wifi-preferences vertical",
-    css: preferences.width.bind().as((w) => `min-width: ${w}px;`),
-    children: [
-      Widget.Box({
-        vertical: false,
-        hexpand: true,
-        children: [
-          Widget.Label({
-            hpack: "start",
-            visible: wifi.bind("enabled").as((p) => !p),
-            label: "WiFi is disabled",
-          }),
-          Widget.Button({
-            child: Widget.Icon(icons.ui.settings),
-            on_clicked: () => {
-              apps.query("Network")[0].launch()
-            },
-          }),
-          Widget.Button({
-            visible: wifi.bind("enabled"),
-            child: Widget.Icon(icons.network.scan),
-            on_clicked: () => {
-              debouncedWiFiScan()
-            },
-          }),
-          Widget.Switch({
-            hpack: "end",
-            hexpand: true,
-            active: wifi.enabled,
-            setup: (self) => {
-              self.bind_property(
-                "active",
-                wifi,
-                "enabled",
-                GObject.BindingFlags.BIDIRECTIONAL,
-              )
-            },
-          }),
-        ],
-      }),
-      Widget.Box({
-        vertical: true,
-        visible: wifi.bind("enabled"),
-        children: [
-          Widget.Label({
-            xalign: 0,
-            justification: "left",
-            label: "Networks",
-          }),
-          Widget.Separator({
-            vertical: false,
-            visible: wifi.bind("access_points").as((ap) => ap.length > 0),
-          }),
-          Widget.Scrollable({
-            hscroll: "never",
-            vscroll: "automatic",
-            class_name: "wifi-networks",
-            child: Widget.Box({
-              hexpand: true,
-              vertical: true,
-              children: wifi.bind("access_points").as((aps) =>
-                // Network Manager does not allow connecting to different AP endpoints if they have the same SSID :/
-                // So, there is no point showing it here. The only option is to delete the connection manually using
-                // the CMD and make the new connection manually
-                Object.values(
-                  aps.reduce<{ [ssid: string]: APType }>((n, ap) => {
-                    if (
-                      ap.ssid != null &&
-                      (!n[ap.ssid] || ap.frequency > n[ap.ssid].frequency)
-                    ) {
-                      n[ap.ssid] = ap
-                    }
-                    return n
-                  }, {}),
-                )
-                  .sort((ap1, ap2) => {
-                    if (wifi.ssid === ap1.ssid) return -1
-                    if (wifi.ssid === ap2.ssid) return 1
-
-                    return ap2.strength - ap1.strength
-                  })
-                  .map(WiFiAPItem),
-              ),
-            }),
-          }),
-        ],
-      }),
-    ],
-  })
-
 const WiredPreferences = () => {
   return Widget.Box({
     vertical: true,
@@ -224,9 +134,9 @@ const WiredPreferences = () => {
 
 export function setUpNetworkMenu() {
   setUpBarWindow({
-    name: "network",
+    name: PopupNames.Network,
     child: network
       .bind("primary")
-      .as((p) => (p == "wired" ? WiredPreferences() : WiFiPreferences())),
+      .as((p) => (p === "wired" ? WiredPreferences() : WiFiPreferences())),
   })
 }

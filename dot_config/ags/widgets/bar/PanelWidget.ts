@@ -17,9 +17,13 @@ export default ({
 
       self.toggleClassName("panel-widget")
       self.hook(App, (_, win, visible) => {
-        if (win !== child_class_name) return
+        if (win !== child_class_name) {
+          return
+        }
 
-        // TODO: Do we need to do this? Ideally, windows should automatically handle their visibility; but this might be a good fallback to have. Will revisit this once the rest of the work is done
+        // TODO: Do we need to do this? Ideally, windows should automatically
+        // handle their visibility; but this might be a good fallback to have.
+        // Will revisit this once the rest of the work is done
         if (open && !visible) {
           open = false
           self.toggleClassName("active", false)
@@ -31,7 +35,9 @@ export default ({
         }
       })
 
-      if (setup) setup(self)
+      if (setup) {
+        setup(self)
+      }
     },
     ...rest,
   })

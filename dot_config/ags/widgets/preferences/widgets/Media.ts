@@ -51,7 +51,9 @@ const Player = (player: MprisPlayer) => {
     max_width_chars: 20,
     tooltip_text: player.bind("track_artists").as((a) => {
       const artists = a.join(", ")
-      if (artists.length > 20) return artists
+      if (artists.length > 20) {
+        return artists
+      }
       return ""
     }),
     truncate: "end",

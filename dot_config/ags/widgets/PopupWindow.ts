@@ -9,6 +9,7 @@ type Child = WindowProps["child"]
 
 export enum PopupNames {
   Launcher = "launcher",
+  Audio = "audio",
   Bluetooth = "bluetooth",
   PowerMenu = "powermenu",
   PowerMenuVerification = "verification",
@@ -16,6 +17,7 @@ export enum PopupNames {
   Overview = "overview",
   PasswordInput = "password-input",
   Preferences = "preferences",
+  Network = "network",
 }
 
 export type PopupWindowProps = Omit<WindowProps, "name"> & {
@@ -54,7 +56,9 @@ const PopupRevealer = (
       transition_duration: options.transition.bind(),
       setup: (self) =>
         self.hook(App, (_, wname, visible) => {
-          if (wname == name) self.reveal_child = visible
+          if (wname === name) {
+            self.reveal_child = visible
+          }
         }),
     }),
   )

@@ -68,9 +68,13 @@ function NotificationPopupList() {
       notifications,
       (_, id: number) => {
         if (id !== undefined) {
-          if (map.has(id)) remove(null, id)
+          if (map.has(id)) {
+            remove(null, id)
+          }
 
-          if (notifications.dnd) return
+          if (notifications.dnd) {
+            return
+          }
 
           const w = AnimatedNotificationPopup(id)
           map.set(id, w)

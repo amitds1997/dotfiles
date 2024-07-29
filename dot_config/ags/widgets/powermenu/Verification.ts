@@ -35,8 +35,9 @@ export default () =>
                 App.toggleWindow(PopupNames.PowerMenuVerification),
               setup: (self) =>
                 self.hook(App, (_, name: string, visible: boolean) => {
-                  if (name === PopupNames.PowerMenuVerification && visible)
+                  if (name === PopupNames.PowerMenuVerification && visible) {
                     self.grab_focus()
+                  }
                 }),
             }),
             Widget.Button({

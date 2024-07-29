@@ -1,8 +1,8 @@
-import GLib from "gi://GLib";
+import GLib from "gi://GLib"
 
-const main = "/tmp/ags/main.js";
-const entry = `${App.configDir}/main.ts`;
-const bundler = GLib.getenv("AGS_BUNDLER") || "bun";
+const main = "/tmp/ags/main.js"
+const entry = `${App.configDir}/main.ts`
+const bundler = GLib.getenv("AGS_BUNDLER") || "bun"
 
 try {
   switch (bundler) {
@@ -19,8 +19,8 @@ try {
         "gi://*",
         "--external",
         "file://*",
-      ]);
-      break;
+      ])
+      break
 
     case "esbuild":
       await Utils.execAsync([
@@ -32,16 +32,15 @@ try {
         "--external:resource://*",
         "--external:gi://*",
         "--external:file://*",
-      ]);
-      break;
+      ])
+      break
 
     default:
-      throw `"${bundler}" is not a valid bundler`;
+      throw `"${bundler}" is not a valid bundler`
   }
-  await import(`file://${main}`);
+  await import(`file://${main}`)
 } catch (error) {
-  console.error(error);
+  console.error(error)
 }
 
-export {};
-
+export {}

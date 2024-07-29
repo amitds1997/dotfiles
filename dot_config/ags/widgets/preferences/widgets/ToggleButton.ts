@@ -30,7 +30,7 @@ export const ToggleButton = ({
           icon: icon,
         }),
         Widget.Label({
-          visible: label != null,
+          visible: label !== null,
           max_width_chars: 10,
           truncate: "end",
           label,

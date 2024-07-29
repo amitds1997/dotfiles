@@ -33,13 +33,17 @@ class ColorPicker extends Service {
 
   readonly pick = async () => {
     const color = await zsh("hyprpicker")
-    if (!color) return
+    if (!color) {
+      return
+    }
 
     Utils.ensureDirectory(COLORS_CACHE.split("/").slice(0, -1).join("/"))
     const colorList = this.colors
     if (!colorList.includes(color)) {
       colorList.push(color)
-      if (colorList.length > MAX_NUM_COLORS) colorList.push()
+      if (colorList.length > MAX_NUM_COLORS) {
+        colorList.push()
+      }
 
       this.colors = colorList
       Utils.writeFile(JSON.stringify(colorList, null, 2), COLORS_CACHE)

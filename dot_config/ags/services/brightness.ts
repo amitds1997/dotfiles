@@ -19,6 +19,7 @@ class Brightness extends Service {
       },
     )
   }
+
   private _monitors: Map<number, MonitorProps> = new Map()
 
   get monitors() {
@@ -26,7 +27,7 @@ class Brightness extends Service {
   }
 
   private async setInitialBrightness(monitorID?: number) {
-    if (monitorID == undefined) {
+    if (monitorID === undefined) {
       monitorID = hyprland.active.monitor.id
     }
     const monitorInfo = this._monitors.get(monitorID)!
@@ -48,7 +49,7 @@ class Brightness extends Service {
   }
 
   private getMonitorID(monitorID?: number): number {
-    if (monitorID == undefined) {
+    if (monitorID === undefined) {
       monitorID = hyprland.active.monitor.id
     }
     return monitorID
@@ -80,7 +81,7 @@ class Brightness extends Service {
       ? `brightnessctl set ${percent}% -q`
       : `ddcutil -d ${monitorID} setvcp 10 ${percent} --noverify`
 
-    if (monitorInfo.percent != percent) {
+    if (monitorInfo.percent !== percent) {
       zsh(brightness_cmd).then(() => {
         monitorInfo.percent = percent / 100
         this.changed("monitors")

@@ -15,12 +15,16 @@ const Overview = (ws: number) =>
             .map(({ id }) => Workspace(id))
             .sort((a, b) => a.attribute.id - b.attribute.id),
     setup: (w) => {
-      if (ws > 0) return
+      if (ws > 0) {
+        return
+      }
 
       w.hook(
         hyprland,
         (w, id?: string) => {
-          if (id === undefined) return
+          if (id === undefined) {
+            return
+          }
 
           w.children = w.children.filter((ch) => ch.attribute.id !== Number(id))
         },
@@ -30,7 +34,9 @@ const Overview = (ws: number) =>
       w.hook(
         hyprland,
         (w, id?: string) => {
-          if (id == undefined) return
+          if (id === undefined) {
+            return
+          }
 
           w.children = [...w.children, Workspace(Number(id))].sort(
             (a, b) => a.attribute.id - b.attribute.id,

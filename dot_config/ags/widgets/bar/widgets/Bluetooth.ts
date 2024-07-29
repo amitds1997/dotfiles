@@ -26,10 +26,13 @@ export default () =>
     class_name: "bluetooth",
     child: BluetoothWidget(),
     tooltip_text: Utils.watch("Disabled", bluetooth, () => {
-      if (!bluetooth.enabled) return "Bluetooth is disabled"
+      if (!bluetooth.enabled) {
+        return "Bluetooth is disabled"
+      }
 
-      if (bluetooth.connected_devices.length == 1)
+      if (bluetooth.connected_devices.length === 1) {
         return `Connected to ${bluetooth.connected_devices[0].alias}`
+      }
 
       return `${bluetooth.connected_devices.length} devices connected`
     }),

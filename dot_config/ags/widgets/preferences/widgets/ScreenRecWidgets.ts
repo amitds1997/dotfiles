@@ -7,8 +7,11 @@ export const ScreenRecorder = () =>
   ToggleButton({
     toggle_action: () => {
       App.closeWindow(PopupNames.Preferences)
-      if (screenrecorder.recording) screenrecorder.stop()
-      else screenrecorder.start()
+      if (screenrecorder.recording) {
+        screenrecorder.stop()
+      } else {
+        screenrecorder.start()
+      }
     },
     icon: screenrecorder
       .bind("recording")

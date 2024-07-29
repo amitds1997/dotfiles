@@ -15,7 +15,9 @@ const Workspace = (i: number) =>
     vpack: "center",
     label: `${i}`,
     on_clicked: () => {
-      if (i !== hyprland.active.workspace.id) dispatch(i)
+      if (i !== hyprland.active.workspace.id) {
+        dispatch(i)
+      }
     },
     setup: (self) =>
       self.hook(hyprland, () => {

@@ -8,6 +8,7 @@ export class Opt<T = unknown> extends Variable<T> {
   static {
     Service.register(this)
   }
+
   id = ""
   initial: T
   persistent: boolean
@@ -20,7 +21,9 @@ export class Opt<T = unknown> extends Variable<T> {
 
   init(cacheFile: string) {
     const cachedValue = JSON.parse(Utils.readFile(cacheFile) || "{}")[this.id]
-    if (cachedValue !== undefined) this.value = cachedValue
+    if (cachedValue !== undefined) {
+      this.value = cachedValue
+    }
 
     this.connect("changed", () => {
       const cache = JSON.parse(Utils.readFile(cacheFile) || "{}")
@@ -30,9 +33,11 @@ export class Opt<T = unknown> extends Variable<T> {
   }
 
   reset() {
-    if (this.persistent) return
+    if (this.persistent) {
+      return
+    }
 
-    if (JSON.stringify(this.value) != JSON.stringify(this.initial)) {
+    if (JSON.stringify(this.value) !== JSON.stringify(this.initial)) {
       this.value = this.initial
       return this.id
     }
@@ -68,7 +73,9 @@ function getOptions(object: object, path = ""): Opt[] {
 export const opt = <T>(initial: T, opts?: OptProps) => new Opt(initial, opts)
 
 export function mkOptions<T extends object>(cacheFile: string, object: T) {
-  for (const opt of getOptions(object)) opt.init(cacheFile)
+  for (const opt of getOptions(object)) {
+    opt.init(cacheFile)
+  }
 
   // Ensure that directory for cacheFile does exist
   Utils.ensureDirectory(cacheFile.split("/").slice(0, -1).join("/"))
@@ -82,8 +89,9 @@ export function mkOptions<T extends object>(cacheFile: string, object: T) {
   Utils.monitorFile(configFile, () => {
     const cache = JSON.parse(Utils.readFile(configFile) || "{}")
     for (const opt of getOptions(object)) {
-      if (JSON.stringify(cache[opt.id]) != JSON.stringify(opt.value))
+      if (JSON.stringify(cache[opt.id]) !== JSON.stringify(opt.value)) {
         opt.value = cache[opt.id]
+      }
     }
   })
 
@@ -95,7 +103,9 @@ export function mkOptions<T extends object>(cacheFile: string, object: T) {
     [opt, ...list] = getOptions(object),
     id = opt?.reset(),
   ): Promise<Array<string>> {
-    if (!opt) return sleep().then(() => [])
+    if (!opt) {
+      return sleep().then(() => [])
+    }
 
     return id
       ? [id, ...(await sleep(50).then(() => reset(list)))]
@@ -110,8 +120,9 @@ export function mkOptions<T extends object>(cacheFile: string, object: T) {
     },
     handler(deps: string[], callback: () => void) {
       for (const opt of getOptions(object)) {
-        if (deps.some((i) => opt.id.startsWith(i)))
+        if (deps.some((i) => opt.id.startsWith(i))) {
           opt.connect("changed", callback)
+        }
       }
     },
   })

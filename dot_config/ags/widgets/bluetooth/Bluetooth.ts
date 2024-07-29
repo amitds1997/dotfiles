@@ -1,12 +1,10 @@
 import icons from "lib/icons"
 import { get_icon } from "lib/utils"
-import options from "options"
 import GObject from "gi://GObject"
 import { BluetoothDevice } from "types/service/bluetooth"
-import BarWindow, { setUpBarWindow } from "widgets/BarWindow"
+import { setUpBarWindow } from "widgets/BarWindow"
 import { PopupNames } from "widgets/PopupWindow"
 
-const { preferences } = options
 const bluetooth = await Service.import("bluetooth")
 const apps = await Service.import("applications")
 

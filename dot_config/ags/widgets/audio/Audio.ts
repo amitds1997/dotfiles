@@ -3,7 +3,8 @@ import icons from "lib/icons"
 import { get_icon, get_stream_icon } from "lib/utils"
 import options from "options"
 import { Stream } from "types/service/audio"
-import BarWindow, { setUpBarWindow } from "widgets/BarWindow"
+import { setUpBarWindow } from "widgets/BarWindow"
+import { PopupNames } from "widgets/PopupWindow"
 
 const { preferences } = options
 const audio = await Service.import("audio")
@@ -267,7 +268,7 @@ const AudioBox = () =>
 
 export function setUpAudioMenu() {
   setUpBarWindow({
-    name: "audio",
+    name: PopupNames.Audio,
     child: AudioBox(),
   })
 }

@@ -24,10 +24,14 @@ class Recorder extends Service {
   timer = 0
 
   async start() {
-    if (this.recording) return
+    if (this.recording) {
+      return
+    }
 
     Utils.ensureDirectory(this.#recordingsDir)
-    this.#recordingFilePath = `${this.#recordingsDir}/${clock.value.format("%Y-%m-%d_%H-%M-%S")}.mp4`
+    this.#recordingFilePath = `${this.#recordingsDir}/${clock.value.format(
+      "%Y-%m-%d_%H-%M-%S",
+    )}.mp4`
     zsh(`wf-recorder -g "${await zsh("slurp")}" -f ${this.#recordingFilePath}`)
 
     this.recording = true
@@ -41,7 +45,9 @@ class Recorder extends Service {
   }
 
   async stop() {
-    if (!this.recording) return
+    if (!this.recording) {
+      return
+    }
 
     await zsh("pkill --signal=INT wf-recorder || true")
     this.recording = false
@@ -67,7 +73,9 @@ class Recorder extends Service {
       await zsh(`grim ${filePath}`)
     } else {
       const size = await zsh("slurp")
-      if (!size) return
+      if (!size) {
+        return
+      }
 
       await zsh(`grim -g "${size}" ${filePath}`)
     }
