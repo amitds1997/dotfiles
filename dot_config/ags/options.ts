@@ -102,6 +102,27 @@ const options = mkOptions(OPTIONS, {
   },
 
   car: {
+    clock: {
+      format: opt("󰃭  %a %b %d    %I:%M:%S %p"),
+    },
+    systray: {
+      ignore: opt(["spotify-client"]),
+    },
+    workspaces: {
+      workspaces: opt(6),
+      reverse_scroll: opt(true),
+      monitorSpecific: opt(true),
+      spacing: opt(1),
+      show_icons: opt(false),
+      show_numbered: opt(false),
+      numbered_active_indicator: opt<"underline" | "highlight">("underline"),
+      icons: {
+        available: opt("◯"),
+        active: opt("⏺"),
+        occupied: opt("⊙"),
+      },
+      scroll_speed: opt(5),
+    },
     layouts: opt({
       "0": {
         left: ["dashboard", "workspaces", "windowtitle"],

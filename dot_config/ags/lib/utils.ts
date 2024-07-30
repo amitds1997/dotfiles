@@ -170,6 +170,35 @@ export const debounce = <F extends (...args: any[]) => any>(
 }
 
 /**
+ * Limits the rate at which a function can be executed.
+ *
+ * The `throttle` function ensures that the provided function (`func`) is executed
+ * at most once within the specified time interval (`interval_ms`). This is useful for
+ * performance optimization, particularly in scenarios where a function is called
+ * frequently, such as during scroll or resize events.
+ *
+ * @param func - The function to be throttled.
+ * @param interval_ms - The time interval, in milliseconds, during which the function can
+ * be executed at most once.
+ * @returns A throttled version of the provided function.
+ *
+ * @template T - A function type that accepts any number of arguments and returns void.
+ */
+export const throttle = <T extends (...args: any[]) => void>(
+  func: T,
+  interval_ms: number,
+) => {
+  let inThrottle: boolean
+  return function (this: ThisParameterType<T>, ...args: Parameters<T>) {
+    if (!inThrottle) {
+      func.apply(this, args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), interval_ms)
+    }
+  }
+}
+
+/**
  * Checks for the presence of required system binaries.
  *
  * This function takes a list of binary names and checks if they are available in the system's PATH.
@@ -178,7 +207,8 @@ export const debounce = <F extends (...args: any[]) => any>(
  * @param bins - A list of binary names to check for.
  * @returns A boolean indicating whether all specified binaries
  * are present (`true`) or not (`false`).
- */ export function dependencies(...bins: string[]) {
+ */
+export function dependencies(...bins: string[]) {
   const missing = bins.filter((bin) =>
     Utils.exec({
       cmd: `which ${bin}`,

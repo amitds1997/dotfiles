@@ -1,26 +1,19 @@
-import Gdk30 from "gi://Gdk?version=3.0"
-import Gtk30 from "gi://Gtk?version=3.0"
+import Gdk from "gi://Gdk?version=3.0"
+import Gtk from "gi://Gtk?version=3.0"
 import { globalMousePos } from "globals"
 
 const closeAllMenus = () => {
-  App.windows
-    .filter((w) => {
-      if (w.name) {
-        return /.*menu/.test(w.name)
-      }
-      return false
-    })
-    .map((w) => w.name)
-    .forEach((w) => {
-      if (w) {
-        App.closeWindow(w)
-      }
-    })
+  const menuRegex = /.*menu/
+  for (const w of App.windows) {
+    if (w.name && menuRegex.test(w.name)) {
+      App.closeWindow(w.name)
+    }
+  }
 }
 
 export const openMenu = (
-  clicked: Gtk30.Widget,
-  event: Gdk30.Event,
+  clicked: Gtk.Widget,
+  event: Gdk.Event,
   window: string,
 ) => {
   const middleOfButton = Math.floor(clicked.get_allocated_width() / 2)
@@ -34,5 +27,5 @@ export const openMenu = (
   globalMousePos.value = coords
 
   closeAllMenus()
-  App.ToggleWindow(window)
+  App.toggleWindow(window)
 }

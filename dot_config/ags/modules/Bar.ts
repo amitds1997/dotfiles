@@ -1,7 +1,12 @@
 import options from "options"
 
-import { BarItemBox as WidgetContainer } from "./shared/barItemBox"
+import { BarItemBox as WidgetContainer } from "shared/barItemBox"
 import { ClientTitle } from "./bar/WindowTitle"
+import { Workspaces } from "./bar/Workspaces"
+import { SysTray } from "./bar/SysTray"
+import { Media } from "./bar/Media"
+import { BatteryLabel } from "./bar/Battery"
+import { Clock } from "./bar/Clock"
 
 const { layouts } = options.car
 export type BarWidget = keyof typeof widget
@@ -98,7 +103,7 @@ export const Bar = (monitor: number) => {
         }),
         centerWidget: Widget.Box({
           class_name: "box-center",
-          hpack: "center"
+          hpack: "center",
           setup: (self) => {
             self.hook(layouts, (self) => {
               const foundLayout = getLayoutForMonitor(

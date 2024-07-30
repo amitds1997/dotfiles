@@ -1,10 +1,11 @@
+import { ActiveClient } from "types/service/hyprland"
+
 const hyprland = await Service.import("hyprland")
 
 const filterTitle = (windowTitle: ActiveClient) => {
   const windowTitleMap = [
     ["kitty", "󰄛", "Kitty Terminal"],
     ["firefox", "󰈹", "Firefox"],
-    ["microsoft-edge", "󰇩", "Edge"],
     ["discord", "", "Discord"],
     ["org.kde.dolphin", "", "Dolphin"],
     ["plex", "󰚺", "Plex"],
