@@ -1,0 +1,372 @@
+// Font
+$font-size: 1.2rem;
+$font-name: Ubuntu Nerd Font;
+$font-weight: 600;
+
+// Named colors
+$baby-blue: #89b4fa;
+$lavender: #cba6f7;
+$slate-gray: #6c7086;
+$peach: #fab387;
+$aquamarine: #94e2d5;
+$periwinkle: #b4befe;
+$sky-blue: #89dceb;
+$tea-green: #a6e3a1;
+$champagne: #f9e2af;
+$light-coral: #eba0ac;
+$cotton-candy: #f5c2e7;
+
+// Context colors
+$workspace-occupied-color: #f2cdcd;
+$puck-color: #6c7086;
+$card-color: #1e1e2e;
+$divider-color: #1e1e2e;
+$close-deny-color: #f38ba8;
+$text-color: #11111b;
+$bar-bg-color: #11111b;
+$notification-bg-color: #181825;
+$label-color: #b4befe;
+$default-active-color: #b4befe;
+$another-icon-color: #b4befe;
+$border-disabled-color: #313244;
+$hover-color: #45475a;
+$button-bg-color: #242438;
+$notification-time-color: #7f849c;
+$bluetooth-color: #89dceb;
+$disabled-color: #585b70;
+$passive-color: #cdd6f4;
+$another-passive-color: #9399b2;
+
+// Notification
+$notification-background: $notification-bg-color;
+$notification-actions-background: $periwinkle;
+$notification-actions-text: $notification-bg-color;
+$notification-label: $label-color;
+$notification-border: $border-disabled-color;
+$notification-time: $notification-time-color;
+$notification-text: $passive-color;
+$notification-labelicon: $another-icon-color;
+$notification-close_button-background: $close-deny-color;
+$notification-close_button-label: $text-color;
+
+// AGS bar
+$bar-floating: false;
+$bar-margin_top: 0.5em;
+$bar-margin_bottom: 0em;
+$bar-margin_sides: 0.5em;
+$bar-border_radius: 0.4em;
+$bar-transparent: false;
+$bar-background: $bar-bg-color;
+
+// Bar buttons
+$bar-buttons-monochrome: false;
+$bar-buttons-spacing: 0.25em;
+$bar-buttons-radius: 0.3em;
+$bar-buttons-background: $button-bg-color;
+$bar-buttons-hover: $hover-color;
+$bar-buttons-text: $label-color;
+$bar-buttons-icon: $another-icon-color;
+
+// Dashboard button
+$bar-buttons-dashboard-background: $button-bg-color;
+$bar-buttons-dashboard-hover: $hover-color;
+$bar-buttons-dashboard-icon: $champagne;
+
+// Workspace buttons
+$bar-buttons-workspaces-background: $button-bg-color;
+$bar-buttons-workspaces-hover: $hover-color;
+$bar-buttons-workspaces-available: $sky-blue;
+$bar-buttons-workspaces-occupied: $workspace-occupied-color;
+$bar-buttons-workspaces-active: $cotton-candy;
+
+// Active window title button
+$bar-buttons-windowtitle-background: $button-bg-color;
+$bar-buttons-windowtitle-hover: $hover-color;
+$bar-buttons-windowtitle-text: $cotton-candy;
+$bar-buttons-windowtitle-icon: $cotton-candy;
+
+// Media button
+$bar-buttons-media-background: $button-bg-color;
+$bar-buttons-media-hover: $hover-color;
+$bar-buttons-media-text: $label-color;
+$bar-buttons-media-icon: $another-icon-color;
+
+// Volume button
+$bar-buttons-volume-background: $button-bg-color;
+$bar-buttons-volume-hover: $hover-color;
+$bar-buttons-volume-text: $light-coral;
+$bar-buttons-volume-icon: $light-coral;
+
+// Network button
+$bar-buttons-network-background: $button-bg-color;
+$bar-buttons-network-hover: $hover-color;
+$bar-buttons-network-text: $lavender;
+$bar-buttons-network-icon: $lavender;
+
+// Bluetooth button
+$bar-buttons-bluetooth-background: $button-bg-color;
+$bar-buttons-bluetooth-hover: $hover-color;
+$bar-buttons-bluetooth-text: $bluetooth-color;
+$bar-buttons-bluetooth-icon: $bluetooth-color;
+
+// Systemtray button
+$bar-buttons-systray-background: $button-bg-color;
+$bar-buttons-systray-hover: $hover-color;
+
+// Battery button
+$bar-buttons-battery-background: $button-bg-color;
+$bar-buttons-battery-hover: $hover-color;
+$bar-buttons-battery-text: $champagne;
+$bar-buttons-battery-icon: $champagne;
+
+// Clock button
+$bar-buttons-clock-background: $button-bg-color;
+$bar-buttons-clock-hover: $hover-color;
+$bar-buttons-clock-text: $cotton-candy;
+$bar-buttons-clock-icon: $cotton-candy;
+
+// Notifications button
+$bar-buttons-notifications-background: $button-bg-color;
+$bar-buttons-notifications-hover: $hover-color;
+$bar-buttons-notifications-icon: $another-icon-color;
+$bar-buttons-notifications-total: $periwinkle;
+
+// Bar drop-down menu
+$bar-menus-monochrome: false;
+$bar-menus-background: $bar-bg-color;
+$bar-menus-cards: $card-color;
+$bar-menus-card_radius: 0.4em;
+$bar-menus-border-size: 0.13em;
+$bar-menus-border-radius: 0.7em;
+$bar-menus-border-color: $border-disabled-color;
+$bar-menus-text: $passive-color;
+$bar-menus-dimtext: $disabled-color;
+$bar-menus-feinttext: $border-disabled-color;
+$bar-menus-label: $label-color;
+$bar-menus-listitems-passive: $passive-color;
+$bar-menus-listitems-active: $default-active-color;
+$bar-menus-icons-passive: $disabled-color;
+$bar-menus-icons-active: $default-active-color;
+$bar-menus-switch-enabled: $default-active-color;
+$bar-menus-switch-disabled: $border-disabled-color;
+$bar-menus-switch-puck: $puck-color;
+
+// Bar menu button
+$bar-menus-buttons-default: $default-active-color;
+$bar-menus-buttons-active: $cotton-candy;
+$bar-menus-buttons-disabled: $disabled-color;
+$bar-menus-buttons-text: $text-color;
+$bar-menus-iconbuttons-passive: $passive-color;
+$bar-menus-iconbuttons-active: $default-active-color;
+
+// Bar menu progressbar
+$bar-menus-progressbar-foreground: $periwinkle;
+$bar-menus-progressbar-background: $hover-color;
+
+// Bar menu slider
+$bar-menus-slider-primary: $default-active-color;
+$bar-menus-slider-background: $disabled-color;
+$bar-menus-slider-backgroundhover: $hover-color;
+$bar-menus-slider-puck: $puck-color;
+
+// Bar menu drop-down menu
+$bar-menus-dropdownmenu-background: $bar-bg-color;
+$bar-menus-dropdownmenu-text: $passive-color;
+$bar-menus-dropdownmenu-divider: $divider-color;
+
+// Bar menu tooltip
+$bar-menus-tooltip-background: $bar-bg-color;
+$bar-menus-tooltip-text: $passive-color;
+
+// Bar menu: media
+$bar-menus-menu-media-song: $periwinkle;
+$bar-menus-menu-media-artist: $aquamarine;
+$bar-menus-menu-media-album: $cotton-candy;
+$bar-menus-menu-media-background-color: $bar-bg-color;
+$bar-menus-menu-media-border-color: $border-disabled-color;
+$bar-menus-menu-media-buttons-inactive: $disabled-color;
+$bar-menus-menu-media-buttons-enabled: $aquamarine;
+$bar-menus-menu-media-buttons-background: $periwinkle;
+$bar-menus-menu-media-buttons-text: $text-color;
+$bar-menus-menu-media-slider-primary: $cotton-candy;
+$bar-menus-menu-media-slider-background: $disabled-color;
+$bar-menus-menu-media-slider-backgroundhover: $hover-color;
+$bar-menus-menu-media-slider-puck: $puck-color;
+
+// Bar menu: volume
+$bar-menus-menu-volume-card-color: $card-color;
+$bar-menus-menu-volume-background-color: $bar-bg-color;
+$bar-menus-menu-volume-border-color: $border-disabled-color;
+$bar-menus-menu-volume-label-color: $light-coral;
+$bar-menus-menu-volume-text: $passive-color;
+$bar-menus-menu-volume-listitems-passive: $passive-color;
+$bar-menus-menu-volume-listitems-active: $light-coral;
+$bar-menus-menu-volume-iconbutton-passive: $passive-color;
+$bar-menus-menu-volume-iconbutton-active: $light-coral;
+$bar-menus-menu-volume-icons-passive: $another-passive-color;
+$bar-menus-menu-volume-icons-active: $light-coral;
+$bar-menus-menu-volume-audio_slider-primary: $light-coral;
+$bar-menus-menu-volume-audio_slider-background: $disabled-color;
+$bar-menus-menu-volume-audio_slider-backgroundhover: $hover-color;
+$bar-menus-menu-volume-audio_slider-puck: $puck-color;
+$bar-menus-menu-volume-input_slider-primary: $light-coral;
+$bar-menus-menu-volume-input_slider-background: $disabled-color;
+$bar-menus-menu-volume-input_slider-backgroundhover: $hover-color;
+$bar-menus-menu-volume-input_slider-puck: $puck-color;
+
+// Bar menu: network
+$bar-menus-menu-network-card-color: $card-color;
+$bar-menus-menu-network-background-color: $bar-bg-color;
+$bar-menus-menu-network-border-color: $border-disabled-color;
+$bar-menus-menu-network-label-color: $lavender;
+$bar-menus-menu-network-text: $passive-color;
+$bar-menus-menu-network-status-color: $slate-gray;
+$bar-menus-menu-network-listitems-passive: $passive-color;
+$bar-menus-menu-network-listitems-active: $lavender;
+$bar-menus-menu-network-icons-passive: $another-passive-color;
+$bar-menus-menu-network-icons-active: $lavender;
+$bar-menus-menu-network-iconbuttons-passive: $passive-color;
+$bar-menus-menu-network-iconbuttons-active: $lavender;
+
+// Bar menu: bluetooth
+$bar-menus-menu-bluetooth-card-color: $card-color;
+$bar-menus-menu-bluetooth-background-color: $bar-bg-color;
+$bar-menus-menu-bluetooth-border-color: $border-disabled-color;
+$bar-menus-menu-bluetooth-label-color: $bluetooth-color;
+$bar-menus-menu-bluetooth-text: $passive-color;
+$bar-menus-menu-bluetooth-status: $slate-gray;
+$bar-menus-menu-bluetooth-switch_divider: $hover-color;
+$bar-menus-menu-bluetooth-switch-enabled: $bluetooth-color;
+$bar-menus-menu-bluetooth-switch-disabled: $border-disabled-color;
+$bar-menus-menu-bluetooth-switch-puck: $puck-color;
+$bar-menus-menu-bluetooth-listitems-passive: $passive-color;
+$bar-menus-menu-bluetooth-listitems-active: $bluetooth-color;
+$bar-menus-menu-bluetooth-icons-passive: $another-passive-color;
+$bar-menus-menu-bluetooth-icons-active: $bluetooth-color;
+$bar-menus-menu-bluetooth-iconbutton-passive: $passive-color;
+$bar-menus-menu-bluetooth-iconbutton-active: $bluetooth-color;
+
+// Bar menu: systray
+$bar-menus-menu-systray-dropdownmenu-background: $bar-bg-color;
+$bar-menus-menu-systray-dropdownmenu-text: $passive-color;
+$bar-menus-menu-systray-dropdownmenu-divider: $divider-color;
+
+// Bar menu: battery
+$bar-menus-menu-battery-card-color: $card-color;
+$bar-menus-menu-battery-background-color: $bar-bg-color;
+$bar-menus-menu-battery-border-color: $border-disabled-color;
+$bar-menus-menu-battery-label-color: $champagne;
+$bar-menus-menu-battery-text: $passive-color;
+$bar-menus-menu-battery-listitems-passive: $passive-color;
+$bar-menus-menu-battery-listitems-active: $champagne;
+$bar-menus-menu-battery-icons-passive: $another-passive-color;
+$bar-menus-menu-battery-icons-active: $champagne;
+$bar-menus-menu-battery-slider-primary: $champagne;
+$bar-menus-menu-battery-slider-background: $disabled-color;
+$bar-menus-menu-battery-slider-backgroundhover: $hover-color;
+$bar-menus-menu-battery-slider-puck: $puck-color;
+
+// Bar menu: clock
+$bar-menus-menu-clock-card-color: $card-color;
+$bar-menus-menu-clock-background-color: $bar-bg-color;
+$bar-menus-menu-clock-border-color: $border-disabled-color;
+$bar-menus-menu-clock-text: $passive-color;
+$bar-menus-menu-clock-time-time: $cotton-candy;
+$bar-menus-menu-clock-time-timeperiod: $aquamarine;
+$bar-menus-menu-clock-calendar-yearmonth: $aquamarine;
+$bar-menus-menu-clock-calendar-weekdays: $cotton-candy;
+$bar-menus-menu-clock-calendar-paginator: $cotton-candy;
+$bar-menus-menu-clock-calendar-currentday: $cotton-candy;
+$bar-menus-menu-clock-calendar-days: $passive-color;
+$bar-menus-menu-clock-calendar-contextdays: $disabled-color;
+$bar-menus-menu-clock-weather-icon: $cotton-candy;
+$bar-menus-menu-clock-weather-temperature: $passive-color;
+$bar-menus-menu-clock-weather-status: $aquamarine;
+$bar-menus-menu-clock-weather-stats: $cotton-candy;
+$bar-menus-menu-clock-weather-thermometer-extremelyhot: $close-deny-color;
+$bar-menus-menu-clock-weather-thermometer-hot: $peach;
+$bar-menus-menu-clock-weather-thermometer-moderate: $periwinkle;
+$bar-menus-menu-clock-weather-thermometer-cold: $baby-blue;
+$bar-menus-menu-clock-weather-thermometer-extremelycold: $sky-blue;
+$bar-menus-menu-clock-weather-hourly-time: $cotton-candy;
+$bar-menus-menu-clock-weather-hourly-icon: $cotton-candy;
+$bar-menus-menu-clock-weather-hourly-temperature: $cotton-candy;
+
+// Bar menu: dashboard
+$bar-menus-menu-dashboard-card-color: $card-color;
+$bar-menus-menu-dashboard-background-color: $bar-bg-color;
+$bar-menus-menu-dashboard-border-color: $border-disabled-color;
+$bar-menus-menu-dashboard-profile-name: $cotton-candy;
+
+// Bar menu: dashboard > powermenu
+$bar-menus-menu-dashboard-powermenu-shutdown: $close-deny-color;
+$bar-menus-menu-dashboard-powermenu-restart: $peach;
+$bar-menus-menu-dashboard-powermenu-logout: $tea-green;
+$bar-menus-menu-dashboard-powermenu-sleep: $sky-blue;
+$bar-menus-menu-dashboard-powermenu-confirmation-card: $card-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-background: $bar-bg-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-border: $border-disabled-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-label: $label-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-body: $passive-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-confirm: $tea-green;
+$bar-menus-menu-dashboard-powermenu-confirmation-deny: $close-deny-color;
+$bar-menus-menu-dashboard-powermenu-confirmation-button_text: $text-color;
+// Bar menu: dashboard > shortcuts
+$bar-menus-menu-dashboard-shortcuts-background: $periwinkle;
+$bar-menus-menu-dashboard-shortcuts-text: $text-color;
+$bar-menus-menu-dashboard-shortcuts-recording: $tea-green;
+// Bar menu: dashboard > controls
+$bar-menus-menu-dashboard-controls-disabled: $disabled-color;
+
+// Bar menu: dashboard > controls > wifi
+$bar-menus-menu-dashboard-controls-wifi-background: $lavender;
+$bar-menus-menu-dashboard-controls-wifi-text: $text-color;
+// Bar menu: dashboard > controls > bluetooth
+$bar-menus-menu-dashboard-controls-bluetooth-background: $bluetooth-color;
+$bar-menus-menu-dashboard-controls-bluetooth-text: $text-color;
+// Bar menu: dashboard > controls > notifications
+$bar-menus-menu-dashboard-controls-notifications-background: $champagne;
+$bar-menus-menu-dashboard-controls-notifications-text: $text-color;
+// Bar menu: dashboard > controls > volume
+$bar-menus-menu-dashboard-controls-volume-background: $light-coral;
+$bar-menus-menu-dashboard-controls-volume-text: $text-color;
+// Bar menu: dashboard > controls > input
+$bar-menus-menu-dashboard-controls-input-background: $cotton-candy;
+$bar-menus-menu-dashboard-controls-input-text: $text-color;
+// Bar menu: dashboard > directories
+$bar-menus-menu-dashboard-directories-left-top-color: $cotton-candy;
+$bar-menus-menu-dashboard-directories-left-middle-color: $champagne;
+$bar-menus-menu-dashboard-directories-left-bottom-color: $light-coral;
+$bar-menus-menu-dashboard-directories-right-top-color: $aquamarine;
+$bar-menus-menu-dashboard-directories-right-middle-color: $lavender;
+$bar-menus-menu-dashboard-directories-right-bottom-color: $periwinkle;
+// Bar menu: dashboard > monitors
+$bar-menus-menu-dashboard-monitors-bar_background: $hover-color;
+// Bar menu: dashboard > monitors > CPU
+$bar-menus-menu-dashboard-monitors-cpu-icon: $light-coral;
+$bar-menus-menu-dashboard-monitors-cpu-bar: $light-coral;
+$bar-menus-menu-dashboard-monitors-cpu-label: $light-coral;
+// Bar menu: dashboard > monitors > RAM
+$bar-menus-menu-dashboard-monitors-ram-icon: $champagne;
+$bar-menus-menu-dashboard-monitors-ram-bar: $champagne;
+$bar-menus-menu-dashboard-monitors-ram-label: $champagne;
+// Bar menu: dashboard > monitors > GPU
+$bar-menus-menu-dashboard-monitors-gpu-icon: $tea-green;
+$bar-menus-menu-dashboard-monitors-gpu-bar: $tea-green;
+$bar-menus-menu-dashboard-monitors-gpu-label: $tea-green;
+// Bar menu: dashboard > monitors > Disk
+$bar-menus-menu-dashboard-monitors-disk-icon: $cotton-candy;
+$bar-menus-menu-dashboard-monitors-disk-bar: $cotton-candy;
+$bar-menus-menu-dashboard-monitors-disk-label: $cotton-candy;
+
+// Bar menu: notifications
+$bar-menus-menu-notifications-label: $label-color;
+$bar-menus-menu-notifications-no_notifications_label: $border-disabled-color;
+$bar-menus-menu-notifications-background: $bar-bg-color;
+$bar-menus-menu-notifications-card: $card-color;
+$bar-menus-menu-notifications-border: $border-disabled-color;
+$bar-menus-menu-notifications-switch_divider: $hover-color;
+$bar-menus-menu-notifications-clear: $close-deny-color;
+$bar-menus-menu-notifications-switch-enabled: $default-active-color;
+$bar-menus-menu-notifications-switch-disabled: $border-disabled-color;
+$bar-menus-menu-notifications-switch-puck: $puck-color;
