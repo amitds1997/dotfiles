@@ -1,6 +1,10 @@
-import { debounce, zsh } from "lib/utils"
+import { debounce, dependencies, zsh } from "lib/utils"
 
 const hyprland = await Service.import("hyprland")
+
+if (!dependencies("brightnessctl", "ddcutil")) {
+  App.quit()
+}
 
 interface MonitorProps {
   percent?: number

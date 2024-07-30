@@ -168,3 +168,29 @@ export const debounce = <F extends (...args: any[]) => any>(
       timeout = setTimeout(() => resolve(func(...args)), waitFor)
     })
 }
+
+/**
+ * Checks for the presence of required system binaries.
+ *
+ * This function takes a list of binary names and checks if they are available in the system's PATH.
+ * If any of the binaries are missing, it logs an error message and sends a notification.
+ *
+ * @param bins - A list of binary names to check for.
+ * @returns A boolean indicating whether all specified binaries
+ * are present (`true`) or not (`false`).
+ */ export function dependencies(...bins: string[]) {
+  const missing = bins.filter((bin) =>
+    Utils.exec({
+      cmd: `which ${bin}`,
+      out: () => false,
+      err: () => true,
+    }),
+  )
+
+  if (missing.length > 0) {
+    console.error(Error(`missing dependencies: ${missing.join(", ")}`))
+    Utils.notify(`missing dependencies: ${missing.join(", ")}`)
+  }
+
+  return missing.length === 0
+}

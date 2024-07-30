@@ -1,5 +1,9 @@
 # To do list
 
+## New To do
+
+- [ ] Remove all `any` type reference
+
 ## Last items
 
 - [ ] OSD
