@@ -101,6 +101,35 @@ const options = mkOptions(OPTIONS, {
     },
   },
 
+  car: {
+    layouts: opt({
+      "0": {
+        left: ["dashboard", "workspaces", "windowtitle"],
+        middle: ["media"],
+        right: [
+          "volume",
+          "network",
+          "bluetooth",
+          "battery",
+          "systray",
+          "clock",
+          "notifications",
+        ],
+      },
+      "1": {
+        left: ["dashboard", "workspaces", "windowtitle"],
+        middle: ["media"],
+        right: ["volume", "clock", "notifications"],
+      },
+    }),
+    launcher: {
+      icon: opt("󰣇"),
+    },
+    battery: {
+      label: opt(true),
+    },
+  },
+
   bar: {
     position: opt<"top" | "bottom">("top"),
     layout: {
