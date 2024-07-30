@@ -70,7 +70,7 @@ local lualine_config = function()
       theme = theme_name,
       component_separators = { left = "", right = "" },
       section_separators = { left = "", right = "" },
-      disabled_filetypes = require("core.vars").temp_buf_filetypes,
+      disabled_filetypes = require("core.vars").temp_filetypes,
     },
     sections = {
       lualine_a = {

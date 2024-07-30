@@ -16,7 +16,7 @@ vim.filetype.add({
 -- 1. Quit the buffer window using `q`
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("amitds1997/close_with_q", { clear = true }),
-  pattern = require("core.vars").temp_buf_filetypes,
+  pattern = require("core.vars").temp_filetypes,
   callback = function(event)
     vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
   end,

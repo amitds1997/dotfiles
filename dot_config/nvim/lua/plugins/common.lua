@@ -42,7 +42,7 @@ return {
           "lsp",
           "treesitter",
         },
-        filetypes_denylist = require("core.vars").temp_buf_filetypes,
+        filetypes_denylist = require("core.vars").temp_filetypes,
       })
     end,
   },
@@ -93,13 +93,14 @@ return {
         end,
         vim.tbl_filter(function(ft)
           return not vim.list_contains({ "help" }, ft)
-        end, require("core.vars").temp_buf_filetypes)
+        end, require("core.vars").temp_filetypes)
       )
       table.insert(filetypes, 1, "*")
       require("colorizer").setup({
         filetypes = filetypes,
         user_default_options = {
           tailwind = true,
+          names = false,
         },
       })
     end,
@@ -108,7 +109,7 @@ return {
     "nmac427/guess-indent.nvim",
     event = "BufReadPost",
     opts = {
-      buftype_exclude = require("core.vars").temp_buf_filetypes,
+      buftype_exclude = require("core.vars").temp_filetypes,
     },
   },
   {

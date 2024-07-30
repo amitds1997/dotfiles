@@ -18,7 +18,7 @@ return {
       "^%.%.$",
     },
   },
-  temp_buf_filetypes = {
+  temp_filetypes = {
     "TelescopePrompt",
     "checkhealth",
     "gitcommit",
@@ -36,6 +36,7 @@ return {
     "svn",
     "terminal",
     "sagarename",
+    "sagafinder",
   },
   -- These will be auto-installed by treesitter
   ts_parsers = {
