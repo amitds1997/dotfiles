@@ -172,6 +172,22 @@ local lsp_config = function()
           settings = require("plugins.lsp-config.basedpyright"),
         })
       end,
+      tailwindcss = function()
+        lspconfig.tailwindcss.setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+          filetypes = {
+            "html",
+            "mdx",
+            "javascript",
+            "typescript",
+            "javascriptreact",
+            "typescriptreact",
+            "vue",
+            "svelte",
+          },
+        })
+      end,
     },
   })
 end
