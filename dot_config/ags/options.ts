@@ -102,6 +102,18 @@ const options = mkOptions(OPTIONS, {
   },
 
   car: {
+    notifications: {
+      show_total: opt(true),
+    },
+    volume: {
+      show_label: opt(true),
+    },
+    network: {
+      show_label: opt(true),
+    },
+    bluetooth: {
+      show_label: opt(true),
+    },
     clock: {
       format: opt("󰃭  %a %b %d    %I:%M:%S %p"),
     },

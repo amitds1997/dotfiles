@@ -7,6 +7,11 @@ import { SysTray } from "./bar/SysTray"
 import { Media } from "./bar/Media"
 import { BatteryLabel } from "./bar/Battery"
 import { Clock } from "./bar/Clock"
+import { Network } from "./bar/Network"
+import { Bluetooth } from "./bar/Bluetooth"
+import { Menu } from "./bar/Menu"
+import { Volume } from "./bar/Volume"
+import { Notifications } from "./bar/Notifications"
 
 const { layouts } = options.car
 export type BarWidget = keyof typeof widget
