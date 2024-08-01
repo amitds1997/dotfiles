@@ -15,7 +15,7 @@ const $ = (name: string, value: string | Opt<unknown>) => `$${name}: ${value}`
 
 function extractVariables(theme: any, prefix: string = ""): string[] {
   let result: string[] = []
-  for (let key in theme) {
+  for (const key in theme) {
     if (theme.hasOwnProperty(key)) {
       const value = theme[key]
       const prefixedKey = prefix ? `${prefix}-${key}` : key
@@ -39,7 +39,7 @@ function extractVariables(theme: any, prefix: string = ""): string[] {
   return result
 }
 
-const variables = () => [...extractVariables(options.theme)]
+const variables = () => [...extractVariables(options.new_theme)]
 
 async function resetCSS() {
   if (!dependencies("sass")) {
@@ -53,16 +53,19 @@ async function resetCSS() {
     const cssOutputFilepath = `${TMP_DIR}/main.css`
 
     // All variables are written to the variables file
-    await Utils.writeFile(variables().join("\n"), variablesFilepath)
+    await Utils.writeFile(variables().join(";\n"), variablesFilepath)
 
     // Generate the SCSS file
     let mainSCSS = Utils.readFile(mainScssFilepath)
     const scssFiles: string = await zsh(
       `fd ".scss" --no-require-git ${App.configDir}/scss/style`,
     )
-    const scssFileImport = scssFiles.split(/\s+/).map((f) => `@import '${f}';`)
-    mainSCSS = `@import ${variablesFilepath};\n${mainSCSS}\n${scssFileImport}`
-    await Utils.writeFile(scssInputFilepath, mainSCSS)
+    const scssFileImport = scssFiles
+      .split(/\s+/)
+      .map((f) => `@import '${f}';`)
+      .join("\n")
+    mainSCSS = `@import '${variablesFilepath}';\n${mainSCSS}\n${scssFileImport}`
+    await Utils.writeFile(mainSCSS, scssInputFilepath)
 
     // Generate CSS from SCSS and apply it to the app
     await zsh(`sass ${scssInputFilepath} ${cssOutputFilepath}`)

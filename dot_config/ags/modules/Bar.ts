@@ -1,6 +1,6 @@
 import options from "options"
 
-import { BarItemBox as WidgetContainer } from "shared/barItemBox"
+import { BarItemBox as WidgetContainer } from "./shared/barItemBox"
 import { ClientTitle } from "./bar/WindowTitle"
 import { Workspaces } from "./bar/Workspaces"
 import { SysTray } from "./bar/SysTray"

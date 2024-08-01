@@ -60,6 +60,13 @@ export function get_stream_icon(
   return stream.is_muted ? muted : icon
 }
 
+export function getAudioIcon(stream: Stream, is_microphone: boolean): string {
+  return get_stream_icon(
+    stream,
+    is_microphone ? icons.audio.microphone : icons.audio.speaker,
+  )
+}
+
 /**
  * Executes a Zsh command asynchronously with optional interpolated values.
  *

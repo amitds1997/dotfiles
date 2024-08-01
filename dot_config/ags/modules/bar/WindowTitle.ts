@@ -44,5 +44,7 @@ export const ClientTitle = () => {
         }),
       ],
     }),
+    isVisible: true,
+    boxClass: "windowtitle",
   }
 }

@@ -101,7 +101,9 @@ async function resetCSS() {
     const vars = `${TMP_DIR}/variables.scss`
     await Utils.writeFile(variables().join("\n"), vars)
 
-    const fd = await zsh(`fd ".scss" --no-require-git ${App.configDir}`)
+    const fd = await zsh(
+      `fd ".scss" --no-require-git --exclude scss ${App.configDir}`,
+    )
     const files = fd.split(/\s+/).map((f) => `@import '${f}';`)
     const scss = [`@import '${vars}';`, ...files].join("\n")
     const css = await zsh(`echo "${scss}" | sass --stdin`)

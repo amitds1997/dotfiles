@@ -42,10 +42,7 @@ export default () =>
             }),
             Widget.Button({
               child: Widget.Label("Yes"),
-              on_clicked: () => {
-                App.toggleWindow(PopupNames.PowerMenuVerification)
-                Utils.execAsync(powermenu.cmd)
-              },
+              on_clicked: powermenu.exec,
             }),
           ],
         }),

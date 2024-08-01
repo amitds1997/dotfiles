@@ -30,10 +30,6 @@ class PowerMenu extends Service {
     return this.#title
   }
 
-  get cmd() {
-    return this.#cmd
-  }
-
   action(action: Action) {
     ;[this.#cmd, this.#title] = {
       suspend: [suspend.value, "Suspend"],
@@ -53,6 +49,11 @@ class PowerMenu extends Service {
 
   readonly shutdown = () => {
     this.action("shutdown")
+  }
+
+  exec = () => {
+    App.closeWindow(PopupNames.PowerMenuVerification)
+    Utils.execAsync(this.#cmd)
   }
 }
 
