@@ -43,7 +43,9 @@ local cmp_config = function()
       fields = { "kind", "abbr", "menu" },
       format = function(entry, item)
         item.menu = entry:get_completion_item().detail or item.kind
-        item.kind = (constants.kind_icons[item.kind] or constants.kind_icons.Text)
+        local item_kind = constants.kind_icons[item.kind] or constants.kind_icons.Text
+        item.kind = item_kind.icon
+        item.kind_hl_group = item_kind.hl or item.kind_hl_group
 
         if vim.api.nvim_strwidth(item.abbr) > MAX_ABBR_WIDTH then
           item.abbr = vim.fn.strcharpart(item.abbr, 0, MAX_ABBR_WIDTH) .. constants.icons.Ellipsis
