@@ -8,6 +8,22 @@ const dispatch = (ws_number: number) => {
   hyprland.messageAsync(`dispatch workspace ${ws_number}`).catch(logError)
 }
 
+function applyCssToWorkspaces(box: any) {
+  box.children.forEach((button: any, i: number) => {
+    const ws = hyprland.getWorkspace(i + 1)
+    const ws_before = hyprland.getWorkspace(i)
+    const ws_after = hyprland.getWorkspace(i + 2)
+
+    button.toggleClassName("occupied", (ws?.windows || 0) > 0)
+
+    const occLeft = !ws_before || ws_before?.windows <= 0
+    const occRight = !ws_after || ws_after?.windows <= 0
+
+    button.toggleClassName("occupied-left", occLeft)
+    button.toggleClassName("occupied-right", occRight)
+  })
+}
+
 function shouldHideWs(hideEmpty: boolean, ws_number: number) {
   // We should hide WS:
   // 1. (hideEmpty is True and there are no windows on
@@ -25,12 +41,14 @@ function shouldHideWs(hideEmpty: boolean, ws_number: number) {
 
 const WorkspaceButton = (ws_number: number) =>
   Widget.EventBox({
-    class_name: "ws-button",
+    class_name: "ws-button active-left active-right",
     on_primary_click_release: () => dispatch(ws_number),
     child: Widget.Label({
       label: `${ws_number}`,
       class_name: "ws-button-label",
     }),
+  }).hook(hyprland.active.workspace, (btn) => {
+    btn.toggleClassName("active", hyprland.active.workspace.id === ws_number)
   })
 
 export const Workspaces = () =>
@@ -43,10 +61,12 @@ export const Workspaces = () =>
         self.children.forEach((btn, idx) => {
           btn.visible = !shouldHideWs(hideEmpty.value, idx + 1)
         })
+        applyCssToWorkspaces(self)
       })
       .hook(hideEmpty, (self) => {
         self.children.forEach((btn, idx) => {
           btn.visible = !shouldHideWs(hideEmpty.value, idx + 1)
         })
+        applyCssToWorkspaces(self)
       }),
   })

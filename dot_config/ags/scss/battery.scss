@@ -1,0 +1,12 @@
+.battery-container {
+  background-color: $surface;
+  padding-right: 0.3rem;
+
+  .battery-icon {
+    padding-right: 0.2rem;
+  }
+
+  .battery-label {
+    min-width: 2.5rem;
+  }
+}

@@ -1,7 +1,5 @@
 import Gdk from "gi://Gdk?version=3.0"
-import Gdk from "gi://Gdk?version=3.0"
 import Gtk from "gi://Gtk?version=3.0"
-import { Display } from "types/@girs/gdk-3.0/gdk-3.0.cjs"
 
 /**
  * Generates a range of numbers.
@@ -50,18 +48,4 @@ export async function zsh(
     console.error(cmd, err)
     return ""
   })
-}
-
-export function getMonitorName(gdkMonitor: Gdk.Monitor | undefined) {
-  if (gdkMonitor === undefined) {
-    return ""
-  }
-
-  const display = Gdk.Display.get_default()!
-  const screen = display.get_default_screen()
-  for (let i = 0; i < display.get_n_monitors(); ++i) {
-    if (gdkMonitor === display.get_monitor(i)) {
-      return screen.get_monitor_plug_name(i)
-    }
-  }
 }

@@ -2,6 +2,11 @@ import options from "options"
 import { RoundedAngleEnd } from "./RoundedCorner"
 import { Workspaces } from "./Workspaces"
 import { WindowTitle } from "./WindowTitle"
+import { Clock } from "./Clock"
+import { Battery } from "./Battery"
+import { Audio } from "./Audio"
+import { Network } from "./Network"
+import { SystemTray } from "./SystemTray"
 
 const { position } = options.bar
 const { hideEmpty } = options.bar.workspaces
@@ -10,7 +15,7 @@ const Right = () =>
   Widget.EventBox({
     hpack: "end",
     child: Widget.Box({
-      children: [Widget.Label({ label: "End widget" })],
+      children: [SystemTray(), Audio(), Battery(), Network(), Clock()],
     }),
   })
 

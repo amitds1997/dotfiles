@@ -1,18 +1,7 @@
 # AGS configuration
 
-Continue with fixing `workspace` widget buttons disappearing
+Continue from setting up system tray CSS (menu is where we left it)
 
-## Workspace logic
+## Pending cleanup
 
-When hideEmpty is `true`:
-
-- Show workspaces either active or that are occupied
-
-When hideEmpty is `false`:
-
-- Show all workspaces
-- For each consecutive occupied workspaces, group them
-
-If either `hideEmpty` changes or workspaces change, re-run the grouping algorithm
-
-Each workspace button would also decide if it wants to be shown on a particular monitor.
+1. Combine widget CSS for `battery`, `audio`

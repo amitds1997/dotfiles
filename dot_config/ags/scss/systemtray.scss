@@ -1,0 +1,36 @@
+.systray-container {
+  background: $surface;
+  padding-right: 0.8rem;
+}
+
+.systray-container button:not(:first-child) {
+  margin-left: 0.75rem;
+}
+
+.systray-menu {
+  background: $surface;
+  border-radius: 0.8rem;
+  border: 2px solid $outline;
+
+  label {
+    font-weight: bold;
+    color: $primary;
+  }
+
+  separator {
+    background-color: $outline;
+  }
+
+  check:not(:checked) {
+    background-color: $surface;
+    border: 1px solid $outline;
+  }
+
+  check:checked {
+    background-color: $secondary;
+  }
+}
+
+.systray-icon {
+  font-size: 1.3em;
+}

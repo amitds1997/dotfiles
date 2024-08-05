@@ -1,0 +1,12 @@
+.audio-container {
+  background-color: $surface;
+  padding-right: 0.3rem;
+
+  .audio-icon {
+    padding-right: 0.2rem;
+  }
+
+  .audio-label {
+    min-width: 2.5rem;
+  }
+}

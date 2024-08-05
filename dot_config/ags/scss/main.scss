@@ -7,6 +7,13 @@
   font-weight: $font-weight;
 }
 
+@import "common";
+
 @import "roundedCorners";
 @import "workspaces";
 @import "window_title";
+@import "battery";
+@import "clock";
+@import "audio";
+@import "network";
+@import "systemtray";
