@@ -80,14 +80,14 @@ export function mkOptions<T extends object>(cacheFile: string, object: T) {
   // Ensure that directory for cacheFile does exist
   Utils.ensureDirectory(cacheFile.split("/").slice(0, -1).join("/"))
 
-  const configFile = `${TMP_DIR}/config.json`
+  const configFilePath = OPTIONS_FILE_PATH
   const values = getOptions(object).reduce(
     (obj, { id, value }) => ({ [id]: value, ...obj }),
     {},
   )
-  Utils.writeFileSync(JSON.stringify(values, null, 2), configFile)
-  Utils.monitorFile(configFile, () => {
-    const cache = JSON.parse(Utils.readFile(configFile) || "{}")
+  Utils.writeFileSync(JSON.stringify(values, null, 2), configFilePath)
+  Utils.monitorFile(configFilePath, () => {
+    const cache = JSON.parse(Utils.readFile(configFilePath) || "{}")
     for (const opt of getOptions(object)) {
       if (JSON.stringify(cache[opt.id]) !== JSON.stringify(opt.value)) {
         opt.value = cache[opt.id]
@@ -113,7 +113,7 @@ export function mkOptions<T extends object>(cacheFile: string, object: T) {
   }
 
   return Object.assign(object, {
-    configFile,
+    configFile: configFilePath,
     array: () => getOptions(object),
     async reset() {
       return (await reset()).join("\n")

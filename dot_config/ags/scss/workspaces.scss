@@ -1,0 +1,47 @@
+.ws-container {
+  background-color: $surface;
+  padding: 3px;
+
+  .ws-button {
+    transition: all 200ms;
+
+    &.occupied {
+      background-color: $surface_container_low;
+      border-top: 2px solid $primary;
+      border-bottom: 2px solid $primary;
+
+      &.occupied-left {
+        border-bottom-left-radius: 2rem;
+        border-top-left-radius: 2rem;
+        border-left: 2px solid $primary;
+      }
+
+      &.occupied-right {
+        border-bottom-right-radius: 2rem;
+        border-top-right-radius: 2rem;
+        border-right: 2px solid $primary;
+      }
+    }
+
+    &.active {
+      .ws-button-label {
+        background-color: $primary;
+        color: $on_primary;
+      }
+
+      &.active-left .ws-button-label {
+        border-bottom-left-radius: 2rem;
+        border-top-left-radius: 2rem;
+      }
+
+      &.active-right .ws-button-label {
+        border-bottom-right-radius: 2rem;
+        border-top-right-radius: 2rem;
+      }
+    }
+
+    .ws-button-label {
+      min-width: 2rem;
+    }
+  }
+}

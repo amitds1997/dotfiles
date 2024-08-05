@@ -1,6 +1,12 @@
+@import "variables";
+
 * {
   all: unset;
   font-family: $font-name;
   font-size: $font-size;
   font-weight: $font-weight;
 }
+
+@import "roundedCorners";
+@import "workspaces";
+@import "window_title";

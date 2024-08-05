@@ -38,6 +38,7 @@ try {
     default:
       throw `"${bundler}" is not a valid bundler`
   }
+
   await import(`file://${main}`)
 } catch (error) {
   console.error(error)

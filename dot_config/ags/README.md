@@ -1,23 +1,18 @@
 # AGS configuration
 
-## Requirements
+Continue with fixing `workspace` widget buttons disappearing
 
-```text
-pipewire
-bluez
-bluez-utils
-hyprpicker
-networkmanager
-brightnessctl
-gnome-bluetooth-3.0
-```
+## Workspace logic
 
-## Inspirations
+When hideEmpty is `true`:
 
-1. [Hyprpanel](https://github.com/Jas-SinghFSU/HyprPanel/)
-2. [Aylur's dotfiles](https://github.com/Aylur/dotfiles/)
+- Show workspaces either active or that are occupied
 
-## Potential improvements
+When hideEmpty is `false`:
 
-- Use `grimblast` instead of using raw `grim`
-- Use `gpu-screen-recorder` to record screen
+- Show all workspaces
+- For each consecutive occupied workspaces, group them
+
+If either `hideEmpty` changes or workspaces change, re-run the grouping algorithm
+
+Each workspace button would also decide if it wants to be shown on a particular monitor.
