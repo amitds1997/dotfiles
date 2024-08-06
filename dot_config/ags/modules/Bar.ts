@@ -7,6 +7,7 @@ import { Battery } from "./Battery"
 import { Audio } from "./Audio"
 import { Network } from "./Network"
 import { SystemTray } from "./SystemTray"
+import { MusicBarContainerRevealer } from "./Music"
 
 const { position } = options.bar
 const { hideEmpty } = options.bar.workspaces
@@ -21,7 +22,7 @@ const Right = () =>
 
 const Center = () =>
   Widget.Box({
-    children: [Widget.Label({ label: "Center widget" })],
+    children: [Widget.Label("p"), MusicBarContainerRevealer()],
   })
 
 const Left = () =>

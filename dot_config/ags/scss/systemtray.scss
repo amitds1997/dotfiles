@@ -9,12 +9,15 @@
 
 .systray-menu {
   background: $surface;
-  border-radius: 0.8rem;
+  border-radius: 0.3rem;
   border: 2px solid $outline;
 
   label {
     font-weight: bold;
     color: $primary;
+    min-width: 8rem;
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
   }
 
   separator {

@@ -22,18 +22,31 @@ export const Battery = () =>
             return "Fully charged"
           }
           const { hours, minutes } = formatTime(remainingSeconds)
-          if (isCharging) {
-            return `${hours} hours and ${minutes} minutes until full`
+          let tooltip_text = `${minutes} minutes`
+          if (hours > 0) {
+            tooltip_text = `${hours} hours and ${tooltip_text}`
           }
-          return `${hours} hours and ${minutes} minutes left`
+          if (isCharging) {
+            tooltip_text = `${tooltip_text} until full`
+          } else {
+            tooltip_text = `${tooltip_text} left`
+          }
+          return tooltip_text
         },
       ),
       children: [
         Widget.Icon({
           class_name: "battery-icon",
-          icon: battery
-            .bind("percent")
-            .as((p) => `battery-level-${Math.floor(p / 10) * 10}-symbolic`),
+          icon: Utils.merge(
+            [battery.bind("percent"), battery.bind("charging")],
+            (percent, isCharging) => {
+              let pctLabel = `${Math.floor(percent / 10) * 10}`
+              if (isCharging) {
+                pctLabel += "-charging"
+              }
+              return `battery-level-${pctLabel}-symbolic`
+            },
+          ),
         }),
         Widget.Label({
           class_name: "battery-label",

@@ -1,6 +1,6 @@
 # AGS configuration
 
-Continue from setting up system tray CSS (menu is where we left it)
+Continue from fixing why music player does not show up without a label xP
 
 ## Pending cleanup
 
