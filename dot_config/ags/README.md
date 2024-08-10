@@ -1,6 +1,6 @@
 # AGS configuration
 
-Continue from fixing why music player does not show up without a label xP
+Continue from fixing why notification icons don't disappear
 
 ## Broken features
 

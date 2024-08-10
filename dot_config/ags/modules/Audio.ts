@@ -22,7 +22,7 @@ export const Audio = () =>
           class_name: "audio-label",
           label: audio.speaker
             .bind("volume")
-            .as((v) => `${Math.floor(v * 100)}`),
+            .as((v) => `${Math.ceil(v * 100)}`),
         }),
       ],
     }),

@@ -74,12 +74,10 @@ const MusicBarContainer = () =>
   })
 
 export const MusicBarContainerRevealer = () => {
-  const box = Widget.Box({
+  return Widget.Box({
     vertical: false,
     vpack: "start",
-  })
-  box.pack_start(
-    Widget.Revealer({
+    child: Widget.Revealer({
       child: MusicBarContainer(),
       transition: position
         .bind("value")
@@ -98,9 +96,5 @@ export const MusicBarContainerRevealer = () => {
         )
         .transform((players) => players.length > 0),
     }),
-    false,
-    false,
-    0,
-  )
-  return box
+  })
 }

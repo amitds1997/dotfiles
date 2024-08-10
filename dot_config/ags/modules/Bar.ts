@@ -8,22 +8,10 @@ import { Audio } from "./Audio"
 import { Network } from "./Network"
 import { SystemTray } from "./SystemTray"
 import { MusicBarContainerRevealer } from "./Music"
+import { NotificationIndicator } from "./Notifications"
 
 const { position } = options.bar
 const { hideEmpty } = options.bar.workspaces
-
-const Right = () =>
-  Widget.EventBox({
-    hpack: "end",
-    child: Widget.Box({
-      children: [SystemTray(), Audio(), Battery(), Network(), Clock()],
-    }),
-  })
-
-const Center = () =>
-  Widget.Box({
-    children: [Widget.Label("p"), MusicBarContainerRevealer()],
-  })
 
 const Left = () =>
   Widget.EventBox({
@@ -31,6 +19,27 @@ const Left = () =>
     on_secondary_click_release: () => (hideEmpty.value = !hideEmpty.value),
     child: Widget.Box({
       children: [Workspaces(), WindowTitle()],
+    }),
+  })
+
+const Center = () =>
+  Widget.Box({
+    css: "margin: 0px 1px 1px 1px;",
+    children: [MusicBarContainerRevealer()],
+  })
+
+const Right = () =>
+  Widget.EventBox({
+    hpack: "end",
+    child: Widget.Box({
+      children: [
+        SystemTray(),
+        Audio(),
+        Battery(),
+        Network(),
+        NotificationIndicator(),
+        Clock(),
+      ],
     }),
   })
 
