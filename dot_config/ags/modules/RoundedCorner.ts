@@ -1,5 +1,4 @@
 import Gtk from "gi://Gtk?version=3.0"
-import { Binding } from "types/service"
 
 export type RoundLocation =
   | "topleft"

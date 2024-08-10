@@ -1,5 +1,5 @@
 import { icons } from "lib/icons"
-import { RoundedAngleEnd } from "./RoundedCorner"
+import { RoundedAngleEnd } from "../RoundedCorner"
 import options from "options"
 
 const { position } = options.bar

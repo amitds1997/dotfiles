@@ -1,17 +1,22 @@
 import options from "options"
 import { RoundedAngleEnd } from "./RoundedCorner"
-import { Workspaces } from "./Workspaces"
-import { WindowTitle } from "./WindowTitle"
-import { Clock } from "./Clock"
-import { Battery } from "./Battery"
-import { Audio } from "./Audio"
-import { Network } from "./Network"
-import { SystemTray } from "./SystemTray"
-import { MusicBarContainerRevealer } from "./Music"
-import { NotificationIndicator } from "./Notifications"
+import { Workspaces } from "./bar/Workspaces"
+import { WindowTitle } from "./bar/WindowTitle"
+import { Clock } from "./bar/Clock"
+import { Battery } from "./bar/Battery"
+import { Audio } from "./bar/Audio"
+import { Network } from "./bar/Network"
+import { SystemTray } from "./bar/SystemTray"
+import { NotificationIndicator } from "./bar/Notifications"
+import { MusicBarContainerRevealer } from "./bar/Music"
 
 const { position } = options.bar
 const { hideEmpty } = options.bar.workspaces
+
+export enum WindowNames {
+  Launcher = "launcher",
+  QuickSettings = "quicksettings",
+}
 
 const Left = () =>
   Widget.EventBox({
@@ -34,11 +39,19 @@ const Right = () =>
     child: Widget.Box({
       children: [
         SystemTray(),
-        Audio(),
-        Battery(),
-        Network(),
-        NotificationIndicator(),
-        Clock(),
+        Widget.EventBox({
+          on_secondary_click_release: () =>
+            App.toggleWindow(WindowNames.Launcher),
+          child: Widget.Box({
+            children: [
+              Audio(),
+              Battery(),
+              Network(),
+              NotificationIndicator(),
+              Clock(),
+            ],
+          }),
+        }),
       ],
     }),
   })

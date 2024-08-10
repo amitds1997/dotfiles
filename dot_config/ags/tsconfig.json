@@ -9,9 +9,11 @@
     "checkJs": true,
     "strict": true,
     "noImplicitAny": false,
+    "moduleResolution": "NodeNext",
     "baseUrl": ".",
     "typeRoots": [
-      "./types"
+      "./types",
+      "./node_modules/@girs"
     ],
     "skipLibCheck": true
   }

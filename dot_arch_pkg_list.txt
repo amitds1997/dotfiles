@@ -140,6 +140,7 @@ wlogout
 wmctrl
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
+xdg-terminal-exec-git
 xdg-utils
 xdotool
 xf86-video-amdgpu

@@ -38,9 +38,17 @@ export const Battery = () =>
         Widget.Icon({
           class_name: "battery-icon",
           icon: Utils.merge(
-            [battery.bind("percent"), battery.bind("charging")],
-            (percent, isCharging) => {
+            [
+              battery.bind("percent"),
+              battery.bind("charging"),
+              battery.bind("charged"),
+            ],
+            (percent, isCharging, isCharged) => {
+              if (isCharged) {
+                return "battery-level-100-charged-symbolic"
+              }
               let pctLabel = `${Math.floor(percent / 10) * 10}`
+
               if (isCharging) {
                 pctLabel += "-charging"
               }

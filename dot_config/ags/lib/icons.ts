@@ -1,3 +1,4 @@
+import GLib from "gi://GLib?version=2.0"
 import { Stream } from "types/service/audio"
 
 /**
@@ -23,6 +24,32 @@ export function getStreamIcon(stream: Stream, isMicrophone: boolean) {
   return stream.is_muted ? muted : icon
 }
 
+/**
+ * Retrieves icon path given the icon name, with optional fallback icon
+ * @param name Name of the icon to retrieve
+ * @param [fallback=icons.missing] Fallback icon name or path
+ * @return Name/path of the icon found
+ */
+export function getIcon(name: string | null, fallback = icons.missing): string {
+  if (!name) {
+    return fallback || ""
+  }
+
+  if (GLib.file_test(name, GLib.FileTest.EXISTS)) {
+    return name
+  }
+
+  const icon = substituteIcons[name] || name
+  if (Utils.lookUpIcon(icon)) {
+    return icon
+  }
+
+  console.debug(
+    `no icon substitute "${icon}" for "${name}", using fallback: "${fallback}"`,
+  )
+  return fallback
+}
+
 export const substituteIcons = {
   microphone: {
     "audio-headset-analog-usb": "audio-headset-symbolic",
@@ -42,6 +69,17 @@ export const substituteIcons = {
 }
 
 export const icons = {
+  launcher: {
+    search: "system-search-symbolic",
+    utility: "applications-utilities-symbolic",
+    system: "emblem-system-symbolic",
+    education: "applications-science-symbolic",
+    development: "applications-engineering-symbolic",
+    network: "network-wired-symbolic",
+    office: "x-office-document-symbolic",
+    game: "applications-games-symbolic",
+    multimedia: "applications-multimedia-symbolic",
+  },
   trash: {
     full: "user-trash-full-symbolic",
     empty: "user-trash-symbolic",
