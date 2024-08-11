@@ -16,6 +16,7 @@ const { hideEmpty } = options.bar.workspaces
 export enum WindowNames {
   Launcher = "launcher",
   QuickSettings = "quicksettings",
+  PopupNotifications = "popupNotifications",
 }
 
 const Left = () =>
@@ -40,6 +41,8 @@ const Right = () =>
       children: [
         SystemTray(),
         Widget.EventBox({
+          on_primary_click_release: () =>
+            App.toggleWindow(WindowNames.QuickSettings),
           on_secondary_click_release: () =>
             App.toggleWindow(WindowNames.Launcher),
           child: Widget.Box({

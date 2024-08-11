@@ -6,6 +6,10 @@ import { timeout } from "resource:///com/github/Aylur/ags/utils/timeout.js"
 
 type SideDrawerSide = "left" | "right"
 
+function reverseArr<T>(arr: T[], drawerSide: SideDrawerSide) {
+  return drawerSide === "right" ? arr.reverse() : arr
+}
+
 const StackSwitcherButton = (
   name: WindowNames,
   item: string,
@@ -91,54 +95,64 @@ export const SideDrawer = async (
     anchor: [side, "top", "bottom"],
     name,
     child: Widget.Box({
-      css: "padding-right: 2px",
-      children: [
-        Widget.Revealer({
-          reveal_child: false,
-          transition: `slide_${transitionSide}`,
-          transition_duration: 350,
-          child: stackSwitcher,
-        }).hook(App, (revealer, drawer_name, visible) => {
-          if (drawer_name === name) {
-            if (visible) {
-              revealer.reveal_child = visible
-            } else {
-              timeout(100, () => (revealer.reveal_child = visible))
+      css: `padding-${transitionSide}: 2px`,
+      children: reverseArr(
+        [
+          Widget.Revealer({
+            reveal_child: false,
+            transition: `slide_${transitionSide}`,
+            transition_duration: 350,
+            child: stackSwitcher,
+          }).hook(App, (revealer, drawer_name, visible) => {
+            if (drawer_name === name) {
+              if (visible) {
+                revealer.reveal_child = visible
+              } else {
+                timeout(100, () => (revealer.reveal_child = visible))
+              }
             }
-          }
-        }),
-        Widget.Box({
-          children: [
-            Widget.Overlay({
-              child: Widget.Box({
-                children: [
-                  Widget.Revealer({
-                    reveal_child: false,
-                    child: stack,
-                    transition_duration: 350,
-                    transition: `slide_${transitionSide}`,
-                  }).hook(App, (revealer, drawer_name, visible) => {
-                    if (drawer_name === name) {
-                      if (visible) {
-                        timeout(100, () => (revealer.reveal_child = visible))
-                      } else {
-                        revealer.reveal_child = visible
-                      }
-                    }
+          }),
+          Widget.Box({
+            children: reverseArr(
+              [
+                Widget.Overlay({
+                  child: Widget.Box({
+                    children: [
+                      Widget.Revealer({
+                        reveal_child: false,
+                        child: stack,
+                        transition_duration: 350,
+                        transition: `slide_${transitionSide}`,
+                      }).hook(App, (revealer, drawer_name, visible) => {
+                        if (drawer_name === name) {
+                          if (visible) {
+                            timeout(
+                              100,
+                              () => (revealer.reveal_child = visible),
+                            )
+                          } else {
+                            revealer.reveal_child = visible
+                          }
+                        }
+                      }),
+                    ],
                   }),
-                  Widget.Box({ css: "min-width: 1rem" }),
-                ],
-              }),
-              overlays: [
-                RoundedCorner(`top${transitionSide}`, { class_name: "corner" }),
-                RoundedCorner(`bottom${transitionSide}`, {
-                  class_name: "corner",
+                  overlays: [
+                    RoundedCorner(`top${side}`, {
+                      class_name: "corner",
+                    }),
+                    RoundedCorner(`bottom${side}`, {
+                      class_name: "corner",
+                    }),
+                  ],
                 }),
               ],
-            }),
-          ],
-        }),
-      ],
+              side,
+            ),
+          }),
+        ],
+        side,
+      ),
     }),
   })
   const addKeyBinds = (mods: any) => {

@@ -1,21 +1,23 @@
 # AGS configuration
 
+Add more stuff in quicksettings drawer
+
 ## Pending features
 
 1. Brightness, Volume OSD
-2. Notifications
-3. Powermenu
-4. Windows for
+2. Powermenu
+3. Windows for
    1. Music
    2. Volume
    3. Notifications
    4. Network
    5. Bluetooth
-5. Play volume on
+4. Play volume on
    1. Receiving notifications
    2. Low battery
    3. Extremely low battery
-6. NumLock On indicator
+5. NumLock On indicator
+6. On clicking on icon in right side, corresponding section opens in the drawer
 
 ## Broken features
 

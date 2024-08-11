@@ -7,6 +7,7 @@
 
     &.focused {
       background-color: $surface;
+
       image {
         background-color: $surface_container_low;
         border-bottom-left-radius: 1rem;
@@ -48,12 +49,6 @@
   .launcher-search {
     margin: 1rem;
     background-color: $surface_container_low;
-
-    entry {
-      image {
-        padding-right: 1rem;
-      }
-    }
 
     .search-scroll {
       .search-results {
