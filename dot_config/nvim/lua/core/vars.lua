@@ -37,6 +37,7 @@ return {
     "terminal",
     "sagarename",
     "sagafinder",
+    "gitsigns-blame",
   },
   -- These will be auto-installed by treesitter
   ts_parsers = {

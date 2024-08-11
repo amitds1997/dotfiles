@@ -32,6 +32,7 @@ module.exports = {
         "*stitchdata*",
         "*talend*",
         "*amazon*",
+        "*duo*security*",
       ],
       browser: "/Applications/Google Chrome.app",
     },
