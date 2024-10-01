@@ -103,7 +103,6 @@ local cmp_config = function()
     sorting = {
       priority_weight = 2,
       comparators = {
-        require("copilot_cmp.comparators").prioritize,
         cmp.config.compare.exact,
         cmp.config.compare.recently_used,
         cmp.config.compare.offset,
@@ -125,7 +124,6 @@ local cmp_config = function()
       },
     },
     sources = cmp.config.sources({
-      { name = "copilot", priority = 190 },
       { name = "luasnip", option = { show_autosnippets = true }, priority = 150, max_item_count = 3 },
       {
         name = "nvim_lsp",
@@ -233,6 +231,5 @@ return {
     "hrsh7th/cmp-cmdline",
     "saadparwaiz1/cmp_luasnip",
     "https://codeberg.org/FelipeLema/cmp-async-path",
-    "zbirenbaum/copilot-cmp",
   },
 }

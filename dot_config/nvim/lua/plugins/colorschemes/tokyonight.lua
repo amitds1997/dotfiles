@@ -2,7 +2,7 @@ local function tokyonight_config()
   local is_transparent = require("core.vars").transparent_background
 
   require("tokyonight").setup({
-    style = "night",
+    style = "storm",
     light_style = "day",
     transparent = is_transparent,
     terminal_colors = true,

@@ -23,7 +23,7 @@ local lsp_config = function()
   }
 
   local ensure_lsp_installed = {
-    node = { "eslint", "tsserver" },
+    node = { "eslint", "ts_ls" },
     go = { "gopls" },
     python = { "basedpyright" },
   }

@@ -49,9 +49,9 @@ return {
         vim.keymap.set({ "n", "v" }, "<leader>gb", function()
           gs.blame_line({ full = true })
         end, { desc = "Git blame current line with preview", buffer = bufnr })
-        vim.keymap.set({ "n", "v" }, "<leader>gel", function()
-          require("gitlinker").link({ action = require("gitlinker.actions").clipboard })
-        end, { desc = "Copy share-able path URIs", buffer = bufnr })
+        -- vim.keymap.set({ "n", "v" }, "<leader>gel", function()
+        --   require("gitlinker").link({ action = require("gitlinker.actions").clipboard })
+        -- end, { desc = "Copy share-able path URIs", buffer = bufnr })
         -- Toggle things
         vim.keymap.set(
           { "n", "v" },
@@ -70,8 +70,8 @@ return {
       end,
     },
   },
-  {
-    "linrongbin16/gitlinker.nvim",
-    opts = true,
-  },
+  -- {
+  --   "linrongbin16/gitlinker.nvim",
+  --   opts = true,
+  -- },
 }

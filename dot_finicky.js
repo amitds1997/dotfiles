@@ -33,6 +33,7 @@ module.exports = {
         "*talend*",
         "*amazon*",
         "*duo*security*",
+        "*logiwebconnect*",
       ],
       browser: "/Applications/Google Chrome.app",
     },

@@ -7,13 +7,7 @@ My Neovim dot files
 ### Broken stuff
 
 - [ ] Pyright LSP does not respect `reportUnusedImport = false`
-- [ ] GitSigns not working with the default events (Works if lazy loading is off)
-- [ ] Setup mkview and loadview
-- [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
 - [ ] Sometimes the `cmp` window gets left behind :/
-- [ ] Set up DAP for python
-- [ ] Remove cursor highlighting from folded code.
-- [ ] Add ignore filetypes for tailwindCSS (ignore markdown)
 - [ ] Improve keymap setup
 - [ ] Replace plugins:
   - GitLinker
@@ -21,6 +15,11 @@ My Neovim dot files
 ### Major upgrades
 
 - [ ] Debugging and test runner setup for Python, Go, Lua, Rust
+- [ ] Set up DAP for python
+- [ ] Setup mkview and loadview
+- [ ] Add support for choice nodes in nvim-cmp (or completion menu in general)
+- [ ] Handle disabling mostly everything without having to do `nvim --clean` on
+  large files
 
 ### Todo
 
@@ -30,11 +29,6 @@ My Neovim dot files
   - [ ] to find/replace word under cursor
 - [ ] Add more treesitter textobjects for movement
 - [ ] Add more support for marks
-
-### Nice to have
-
-- [ ] Handle disabling mostly everything without having to do `nvim --clean` on
-  large files
 - [ ] Support completions showing up in DAP console
 
 ### Refactoring series
