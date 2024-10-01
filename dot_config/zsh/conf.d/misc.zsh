@@ -1,12 +1,6 @@
 # Disable magical enter press
 zle -A .accept-line accept-line
 
-# zoxide setup
-eval "$(zoxide init zsh)"
-
-# pyenv setup
-command -v pyenv &> /dev/null && eval "$(pyenv init -)"
-
 handle_conda_setup ()
 {
     conda_base_path=$1
@@ -41,3 +35,10 @@ if [[ $(uname) == "Darwin" ]]; then
 elif [[ $(uname) == "Linux" ]]; then
     handle_conda_setup "/opt/miniconda3"
 fi
+
+# pyenv setup
+command -v pyenv &> /dev/null && eval "$(pyenv init -)"
+
+# zoxide setup
+eval "$(zoxide init zsh)"
+

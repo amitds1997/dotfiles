@@ -24,6 +24,9 @@ ZSH_PLUGINS_FILE=${ZDOTDIR:-~}/.zplugins.zsh
   git clone --depth=1 https://github.com/mattmc3/antidote.git $ZDOTDIR/.antidote
 # }}}
 
+# Load antidote
+source $ZDOTDIR/.antidote/antidote.zsh
+
 # Install any missing plugins {{{
 [[ -f ${ZSH_PLUGINS_FILE:r}.txt ]] || touch ${ZSH_PLUGINS_FILE:r}.txt
 [[ -e $ZDOTDIR/plugins/.external ]] || antidote load $ZDOTDIR/.zplugins.txt
@@ -31,7 +34,6 @@ ZSH_PLUGINS_FILE=${ZDOTDIR:-~}/.zplugins.zsh
 
 # Bundle all installed plugins and source them {{{
 if [[ ! $ZSH_PLUGINS_FILE -nt ${ZSH_PLUGINS_FILE:r}.txt ]] || [[ ! -s $ZSH_PLUGINS_FILE ]]; then
-  source $ZDOTDIR/.antidote/antidote.zsh
   (envsubst < ${ZSH_PLUGINS_FILE:r}.txt | antidote bundle >| $ZSH_PLUGINS_FILE)
 fi
 source $ZSH_PLUGINS_FILE

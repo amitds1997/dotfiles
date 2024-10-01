@@ -24,14 +24,14 @@
   email = amitds1997@gmail.com
   name = Amit Singh
 {{- if eq .chezmoi.os "darwin" }}
-  signingkey = 39CA9FB26B8A0617
+  signingkey = 340E4B8C64021984
 {{- else if eq .chezmoi.os "linux" }}
   signingkey = B579D7201EF6CC59
 {{- end }}
 [include]
   path = ~/.gitconfig.local ; Contains [github] section
-[includeIf "gitdir:~/c2fo/"]
-  path = ~/c2fo/.gitconfig
+[includeIf "gitdir:~/work/"]
+  path = ~/work/.gitconfig
 [branch]
   autosetuprebase = always
   autosetupmerge = always
@@ -58,6 +58,8 @@
 [credential]
 {{- if eq .chezmoi.os "darwin" }}
 	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
 	helper = /usr/bin/git-credential-manager
