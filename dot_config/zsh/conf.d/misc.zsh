@@ -17,6 +17,20 @@ handle_conda_setup ()
     unset __conda_setup
 }
 
+handle_mamba_setup ()
+{
+    export mamba_install_dir=$1
+    export MAMBA_EXE=$mamba_install_dir'/bin/micromamba';
+    export MAMBA_ROOT_PREFIX=$HOME'/micromamba';
+    __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+        eval "$__mamba_setup"
+    else
+        alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+    fi
+    unset __mamba_setup
+}
+
 if [[ $(uname) == "Darwin" ]]; then
     # Homebrew related setup
     export HOMEBREW_NO_ENV_HINTS=true
@@ -30,7 +44,9 @@ if [[ $(uname) == "Darwin" ]]; then
     # sdkman setup
     export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
     [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
-    handle_conda_setup "/usr/local/Caskroom/miniconda/base"
+
+    handle_mamba_setup "/opt/homebrew/opt/micromamba"
+    alias conda=micromamba
 
 elif [[ $(uname) == "Linux" ]]; then
     handle_conda_setup "/opt/miniconda3"

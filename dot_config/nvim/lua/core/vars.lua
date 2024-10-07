@@ -4,7 +4,7 @@ return {
   ---@type "tokyonight"|"catppuccin"|"rose-pine"|"material"|"kanagawa"|"cyberdream"|"neofusion"
   colorscheme = "tokyonight",
   ---@type boolean
-  transparent_background = false,
+  transparent_background = true,
   ---@type boolean
   is_remote = vim.g.remote_neovim_host and true or false,
   oil = {

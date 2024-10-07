@@ -22,10 +22,14 @@ ANTIDOTE_HOME=$ZDOTDIR/plugins/.external
 ZSH_PLUGINS_FILE=${ZDOTDIR:-~}/.zplugins.zsh
 [[ -e $ZDOTDIR/.antidote ]] ||
   git clone --depth=1 https://github.com/mattmc3/antidote.git $ZDOTDIR/.antidote
+
+# Lazy load antidote and it to fpath
+source $ZDOTDIR/.antidote/antidote.zsh
+antidote_fn_path=${ZDOTDIR:-~}/.antidote/functions
+fpath+=$antidote_fn_path
+autoload -Uz $antidote_fn_path/antidote
 # }}}
 
-# Load antidote
-source $ZDOTDIR/.antidote/antidote.zsh
 
 # Install any missing plugins {{{
 [[ -f ${ZSH_PLUGINS_FILE:r}.txt ]] || touch ${ZSH_PLUGINS_FILE:r}.txt
@@ -38,10 +42,6 @@ if [[ ! $ZSH_PLUGINS_FILE -nt ${ZSH_PLUGINS_FILE:r}.txt ]] || [[ ! -s $ZSH_PLUGI
 fi
 source $ZSH_PLUGINS_FILE
 # }}}
-
-# Lazy load antidote definition to fpath
-fpath+=(${ZDOTDIR:-~}/.antidote/functions)
-autoload -Uz $fpath[-1]/antidote
 
 # }}}
 

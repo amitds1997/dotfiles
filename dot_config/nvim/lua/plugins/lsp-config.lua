@@ -55,7 +55,7 @@ local lsp_config = function()
       { "<leader>lec", vim.lsp.codelens.run, buffer = bufnr, desc = "Run codelens on the line" },
       {
         "<leader>leo",
-        require("lspconfig.ui.lspinfo"),
+        "<cmd>che lspconfig<CR>",
         buffer = bufnr,
         desc = "Display attached, active, and configured LSP servers",
       },

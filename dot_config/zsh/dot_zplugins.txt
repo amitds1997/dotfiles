@@ -7,6 +7,7 @@ mattmc3/zephyr path:plugins/history # Sane history settings
 mattmc3/zephyr path:plugins/utility # Utilities such as pbcopy for OS-agnostic copy, etc.
 mattmc3/zephyr path:plugins/completion # Completion related sane settings
 mattmc3/zephyr path:plugins/confd # Use confd structure to organize configuration
+mattmc3/zephyr path:plugins/directory # Add directory-related ease of life patterns
 
 zsh-users/zsh-completions path:src kind:fpath # Provides completion for common commands
 $ZDOTDIR/completions kind:fpath # Custom command completions
