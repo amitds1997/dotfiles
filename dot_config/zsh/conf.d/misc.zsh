@@ -48,6 +48,9 @@ if [[ $(uname) == "Darwin" ]]; then
     handle_mamba_setup "/opt/homebrew/opt/micromamba"
     alias conda=micromamba
 
+    # Handle architecture related docker issues
+    export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 elif [[ $(uname) == "Linux" ]]; then
     handle_conda_setup "/opt/miniconda3"
 fi
