@@ -49,7 +49,8 @@ if [[ $(uname) == "Darwin" ]]; then
     alias conda=micromamba
 
     # Handle architecture related docker issues
-    export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    # export DOCKER_DEFAULT_PLATFORM=linux/amd64
+    export COLIMA_HOME=$XDG_CONFIG_HOME/colima
 
 elif [[ $(uname) == "Linux" ]]; then
     handle_conda_setup "/opt/miniconda3"

@@ -17,7 +17,7 @@ export FZF_DEFAULT_OPTS='--color=bg+:-1 --cycle --border
 # Correctly set up JAVA
 if [[ $(uname) == "Darwin" ]]; then
   # export JAVA_HOME=$(/usr/libexec/java_home -v 1.8.0_442) # Not needed since set by SDKMAN
-  export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+  # export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
 fi
 
 if [[ $TERM == "xterm-kitty" ]]; then
