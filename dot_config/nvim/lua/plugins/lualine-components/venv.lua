@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   pattern = "*.py",
   callback = function()
     if vim.bo.filetype == "python" then
-      vim.system({ "python", "--version" }, { text = true }, function(obj)
+      vim.system({ "python3", "--version" }, { text = true }, function(obj)
         M.python_version = vim.trim(obj.stdout)
       end)
 

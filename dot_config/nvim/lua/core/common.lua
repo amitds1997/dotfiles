@@ -36,34 +36,6 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, {
   end,
 })
 
--- Save buffer if there are changes regularly to avoid having to do :w so many times
--- vim.api.nvim_create_autocmd({ "FocusLost", "InsertLeave", "BufLeave" }, {
---   group = vim.api.nvim_create_augroup("amitds1997/autosave_buffers", { clear = true }),
---   callback = function(ctx)
---     local bufnr = ctx.buf
---     local bo = vim.bo[bufnr]
---     local b = vim.b[bufnr]
-
---     -- If possible, try not to save in sane scenarios
---     if (b.save_queued and ctx.event ~= "FocusLost") or bo.buftype ~= "" or bo.ft == "gitcommit" or bo.readonly then
---       return
---     end
-
---     -- Debounce save request by 2s unless it's a FocusLost event in which case do it on the next Neovim loop iteration
---     local debounce_ms = ctx.event == "FocusLost" and 0 or 2000
---     vim.defer_fn(function()
---       if not vim.api.nvim_buf_is_valid(bufnr) then
---         return
---       end
---       vim.api.nvim_buf_call(bufnr, function()
---         -- Instead of write call `update` to write only if the buffer is changed
---         vim.cmd("silent! noautocmd lockmarks update!")
---       end)
---       b.save_queued = false
---     end, debounce_ms)
---   end,
--- })
-
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("amitds1997/yank_highlight", { clear = true }),

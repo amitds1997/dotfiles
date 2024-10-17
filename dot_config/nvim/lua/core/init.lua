@@ -3,7 +3,9 @@ L.__index = L
 
 -- Make sure that the package manager is installed
 function L:ensure_lazy_nvim_installed()
+  ---@diagnostic disable-next-line: param-type-mismatch
   local lazy_path = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy", "lazy.nvim")
+  ---@diagnostic disable-next-line: undefined-field
   local state = vim.uv.fs_stat(lazy_path)
 
   if not state then

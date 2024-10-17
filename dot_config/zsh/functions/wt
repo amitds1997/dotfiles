@@ -29,8 +29,11 @@ function switch_worktree() {
 
 if git rev-parse 2>/dev/null; then
   if [[ $1 == "base" ]]; then
-    BARE_ROOT=$(git worktree list | grep bare | awk '{ print $1 }')
-    cd $BARE_ROOT || return
+    GIT_ROOT=$(git worktree list | grep bare | awk '{ print $1 }')
+    if [[ -z "${GIT_ROOT}" ]]; then
+      GIT_ROOT=$(git rev-parse --show-toplevel)
+    fi
+    cd $GIT_ROOT || return
   else
     switch_worktree
   fi
