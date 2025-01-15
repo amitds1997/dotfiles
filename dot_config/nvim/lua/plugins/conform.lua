@@ -24,15 +24,27 @@ end
 local function conform_setup()
   -- Special handling for mdformat
   install_mdformat_extra_packages()
+  local work_dir = vim.fn.expand("~/work")
+  local work_disabled_filetypes = { "python", "markdown" }
 
-  ---@param default conform.FormatOpts
-  ---@return conform.FormatOpts
+  --- Handle disabling formatting based on autoformat flag and file path
+  ---@param bufnr number Buffer number to format
+  ---@param default conform.FormatOpts Default formatting options
+  ---@return conform.FormatOpts|nil Format options to format with
   local function handle_disabling_formatting(bufnr, default)
-    -- Check if formatting has been disabled on the buffer
-    if vim.b[bufnr].disable_autoformat then
-      ---@diagnostic disable-next-line: missing-return-value
-      return
+    local file_path = vim.api.nvim_buf_get_name(bufnr)
+
+    if
+      vim.b[bufnr].disable_autoformat
+      or (
+        file_path ~= ""
+        and file_path:find("^" .. work_dir)
+        and vim.tbl_contains(work_disabled_filetypes, vim.b[bufnr].filetype)
+      )
+    then
+      return nil
     end
+
     return default
   end
 
@@ -73,6 +85,7 @@ local function conform_setup()
           YAMLFIX_preserve_quotes = "TRUE",
           YAMLFIX_WHITELINES = "1",
           YAMLFIX_SECTION_WHITELINES = "1",
+          YAMLFIX_SEQUENCE_STYLE = "keep_style",
         },
       },
     },

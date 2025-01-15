@@ -11,6 +11,7 @@ My Neovim dot files
 - [ ] Improve keymap setup
 - [ ] Replace plugins:
   - GitLinker
+- [ ] Exclude CSVs, JSONs from Telescope's live args
 
 ### Major upgrades
 

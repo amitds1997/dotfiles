@@ -11,13 +11,18 @@ vim.filetype.add({
   },
 })
 
+local function augroup(name)
+  return vim.api.nvim_create_augroup("amitds1997/" .. name, { clear = true })
+end
+
 -- Many filetypes are not supposed to be edited and only provide some contextual information
 -- Certain conveniences can be setup for such filetypes such as:
 -- 1. Quit the buffer window using `q`
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("amitds1997/close_with_q", { clear = true }),
+  group = augroup("close_with_q"),
   pattern = require("core.vars").temp_filetypes,
   callback = function(event)
+    vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
   end,
 })
@@ -25,7 +30,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Keep neovim directories clean by:
 -- 1. Cleaning up viewdir and undodir files older than 30 days
 vim.api.nvim_create_autocmd({ "FocusLost" }, {
-  group = vim.api.nvim_create_augroup("amitds1997/cleanup_old_files", { clear = true }),
+  group = augroup("cleanup_old_files"),
   once = true,
   callback = function()
     local view_dir = vim.fs.joinpath(vim.env.XDG_STATE_HOME, "nvim", "view")
@@ -38,7 +43,7 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, {
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("amitds1997/yank_highlight", { clear = true }),
+  group = augroup("yank_highlight"),
   desc = "Highlight text on being yanked",
   callback = function()
     vim.highlight.on_yank({

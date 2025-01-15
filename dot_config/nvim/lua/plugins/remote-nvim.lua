@@ -3,7 +3,7 @@ local remote_nvim_config = function()
   ----@param remote-nvim.config.PluginConfig
   require("remote-nvim").setup({
     offline_mode = {
-      enabled = true,
+      enabled = false,
       no_github = false,
     },
     remote = {
