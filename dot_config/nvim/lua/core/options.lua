@@ -1,10 +1,5 @@
 local o, g = vim.opt, vim.g
 
--- Set mapleader
-g.mapleader = " "
-g.maplocalleader = " "
-vim.keymap.set({ "n", "x", "v" }, g.mapleader, "", { noremap = true })
-
 -- Disable loading extra providers
 g.loaded_python3_provider = 0
 g.loaded_perl_provider = 0
@@ -74,7 +69,7 @@ o.matchtime = 2 -- Show it for (n/10)th of a second
 o.spell = false -- Disable spellchecking (we can toggle this using <leader>cs keymap)
 o.spelllang = "en_us" -- Use US English for completions
 o.spelloptions = "camel" -- In camel-cased words, each camel case denotes a new word
-o.spellfile = vim.fs.joinpath(vim.fn.stdpath("config"), "spell", "en.utf-8.add")
+o.spellfile = vim.fs.joinpath(vim.fn.stdpath "config", "spell", "en.utf-8.add")
 
 -- Split behavior
 o.splitbelow = true -- If horizontal, split below
@@ -128,23 +123,42 @@ o.autowrite = true
 o.autowriteall = true
 
 -- If we have rg installed, use rg to grep
-if vim.fn.executable("rg") == 1 then
+if vim.fn.executable "rg" == 1 then
   o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
   o.grepprg = "rg --vimgrep --no-heading --smart-case"
 end
 
 -- Handle clipboard copy over SSH
 if vim.g.remote_neovim_host then
-  print("Executing SSH OSC52 clipboard")
+  print "Executing SSH OSC52 clipboard"
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+      ["+"] = require("vim.ui.clipboard.osc52").copy "+",
+      ["*"] = require("vim.ui.clipboard.osc52").copy "*",
     },
     paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+      ["+"] = require("vim.ui.clipboard.osc52").paste "+",
+      ["*"] = require("vim.ui.clipboard.osc52").paste "*",
     },
   }
+end
+
+-- Remove padding around Neovim in terminal when background is not transparent
+if not require("settings").colorscheme.transparent_background then
+  vim.api.nvim_create_autocmd({ "UIEnter", "ColorScheme" }, {
+    callback = function()
+      local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
+      if not normal.bg then
+        return
+      end
+      io.write(string.format("\027]11;#%06x\027\\", normal.bg))
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("UILeave", {
+    callback = function()
+      io.write "\027]111\027\\"
+    end,
+  })
 end

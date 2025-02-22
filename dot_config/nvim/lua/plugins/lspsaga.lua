@@ -1,5 +1,3 @@
-local constants = require("core.constants")
-
 local function lspsaga_config()
   require("lspsaga").setup({
     symbol_in_winbar = {
@@ -30,7 +28,7 @@ local function lspsaga_config()
       expand = " ",
       collapse = " ",
       lines = { "╰", "├", "│", "─", "╭" },
-      border = constants.border_styles.rounded,
+      border = require("constants").border_styles.rounded,
     },
   })
 end

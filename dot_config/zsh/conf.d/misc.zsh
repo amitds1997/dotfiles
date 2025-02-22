@@ -37,6 +37,7 @@ if [[ $(uname) == "Darwin" ]]; then
     path=(
         /opt/homebrew/{,s}bin(N)
         /usr/local/opt/llvm/bin
+        /opt/homebrew/opt/postgresql@17/bin
         $path
     )
     typeset -gU path

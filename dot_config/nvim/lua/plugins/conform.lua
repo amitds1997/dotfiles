@@ -1,56 +1,24 @@
-local function install_mdformat_extra_packages()
-  local mdformat = require("mason-registry").get_package("mdformat")
-  mdformat:on("install:success", function()
-    local pip_path = vim.fs.joinpath(mdformat:get_install_path(), "venv", "bin", "pip")
-    local args = { "install", "mdformat-gfm", "mdformat-frontmatter", "mdformat-footnote" }
+local WORK_DIR = vim.fn.expand "~/work/"
 
-    require("plenary.job")
-      :new({
-        command = pip_path,
-        args = args,
-        on_start = function()
-          vim.notify("Installing mdformat dependencies")
-        end,
-        on_exit = function(_, return_val)
-          if return_val == 0 then
-            vim.notify("mdformat dependencies installed successfully")
-          end
-        end,
-      })
-      :start()
-  end)
-end
+--- Handle disabling formatting based on autoformat flag and file path
+---@param bufnr number Buffer number to format
+---@param default_opts conform.FormatOpts Default formatting options
+---@return conform.FormatOpts|nil Format options to format with
+local function handle_save_formatting(bufnr, default_opts)
+  local file_path = vim.api.nvim_buf_get_name(bufnr)
 
-local function conform_setup()
-  -- Special handling for mdformat
-  install_mdformat_extra_packages()
-  local work_dir = vim.fn.expand("~/work")
-  local work_disabled_filetypes = { "python", "markdown" }
-
-  --- Handle disabling formatting based on autoformat flag and file path
-  ---@param bufnr number Buffer number to format
-  ---@param default conform.FormatOpts Default formatting options
-  ---@return conform.FormatOpts|nil Format options to format with
-  local function handle_disabling_formatting(bufnr, default)
-    local file_path = vim.api.nvim_buf_get_name(bufnr)
-
-    if
-      vim.b[bufnr].disable_autoformat
-      or (
-        file_path ~= ""
-        and file_path:find("^" .. work_dir)
-        and vim.tbl_contains(work_disabled_filetypes, vim.b[bufnr].filetype)
-      )
-    then
-      return nil
-    end
-
-    return default
+  -- Work uses it's own formatting standard, let's not mess with that
+  if file_path ~= "" and file_path:find("^" .. WORK_DIR) then
+    return nil
   end
 
+  return default_opts
+end
+
+local function conform_config()
   local js_formatter = { "prettierd", "prettier", stop_after_first = true }
-  require("conform").setup({
-    log_level = vim.log.levels.DEBUG,
+
+  require("conform").setup {
     formatters_by_ft = {
       lua = { "stylua" },
       python = { "ruff_fix", "isort", "black" },
@@ -65,7 +33,7 @@ local function conform_setup()
       typescript = js_formatter,
     },
     format_after_save = function(bufnr)
-      return handle_disabling_formatting(bufnr, {
+      return handle_save_formatting(bufnr, {
         lsp_fallback = true,
       })
     end,
@@ -89,16 +57,15 @@ local function conform_setup()
         },
       },
     },
-  })
+  }
 end
 
 return {
   "stevearc/conform.nvim",
   event = "BufWritePre",
-  config = conform_setup,
+  config = conform_config,
   cmd = "ConformInfo",
   dependencies = {
     "williamboman/mason.nvim",
-    "nvim-lua/plenary.nvim",
   },
 }

@@ -1,49 +1,65 @@
+local meta_file_types = require("settings").meta_filetypes
+local color_highlight_fts = { "cfg", "lua", "css", "scss", "conf" }
+
 return {
   {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 100
-    end,
-    opts = {
-      win = {
-        border = "rounded",
-      },
-      icons = {
-        group = "",
-      },
-    },
-  },
-  {
+    -- Removes search highlights once we move away from it
     "nvimdev/hlsearch.nvim",
     event = "BufRead",
     config = true,
   },
-  { -- mini.animate has some weird kinks for my preferences, so not using it
-    "karb94/neoscroll.nvim",
-    event = "BufReadPost",
-    opts = {
-      respect_scrolloff = true,
-    },
-  },
   {
+    -- Highlight matching paranthesis
     "utilyre/sentiment.nvim",
     version = "*",
     event = "BufReadPost",
-    opts = true,
+    config = true,
   },
   {
+    -- Highlight word under cursor semantically
     "RRethy/vim-illuminate",
     event = "BufReadPost",
     config = function()
-      require("illuminate").configure({
+      require("illuminate").configure {
         providers = {
           "lsp",
           "treesitter",
         },
-        filetypes_denylist = require("core.vars").temp_filetypes,
-      })
+        filetypes_denylist = meta_file_types,
+      }
+    end,
+  },
+  {
+    -- Guess and set correct indent levels based on file
+    "nmac427/guess-indent.nvim",
+    event = "BufReadPost",
+    opts = {
+      buftype_exclude = meta_file_types,
+    },
+  },
+  {
+    -- Show marks visually and improve functionalities
+    "chentoast/marks.nvim",
+    event = "BufReadPost",
+    config = true,
+  },
+  {
+    "uga-rosa/ccc.nvim",
+    ft = color_highlight_fts,
+    cmd = "CccPick",
+    opts = function()
+      local ccc = require "ccc"
+
+      ccc.output.hex.setup { uppercase = true }
+      ccc.output.hex_short.setup { uppercase = true }
+
+      return {
+        highlighter = {
+          auto_enable = true,
+          filetypes = color_highlight_fts,
+          lsp = false,
+        },
+      }
     end,
   },
   {
@@ -68,7 +84,7 @@ return {
       end
 
       local all_icons = require("nvim-web-devicons").get_icons()
-      local nonicons = require("nvim-nonicons.mapping")
+      local nonicons = require "nvim-nonicons.mapping"
 
       local user_icons = {}
       for key, val in pairs(all_icons) do
@@ -78,58 +94,26 @@ return {
         end
       end
 
-      require("nvim-web-devicons").setup({
+      require("nvim-web-devicons").setup {
         override = user_icons,
-      })
+      }
     end,
   },
+  { "folke/which-key.nvim" },
   {
-    "NvChad/nvim-colorizer.lua",
-    event = "BufReadPost",
+    -- Kitty scrollback
+    "mikesmithgh/kitty-scrollback.nvim",
+    enabled = true,
+    lazy = true,
+    cmd = {
+      "KittyScrollbackGenerateKittens",
+      "KittyScrollbackCheckHealth",
+      "KittyScrollbackGenerateCommandLineEditing",
+    },
+    event = { "User KittyScrollbackLaunch" },
+    version = "*",
     config = function()
-      local filetypes = vim.tbl_map(
-        function(ft)
-          return ("!%s"):format(ft)
-        end,
-        vim.tbl_filter(function(ft)
-          return not vim.list_contains({ "help" }, ft)
-        end, require("core.vars").temp_filetypes)
-      )
-      table.insert(filetypes, 1, "*")
-      require("colorizer").setup({
-        filetypes = filetypes,
-        user_default_options = {
-          tailwind = true,
-          names = false,
-        },
-      })
+      require("kitty-scrollback").setup()
     end,
-  },
-  {
-    "nmac427/guess-indent.nvim",
-    event = "BufReadPost",
-    opts = {
-      buftype_exclude = require("core.vars").temp_filetypes,
-    },
-  },
-  {
-    "sindrets/diffview.nvim",
-    event = "CmdlineEnter",
-  },
-  {
-    "j-hui/fidget.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {
-      notification = {
-        window = {
-          winblend = 0,
-        },
-      },
-    },
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "BufReadPost",
-    config = true,
   },
 }

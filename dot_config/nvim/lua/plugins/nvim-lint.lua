@@ -1,21 +1,9 @@
--- The entire logic is borrowed from https://github.com/LazyVim/LazyVim/blob/879e29504d43e9f178d967ecc34d482f902e5a91/lua/lazyvim/plugins/linting.lua
-local function debounce(ms, fn)
-  local timer = vim.loop.new_timer()
-  return function(...)
-    local argv = { ... }
-    timer:start(ms, 0, function()
-      timer:stop()
-      vim.schedule_wrap(fn)(unpack(argv))
-    end)
-  end
-end
-
-local function nvim_lint()
+local function run_lint()
   -- Use nvim-lint's logic first:
   -- * checks if linters exist for the full filetype first
   -- * otherwise will split filetype by "." and add all those linters
   -- * this differs from conform.nvim which only uses the first filetype that has a formatter
-  local lint = require("lint")
+  local lint = require "lint"
   local names = lint._resolve_linter_by_ft(vim.bo.filetype)
 
   -- Add fallback linters.
@@ -34,6 +22,7 @@ local function nvim_lint()
     if not linter then
       vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" })
     end
+    ---@diagnostic disable-next-line: undefined-field
     return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
   end, names)
 
@@ -43,13 +32,14 @@ local function nvim_lint()
   end
 end
 
-local function nvim_lint_config(_, opts)
-  local lint = require("lint")
+local function nvim_lint_setup(_, opts)
+  local lint = require "lint"
   lint.linters_by_ft = opts.linters_by_ft
+  local U = require "utils"
 
   vim.api.nvim_create_autocmd(opts.events, {
-    group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-    callback = debounce(100, nvim_lint),
+    group = U.create_augroup "nvim-lint",
+    callback = U.debounce(100, run_lint),
   })
 end
 
@@ -71,5 +61,5 @@ return {
       css = { "stylelint" },
     },
   },
-  config = nvim_lint_config,
+  config = nvim_lint_setup,
 }

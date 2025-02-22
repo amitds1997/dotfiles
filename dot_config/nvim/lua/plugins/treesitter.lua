@@ -1,60 +1,77 @@
-local treesitter_config = function()
-  ---@diagnostic disable-next-line: missing-fields
-  require("nvim-treesitter.configs").setup({
-    ensure_installed = require("core.vars").ts_parsers,
-    sync_install = false,
-    auto_install = true,
+local treesitter_parsers = {
+  "bash",
+  "c",
+  "cpp",
+  "csv",
+  "diff",
+  "dockerfile",
+  "editorconfig",
+  "git_config",
+  "git_rebase",
+  "gitcommit",
+  "gitignore",
+  "go",
+  "gomod",
+  "gosum",
+  "gotmpl",
+  "gowork",
+  "helm",
+  "html",
+  "hyprlang",
+  "ini",
+  "javascript",
+  "json",
+  "json5",
+  "jsonc",
+  "lua",
+  "make",
+  "markdown",
+  "markdown_inline",
+  "python",
+  "query",
+  "regex",
+  "requirements",
+  "rust",
+  "scala",
+  "sql",
+  "toml",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "xml",
+  "yaml",
+}
+
+local function ts_setup()
+  local opts = {
+    ensure_installed = treesitter_parsers,
     highlight = {
       enable = true,
       disable = function(_, bufnr)
-        local max_lines = 8000 -- Max 8000 lines will be rendered, else treesitter will be disabled
+        local big_file_constraints = require("settings").big_file
+
+        -- Check if number of lines exceed max
+        if vim.api.nvim_buf_line_count(bufnr) > big_file_constraints.line_count then
+          return true
+        end
+
         local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-        if
-          (ok and stats and stats.size > require("core.vars").max_filesize)
-          or vim.api.nvim_buf_line_count(bufnr) > max_lines
-        then
+        if ok and stats and stats.size > big_file_constraints.size_in_bytes then
           return true
         end
       end,
       additional_vim_regex_highlighting = false,
     },
-    indent = {
-      enable = false,
-    },
-    incremental_selection = {
-      enable = true,
-    },
-  })
+  }
+  require("nvim-treesitter.configs").setup(opts)
 
-  ---@diagnostic disable-next-line: missing-fields
-  require("nvim-treesitter.configs").setup({
-    textobjects = {
-      swap = {
-        enable = true,
-        swap_next = {
-          ["<leader>rpn"] = "@parameter.inner",
-        },
-        swap_previous = {
-          ["<leader>rpp"] = "@parameter.inner",
-        },
-      },
-    },
-  })
-
-  -- Prefer Git over HTTPS
-  require("nvim-treesitter.install").prefer_git = true
-
-  -- Specify parser for specific file patterns
   vim.treesitter.language.register("gotmpl", "template")
   vim.treesitter.language.register("python", "pyn")
 end
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  config = treesitter_config,
   event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
+  build = ":TSUpdate",
+  config = ts_setup,
 }
