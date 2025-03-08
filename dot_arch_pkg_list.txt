@@ -31,7 +31,7 @@ font-manager
 fzf
 geoclue
 git
-git-credential-manager-core-bin
+git-credential-manager
 git-delta
 github-cli
 gnome-bluetooth-3.0
@@ -43,7 +43,7 @@ htop
 hyprcursor-git
 hypridle-git
 hyprland
-hyprlock-git
+hyprlock
 hyprpicker
 inetutils
 jc
@@ -55,7 +55,6 @@ libinput-gestures
 libliftoff
 libnotify
 libpulse
-libva-mesa-driver
 libva-nvidia-driver
 libva-utils
 linux
@@ -64,7 +63,6 @@ llvm
 man-db
 man-pages
 mesa-utils
-mesa-vdpau
 meson
 miniconda3
 nemo
@@ -140,7 +138,7 @@ wlogout
 wmctrl
 xdg-desktop-portal-gtk
 xdg-desktop-portal-hyprland
-xdg-terminal-exec-git
+xdg-terminal-exec
 xdg-utils
 xdotool
 xf86-video-amdgpu
@@ -150,6 +148,7 @@ xorg-xinit
 xorg-xinput
 xorg-xwayland
 yay
+yay-debug
 youtube-music-bin
 yq
 zip
