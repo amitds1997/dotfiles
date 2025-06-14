@@ -116,4 +116,12 @@ return {
       require("kitty-scrollback").setup()
     end,
   },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufRead", "BufNewFile" },
+    opts = {
+      signcolumn = true,
+      numhl = true,
+    },
+  },
 }

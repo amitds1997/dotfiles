@@ -1,12 +1,12 @@
 # Number of CPUs to be allocated to the virtual machine.
 # Default: 2
-cpu: 6
+cpu: 8
 
 # Size of the disk in GiB to be allocated to the virtual machine.
 # NOTE: value can only be increased after virtual machine has been created.
 #
 # Default: 100
-disk: 60
+disk: 100
 
 # Size of the memory in GiB to be allocated to the virtual machine.
 # Default: 2
@@ -38,7 +38,7 @@ kubernetes:
   # Kubernetes version to use.
   # This needs to exactly match a k3s version https://github.com/k3s-io/k3s/releases
   # Default: latest stable release
-  version: v1.30.2+k3s1
+  version: v1.31.2+k3s1
   
   # Additional args to pass to k3s https://docs.k3s.io/cli/server
   # Default: traefik is disabled
@@ -57,7 +57,7 @@ network:
   # Assign reachable IP address to the virtual machine.
   # NOTE: this is currently macOS only and ignored on Linux.
   # Default: false
-  address: true
+  address: false
   
   # Custom DNS resolvers for the virtual machine.
   #
@@ -66,7 +66,8 @@ network:
   #
   # Default: []
   dns:
-    - 192.168.5.3
+    - 8.8.8.8
+    - 1.1.1.1
   
   # DNS hostnames to resolve to custom targets using the internal resolver.
   # This setting has no effect if a custom DNS resolver list is supplied above.
@@ -124,7 +125,7 @@ vmType: vz
 
 # Utilise rosetta for amd64 emulation (requires m1 mac and vmType `vz`)
 # Default: false
-rosetta: true
+rosetta: false
 
 # Enable nested virtualization for the virtual machine (requires m3 mac and vmType `vz`)
 # Default: false
@@ -175,7 +176,7 @@ provision: []
 # Modify ~/.ssh/config automatically to include a SSH config for the virtual machine.
 # SSH config will still be generated in $COLIMA_HOME/ssh_config regardless.
 # Default: true
-sshConfig: false
+sshConfig: true
 
 # The port number for the SSH server for the virtual machine.
 # When set to 0, a random available port is used.
