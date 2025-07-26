@@ -58,7 +58,6 @@ local lsp_config = function()
     "texlab",
     "helm_ls",
     "tailwindcss",
-    "volar",
   }
 
   local ensure_lsp_installed = {

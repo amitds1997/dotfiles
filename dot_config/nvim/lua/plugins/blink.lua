@@ -3,8 +3,11 @@ local kind_icons = require("constants").kind_icons
 return {
   "saghen/blink.cmp",
   event = "InsertEnter",
-  version = "*",
+  version = "1.*",
   dependencies = {
+    {
+      "giuxtaposition/blink-cmp-copilot",
+    },
     {
       -- Improves the rendered completion menu using treesitter
       "xzbdmw/colorful-menu.nvim",
@@ -111,6 +114,8 @@ return {
           if node:type() ~= "string" then
             table.insert(sources, "snippets")
           end
+
+          table.insert(sources, "copilot")
         end
 
         return sources
@@ -121,6 +126,13 @@ return {
           module = "lazydev.integrations.blink",
           -- Make lazydev completions top priority
           score_offset = 100,
+        },
+        copilot = {
+          name = "copilot",
+          module = "blink-cmp-copilot",
+          -- Another top priority so that it shows up on top
+          score_offset = 100,
+          async = true,
         },
         cmdline = {
           -- Ignore cmdline completion when executing shell commands

@@ -4,9 +4,9 @@
     "version": "LuaJIT"
   },
   "workspace": {
-    "checkThirdParty": false,
+    "checkThirdParty": false
   },
-    "diagnostics.globals": [
-        "Snacks"
-    ],
+  "diagnostics.globals": [
+    "Snacks"
+  ]
 }

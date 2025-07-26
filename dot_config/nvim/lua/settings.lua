@@ -6,8 +6,8 @@ return {
   ---@type boolean
   is_remote = vim.g.remote_neovim_host and true or false,
   colorscheme = {
-    ---@type "tokyonight"|"catppuccin"|"rose-pine"
-    name = "rose-pine",
+    ---@type "tokyonight"|"catppuccin"|"rose-pine"|"github-theme"
+    name = "github-theme",
     transparent_background = false,
   },
   meta_filetypes = {

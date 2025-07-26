@@ -85,6 +85,7 @@ local C = {
     StaticMethod = "󰰑 ",
     String = "󰅳 ",
     TypeAlias = " ",
+    Copilot = " ",
   },
   -- Provide pretty names to LSPs in the status line
   lsps = {
