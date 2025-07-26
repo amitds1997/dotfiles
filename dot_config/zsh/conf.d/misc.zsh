@@ -28,6 +28,7 @@ handle_mamba_setup ()
     else
         alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
     fi
+    alias mamba=micromamba
     unset __mamba_setup
 }
 
@@ -46,9 +47,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
     [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
-    handle_mamba_setup "/opt/homebrew"
-    mamba shell init --shell zsh --root-prefix=~/.local/share/mamba
-    # mamba shell init --shell zsh --root-prefix=~/micromamba
+    handle_mamba_setup "/opt/homebrew/opt/micromamba"
     # alias conda=micromamba
 
     # Handle architecture related docker issues
