@@ -32,6 +32,7 @@ local treesitter_parsers = {
   "regex",
   "requirements",
   "rust",
+  "scheme",
   "scala",
   "sql",
   "toml",
@@ -47,19 +48,9 @@ local function ts_setup()
     ensure_installed = treesitter_parsers,
     highlight = {
       enable = true,
-      -- disable = function(_, bufnr)
-      --   local big_file_constraints = require("settings").big_file
-      --
-      --   -- Check if number of lines exceed max
-      --   if vim.api.nvim_buf_line_count(bufnr) > big_file_constraints.line_count then
-      --     return true
-      --   end
-      --
-      --   local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
-      --   if ok and stats and stats.size > big_file_constraints.size_in_bytes then
-      --     return true
-      --   end
-      -- end,
+      disable = function(_, bufnr)
+        return vim.bo[bufnr].filetype == "bigfile"
+      end,
       additional_vim_regex_highlighting = false,
     },
   }

@@ -34,11 +34,6 @@ return {
       table.insert(newVirtText, { suffix, hlgroup })
       return newVirtText
     end,
-    preview = {
-      win_config = {
-        winblend = 0,
-      },
-    },
   },
   event = "VeryLazy",
   init = function()

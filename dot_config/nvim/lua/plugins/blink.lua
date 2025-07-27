@@ -1,10 +1,35 @@
-local kind_icons = require("constants").kind_icons
+local kind_icons = require("config.constants").kind_icons
 
 return {
   "saghen/blink.cmp",
   event = "InsertEnter",
   version = "1.*",
   dependencies = {
+    {
+      "zbirenbaum/copilot.lua",
+      cmd = "Copilot",
+      event = "InsertEnter",
+      config = function()
+        require("copilot").setup {
+          suggestion = { enabled = false },
+          panel = { enabled = false },
+        }
+
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "BlinkCmpMenuOpen",
+          callback = function()
+            vim.b.copilot_suggestion_hidden = true
+          end,
+        })
+
+        vim.api.nvim_create_autocmd("User", {
+          pattern = "BlinkCmpMenuClose",
+          callback = function()
+            vim.b.copilot_suggestion_hidden = false
+          end,
+        })
+      end,
+    },
     {
       "giuxtaposition/blink-cmp-copilot",
     },
@@ -25,6 +50,9 @@ return {
     },
   },
   opts = {
+    enabled = function()
+      return not vim.tbl_contains({ "bigfile" }, vim.bo.filetype)
+    end,
     keymap = {
       preset = "default",
     },
@@ -37,6 +65,7 @@ return {
         max_items = 10,
       },
       menu = {
+        winblend = 2,
         border = "rounded",
         auto_show = function(ctx)
           return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())

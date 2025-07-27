@@ -2,6 +2,7 @@ local function rose_pine_setup()
   local transparent_background = require("settings").colorscheme.transparent_background
 
   require("rose-pine").setup {
+    dark_variant = "main",
     dim_inactive_windows = not transparent_background,
     styles = {
       transparency = transparent_background,

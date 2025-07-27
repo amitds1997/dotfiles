@@ -1,5 +1,5 @@
 local function lspsaga_config()
-  require("lspsaga").setup({
+  require("lspsaga").setup {
     symbol_in_winbar = {
       enable = false,
       hide_keyword = true,
@@ -28,9 +28,9 @@ local function lspsaga_config()
       expand = " ",
       collapse = " ",
       lines = { "╰", "├", "│", "─", "╭" },
-      border = require("constants").border_styles.rounded,
+      border = "rounded",
     },
-  })
+  }
 end
 
 return {

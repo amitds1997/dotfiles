@@ -99,7 +99,7 @@ return {
       }
     end,
   },
-  { "folke/which-key.nvim" },
+  { "folke/which-key.nvim", opts = { win = { border = "rounded", wo = { winblend = 3 } } } },
   {
     -- Kitty scrollback
     "mikesmithgh/kitty-scrollback.nvim",

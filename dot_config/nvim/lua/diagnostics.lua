@@ -1,54 +1,80 @@
-local ns = vim.api.nvim_create_namespace "DiagnosticCurLine"
-
 -- We only show the diagnostic messages only on the current line but show signs in the statusline for all diagnostics.
 -- So, we have to set virtual_text to false to set our own extmarks.
-vim.diagnostic.config {
-  severity_sort = true,
-  signs = {
-    text = require("constants").diagnostics_icons,
-  },
-  virtual_text = false,
+local diagnostic_icons = require("config.constants").diagnostics_icons
+local special_sources = {
+  ["Lua Diagnostics."] = "lua",
+  ["Lua Syntax Check."] = "lua",
 }
 
-local function set_current_line_only_diagnostics(bufnr)
-  vim.api.nvim_create_autocmd({ "CursorMoved", "DiagnosticChanged" }, {
-    buffer = bufnr,
-    callback = function(args)
-      -- If the buffer is not the active buffer, no additional diagnostic decorations needed
-      if args.buf ~= vim.api.nvim_get_current_buf() then
-        return
-      end
+local severity_cache = {}
 
-      -- To generate the diagnostics:
-      -- 1. Remove any existing extmarks added in the buffer in the namespace
-      vim.api.nvim_buf_clear_namespace(args.buf, ns, 0, -1)
+local function get_level_and_hl(severity)
+  if severity_cache[severity] then
+    return unpack(severity_cache[severity])
+  end
 
-      -- 2. Get diagnostics for the current line
-      local curline = vim.api.nvim_win_get_cursor(0)[1]
-      local diagnostics = vim.diagnostic.get(args.buf, { lnum = curline - 1 })
+  local level = vim.diagnostic.severity[severity]
+  local hlgroup = "Diagnostic" .. level:gsub("^%l", string.upper)
 
-      -- 3. Generate the virtual text from the diagnostic message
-      local virt_texts = { { (" "):rep(4) } }
-      for _, diag in ipairs(diagnostics) do
-        local diag_level = vim.diagnostic.severity[diag.severity]
-        virt_texts[#virt_texts + 1] =
-          { (" "):rep(2) .. diag.message, "DiagnosticVirtualText" .. diag_level:sub(1, 1) .. diag_level:sub(2):lower() }
-      end
-
-      -- 4. If the buffer is still the current buffer, set the extmarks
-      if args.buf == vim.api.nvim_get_current_buf() then
-        vim.api.nvim_buf_set_extmark(args.buf, ns, curline - 1, 0, {
-          virt_text = virt_texts,
-          hl_mode = "combine",
-        })
-      end
-    end,
-  })
+  severity_cache[severity] = { level, hlgroup }
+  return level, hlgroup
 end
 
--- Show diagnostic messages only for the current line for an LSP-attached buffer
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(args)
-    set_current_line_only_diagnostics(args.buf)
-  end,
-})
+local function get_icon(level)
+  return diagnostic_icons[level] or ""
+end
+
+local function get_source(source)
+  return source and special_sources[source] or source
+end
+
+local function format_code(code)
+  return code and string.format(" [%s] ", code) or ""
+end
+
+vim.diagnostic.config {
+  severity_sort = true,
+  signs = false,
+  float = {
+    severity_sort = true,
+    prefix = function(diagnostic)
+      local level, hlgroup = get_level_and_hl(diagnostic.severity)
+      local source = get_source(diagnostic.source)
+      local icon = get_icon(level):gsub("%s+$", "")
+
+      if source then
+        return string.format(" %s %s: ", icon, source), hlgroup
+      end
+
+      return string.format(" %s", icon), hlgroup
+    end,
+    format = function(diagnostic)
+      return diagnostic.message
+    end,
+    suffix = function(diagnostic)
+      local _, hlgroup = get_level_and_hl(diagnostic.severity)
+      return format_code(diagnostic.code), hlgroup
+    end,
+  },
+  virtual_text = {
+    prefix = function(diagnostic)
+      local level, _ = get_level_and_hl(diagnostic.severity)
+      return " " .. get_icon(level)
+    end,
+    spacing = 2,
+    current_line = true,
+    format = function(diagnostic)
+      local message = diagnostic.message
+      local source = get_source(diagnostic.source)
+
+      if diagnostic.source then
+        message = string.format("%s: %s", source, message)
+      end
+
+      return message .. " "
+    end,
+    suffix = function(diagnostic)
+      return format_code(diagnostic.code)
+    end,
+  },
+}

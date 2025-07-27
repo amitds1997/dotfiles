@@ -1,134 +1,127 @@
 local o, g = vim.opt, vim.g
 
--- Disable loading extra providers
+------------------------------------------
+-- 🚀 Performance & Startup
+------------------------------------------
+-- Disable unused providers and plugins to speed up launch time.
 g.loaded_python3_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 g.loaded_node_provider = 0
+g.loaded_netrw = 1 -- Do not load netrw plugin
 
-o.history = 2000 -- History retains last n cmdline and search commands
-o.ruler = true -- Need no ruler
-o.swapfile = false -- Do not need swap files
-o.mouse = "a" -- Enable mouse control for all modes
-o.number = true -- Show line number
-o.relativenumber = true -- Show relative numbers
-o.hidden = true -- Hide buffers instead of closing them when switching to another
-o.showmode = false -- Do not show messages on last line; this is anyway disabled by cmdheight
-o.cmdheight = 0 -- Hide command bar when not used
-o.showtabline = 1 -- Only if there are two or more tab pages
-o.signcolumn = "yes" -- Show sign column
-o.shortmess = "costlFACTIO" -- Avoid hit-enter file prompts
-o.fcs = "eob: " -- Hide the ~ character at the end of buffer
-o.termguicolors = true -- Enable 24-bit colors
-o.laststatus = 0 -- We disable statusline here. It gets overriden by lualine
-o.autoread = true -- Automatically read changes in file if they happen outside Neovim
-o.errorbells = false -- No error bells please
-o.clipboard = "unnamedplus" -- Use "unnamedplus" register for copy-paste things
-o.undofile = true -- Save undo tree to a file
-o.virtualedit = "block" -- Allow virtual editing in visual block mode
+------------------------------------------
+-- ⚙️ General Behavior
+------------------------------------------
+o.history = 2000 -- Command line history size
+o.swapfile = false -- Do not create swap files
+o.updatetime = 500 -- Faster update time for plugins and events
+o.timeout = true -- Use timeout for mapped key sequences
+o.timeoutlen = 300 -- Time in ms to wait for a mapped sequence to complete
+o.autowrite = true -- Automatically write files when switching buffers
+o.autowriteall = true -- Same as above, but for more commands
 
--- Set mapped key sequence timeouts
-o.timeout = true
-o.timeoutlen = 300
-
--- Show invisible characters like tab, end of line spaces, etc.
-o.list = true
-o.listchars = "tab:» ,nbsp:+,trail:·,extends:→,precedes:←"
-
--- Window options
-o.winwidth = 30 -- Minimum columns per window
-o.winblend = 0 -- Needed to create transparent windows
-
--- Fold options
-o.foldlevel = 99 -- Start with no folds
-o.foldlevelstart = 99 -- Start with no folds
-o.foldnestmax = 10 -- Deepest fold is 10 levels
-o.foldenable = true -- Don't fold by default
-o.foldcolumn = "1" -- Do not show fold column
-
--- Tab control
-o.expandtab = true -- Expand <Tab> into spaces
-o.smarttab = true -- <Tab> respects 'tabstop', 'shiftwidth', and 'softtabstop'
-o.softtabstop = 2 -- Number of spaces <Tab> counts for in editing operations
-o.tabstop = 2 -- <Tab> counts for 2 spaces
-
--- Indent options
-o.autoindent = true
-o.smartindent = true
-o.shiftwidth = 2 -- Number of spaces for each step of (auto) indent
-o.shiftround = true -- Round indent to a multiple of 'shiftwidth'
-o.breakindent = true -- Wrapped lines indent visually aligned
-o.breakindentopt = "min:20,sbr"
-o.smoothscroll = true -- Turn on smooth scrolling
-
--- Show matching brace
-o.showmatch = true -- Briefly jump to the matching bracket
-o.matchtime = 2 -- Show it for (n/10)th of a second
-
--- Enable spellcheck
-o.spell = false -- Disable spellchecking (we can toggle this using <leader>cs keymap)
-o.spelllang = "en_us" -- Use US English for completions
-o.spelloptions = "camel" -- In camel-cased words, each camel case denotes a new word
-o.spellfile = vim.fs.joinpath(vim.fn.stdpath "config", "spell", "en.utf-8.add")
-
--- Split behavior
-o.splitbelow = true -- If horizontal, split below
-o.splitright = true -- If vertical, split right
-o.splitkeep = "cursor" -- Keep the same relative cursor position
-
--- Command line completions
-o.wildmenu = true -- Give me completions on command-line
-o.wildignorecase = true -- Ignore case when completing file names and directories
-o.wildoptions = "fuzzy,pum" -- Fuzzy match completions
-
--- Completions
-o.completeopt = { "menu", "menuone", "noselect" } -- Completion menu style
-
--- Keep my cursor away from the end
-o.scrolloff = 4 -- Stay 4 lines away from top-bottom border
-o.sidescrolloff = 8 -- Stay 8 characters away from left-right border
-
--- Search and substitute options
-o.hlsearch = true
-o.incsearch = true
-o.ignorecase = true -- Ignore case when searching
-o.smartcase = true -- Follow ignore case unless there is a capital, then case-sensitive
-o.tagcase = "followscs" -- When searching tag files, follow smartcase
-o.inccommand = "split" -- Show substitutions in a partial off-window
-
--- Wrapping options
-o.wrap = true
-o.showbreak = "↪" -- String at start of warped lines
-o.linebreak = true -- Do soft wrapping instead of hard wrapping
-
--- Pop-up menu options
-o.pumblend = 0 -- Needed for pseudo-transparency
-o.pumheight = 10 -- Show 10 items in the pop-up menu
-
--- Cursor line options
-o.cursorline = true
-o.cursorlineopt = "both"
-
+------------------------------------------
+-- ✨ UI & Appearance
+------------------------------------------
+o.termguicolors = true -- Enable 24-bit RGB colors
+o.number = true -- Show line numbers
+o.relativenumber = true -- Show relative line numbers
+o.signcolumn = "yes" -- Always show the sign column
+o.cursorline = true -- Highlight the current line
+o.cursorlineopt = "both" -- Highlight both the screen line and the line number
+o.laststatus = 3 -- Use a global statusline
+o.showtabline = 1 -- Show tabline only when there are at least 2 tabs
+o.cmdheight = 0 -- Hide the command bar
+o.ruler = true -- Show the ruler
+o.showmode = false -- Don't show the current mode (e.g., -- INSERT --)
+o.pumheight = 10 -- Pop-up menu height
+o.pumblend = 2 -- Transparency for the pop-up menu
+o.winblend = 0 -- Transparency for floating windows
+o.scrolloff = 4 -- Keep 4 lines visible above/below the cursor
+o.sidescrolloff = 8 -- Keep 8 columns visible left/right of the cursor
+o.list = true -- Show invisible characters
+o.listchars = { tab = "•·❯", trail = "·", extends = "→", precedes = "←", nbsp = "␣" }
+o.showmatch = true -- Briefly jump to matching brackets
+o.matchtime = 2 -- Show match for 0.2 seconds
+o.concealcursor = "nc" -- Conceal text in normal and command modes
 o.fillchars = {
-  eob = " ",
+  eob = " ", -- Character for end of buffer
   foldopen = "󰅀",
   foldclose = "󰅂",
   fold = " ",
   foldsep = " ",
 }
-o.backup = false -- Don't store backup while overwriting the file
-o.writebackup = false -- Don't store backup while overwriting the file
+-- Shorten messages to keep the UI clean.
+o.shortmess:append {
+  c = true,
+  o = true,
+  s = true,
+  t = true,
+  F = true,
+  A = true,
+  C = true,
+  T = true,
+  O = true,
+  I = true,
+  l = true,
+}
 
-o.autowrite = true
-o.autowriteall = true
+------------------------------------------
+-- 📁 Folding
+------------------------------------------
+o.foldenable = true -- Enable folding
+o.foldlevel = 99 -- Start with all folds open
+o.foldlevelstart = 99 -- Folds are open when you open a file
+o.foldnestmax = 10 -- Maximum nesting of folds
+o.foldcolumn = "1" -- Show a 1-character wide fold column
 
--- If we have rg installed, use rg to grep
+------------------------------------------
+-- 🔍 Search & Completion
+------------------------------------------
+o.hlsearch = true -- Highlight all matches on search
+o.incsearch = true -- Show search results as you type
+o.ignorecase = true -- Ignore case in search patterns
+o.smartcase = true -- Override 'ignorecase' if the search pattern contains uppercase letters
+o.inccommand = "split" -- Show substitution results in a preview window
+o.tagcase = "followscs" -- When searching tag files, follow smartcase
+o.wildmenu = true -- Visual autocomplete for command-line
+o.wildignorecase = true -- Ignore case when completing file names
+o.wildoptions = "fuzzy,pum" -- Use fuzzy matching and a popup menu for completion
+o.completeopt = { "menu", "menuone", "noselect" } -- Set completion options
+
+------------------------------------------
+-- 🖥️ Window & Split Management
+------------------------------------------
+o.splitbelow = true -- A horizontal split creates a new window below the current one
+o.splitright = true -- A vertical split creates a new window to the right
+o.splitkeep = "cursor" -- Keep the cursor in the same relative position
+o.equalalways = true -- Windows are always resized to be equal
+
+------------------------------------------
+-- ✍️ Spellcheck
+------------------------------------------
+o.spell = false
+o.spelllang = "en_us"
+o.spelloptions = "camel" -- Treat parts of camelCase words as separate words
+o.spellfile = vim.fs.joinpath(vim.fn.stdpath "config", "spell", "en.utf-8.add")
+
+------------------------------------------
+-- 📋 System Integration & Files
+------------------------------------------
+o.clipboard = "unnamedplus" -- Use system clipboard for copy/paste
+o.errorbells = false -- No beeping
+o.hidden = true -- Allow hidden buffers
+o.backup = false -- Don't store backup files
+o.writebackup = false -- Don't store backup files
+
+-- Use ripgrep for searching if it's available.
 if vim.fn.executable "rg" == 1 then
-  o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
   o.grepprg = "rg --vimgrep --no-heading --smart-case"
+  o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 end
 
--- Handle clipboard copy over SSH
+-- Handle clipboard copy over SSH using OSC 52 protocol.
 if vim.g.remote_neovim_host then
   print "Executing SSH OSC52 clipboard"
   vim.g.clipboard = {
@@ -144,21 +137,35 @@ if vim.g.remote_neovim_host then
   }
 end
 
--- Remove padding around Neovim in terminal when background is not transparent
-if not require("settings").colorscheme.transparent_background then
-  vim.api.nvim_create_autocmd({ "UIEnter", "ColorScheme" }, {
-    callback = function()
-      local normal = vim.api.nvim_get_hl(0, { name = "Normal" })
-      if not normal.bg then
-        return
-      end
-      io.write(string.format("\027]11;#%06x\027\\", normal.bg))
-    end,
-  })
+------------------------------------------
+-- 📝 Text Editing & Indentation
+------------------------------------------
+o.expandtab = true -- Use spaces instead of tabs
+o.tabstop = 2 -- Number of spaces a <Tab> in a file counts for
+o.softtabstop = 2 -- Number of spaces to insert for a <Tab>
+o.autoindent = true -- Copy indent from the current line when starting a new line
+o.shiftwidth = 2 -- Number of spaces for each step of (auto)indent
+o.breakindentopt = "min:20,sbr"
+o.smartindent = true -- Be smart about indentation
+o.wrap = true -- Wrap long lines
+o.mouse = "a" -- Enable mouse support in all modes
 
-  vim.api.nvim_create_autocmd("UILeave", {
-    callback = function()
-      io.write "\027]111\027\\"
-    end,
-  })
-end
+------------------------------------------
+-- ⏳ Deferred (Lazy-Loaded) Options
+------------------------------------------
+-- These options are expensive and are set only after plugins have loaded
+-- (triggered by the "VeryLazy" event) to ensure a fast startup.
+vim.api.nvim_create_autocmd("User", {
+  pattern = "VeryLazy",
+  callback = function()
+    o.linebreak = true -- Wrap lines at convenient points (e.g., after a word)
+    o.showbreak = "↪ " -- Character to show at the start of wrapped lines
+    o.autoread = true -- Automatically reload files when changed on disk
+    o.smoothscroll = true -- Enable smooth scrolling
+    o.conceallevel = 2 -- Hide markup characters (e.g., in Markdown)
+    o.undofile = true -- Persist undo history across sessions
+    o.breakindent = true -- Wrapped lines maintain indentation
+    o.shiftround = true -- Round indent to a multiple of 'shiftwidth'
+    o.virtualedit = "block" -- Allow the cursor to move where there is no text
+  end,
+})

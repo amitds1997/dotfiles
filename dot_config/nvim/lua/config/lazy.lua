@@ -18,13 +18,11 @@ vim.opt.rtp:prepend(lazy_path)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Configure lazy.nvim = package manager
-
--- local lazy_opts = {}
+-- Lazy.nvim = package manager
 local lazy_opts = {
-  -- defaults = {
-  --   lazy = true,
-  -- },
+  defaults = {
+    lazy = true,
+  },
   dev = {
     path = vim.fs.joinpath(vim.env.HOME, "personal", "nvim-plugins"),
     fallback = true,

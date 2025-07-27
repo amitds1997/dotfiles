@@ -1,5 +1,9 @@
-require "config.lazy"
+--- Order is important
+require "config.filetype"
 require "config.options"
-require "autocmds"
+--- Order is over, now we party
+
+require "config.lazy"
+require "config.autocmds"
 require "diagnostics"
 require "keymaps"

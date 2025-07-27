@@ -3,11 +3,6 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
-    bigfile = {
-      enabled = true,
-      size = require("settings").big_file.size_in_bytes,
-      line_length = require("settings").big_file.line_count,
-    },
     indent = {
       enabled = true,
       filter = function(buf)
