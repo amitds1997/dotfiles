@@ -4,5 +4,4 @@
 --glob=!.git/
 
 # Search smartly
---ignore-case
 --smart-case
