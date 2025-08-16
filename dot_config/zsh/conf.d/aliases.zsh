@@ -11,3 +11,6 @@ alias ga="git add"
 alias gp="git push"
 alias gd="git diff"
 alias gw="git worktree"
+
+# We use `eza` instead of `ls`
+alias ls="eza --icons"
