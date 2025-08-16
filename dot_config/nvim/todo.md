@@ -116,6 +116,7 @@
 - Fix `terminal` and normal buffer easy switching
 - Fix Copilot not starting correctly at all times? In a buffer where it's running,
   run `Copilot disable` followed by enable and it would still not show up :(
+- Add formatter for markdown that takes care of splitting lines at the right spot
 - Might we be interested in toggling breadcrumbs in the statusline?
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
