@@ -13,6 +13,7 @@
 - `yazi` - New terminal based file manager
 - `euporie` - Terminal-based `jupyter` notebook
 - `eza` - New-world `ls` alternative
+- `pv` - Pipe viewer; view more stuff
 
 ## ToDo list
 

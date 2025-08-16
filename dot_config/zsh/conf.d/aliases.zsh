@@ -16,3 +16,7 @@ alias gw="git worktree"
 alias ls="eza --icons"
 alias lgit="lazygit"
 alias ldoc="lazydocker"
+
+if [[ $(uname) == "Darwin" ]]; then
+  alias brew_dump="brew bundle dump --force --file=${XDG_CONFIG_HOME}/brew/Brewfile"
+fi
