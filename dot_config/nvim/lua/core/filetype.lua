@@ -5,6 +5,7 @@ vim.filetype.add {
     es6 = "javascript",
     mts = "javascript",
     cts = "javascript",
+    gotmpl = "gotmpl",
   },
   filename = {
     [".eslintrc"] = "json",
@@ -13,10 +14,15 @@ vim.filetype.add {
     [".stylelintrc"] = "json",
   },
   pattern = {
-    [".env.*"] = "sh",
+    [".env.*"] = "envfile",
     [".*/hypr/.*%.conf"] = "hyprlang",
     ["tsconfig*.json"] = "jsonc",
     [".*/%.vscode/.*%.json"] = "jsonc",
+    [".*/.github/workflows/.*%.yml"] = "yaml.ghaction",
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+
     -- Mark all files bigger than 500 KB as "bigfile"
     [".*"] = function(path, buf)
       if not path or not buf or vim.bo[buf].filetype == "bigfile" then

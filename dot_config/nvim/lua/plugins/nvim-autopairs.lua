@@ -1,18 +1,23 @@
+---@module 'lazy'
+---@type LazyPluginSpec
 return {
   "windwp/nvim-autopairs",
   event = "InsertEnter",
   config = function()
-    local npairs = require "nvim-autopairs"
+    local nvim_pairs = require "nvim-autopairs"
     local Rule = require "nvim-autopairs.rule"
     local conds = require "nvim-autopairs.conds"
 
-    npairs.setup {
-      disable_filetype = require("settings").meta_filetypes,
+    local disabled_filetypes = vim.deepcopy(require("settings").meta_filetypes)
+    table.insert(disabled_filetypes, "markdown")
+
+    nvim_pairs.setup {
+      disable_filetype = disabled_filetypes,
       check_ts = true,
     }
 
     -- Handle "<>"
-    npairs.add_rule(Rule("<", ">", {
+    nvim_pairs.add_rule(Rule("<", ">", {
       "-html",
       "-javascriptreact",
       "-typescriptreact",
@@ -22,7 +27,7 @@ return {
 
     -- Move past commas and semicolons
     for _, punct in pairs { ",", ";" } do
-      npairs.add_rules {
+      nvim_pairs.add_rules {
         Rule("", punct)
           :with_move(function(opts)
             return opts.char == punct

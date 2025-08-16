@@ -6,8 +6,8 @@ return {
   ---@type boolean
   is_remote = vim.g.remote_neovim_host and true or false,
   colorscheme = {
-    ---@type "tokyonight"|"catppuccin"|"rose-pine"|"github-theme"
-    name = "tokyonight",
+    ---@type "catppuccin"|"github-theme"|"kanso"
+    name = "kanso",
     transparent_background = false,
   },
   meta_filetypes = {
@@ -15,10 +15,18 @@ return {
     "PlenaryTestPopup",
     "TelescopePrompt",
     "checkhealth",
+    "dap-view",
+    "dap-float",
+    "dap-view-help",
+    "dap-view-term",
+    "dap-repl",
     "dbout",
     "gitcommit",
     "gitrebase",
     "gitsigns-blame",
+    "kitty-scrollback",
+    "man",
+    "codecompanion",
     "help",
     "hgcommit",
     "lspinfo",
@@ -31,6 +39,8 @@ return {
     "oil",
     "prompt",
     "qf",
+    "lazy",
+    "OverseerList",
     "query",
     "sagafinder",
     "sagarename",

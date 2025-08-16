@@ -3,12 +3,10 @@ local o, g = vim.opt, vim.g
 ------------------------------------------
 -- 🚀 Performance & Startup
 ------------------------------------------
--- Disable unused providers and plugins to speed up launch time.
 g.loaded_python3_provider = 0
 g.loaded_perl_provider = 0
 g.loaded_ruby_provider = 0
 g.loaded_node_provider = 0
-g.loaded_netrw = 1 -- Do not load netrw plugin
 
 ------------------------------------------
 -- ⚙️ General Behavior
@@ -30,7 +28,9 @@ o.relativenumber = true -- Show relative line numbers
 o.signcolumn = "yes" -- Always show the sign column
 o.cursorline = true -- Highlight the current line
 o.cursorlineopt = "both" -- Highlight both the screen line and the line number
+o.conceallevel = 2 -- Hide markup characters (e.g., in Markdown)
 o.laststatus = 3 -- Use a global statusline
+o.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]] -- Ensure snacks are available :)
 o.showtabline = 1 -- Show tabline only when there are at least 2 tabs
 o.cmdheight = 0 -- Hide the command bar
 o.ruler = true -- Show the ruler
@@ -44,15 +44,13 @@ o.list = true -- Show invisible characters
 o.listchars = { tab = "•·❯", trail = "·", extends = "→", precedes = "←", nbsp = "␣" }
 o.showmatch = true -- Briefly jump to matching brackets
 o.matchtime = 2 -- Show match for 0.2 seconds
-o.concealcursor = "nc" -- Conceal text in normal and command modes
 o.fillchars = {
   eob = " ", -- Character for end of buffer
-  foldopen = "󰅀",
-  foldclose = "󰅂",
+  foldopen = "",
+  foldclose = "",
   fold = " ",
   foldsep = " ",
 }
--- Shorten messages to keep the UI clean.
 o.shortmess:append {
   c = true,
   o = true,
@@ -162,10 +160,10 @@ vim.api.nvim_create_autocmd("User", {
     o.showbreak = "↪ " -- Character to show at the start of wrapped lines
     o.autoread = true -- Automatically reload files when changed on disk
     o.smoothscroll = true -- Enable smooth scrolling
-    o.conceallevel = 2 -- Hide markup characters (e.g., in Markdown)
     o.undofile = true -- Persist undo history across sessions
     o.breakindent = true -- Wrapped lines maintain indentation
     o.shiftround = true -- Round indent to a multiple of 'shiftwidth'
     o.virtualedit = "block" -- Allow the cursor to move where there is no text
+    o.winborder = "rounded" -- Round borders for all windows
   end,
 })

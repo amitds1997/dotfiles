@@ -3,6 +3,25 @@ local function catppuccin_setup()
 
   require("catppuccin").setup {
     transparent_background = transparent_background,
+    float = {
+      transparent = true,
+      solid = true,
+    },
+    integrations = {
+      blink_cmp = {
+        style = "bordered",
+      },
+    },
+    custom_highlights = function(colors)
+      return {
+        CursorLineNr = { link = "CursorLine" },
+        CursorLineSign = { link = "CursorLine" },
+        BlinkCmpMenu = { bg = colors.base },
+        BlinkCmpMenuBorder = { bg = colors.base },
+        BlinkCmpDoc = { bg = colors.base },
+        BlinkCmpDocBorder = { bg = colors.base },
+      }
+    end,
   }
   vim.cmd.colorscheme "catppuccin"
 end

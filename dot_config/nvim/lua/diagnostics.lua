@@ -1,6 +1,7 @@
 -- We only show the diagnostic messages only on the current line but show signs in the statusline for all diagnostics.
 -- So, we have to set virtual_text to false to set our own extmarks.
-local diagnostic_icons = require("config.constants").diagnostics_icons
+local diagnostic_icons = require("core.constants").diagnostics_icons
+local keymap = require("core.utils").set_keymap
 local special_sources = {
   ["Lua Diagnostics."] = "lua",
   ["Lua Syntax Check."] = "lua",
@@ -8,16 +9,17 @@ local special_sources = {
 
 local severity_cache = {}
 
+---@param severity vim.diagnostic.Severity
 local function get_level_and_hl(severity)
   if severity_cache[severity] then
     return unpack(severity_cache[severity])
   end
 
   local level = vim.diagnostic.severity[severity]
-  local hlgroup = "Diagnostic" .. level:gsub("^%l", string.upper)
+  local hl_group = "Diagnostic" .. level:gsub("^%l", string.upper)
 
-  severity_cache[severity] = { level, hlgroup }
-  return level, hlgroup
+  severity_cache[severity] = { level, hl_group }
+  return level, hl_group
 end
 
 local function get_icon(level)
@@ -38,22 +40,22 @@ vim.diagnostic.config {
   float = {
     severity_sort = true,
     prefix = function(diagnostic)
-      local level, hlgroup = get_level_and_hl(diagnostic.severity)
+      local level, hl_group = get_level_and_hl(diagnostic.severity)
       local source = get_source(diagnostic.source)
       local icon = get_icon(level):gsub("%s+$", "")
 
       if source then
-        return string.format(" %s %s: ", icon, source), hlgroup
+        return string.format(" %s %s: ", icon, source), hl_group
       end
 
-      return string.format(" %s", icon), hlgroup
+      return string.format(" %s", icon), hl_group
     end,
     format = function(diagnostic)
       return diagnostic.message
     end,
     suffix = function(diagnostic)
-      local _, hlgroup = get_level_and_hl(diagnostic.severity)
-      return format_code(diagnostic.code), hlgroup
+      local _, hl_group = get_level_and_hl(diagnostic.severity)
+      return format_code(diagnostic.code), hl_group
     end,
   },
   virtual_text = {
@@ -78,3 +80,30 @@ vim.diagnostic.config {
     end,
   },
 }
+
+keymap("<leader>xc", function()
+  vim.diagnostic.open_float {
+    scope = "cursor",
+  }
+end, "Get cursor position diagnostics")
+keymap("<leader>xl", function()
+  vim.diagnostic.open_float {
+    scope = "line",
+  }
+end, "Get line diagnostics")
+keymap("<leader>xb", function()
+  vim.diagnostic.setloclist()
+end, "Get buffer diagnostics")
+keymap("<leader>xw", function()
+  vim.diagnostic.setqflist()
+end, "Get workspace diagnostics")
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = require("settings").meta_filetypes,
+  desc = "Disable diagnostics for meta-filetypes",
+  callback = function(ev)
+    vim.diagnostic.enable(false, {
+      bufnr = ev.buf,
+    })
+  end,
+})

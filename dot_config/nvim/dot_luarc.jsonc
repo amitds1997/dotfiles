@@ -4,9 +4,7 @@
     "version": "LuaJIT"
   },
   "workspace": {
-    "checkThirdParty": false
-  },
-  "diagnostics.globals": [
-    "Snacks"
-  ]
+    "checkThirdParty": false,
+    "libraries": ["$VIMRUNTIME/lua", "${3rd}/luv/library"]
+  }
 }

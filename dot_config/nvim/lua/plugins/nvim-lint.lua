@@ -1,65 +1,82 @@
 local function run_lint()
-  -- Use nvim-lint's logic first:
-  -- * checks if linters exist for the full filetype first
-  -- * otherwise will split filetype by "." and add all those linters
-  -- * this differs from conform.nvim which only uses the first filetype that has a formatter
+  -- We want to apply all linters on a file
+  -- 1. Apply applicable filetype linters on the file
+  -- 2. If there are any universal linters, try those too
   local lint = require "lint"
-  local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+  local filetype_linters = lint._resolve_linter_by_ft(vim.bo.filetype)
 
-  -- Add fallback linters.
-  if #names == 0 then
-    vim.list_extend(names, lint.linters_by_ft["_"] or {})
+  local applicable_linters = vim.list_extend({}, filetype_linters)
+
+  -- If no linter is available, the negative linters are applicable if available
+  if #applicable_linters == 0 then
+    vim.list_extend(applicable_linters, lint.linters_by_ft["_"] or {})
   end
 
-  -- Add global linters.
-  vim.list_extend(names, lint.linters_by_ft["*"] or {})
+  -- Add universal linters into applicable_linters
+  vim.list_extend(applicable_linters, lint.linters_by_ft["*"] or {})
 
-  -- Filter out linters that don't exist or don't match the condition.
-  local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-  ctx.dirname = vim.fn.fnamemodify(ctx.filename, ":h")
-  names = vim.tbl_filter(function(name)
-    local linter = lint.linters[name]
-    if not linter then
-      vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" })
-    end
-    ---@diagnostic disable-next-line: undefined-field
-    return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
-  end, names)
-
-  -- Run linters.
-  if #names > 0 then
-    lint.try_lint(names)
+  if #applicable_linters > 0 then
+    lint.try_lint(applicable_linters)
   end
 end
 
-local function nvim_lint_setup(_, opts)
-  local lint = require "lint"
-  lint.linters_by_ft = opts.linters_by_ft
-  local U = require "utils"
-
-  vim.api.nvim_create_autocmd(opts.events, {
-    group = U.create_augroup "nvim-lint",
-    callback = U.debounce(100, run_lint),
-  })
-end
-
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
-  "mfussenegger/nvim-lint",
-  event = { "BufReadPost", "BufNewFile", "BufWritePost" },
-  opts = {
-    events = { "BufWritePost", "BufReadPost", "InsertLeave" },
-    linters_by_ft = {
-      lua = { "selene" },
-      python = { "vulture" },
-      markdown = { "markdownlint" },
-      sh = { "shellcheck" },
-      dockerfile = { "hadolint" },
-      json = { "jsonlint" },
-      go = { "golangcilint" },
-      sql = { "sqlfluff" },
-      yaml = { "yamllint" },
-      css = { "stylelint" },
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+    opts = {
+      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+      linters_by_ft = {
+        css = { "stylelint" },
+        dockerfile = { "hadolint" },
+        go = { "golangcilint" },
+        make = { "checkmake" },
+        json = { "jsonlint" },
+        lua = { "selene" },
+        markdown = { "markdownlint" },
+        python = { "bandit", "vulture" },
+        sh = { "shellcheck" },
+        sql = { "sqlfluff" },
+        yaml = { "yamllint", "yq" },
+        envfile = { "dotenv_linter" },
+        ["yaml.ghaction"] = { "actionlint" },
+      },
+    },
+    config = function(_, opts)
+      local lint = require "lint"
+
+      lint.linters_by_ft = opts.linters_by_ft
+      local U = require "core.utils"
+
+      vim.api.nvim_create_autocmd(opts.events, {
+        group = U.create_augroup "linter",
+        desc = "Run linter on the buffer",
+        callback = U.debounce(100, run_lint),
+      })
+    end,
+  },
+  {
+    "mason-org/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "dotenv-linter",
+        "bandit",
+        "actionlint",
+        "golangci-lint",
+        -- "hadolint", -- FIX: Until this is fixed: https://github.com/mason-org/mason.nvim/issues/1865
+        "jsonlint",
+        "markdownlint",
+        "selene",
+        "shellcheck",
+        "sqlfluff",
+        "stylelint",
+        "vulture",
+        "yamllint",
+        "yq",
+        "checkmake",
+      },
     },
   },
-  config = nvim_lint_setup,
 }

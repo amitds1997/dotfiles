@@ -1,41 +1,70 @@
+local fold_virt_text_handler = function(virt_text, lnum, end_lnum, width, truncate)
+  local new_virt_text = {}
+  local suffix = string.format("   %s lines", end_lnum - lnum)
+  local suffix_length = vim.fn.strdisplaywidth(suffix)
+  local target_width = width - suffix_length
+  local curr_width = 0
+  for _, chunk in ipairs(virt_text) do
+    local chunk_text = chunk[1]
+    local chunk_length = vim.fn.strdisplaywidth(chunk_text)
+    if target_width > curr_width + chunk_length then
+      table.insert(new_virt_text, chunk)
+    else
+      chunk_text = truncate(chunk_text, target_width - curr_width)
+      local hl_group = chunk[2]
+      table.insert(new_virt_text, { chunk_text, hl_group })
+      chunk_length = vim.fn.strdisplaywidth(chunk_text)
+      if curr_width + chunk_length < target_width then
+        suffix = suffix .. (" "):rep(target_width - curr_width - chunk_length)
+      end
+      break
+    end
+    curr_width = curr_width + chunk_length
+  end
+  table.insert(new_virt_text, { suffix, "MoreMsg" })
+  return new_virt_text
+end
+
+local function custom_selector(bufnr)
+  local function handle_fallback_provider(err, providerName)
+    if type(err) == "string" and err:match "UfoFallbackException" then
+      return require("ufo").getFolds(bufnr, providerName)
+    else
+      return require("promise").reject(err)
+    end
+  end
+
+  return require("ufo")
+    .getFolds(bufnr, "lsp")
+    :catch(function(err)
+      return handle_fallback_provider(err, "treesitter")
+    end)
+    :catch(function(err)
+      return handle_fallback_provider(err, "indent")
+    end)
+end
+
+---@module 'lazy'
+---@type LazyPluginSpec
 return {
   "kevinhwang91/nvim-ufo",
+  ---@type UfoConfig
   opts = {
     provider_selector = function(_, _, _)
-      return { "treesitter", "indent" }
+      return custom_selector
     end,
     close_fold_kinds_for_ft = {
-      default = { "imports", "comment" },
+      ---@diagnostic disable-next-line: assign-type-mismatch
+      default = { "import", "import_statement", "comment" },
     },
-    fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-      local hlgroup = "NonText"
-      local newVirtText = {}
-      local suffix = "   " .. tostring(endLnum - lnum)
-      local sufWidth = vim.fn.strdisplaywidth(suffix)
-      local targetWidth = width - sufWidth
-      local curWidth = 0
-      for _, chunk in ipairs(virtText) do
-        local chunkText = chunk[1]
-        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-        if targetWidth > curWidth + chunkWidth then
-          table.insert(newVirtText, chunk)
-        else
-          chunkText = truncate(chunkText, targetWidth - curWidth)
-          local hlGroup = chunk[2]
-          table.insert(newVirtText, { chunkText, hlGroup })
-          chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if curWidth + chunkWidth < targetWidth then
-            suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
-          end
-          break
-        end
-        curWidth = curWidth + chunkWidth
-      end
-      table.insert(newVirtText, { suffix, hlgroup })
-      return newVirtText
-    end,
+    fold_virt_text_handler = fold_virt_text_handler,
+    preview = {
+      win_config = {
+        winblend = 0,
+      },
+    },
   },
-  event = "VeryLazy",
+  event = "BufRead",
   init = function()
     vim.keymap.set("n", "zR", function()
       require("ufo").openAllFolds()
@@ -49,20 +78,5 @@ return {
   end,
   dependencies = {
     "kevinhwang91/promise-async",
-    {
-      "luukvbaal/statuscol.nvim",
-      event = { "VeryLazy" },
-      config = function()
-        local builtin = require "statuscol.builtin"
-        require("statuscol").setup {
-          -- relculright = true,
-          segments = {
-            { text = { "%s" } },
-            { text = { builtin.lnumfunc, " " }, click = "v:lua.ScLa" },
-            { text = { builtin.foldfunc, " " }, condition = { true, builtin.not_empty }, click = "v:lua.ScFa" },
-          },
-        }
-      end,
-    },
   },
 }

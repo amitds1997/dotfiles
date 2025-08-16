@@ -1,6 +1,4 @@
-local create_augroup = function(name)
-  return vim.api.nvim_create_augroup("amitds1997/core/" .. name, { clear = true })
-end
+local create_augroup = require("core.utils").create_augroup
 
 -- Remove padding around Neovim in terminal when background is not transparent
 if not require("settings").colorscheme.transparent_background then
@@ -34,6 +32,15 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", function()
+      local wins = vim.api.nvim_list_wins()
+      -- Kitty scrollback creates a small float window at the top right to show nice icons
+      -- Normal pager scenarios should not suffer from this
+      if (#wins == 1) or (#wins == 2 and vim.bo[event.buf].filetype == "kitty-scrollback") then
+        vim.cmd "quit"
+        return
+      else
+        print(#wins)
+      end
       vim.cmd "close"
       pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
     end, { buffer = event.buf, silent = true, desc = "Quit buffer" })
@@ -103,12 +110,69 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
--- Fix conceallevel for JSON files
 vim.api.nvim_create_autocmd("FileType", {
   group = create_augroup "json_conceal",
   pattern = { "json", "jsonc", "json5" },
   callback = function()
-    vim.opt_local.conceallevel = 2
+    vim.opt_local.conceallevel = 0
+  end,
+})
+
+-- Show cursor line only in active window
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+  group = create_augroup "auto_cursorline_show",
+  callback = function(event)
+    if vim.bo[event.buf].buftype == "" then
+      vim.opt_local.cursorline = true
+    end
+  end,
+})
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+  group = create_augroup "auto_cursorline_hide",
+  callback = function()
+    vim.opt_local.cursorline = false
+  end,
+})
+
+-- Display a warning when the current file is not in UTF-8 format
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+  pattern = "*",
+  group = create_augroup "non_utf8_file",
+  callback = function()
+    if not vim.tbl_contains({ "utf-8", "" }, vim.bo.fileencoding) then
+      vim.notify("File not in UTF-8 format!", vim.log.levels.WARN, { title = "UTF-8 Warning" })
+    end
+  end,
+})
+
+-- Remember folds for files
+local auto_view_group = create_augroup "auto_view"
+vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
+  group = auto_view_group,
+  desc = "Save view with mkview for real files",
+  callback = function(args)
+    if vim.b[args.buf].view_activated then
+      vim.cmd.mkview { mods = { emsg_silent = true } }
+    end
+  end,
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = auto_view_group,
+  desc = "Try to load file view if available and enable view saving for real files",
+  callback = function(args)
+    if not vim.b[args.buf].view_activated then
+      local filetype = vim.api.nvim_get_option_value("filetype", { buf = args.buf })
+      local buftype = vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+      if
+        buftype == ""
+        and filetype
+        and filetype ~= ""
+        and not vim.tbl_contains(require("settings").meta_filetypes, filetype)
+      then
+        vim.b[args.buf].view_activated = true
+        vim.cmd.loadview { mods = { emsg_silent = true } }
+      end
+    end
   end,
 })
 
@@ -150,8 +214,8 @@ vim.api.nvim_create_autocmd("LspProgress", {
     vim.notify(table.concat(msg, "\n"), vim.log.levels.INFO, {
       id = "lsp_progress",
       title = client.name,
-      opts = function(notif)
-        notif.icon = #progress[client.id] == 0 and " "
+      opts = function(notification)
+        notification.icon = #progress[client.id] == 0 and " "
           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
       end,
     })

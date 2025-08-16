@@ -2,7 +2,6 @@ return {
   disabled_plugins = {
     "gzip",
     "matchit",
-    "matchparen",
     "netrwPlugin",
     "rplugin",
     "tarPlugin",
@@ -20,7 +19,7 @@ return {
     Collapsed = " ",
     Color = " ",
     Component = "󰅴 ",
-    Constant = "󰏿 ",
+    Constant = "󰏿",
     Constructor = " ",
     Control = " ",
     Copilot = " ",
@@ -54,9 +53,9 @@ return {
     Text = " ",
     TypeAlias = " ",
     TypeParameter = " ",
-    Unit = " ",
+    Unit = "",
     Value = "󰎠 ",
-    Variable = "󰀫 ",
+    Variable = "󰀫",
   },
   -- Provide pretty names to LSPs in the status line
   lsps = {
@@ -75,11 +74,19 @@ return {
     yamlls = { name = "YAML LS", priority = 20 },
     cssls = { name = "CSS LS", priority = 20 },
     rust_analyzer = { name = "Rust LS", priority = 20 },
+    LSP = { name = "LSP", priority = 0 },
   },
   diagnostics_icons = {
     ERROR = "󰅚 ",
     WARN = "󰗖 ",
     INFO = " ",
     HINT = " ",
+  },
+  dap = {
+    Stopped = { " ▷", "DiagnosticWarn", "DapStoppedLine" },
+    Breakpoint = { "🞊", "DiagnosticError" },
+    BreakpointCondition = { "", "DiagnosticInfo" },
+    BreakpointRejected = { "", "DiagnosticWarn" },
+    LogPoint = "",
   },
 }

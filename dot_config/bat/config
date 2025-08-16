@@ -1,0 +1,14 @@
+--theme="base16-256"
+# --theme-dark="ansi"
+
+# Enable this to use italic text on the terminal. This is not supported on all
+# terminal emulators (like tmux, by default):
+--italic-text=always
+
+# Uncomment the following line to disable automatic paging:
+#--paging=never
+--style=numbers
+
+# Syntax mappings: map a certain filename pattern to a language.
+--map-syntax "*.ino:C++"
+--map-syntax ".ignore:Git Ignore"

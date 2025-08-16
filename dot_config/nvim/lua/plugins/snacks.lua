@@ -1,28 +1,77 @@
+--- Get an icon from `nvim-web-devicons`.
+local function icon_from_nvim_web_devicons(name, cat, opts)
+  opts = opts or {}
+  opts.fallback = opts.fallback or {}
+  if cat == "directory" then
+    return opts.fallback.dir or "󰉋 ", "Directory"
+  end
+  local Icons = require "nvim-web-devicons"
+  local icon, hl ---@type string?, string?
+  if cat == "filetype" then
+    icon, hl = Icons.get_icon_by_filetype(name, { default = false })
+  elseif cat == "file" then
+    local ext = name:match "%.(%w+)$"
+    icon, hl = Icons.get_icon(name, ext, { default = false })
+  elseif cat == "extension" then
+    icon, hl = Icons.get_icon(nil, name, { default = false })
+  end
+  if icon then
+    return icon, hl
+  end
+  return opts.fallback.file or " "
+end
+
+---@module 'lazy'
+---@type LazyPluginSpec
 return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
   opts = {
+    win = {
+      backdrop = 100,
+    },
     indent = {
-      enabled = true,
+      indent = {
+        enabled = false,
+      },
+      scope = {
+        only_current = true,
+      },
+      chunk = {
+        enabled = true,
+        char = {
+          corner_top = "╭",
+          corner_bottom = "╰",
+          arrow = "",
+        },
+        only_current = true,
+      },
+      animate = {
+        easing = "inOutQuad",
+      },
       filter = function(buf)
         return vim.g.snacks_indent ~= false
           and vim.b[buf].snacks_indent ~= false
-          and not vim.tbl_contains(require("settings").meta_filetypes, vim.bo[buf].buftype)
+          and vim.tbl_contains(require("settings").meta_filetypes, vim.bo[buf].buftype)
       end,
     },
     input = { enabled = true },
-    notifier = { enabled = true },
-    quickfile = { enabled = true },
-    scope = { enabled = true },
+    lazygit = { enabled = true },
+    notifier = {
+      enabled = true,
+    },
+    scratch = { enabled = true },
     scroll = {
       enabled = true,
       animate = {
         easing = "inOutQuad",
       },
     },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
+    picker = {
+      enabled = true,
+    },
+    statuscolumn = { enabled = true, folds = { open = true, git_hl = true } },
     toggle = {
       icon = {
         enabled = "󰨚 ",
@@ -34,34 +83,60 @@ return {
       },
     },
   },
+  config = function(_, opts)
+    require("snacks").setup(opts)
+  end,
   keys = {
+    {
+      "<leader>pb",
+      function()
+        require("snacks").picker.buffers { nofile = false }
+      end,
+      desc = "Pick buffers",
+    },
     {
       "<leader>pf",
       function()
-        require("snacks").picker.files()
+        require("snacks").picker.files {
+          hidden = true,
+        }
       end,
-      desc = "Find files",
+      desc = "Pick files",
+    },
+    {
+      "<leader>pF",
+      function()
+        require("snacks").picker.git_files()
+      end,
+      desc = "Search git-tracked files",
+    },
+    {
+      "<leader>pg",
+      function()
+        require("snacks").picker.grep()
+      end,
+      desc = "Search content in all files",
+    },
+    {
+      "<leader>pG",
+      function()
+        require("snacks").picker.git_grep()
+      end,
+      desc = "Search content only in git-tracked files",
+    },
+    {
+      "<leader>pp",
+      function()
+        require("snacks").picker()
+      end,
+      desc = "Pick picker",
     },
     {
       "<leader>pr",
       function()
-        require("snacks").picker.recent()
+        require("snacks").picker.resume()
       end,
-      desc = "Find recent files",
-    },
-    {
-      "<leader>pn",
-      function()
-        require("snacks").picker.notifications()
-      end,
-      desc = "Notification history",
-    },
-    {
-      "<leader>pc",
-      function()
-        require("snacks").picker.colorschemes()
-      end,
-      desc = "Colorschemes",
+      desc = "Resume from the last picker action",
     },
     {
       "<leader>ps",
@@ -71,32 +146,11 @@ return {
       desc = "Smart find files",
     },
     {
-      "<leader>p/",
-      function()
-        require("snacks").picker.grep()
-      end,
-      desc = "Grep",
-    },
-    {
-      "<leader>p?",
-      function()
-        require("snacks").picker.grep_buffers()
-      end,
-      desc = "Grep open buffers",
-    },
-    {
       "<leader>pz",
       function()
-        require("snacks").zen()
+        require("snacks").picker.zoxide()
       end,
-      desc = "Toggle Zen Mode",
-    },
-    {
-      "<leader>pZ",
-      function()
-        require("snacks").zen.zoom()
-      end,
-      desc = "Toggle Zen Mode",
+      desc = "Open zoxide-based directory",
     },
     -- Histories
     {
@@ -127,123 +181,146 @@ return {
       end,
       desc = "Undo history",
     },
-    -- Git
+    -- Extras
     {
-      "<leader>pgw",
-      function()
-        require("snacks").picker.git_browse()
-      end,
-      desc = "Git browse",
-      mode = { "n", "v" },
-    },
-    {
-      "<leader>pgf",
-      function()
-        require("snacks").picker.git_files()
-      end,
-      desc = "Find Git files",
-    },
-    {
-      "<leader>pgb",
-      function()
-        require("snacks").picker.git_branches()
-      end,
-      desc = "Find Git branches",
-    },
-    {
-      "<leader>pgd",
-      function()
-        require("snacks").picker.git_diff()
-      end,
-      desc = "Git Diff (Hunks)",
-    },
-    {
-      "<leader>pgl",
-      function()
-        require("snacks").picker.git_log()
-      end,
-      desc = "Git Log",
-    },
-    {
-      "<leader>pgL",
-      function()
-        require("snacks").picker.git_log_line()
-      end,
-      desc = "Git Log Line",
-    },
-    {
-      "<leader>pgs",
-      function()
-        require("snacks").picker.git_status()
-      end,
-      desc = "Git Status",
-    },
-    {
-      "<leader>pgS",
-      function()
-        require("snacks").picker.git_stash()
-      end,
-      desc = "Git Stash",
-    },
-    {
-      "<leader>pgF",
-      function()
-        require("snacks").picker.git_log_file()
-      end,
-      desc = "Git Log File",
-    },
-    {
-      "<leader>pgg",
+      "<leader>eg",
       function()
         require("snacks").lazygit()
       end,
-      desc = "Open Lazygit",
+      desc = "Lazygit",
     },
-    -- Open Neovim News
     {
-      "<leader>N",
+      "<leader>ez",
       function()
-        require("snacks").win {
-          file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
-          width = 0.6,
-          height = 0.6,
-          wo = {
-            spell = false,
-            wrap = false,
-            signcolumn = "yes",
-            statuscolumn = " ",
-            conceallevel = 3,
-          },
+        require("lazy").home()
+      end,
+      desc = "Package Manager",
+    },
+    {
+      "<leader>em",
+      function()
+        vim.cmd "Mason"
+      end,
+      desc = "Mason",
+    },
+    -- Git browse
+    {
+      "<leader>gob",
+      function()
+        require("snacks").gitbrowse.open {
+          what = "branch",
         }
       end,
-      desc = "Neovim News",
+      desc = "Git branch",
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>goc",
+      function()
+        require("snacks").gitbrowse.open {
+          what = "commit",
+        }
+      end,
+      desc = "Git commit",
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>gor",
+      function()
+        require("snacks").gitbrowse.open {
+          what = "repo",
+        }
+      end,
+      desc = "Git repo",
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>gof",
+      function()
+        require("snacks").gitbrowse.open {
+          what = "file",
+        }
+      end,
+      desc = "Git file",
+      mode = { "n", "v" },
+    },
+    {
+      "<leader>gop",
+      function()
+        require("snacks").gitbrowse.open {
+          what = "permalink",
+          open = function(url)
+            vim.fn.setreg("+", url)
+            vim.ui.open(url)
+          end,
+        }
+      end,
+      desc = "Git permalink",
+      mode = { "n", "v" },
     },
   },
   init = function()
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
       callback = function()
-        -- Setup globals for debugging
         local debug_print = function(...)
           require("snacks").debug.inspect(...)
         end
         vim.print = debug_print
-
-        require("snacks").toggle.option("spell", { name = "Spelling" }):map "<leader>ts"
-        require("snacks").toggle.option("wrap", { name = "Wrap" }):map "<leader>tw"
-        require("snacks").toggle
-          .option("background", { off = "light", on = "dark", name = "Dark background" })
-          :map "<leader>tb"
-        require("snacks").toggle.option("relativenumber", { name = "Relative Line numbering" }):map "<leader>tL"
-        require("snacks").toggle.line_number():map "<leader>tl"
-        require("snacks").toggle
-          .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" })
-          :map "<leader>tc"
-        require("snacks").toggle.treesitter():map "<leader>tT"
-        require("snacks").toggle.inlay_hints():map "<leader>th"
-        require("snacks").toggle.indent():map "<leader>tg"
-        require("snacks").toggle.dim():map "<leader>tD"
       end,
     })
+
+    local Snacks = require "snacks"
+
+    Snacks.toggle.inlay_hints():map "<leader>th"
+    Snacks.toggle.line_number():map "<leader>tl"
+    Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map "<leader>tr"
+    Snacks.toggle.option("wrap", { name = "Wrap" }):map "<leader>tw"
+    Snacks.toggle.option("spell", { name = "Spelling" }):map "<leader>ts"
+    Snacks.toggle.diagnostics():map "<leader>td"
+    Snacks.toggle.zen():map "<leader>tz"
+    Snacks.toggle
+      .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+      :map "<leader>tc"
+    Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map "<leader>tb"
+    vim.keymap.set("n", "<leader>tt", Snacks.terminal.toggle, {
+      desc = "Toggle terminal",
+    })
+    vim.keymap.set("n", "<leader>tk", function()
+      require("screenkey").toggle()
+    end, { desc = "Toggle screenkey" })
+
+    Snacks.toggle
+      .new({
+        id = "global-autoformat",
+        name = "global autoformat",
+        get = function()
+          return vim.g.autoformat
+        end,
+        set = function()
+          vim.g.autoformat = not vim.g.autoformat
+        end,
+      })
+      :map "<leader>tf"
+
+    Snacks.toggle
+      .new({
+        id = "codelens",
+        name = "codelens",
+        get = function()
+          return vim.g.codelens
+        end,
+        set = function(state)
+          vim.g.codelens = state
+          if vim.g.codelens then
+            vim.lsp.codelens.refresh()
+          else
+            vim.lsp.codelens.clear()
+          end
+        end,
+      })
+      :map "<leader>tL"
+
+    Snacks.util.icon = icon_from_nvim_web_devicons
   end,
 }

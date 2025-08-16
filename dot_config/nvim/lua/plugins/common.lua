@@ -1,34 +1,8 @@
 local meta_file_types = require("settings").meta_filetypes
-local color_highlight_fts = { "cfg", "lua", "css", "scss", "conf" }
 
+---@module 'lazy'
+---@type LazyPluginSpec[]
 return {
-  {
-    -- Removes search highlights once we move away from it
-    "nvimdev/hlsearch.nvim",
-    event = "BufRead",
-    config = true,
-  },
-  {
-    -- Highlight matching paranthesis
-    "utilyre/sentiment.nvim",
-    version = "*",
-    event = "BufReadPost",
-    config = true,
-  },
-  {
-    -- Highlight word under cursor semantically
-    "RRethy/vim-illuminate",
-    event = "BufReadPost",
-    config = function()
-      require("illuminate").configure {
-        providers = {
-          "lsp",
-          "treesitter",
-        },
-        filetypes_denylist = meta_file_types,
-      }
-    end,
-  },
   {
     -- Guess and set correct indent levels based on file
     "nmac427/guess-indent.nvim",
@@ -37,69 +11,6 @@ return {
       buftype_exclude = meta_file_types,
     },
   },
-  {
-    -- Show marks visually and improve functionalities
-    "chentoast/marks.nvim",
-    event = "BufReadPost",
-    config = true,
-  },
-  {
-    "uga-rosa/ccc.nvim",
-    ft = color_highlight_fts,
-    cmd = "CccPick",
-    opts = function()
-      local ccc = require "ccc"
-
-      ccc.output.hex.setup { uppercase = true }
-      ccc.output.hex_short.setup { uppercase = true }
-
-      return {
-        highlighter = {
-          auto_enable = true,
-          filetypes = color_highlight_fts,
-          lsp = false,
-        },
-      }
-    end,
-  },
-  {
-    "nvim-tree/nvim-web-devicons",
-    dependencies = {
-      "yamatsum/nvim-nonicons",
-    },
-    lazy = true,
-    config = function()
-      -- Define mappings: nvim-nonicons name => nvim-web-devicons name
-      local icon_mappings = {
-        python = { "ipynb", "py", "pyd", "pyi", "pyo", "pyx", "py.typed" },
-        lua = { "lua" },
-        markdown = { "rmd" },
-      }
-
-      local icon_map = {}
-      for icon_name, file_type_lst in pairs(icon_mappings) do
-        for _, filetype in ipairs(file_type_lst) do
-          icon_map[filetype] = icon_name
-        end
-      end
-
-      local all_icons = require("nvim-web-devicons").get_icons()
-      local nonicons = require "nvim-nonicons.mapping"
-
-      local user_icons = {}
-      for key, val in pairs(all_icons) do
-        if nonicons[key] ~= nil or icon_map[key] ~= nil then
-          user_icons[key] = val
-          user_icons[key]["icon"] = require("nvim-nonicons").get(icon_map[key] or key)
-        end
-      end
-
-      require("nvim-web-devicons").setup {
-        override = user_icons,
-      }
-    end,
-  },
-  { "folke/which-key.nvim", opts = { win = { border = "rounded", wo = { winblend = 3 } } } },
   {
     -- Kitty scrollback
     "mikesmithgh/kitty-scrollback.nvim",
@@ -119,9 +30,86 @@ return {
   {
     "lewis6991/gitsigns.nvim",
     event = { "BufRead", "BufNewFile" },
+    cmd = "Gitsigns",
     opts = {
       signcolumn = true,
       numhl = true,
+      on_attach = function(bufnr)
+        local gitsigns = require "gitsigns"
+
+        local function map(mode, l, r, desc, opts)
+          opts = opts or {}
+          opts.buffer = bufnr
+          opts.desc = desc
+          vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map("n", "]c", function()
+          if vim.wo.diff then
+            vim.cmd.normal { "]c", bang = true }
+          else
+            ---@diagnostic disable-next-line: param-type-mismatch
+            gitsigns.nav_hunk "next"
+          end
+        end, "Next change")
+
+        map("n", "[c", function()
+          if vim.wo.diff then
+            vim.cmd.normal { "[c", bang = true }
+          else
+            ---@diagnostic disable-next-line: param-type-mismatch
+            gitsigns.nav_hunk "prev"
+          end
+        end, "Prev change")
+
+        -- Actions
+        map("n", "<leader>gs", gitsigns.stage_hunk, "Stage hunk")
+        map("n", "<leader>gr", gitsigns.reset_hunk, "Reset hunk")
+
+        map("v", "<leader>gs", function()
+          gitsigns.stage_hunk { vim.fn.line ".", vim.fn.line "v" }
+        end, "Stage hunk")
+
+        map("v", "<leader>gr", function()
+          gitsigns.reset_hunk { vim.fn.line ".", vim.fn.line "v" }
+        end, "Reset hunk")
+
+        map("n", "<leader>gS", gitsigns.stage_buffer, "Stage buffer")
+        map("n", "<leader>gR", gitsigns.reset_buffer, "Reset buffer")
+        map("n", "<leader>gp", gitsigns.preview_hunk, "Preview hunk")
+        map("n", "<leader>gi", gitsigns.preview_hunk_inline, "Preview hunk (inline)")
+
+        -- Toggles
+        map("n", "<leader>gb", gitsigns.toggle_current_line_blame, "Toggle current line blame")
+        map("n", "<leader>tw", gitsigns.toggle_word_diff, "Toggle word diff")
+
+        -- Text object
+        map({ "o", "x" }, "ih", gitsigns.select_hunk, "Select hunk")
+      end,
+    },
+  },
+  {
+    "nvim-tree/nvim-web-devicons",
+    dependencies = { { "mskelton/termicons.nvim", build = false } },
+    config = function()
+      require("termicons").setup()
+    end,
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    ft = "qf",
+    opts = {
+      preview = {
+        winblend = 0,
+        should_preview_cb = function(bufnr, _)
+          if vim.api.nvim_get_option_value("filetype", { buf = bufnr }) == "bigfile" then
+            return false
+          end
+
+          return true
+        end,
+      },
     },
   },
 }

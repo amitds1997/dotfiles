@@ -1,29 +1,35 @@
-local treesitter_parsers = {
+local ts_parsers = {
   "bash",
   "c",
+  "comment",
   "cpp",
+  "css",
   "csv",
   "diff",
   "dockerfile",
   "editorconfig",
   "git_config",
   "git_rebase",
+  "gitattributes",
   "gitcommit",
   "gitignore",
   "go",
   "gomod",
   "gosum",
   "gotmpl",
-  "gowork",
   "helm",
   "html",
+  "http",
   "hyprlang",
   "ini",
   "javascript",
+  "java",
   "json",
   "json5",
   "jsonc",
+  "just",
   "lua",
+  "luadoc",
   "make",
   "markdown",
   "markdown_inline",
@@ -32,20 +38,26 @@ local treesitter_parsers = {
   "regex",
   "requirements",
   "rust",
-  "scheme",
   "scala",
+  "scheme",
   "sql",
+  "ssh_config",
+  "terraform",
   "toml",
   "typescript",
-  "vim",
   "vimdoc",
   "xml",
   "yaml",
 }
 
-local function ts_setup()
-  local opts = {
-    ensure_installed = treesitter_parsers,
+---@module 'lazy'
+---@type LazyPluginSpec
+return {
+  "nvim-treesitter/nvim-treesitter",
+  event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
+  build = ":TSUpdate",
+  opts = {
+    ensure_installed = ts_parsers,
     highlight = {
       enable = true,
       disable = function(_, bufnr)
@@ -53,16 +65,11 @@ local function ts_setup()
       end,
       additional_vim_regex_highlighting = false,
     },
-  }
-  require("nvim-treesitter.configs").setup(opts)
+  },
+  config = function(_, opts)
+    require("nvim-treesitter.configs").setup(opts)
 
-  vim.treesitter.language.register("gotmpl", "template")
-  vim.treesitter.language.register("python", "pyn")
-end
-
-return {
-  "nvim-treesitter/nvim-treesitter",
-  event = { "BufReadPost", "BufNewFile", "CmdlineEnter" },
-  build = ":TSUpdate",
-  config = ts_setup,
+    vim.treesitter.language.register("gotmpl", "template")
+    vim.treesitter.language.register("python", "pyn")
+  end,
 }

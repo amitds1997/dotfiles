@@ -1,88 +1,50 @@
-local kind_icons = require("config.constants").kind_icons
-
+---@module 'lazy'
+---@type LazyPluginSpec
 return {
   "saghen/blink.cmp",
-  event = "InsertEnter",
-  version = "1.*",
+  event = { "InsertEnter", "CmdlineEnter" },
+  build = "cargo +nightly build --release",
   dependencies = {
+    "xzbdmw/colorful-menu.nvim",
+    "fang2hou/blink-copilot",
     {
-      "zbirenbaum/copilot.lua",
-      cmd = "Copilot",
-      event = "InsertEnter",
-      config = function()
-        require("copilot").setup {
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-        }
-
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "BlinkCmpMenuOpen",
-          callback = function()
-            vim.b.copilot_suggestion_hidden = true
-          end,
-        })
-
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "BlinkCmpMenuClose",
-          callback = function()
-            vim.b.copilot_suggestion_hidden = false
+      "folke/lazydev.nvim",
+      ft = "lua",
+      config = function(_, opts)
+        require("lazydev").setup(opts)
+        vim.lsp.config("lua_ls", {
+          root_dir = function(bufnr, on_dir)
+            on_dir(require("lazydev").find_workspace(bufnr))
           end,
         })
       end,
     },
-    {
-      "giuxtaposition/blink-cmp-copilot",
-    },
-    {
-      -- Improves the rendered completion menu using treesitter
-      "xzbdmw/colorful-menu.nvim",
-      config = true,
-    },
-    {
-      "folke/lazydev.nvim",
-      ft = "lua",
-      opts = {
-        library = {
-          -- Load luvit types when the `vim.uv` word is detected
-          { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        },
-      },
-    },
   },
+  ---@type blink.cmp.Config
   opts = {
     enabled = function()
       return not vim.tbl_contains({ "bigfile" }, vim.bo.filetype)
     end,
-    keymap = {
-      preset = "default",
+    cmdline = {
+      completion = {
+        menu = {
+          auto_show = function()
+            return vim.fn.getcmdtype() == ":"
+          end,
+        },
+      },
     },
     completion = {
       ghost_text = {
-        enabled = true,
-      },
-      list = {
-        selection = { preselect = false, auto_insert = true },
-        max_items = 10,
+        enabled = false,
       },
       menu = {
-        winblend = 2,
-        border = "rounded",
-        auto_show = function(ctx)
-          return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
-        end,
+        scrollbar = false,
         draw = {
+          treesitter = { "lsp" },
           columns = { { "kind_icon" }, { "label", gap = 1 } },
           components = {
-            label = {
-              text = function(ctx)
-                return require("colorful-menu").blink_components_text(ctx)
-              end,
-              highlight = function(ctx)
-                return require("colorful-menu").blink_components_highlight(ctx)
-              end,
-            },
             kind_icon = {
-              ellipsis = false,
               text = function(ctx)
                 local icon = ctx.kind_icon
                 if vim.tbl_contains({ "Path" }, ctx.source_name) then
@@ -91,18 +53,12 @@ return {
                     icon = dev_icon
                   end
                 else
-                  icon = kind_icons[ctx.kind] or kind_icons.Text
+                  icon = require("core.constants").kind_icons[ctx.kind]
                 end
-
                 return icon .. ctx.icon_gap
               end,
-
-              -- Optionally, use the highlight groups from nvim-web-devicons
-              -- You can also add the same function for `kind.highlight` if you want to
-              -- keep the highlight groups in sync with the icons.
               highlight = function(ctx)
-                local hl = "BlinkCmpKind" .. ctx.kind
-                  or require("blink.cmp.completion.windows.render.tailwind").get_hl(ctx)
+                local hl = ctx.kind_hl
                 if vim.tbl_contains({ "Path" }, ctx.source_name) then
                   local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
                   if dev_icon then
@@ -112,39 +68,49 @@ return {
                 return hl
               end,
             },
+            label = {
+              text = function(ctx)
+                return require("colorful-menu").blink_components_text(ctx)
+              end,
+              highlight = function(ctx)
+                return require("colorful-menu").blink_components_highlight(ctx)
+              end,
+            },
           },
         },
       },
-      documentation = {
-        auto_show = true,
-        window = { border = "rounded" },
+      list = {
+        selection = { preselect = false, auto_insert = true },
+        max_items = 50,
       },
+      documentation = { auto_show = true, window = { scrollbar = false } },
     },
-    signature = { enabled = true, window = { border = "rounded" } },
-    cmdline = { enabled = true },
+    signature = { enabled = true, window = { winblend = 0, scrollbar = false } },
+    appearance = {
+      -- TODO: Remove these once https://github.com/projekt0n/github-nvim-theme/pull/370 is merged
+      use_nvim_cmp_as_default = true,
+      nerd_font_variant = "mono",
+      kind_icons = require("core.constants").kind_icons,
+    },
     sources = {
       min_keyword_length = function(ctx)
         -- Only applies when typing a command, doesn't apply to arguments
-        if ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil then
-          return 2
+        if (ctx.mode == "cmdline" and string.find(ctx.line, " ") == nil) or vim.bo.filetype == "markdown" then
+          return 1
         end
         return 0
       end,
       default = function()
-        local sources = { "lazydev", "lsp", "buffer" }
-        local success, node = pcall(vim.treesitter.get_node)
+        local sources = { "lazydev", "lsp", "buffer", "copilot" }
+        local ok, node = pcall(vim.treesitter.get_node)
 
-        if success and node then
+        if ok and node then
           if not vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type()) then
             table.insert(sources, "path")
-          else
-            return { "buffer" }
           end
           if node:type() ~= "string" then
             table.insert(sources, "snippets")
           end
-
-          table.insert(sources, "copilot")
         end
 
         return sources
@@ -153,32 +119,27 @@ return {
         lazydev = {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
-          -- Make lazydev completions top priority
           score_offset = 100,
         },
         copilot = {
           name = "copilot",
-          module = "blink-cmp-copilot",
-          -- Another top priority so that it shows up on top
+          module = "blink-copilot",
           score_offset = 100,
           async = true,
-        },
-        cmdline = {
-          -- Ignore cmdline completion when executing shell commands
-          enabled = function()
-            return vim.fn.getcmdtype() ~= ":" or not vim.fn.getcmdline():match "^[%%0-9,'<>%-]*!"
-          end,
-        },
-        buffer = {
           opts = {
-            get_bufnrs = function()
-              return vim.tbl_filter(function(bufnr)
-                return vim.bo[bufnr].buftype == ""
-              end, vim.api.nvim_list_bufs())
-            end,
+            max_completions = 3,
+            max_items = 2,
+            max_attempts = 4,
           },
         },
       },
     },
   },
+  config = function(_, opts)
+    require("blink.cmp").setup(opts)
+
+    vim.lsp.config("*", {
+      capabilities = require("blink.cmp").get_lsp_capabilities({}, true),
+    })
+  end,
 }
