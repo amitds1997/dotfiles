@@ -1,3 +1,30 @@
+{{ if eq .chezmoi.os "darwin" -}}
+Include /Users/amitsingh/.config/colima/ssh_config
+
+Host homelab
+  HostName 192.168.1.222
+  User amitsingh
+  IdentityFile ~/.ssh/homelab-key
+
+Host *.studio.sagemaker
+  IdentityFile ~/.ssh/%h
+  PasswordAuthentication no
+  ConnectTimeout 120
+  ServerAliveInterval 15
+  ServerAliveCountMax 8
+  ProxyCommand bash -c 'source ~/remote-sagemaker-venv/bin/activate && exec sm-ssh start-proxy %h'
+  User sagemaker-user
+
+Host *.*.sagemaker
+  IdentityFile ~/.ssh/%h
+  PasswordAuthentication no
+  ConnectTimeout 120
+  ServerAliveInterval 15
+  ServerAliveCountMax 8
+  ProxyCommand bash -c 'source ~/remote-sagemaker-venv/bin/activate && exec sm-ssh start-proxy %h'
+  User root
+{{- end }}
+
 Host *
   AddKeysToAgent yes
 {{- if eq .chezmoi.os "darwin" }}
