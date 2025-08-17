@@ -14,7 +14,7 @@ alias gw="git worktree"
 
 # We use `eza` instead of `ls`
 alias ls="eza --icons"
-alias lgit="lazygit"
+alias lg="lazygit"
 alias ldoc="lazydocker"
 
 if [[ $(uname) == "Darwin" ]]; then

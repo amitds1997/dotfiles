@@ -1,5 +1,6 @@
 ---
-notARepository: quit
+notARepository: skip
+quitOnTopLevelReturn: true
 gui:
   showBottomLine: false
   showRandomTip: false
@@ -59,3 +60,8 @@ os:
   editPreset: nvim
   editInTerminal: true
 promptToReturnFromSubprocess: false
+customCommands:
+  - key: "R"
+    context: "files"
+    description: "Re-add all things changed in tracked dotfiles"
+    command: "chezmoi re-add"

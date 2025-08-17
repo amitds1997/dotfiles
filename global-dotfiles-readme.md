@@ -17,6 +17,10 @@
 
 ## ToDo list
 
+### Blocked
+
+1. Automatic theme setting on both [`delta`][3] and [`lazygit`][4] together
+
 ### Pending
 
 1. In `kitty`, set up top tab page using Python script to handle stuff nicely.
@@ -48,3 +52,5 @@
 
 [1]: https://github.com/megalithic/dotfiles/blob/main/config/kitty/tab_bar.py
 [2]: https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.startup_session
+[3]: https://github.com/dandavison/delta/issues/1968
+[4]: https://github.com/jesseduffield/lazygit/issues/4366
