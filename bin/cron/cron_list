@@ -1,1 +1,0 @@
-22 13,16,20 * * * ./bin/cron/24h-updates.sh >/dev/null 2>&1

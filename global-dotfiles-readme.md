@@ -24,18 +24,19 @@
 
 ### Pending
 
+1. Update our configuration for chezmoi
 1. Setup `yazi` and `lazydocker`
-2. Add `chezmoi` command to automatically loop over all paths and add any missing
+1. Add `chezmoi` command to automatically loop over all paths and add any missing
    files as and when needed
-3. Setup `1pass` and `bitwarden` workflows
-4. Test out `crush` vs `elia`, `harlequin`
-5. In `kitty`, set up top tab page using Python script to handle stuff nicely.
+1. Setup `1pass` and `bitwarden` workflows
+1. In `kitty`, set up top tab page using Python script to handle stuff nicely.
    See: [megalithic/dotfiles][1]
-6. In `kitty`, set up [startup session][2]
-7. Test `ghostty` terminal
-8. A database and AI Chat tool
-9. better history management
-10. Find ways to use fingerprint and passkeys more
+1. In `kitty`, set up [startup session][2]. I guess we want:
+   a. One tab dedicated to `dotfiles`
+1. Test `ghostty` terminal
+1. A database and AI Chat tool
+1. better history management
+1. Find ways to use fingerprint and passkeys more
 
 ### Under review
 
@@ -44,7 +45,9 @@
 
 ### Done
 
-1. Setup a process to set a bunch of files/directories in an order to VLC (in
+1. Test out `harlequin` — Did not like it, did not have enough features to spend
+   more time there
+2. Setup a process to set a bunch of files/directories in an order to VLC (in
    future, maybe another app)
 
    ```bash
