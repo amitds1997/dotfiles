@@ -20,17 +20,18 @@
 ### Blocked
 
 1. Automatic theme setting on both [`delta`][3] and [`lazygit`][4] together
+2. `ast-grep` seems useful but did not find any use case (or workflow) for it
 
 ### Pending
 
-1. In `kitty`, set up top tab page using Python script to handle stuff nicely.
-   See: [megalithic/dotfiles][1]
-2. In `kitty`, set up [startup session][2]
-3. Setup `k9s`, `yazi` and `lazydocker`
-4. Add `chezmoi` command to automatically loop over all paths and add any missing
+1. Setup `yazi` and `lazydocker`
+2. Add `chezmoi` command to automatically loop over all paths and add any missing
    files as and when needed
-5. Setup `1pass` and `bitwarden` workflows
-6. Test out `stronghold`, `ast-grep`, `crush` vs `elia`, `harlequin`
+3. Setup `1pass` and `bitwarden` workflows
+4. Test out `crush` vs `elia`, `harlequin`
+5. In `kitty`, set up top tab page using Python script to handle stuff nicely.
+   See: [megalithic/dotfiles][1]
+6. In `kitty`, set up [startup session][2]
 7. Test `ghostty` terminal
 8. A database and AI Chat tool
 9. better history management
