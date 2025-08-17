@@ -26,8 +26,16 @@
 4. Add `chezmoi` command to automatically loop over all paths and add any missing
    files as and when needed
 5. Setup `1pass` and `bitwarden` workflows
-6. Setup a clipboard manager
-7. Setup `raycast`
+6. Test out `stronghold`, `ast-grep`, `crush` vs `elia`, `harlequin`
+7. Test `ghostty` terminal
+8. A database and AI Chat tool
+9. better history management
+10. Find ways to use fingerprint and passkeys more
+
+### Under review
+
+1. Setup a clipboard manager (For now, using `raycast` in-built clipboard)
+2. Setup `raycast`
 
 ### Done
 
