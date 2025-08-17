@@ -17,15 +17,19 @@
 
 ## ToDo list
 
+### Looking out for
+
+1. TUI-based AI Chat app (`crush` came close, but was slow :/)
+2. Better docker TUI (`lazydocker` is okay-ish)
+
 ### Blocked
 
 1. Automatic theme setting on both [`delta`][3] and [`lazygit`][4] together
-2. `ast-grep` seems useful but did not find any use case (or workflow) for it
+2. Look for more use cases before spending time on `ast-grep` and `yazi`
 
 ### Pending
 
-1. Update our configuration for chezmoi
-1. Setup `yazi` and `lazydocker`
+1. Setup `lazydocker`
 1. Add `chezmoi` command to automatically loop over all paths and add any missing
    files as and when needed
 1. Setup `1pass` and `bitwarden` workflows
