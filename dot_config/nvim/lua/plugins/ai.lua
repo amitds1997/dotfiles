@@ -74,6 +74,17 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      server_opts_overrides = {
+        settings = {
+          telemetry = {
+            telemetryLevel = "off",
+          },
+        },
+      },
+    },
     config = function(_, opts)
       require("copilot").setup(opts)
 
