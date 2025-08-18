@@ -1,0 +1,7 @@
+{
+  "Main entry point": {
+    "prefix": "nm",
+    "body": ["if __name__ == \"__main__\":", "    ${1:main}()"],
+    "description": "Python main entry point"
+  }
+}

@@ -52,6 +52,15 @@
 - Check what colorschemes work with transparent/not-transparent and mark it
 - Replace `nvim-dap-ui` with `nvim-dap-view`
 - Set up copilot
+- Replace `gitsigns.nvim` with `mini.diff` and `mini.git`
+- Completed statusline
+  - Add `git` info (Can we do it [at the top][1] along with file name? Or maybe at the rightmost spot on statusline?)
+  - Make all colors be determined by the mode kind of like [this][7]
+  - Read through this guide on building a statusline: [Guide][11]
+  - ~Better file name and path along with status. Except the file name, [dim the rest of the path][2]~
+  - Add `AI` badge if it is active, optionally allow disabling/enabling by clicking on it
+  - Make sure recording macros are shown and supported
+  - Add git status + LSP to statusline
 
 ## Needs external work/help
 
@@ -63,57 +72,70 @@
   different answers (needs reproduction)
 - Set up a nice "winbar" to show file name and current status
 - Remove magical white spaces from markdown concealed when [this][5] is fixed
+- Add shorter when statusline is very compressed (should wait for it to happen)
 
-## Future Tasks
+## Pending tasks
 
-- Replace `gitsigns.nvim` with `mini.diff` and `mini.git`
-- Complete statusline
-  - Add shorter when statusline is very compressed
-  - Better file name and path along with status. Except the file name, [dim the rest of the path][2]
-  - Add `git` info (Can we do it [at the top][1] along with file name? Or maybe at the rightmost spot on statusline?)
-  - Add `AI` badge if it is active, optionally allow disabling/enabling it using
-    that
-  - Make all colors be determined by the mode kind of like [this][7]
-  - Make sure recording macros are shown and supported
-  - Read through this guide on building a statusline: [Guide][11]
-  - Evaluate [idr4n/nvim-lua][9] and [this][8], and [this][10] and obviously [NvChad][12] statusline organization
+### Navigation & Selection
 
-```text
-[[<greyed-path>/<filename> <status>][E<n>W<n>H<n>][LSP]] ============= [[line-position][AI][git-branch][mode]]
-```
-
-- Evaluate `MariaSolOs/dotfiles`, `ofseed/nvim`, `glepnir/nvim`, `jdhao/nvim-config`,
-  `olimorris/dotfiles`, `idr4n/nvim-lua` for ideas & plugin setups
 - Figure out way to jump LSP + Treesitter contexts better
+- Jump to start and end of methods/functions
 - Swap arguments/parameters
-- Jump to start+end of methods and functions
 - Setup incremental selection via `nvim-treesitter`
-- Plugins
-  - `mini.ai`
-- Should we replace `which-key` with `mini.clue`
-- Add git status + LSP to statusline
-- Set up sessions in Neovim. Set `sessionoptions` (see LazyVim)
-- Improve the `diffview` seen in `lazygit`
-- Debugging
-  - Revisit if we want to install `overseer` to run `preLaunchTask` and `postDebugTask`
-  - Use better shortcuts like `fn` keys when debugging
-  - Make sure that the debug bar is visible through the UI
-- Automatically pick up the correct virtual environment in Python (for both LSP+Debug)
-- List of plugins I hope to get rid of:
+
+### Plugins
+
+- Evaluate:
+  - `MariaSolOs/dotfiles`
+  - `ofseed/nvim`
+  - `glepnir/nvim`
+  - `jdhao/nvim-config`
+  - `olimorris/dotfiles`
+  - `idr4n/nvim-lua`
+- Consider replacing:
+  - `which-key` with `mini.clue`
+  - `snacks.nvim` with `mini.pick`
+- Integrate:
+  - [Mini-diff][3] with `CodeCompanion` (see also: [diff][4]). Adjust `Inline assistant` portion of the configuration.
+  - `mcphub.nvim` (Do we need `vectorcode`?)
+  - `:compiler` with `:make` for different filetypes
+- Plugins to remove:
   - `lazydev.nvim`
   - `plenary.nvim`
   - `render-markdown.nvim`
   - `which-key.nvim`
-- [Mini-diff][3] integration with `CodeCompanion`. Also see: [diff][4]. Also
-  adjust `Inline assistant` portion of the configuration.
-- Setup `mcphub.nvim`. Do we need `vectorcode`?
-- Replace `snacks.nvim` with `mini.pick`
-- Integrate `:compiler` with `:make` for different filetypes
-- Fix `terminal` and normal buffer easy switching
-- Fix Copilot not starting correctly at all times? In a buffer where it's running,
-  run `Copilot disable` followed by enable and it would still not show up :(
-- Add formatter for markdown that takes care of splitting lines at the right spot
-- Might we be interested in toggling breadcrumbs in the statusline?
+- Plugins to add/setup:
+  - `mini.ai`
+
+### Sessions & Buffers
+
+- Set up sessions in Neovim (`sessionoptions`, see LazyVim)
+- Fix terminal and normal buffer easy switching
+
+### Debugging
+
+- Revisit installing `overseer` for `preLaunchTask` and `postDebugTask`
+- Use better shortcuts (e.g., `fn` keys) when debugging
+- Ensure debug bar is visible in the UI
+
+### Python
+
+- Automatically pick up correct virtual environment (for both LSP & Debug)
+
+### Statusline
+
+- Augment statusline
+  - Evaluate [idr4n/nvim-lua][9], [this][8], [this][10], and [NvChad][12] for statusline organization
+  - Consider toggling breadcrumbs in the statusline
+
+### Formatting
+
+- Add formatter for Markdown to split lines at the right spot
+
+### Miscellaneous
+
+- Fix Copilot not starting correctly at all times
+  - In a buffer where it's running, run `Copilot disable` followed by enable; still not showing up :(
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
 [2]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-vmw6cl41snyc1.png%3Fwidth%3D1876%26auto%3Dwebp%26s%3D07ff31e7f74331dbe074d23d7dac2cf2cbe45da8

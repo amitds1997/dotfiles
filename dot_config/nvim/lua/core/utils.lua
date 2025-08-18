@@ -1,4 +1,5 @@
 local U = {}
+local _colorscheme_cache = {}
 
 function U.create_augroup(name, clear)
   if clear == nil then
@@ -61,6 +62,32 @@ function U.print_windows_info()
     local height = vim.api.nvim_win_get_height(win)
     print(string.format("%5d | %3d | %3d | (%2d,%2d)      | (%2d,%2d)", win, buf, tab, row, col, width, height))
   end
+end
+
+--- Gather highlight definitions for a given highlight name and its linked highlights
+--- @param hl_name string The name of the highlight group to gather
+function U.gather_hl(hl_name)
+  local gathered_hls = {}
+
+  while hl_name ~= nil do
+    local is_ok, hl_def = pcall(vim.api.nvim_get_hl, 0, { name = hl_name })
+    if is_ok then
+      table.insert(gathered_hls, hl_def)
+      hl_name = hl_def.link
+    else
+      break
+    end
+  end
+
+  local fin = {}
+  if #gathered_hls == 1 then
+    fin = gathered_hls[1]
+  else
+    fin = vim.tbl_deep_extend("keep", fin, unpack(gathered_hls))
+  end
+  fin["link"] = nil
+
+  return fin
 end
 
 return U
