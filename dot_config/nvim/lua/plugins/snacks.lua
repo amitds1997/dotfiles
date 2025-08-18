@@ -290,6 +290,22 @@ return {
       desc = "Toggle terminal",
     })
 
+    -- Toggle copilot
+    vim.g.copilot_enabled = true
+    Snacks.toggle
+      .new({
+        id = "global-copilot",
+        name = "Copilot",
+        get = function()
+          return vim.g.copilot_enabled
+        end,
+        set = function()
+          vim.g.copilot_enabled = not vim.g.copilot_enabled
+        end,
+      })
+      :map "<leader>ta"
+
+    -- Toggle autoformat
     Snacks.toggle
       .new({
         id = "global-autoformat",

@@ -126,6 +126,9 @@ return {
           module = "blink-copilot",
           score_offset = 100,
           async = true,
+          enabled = function()
+            return vim.g.copilot_enabled
+          end,
           opts = {
             max_completions = 3,
             max_items = 2,

@@ -99,7 +99,6 @@
   - Use better shortcuts like `fn` keys when debugging
   - Make sure that the debug bar is visible through the UI
 - Automatically pick up the correct virtual environment in Python (for both LSP+Debug)
-- Add toggle for copilot
 - List of plugins I hope to get rid of:
   - `lazydev.nvim`
   - `plenary.nvim`
