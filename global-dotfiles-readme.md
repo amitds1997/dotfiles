@@ -21,6 +21,7 @@
 
 1. TUI-based AI Chat app (`crush` came close, but was slow :/)
 2. Better docker TUI (`lazydocker` is okay-ish)
+3. There should be a way to indicate in kitty, which layout it's operating in
 
 ### Blocked
 

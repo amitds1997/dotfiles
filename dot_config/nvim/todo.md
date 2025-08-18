@@ -36,7 +36,6 @@
 - Set up Debugger for Python
 - Plugins
 - `blink.cmp`
-- `screenkey.nvim`
 - `mini.move`
 - `force-cul.nvim`
 - `kitty-scrollback.nvim`
@@ -103,8 +102,6 @@
 - Add toggle for copilot
 - List of plugins I hope to get rid of:
   - `lazydev.nvim`
-  - `gitsigns.nvim`
-  - `mini.files` (merge it with the main `mini.nvim` file)
   - `plenary.nvim`
   - `render-markdown.nvim`
   - `which-key.nvim`

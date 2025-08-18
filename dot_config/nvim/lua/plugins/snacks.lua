@@ -205,7 +205,7 @@ return {
     },
     -- Git browse
     {
-      "<leader>gob",
+      "<leader>mob",
       function()
         require("snacks").gitbrowse.open {
           what = "branch",
@@ -215,7 +215,7 @@ return {
       mode = { "n", "v" },
     },
     {
-      "<leader>goc",
+      "<leader>moc",
       function()
         require("snacks").gitbrowse.open {
           what = "commit",
@@ -225,7 +225,7 @@ return {
       mode = { "n", "v" },
     },
     {
-      "<leader>gor",
+      "<leader>mor",
       function()
         require("snacks").gitbrowse.open {
           what = "repo",
@@ -235,7 +235,7 @@ return {
       mode = { "n", "v" },
     },
     {
-      "<leader>gof",
+      "<leader>mof",
       function()
         require("snacks").gitbrowse.open {
           what = "file",
@@ -245,7 +245,7 @@ return {
       mode = { "n", "v" },
     },
     {
-      "<leader>gop",
+      "<leader>mop",
       function()
         require("snacks").gitbrowse.open {
           what = "permalink",
@@ -260,6 +260,8 @@ return {
     },
   },
   init = function()
+    local Snacks = require "snacks"
+
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
       callback = function()
@@ -270,7 +272,8 @@ return {
       end,
     })
 
-    local Snacks = require "snacks"
+    -- Use `nvim-web-devicons` for icons in Snacks
+    Snacks.util.icon = icon_from_nvim_web_devicons
 
     Snacks.toggle.inlay_hints():map "<leader>th"
     Snacks.toggle.line_number():map "<leader>tl"
@@ -286,9 +289,6 @@ return {
     vim.keymap.set("n", "<leader>tt", Snacks.terminal.toggle, {
       desc = "Toggle terminal",
     })
-    vim.keymap.set("n", "<leader>tk", function()
-      require("screenkey").toggle()
-    end, { desc = "Toggle screenkey" })
 
     Snacks.toggle
       .new({
@@ -303,6 +303,7 @@ return {
       })
       :map "<leader>tf"
 
+    -- Toggle codelens
     Snacks.toggle
       .new({
         id = "codelens",
@@ -320,7 +321,5 @@ return {
         end,
       })
       :map "<leader>tL"
-
-    Snacks.util.icon = icon_from_nvim_web_devicons
   end,
 }

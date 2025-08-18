@@ -41,8 +41,6 @@ return {
       { "<leader>a", group = "AI" },
       { "<leader>d", group = "Debugging" },
       { "<leader>e", group = "Extras" },
-      { "<leader>g", group = "Git", mode = { "n", "v" } },
-      { "<leader>go", group = "Open remote", mode = { "n", "v" } },
       { "<leader>l", group = "LSP" },
       { "<leader>lc", group = "Codelens" },
       { "<leader>m", group = "Miscellaneous", mode = { "n", "v" } },

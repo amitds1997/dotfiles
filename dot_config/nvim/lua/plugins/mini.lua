@@ -88,6 +88,28 @@ return {
       },
       options = { permanent_delete = false },
     },
+    diff = {
+      view = {
+        style = vim.go.number and "number" or "sign",
+        signs = {
+          add = "┃",
+          change = "┃",
+          delete = "_",
+        },
+      },
+      mappings = {
+        apply = "gh",
+        reset = "gH",
+        textobject = "gh",
+        goto_first = "[H",
+        goto_prev = "[h",
+        goto_next = "]h",
+        goto_last = "]H",
+      },
+      options = {
+        wrap_goto = false,
+      },
+    },
   },
   config = function(_, opts)
     local surround_opts = opts.surround
@@ -96,6 +118,8 @@ return {
     require("mini.move").setup(opts.move)
     require("mini.jump").setup()
     require("mini.files").setup(opts.files)
+    require("mini.diff").setup(opts.diff)
+    require("mini.git").setup()
 
     local hl_opts = opts.highlights
     hl_opts.highlighters = vim.tbl_extend("force", hl_opts.highlighters, {
@@ -115,6 +139,7 @@ return {
       end,
     })
   end,
+  -- TODO: Add keymap for git blame toggle
   keys = {
     {
       "<leader>hm",
@@ -138,6 +163,13 @@ return {
         end
       end,
       desc = "File explorer",
+    },
+    {
+      "<leader>tg",
+      function()
+        require("mini.diff").toggle_overlay(0)
+      end,
+      desc = "Toggle Git overlay",
     },
   },
   init = function()
