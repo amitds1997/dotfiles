@@ -19,7 +19,7 @@ return {
         jsonc = { "prettier", timeout_ms = 500, lsp_format = "fallback" },
         lua = { "stylua" },
         markdown = { "prettier" },
-        python = { "ruff_fix", "ruff_format" },
+        python = { "black", "ruff_fix", "ruff_format" },
         sh = { "shfmt" },
         sql = { "sqruff" },
         yaml = { "prettier" },
@@ -62,10 +62,10 @@ return {
         end
 
         -- Do not format work files; rest are up for game
-        local file_path = vim.api.nvim_buf_get_name(bufnr)
-        if file_path ~= "" and file_path:find("^" .. WORK_DIR) then
-          return nil
-        end
+        -- local file_path = vim.api.nvim_buf_get_name(bufnr)
+        -- if file_path ~= "" and file_path:find("^" .. WORK_DIR) then
+        --   return nil
+        -- end
 
         return {}
       end,

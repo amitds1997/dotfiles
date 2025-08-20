@@ -248,7 +248,7 @@ M.render = function()
 
   local copilot_clickable = table.concat {
     "%@v:lua.require'statusline'.toggle_copilot@",
-    is_copilot_active and "  " or "  ",
+    is_copilot_active and "   " or "   ",
     "%T",
   }
 

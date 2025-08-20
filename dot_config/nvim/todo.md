@@ -136,6 +136,8 @@
 
 - Fix Copilot not starting correctly at all times
   - In a buffer where it's running, run `Copilot disable` followed by enable; still not showing up :(
+- Visit [this][13] when all's done
+- Format `f-string` in python using nvim-treesitter
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
 [2]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-vmw6cl41snyc1.png%3Fwidth%3D1876%26auto%3Dwebp%26s%3D07ff31e7f74331dbe074d23d7dac2cf2cbe45da8
@@ -149,3 +151,4 @@
 [10]: https://github.com/strash/everybody-wants-that-line.nvim
 [11]: https://github.com/OXY2DEV/bars.nvim/wiki/Guide_Statusline
 [12]: https://github.com/NvChad/ui/blob/v2.0/lua/nvchad/statusline/default.lua
+[13]: https://github.com/olimorris/codecompanion.nvim/discussions/categories/announcements
