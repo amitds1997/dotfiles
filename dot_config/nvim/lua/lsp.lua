@@ -182,6 +182,7 @@ return {
         "json-lsp",
         "ruff",
         "gopls",
+        "tombi",
       },
     },
   },

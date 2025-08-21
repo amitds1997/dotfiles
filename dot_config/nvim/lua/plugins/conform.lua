@@ -24,6 +24,7 @@ return {
         sql = { "sqruff" },
         yaml = { "prettier" },
         rust = { name = "rust_analyzer", timeout_ms = 500, lsp_format = "prefer" },
+        toml = { "tombi" },
         ["_"] = { "trim_whitespace", "trim_newlines" },
       },
       formatters = {

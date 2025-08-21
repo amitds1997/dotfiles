@@ -138,6 +138,7 @@
   - In a buffer where it's running, run `Copilot disable` followed by enable; still not showing up :(
 - Visit [this][13] when all's done
 - Format `f-string` in python using nvim-treesitter
+- Hydra mode for debugging keymaps (similar to `miroshQa/debugmaster.nvim`)
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
 [2]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-vmw6cl41snyc1.png%3Fwidth%3D1876%26auto%3Dwebp%26s%3D07ff31e7f74331dbe074d23d7dac2cf2cbe45da8

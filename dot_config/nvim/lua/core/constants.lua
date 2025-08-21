@@ -74,6 +74,7 @@ return {
     yamlls = { name = "YAML LS", priority = 20 },
     cssls = { name = "CSS LS", priority = 20 },
     rust_analyzer = { name = "Rust LS", priority = 20 },
+    tombi = { name = "TOML LS", priority = 20 },
     LSP = { name = "LSP", priority = 0 },
   },
   diagnostics_icons = {
