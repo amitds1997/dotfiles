@@ -29,6 +29,7 @@ path=(
   $HOME/{,s}bin(N)
   /{usr,opt}/local/{,s}bin(N)
   $HOME/{.local,.cargo,go}/bin
+  $HOME/.local/share/bob/nvim-bin
   $path
 )
 

@@ -63,4 +63,3 @@ fi
 
 # zoxide setup
 eval "$(zoxide init zsh)"
-
