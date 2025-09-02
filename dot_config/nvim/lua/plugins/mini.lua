@@ -30,7 +30,8 @@ end
 ---@module 'lazy'
 ---@type LazyPluginSpec
 return {
-  "echasnovski/mini.nvim",
+  "nvim-mini/mini.nvim",
+  dependencies = { { "mskelton/termicons.nvim", build = false } },
   lazy = false,
   opts = {
     surround = {
@@ -120,6 +121,40 @@ return {
     require("mini.files").setup(opts.files)
     require("mini.diff").setup(opts.diff)
     require("mini.git").setup()
+    require("mini.notify").setup()
+    require("mini.pick").setup()
+    require("mini.extra").setup()
+    require("mini.animate").setup()
+    require("mini.indentscope").setup {
+      symbol = "│",
+      draw = {
+        animation = require("mini.indentscope").gen_animation.none(),
+        predicate = function(scope)
+          return not scope.body.is_incomplete
+            and not vim.b[0].disable_indent
+            and not vim.list_contains(
+              require("settings").meta_filetypes,
+              vim.api.nvim_get_option_value("filetype", {
+                buf = 0,
+              })
+            )
+        end,
+      },
+      options = {
+        border = "top",
+        try_as_border = true,
+      },
+    }
+    -- Schedule highlight groups to be applied when possible
+    vim.schedule(function()
+      vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { link = "SnacksIndentChunk", force = true })
+    end)
+
+    -- Use `mini.notify` for `vim.notify`
+    vim.notify = require("mini.notify").make_notify()
+
+    -- Use `mini.pick` for `vim.ui.select`
+    vim.ui.select = require("mini.pick").ui_select
 
     local hl_opts = opts.highlights
     hl_opts.highlighters = vim.tbl_extend("force", hl_opts.highlighters, {
@@ -170,6 +205,63 @@ return {
         require("mini.diff").toggle_overlay(0)
       end,
       desc = "Toggle Git overlay",
+    },
+    {
+      "<leader>pb",
+      function()
+        vim.cmd "Pick buffers"
+      end,
+      desc = "Pick buffers",
+    },
+    {
+      "<leader>pf",
+      function()
+        vim.cmd "Pick files tool='fd'"
+      end,
+      desc = "Pick files",
+    },
+    {
+      "<leader>pF",
+      function()
+        vim.cmd "Pick git_files"
+      end,
+      desc = "Search git-tracked files",
+    },
+    {
+      "<leader>pg",
+      function()
+        vim.cmd "Pick grep_live"
+      end,
+      desc = "Search content in all files",
+    },
+    {
+      "<leader>pr",
+      function()
+        vim.cmd "Pick resume"
+      end,
+      desc = "Resume from the last picker action",
+    },
+    -- Histories
+    {
+      "<leader>phc",
+      function()
+        vim.cmd "Pick history scope=':'"
+      end,
+      desc = "Command history",
+    },
+    {
+      "<leader>phs",
+      function()
+        vim.cmd "Pick history scope='/'"
+      end,
+      desc = "Search history",
+    },
+    {
+      "<leader>phn",
+      function()
+        require("mini.notify").show_history()
+      end,
+      desc = "Notification history",
     },
   },
   init = function()

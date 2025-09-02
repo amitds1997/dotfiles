@@ -1,0 +1,12 @@
+{
+  "Link": {
+    "prefix": "link",
+    "body": "[${1:link text}](${2:url})$0",
+    "desc": "Link template"
+  },
+  "Checkbox": {
+    "prefix": "check",
+    "body": "- [ ] $0",
+    "desc": "Checkbox template"
+  }
+}

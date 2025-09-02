@@ -45,7 +45,7 @@ local function on_attach(client, bufnr)
       callback = vim.lsp.buf.clear_references,
     })
 
-    -- If the LSP gets detached for any reason, this feature might be lost
+    -- If the LSP gets detached for any reason, we want to make sure things don't persist
     vim.api.nvim_create_autocmd("LspDetach", {
       group = under_cursor_highlights_group,
       desc = "Clear highlight references on LSP detach",
@@ -56,6 +56,15 @@ local function on_attach(client, bufnr)
       end,
     })
   end
+
+  -- Handle textDocument/onTypeFormatting support
+  -- TODO: Fix how to activate this for basedpyright
+  -- if client:supports_method(methods.textDocument_onTypeFormatting) and vim.fn.has "nvim-0.12" == 1 then
+  --   print("Setting up on-type formatting for " .. client.name)
+  --   vim.lsp.on_type_formatting.enable(true, {
+  --     client_id = client.id,
+  --   })
+  -- end
 
   -- Handle textDocument/documentColor support
   if client:supports_method(methods.textDocument_documentColor) and vim.fn.has "nvim-0.12" == 1 then
@@ -188,5 +197,35 @@ return {
   },
   "saecki/live-rename.nvim",
   "b0o/schemastore.nvim",
-  { "rachartier/tiny-code-action.nvim", event = "LspAttach", opts = { picker = "snacks" } },
+  {
+    "rachartier/tiny-code-action.nvim",
+    event = "LspAttach",
+    opts = {
+      picker = {
+        "buffer",
+        opts = {
+          hotkeys = true,
+          hotkeys_mode = "sequential",
+        },
+      },
+    },
+    config = function(_, opts)
+      require("tiny-code-action").setup(opts)
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = { "TinyCodeActionWindowEnterMain", "TinyCodeActionWindowEnterPreview" },
+        callback = function(event)
+          local buf = event.data.buf
+          local win = event.data.win
+
+          -- Disables indent shown via `mini.indentscope`
+          vim.b[buf].disable_indent = true
+          vim.wo[win].cocu = "nc"
+
+          -- Hide `#` at beginning of source titles
+          vim.cmd [[syntax match HashHeader /^#\+/ conceal]]
+        end,
+      })
+    end,
+  },
 }

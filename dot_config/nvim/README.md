@@ -12,6 +12,7 @@
 - Use move lines operations more when faster
 - Use surround operations more
 - Use forward and backward searching options more using `mini.jump`
+- Use `<C-\><C-n>` to jump to buffer mode in terminal buffer
 
 ## Confirmed plugins
 

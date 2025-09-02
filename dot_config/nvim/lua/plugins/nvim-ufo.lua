@@ -25,25 +25,6 @@ local fold_virt_text_handler = function(virt_text, lnum, end_lnum, width, trunca
   return new_virt_text
 end
 
-local function custom_selector(bufnr)
-  local function handle_fallback_provider(err, providerName)
-    if type(err) == "string" and err:match "UfoFallbackException" then
-      return require("ufo").getFolds(bufnr, providerName)
-    else
-      return require("promise").reject(err)
-    end
-  end
-
-  return require("ufo")
-    .getFolds(bufnr, "lsp")
-    :catch(function(err)
-      return handle_fallback_provider(err, "treesitter")
-    end)
-    :catch(function(err)
-      return handle_fallback_provider(err, "indent")
-    end)
-end
-
 ---@module 'lazy'
 ---@type LazyPluginSpec
 return {
@@ -51,7 +32,7 @@ return {
   ---@type UfoConfig
   opts = {
     provider_selector = function(_, _, _)
-      return custom_selector
+      return { "treesitter", "indent" }
     end,
     close_fold_kinds_for_ft = {
       ---@diagnostic disable-next-line: assign-type-mismatch

@@ -126,14 +126,14 @@ return {
         desc = "Run Last",
       },
       {
-        "<leader>do",
+        "<leader>dO",
         function()
           require("dap").step_out()
         end,
         desc = "Step Out",
       },
       {
-        "<leader>dO",
+        "<leader>do",
         function()
           require("dap").step_over()
         end,
@@ -203,6 +203,13 @@ return {
       vscode.json_decode = function(str)
         return vim.json.decode(json.json_strip_comments(str))
       end
+
+      vim.keymap.set("n", "<leader>hd", function()
+        require("which-key").show {
+          keys = "<leader>d",
+          loop = true, -- Continues until `<esc>` is pressed
+        }
+      end, { desc = "Quick debugging" })
     end,
   },
   {

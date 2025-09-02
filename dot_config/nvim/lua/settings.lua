@@ -31,6 +31,8 @@ return {
     "hgcommit",
     "lspinfo",
     "man",
+    "msg",
+    "mininotify-history",
     "neotest-output",
     "neotest-output-panel",
     "neotest-summary",

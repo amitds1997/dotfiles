@@ -16,6 +16,7 @@ vim.filetype.add {
   pattern = {
     [".env.*"] = "envfile",
     [".*/hypr/.*%.conf"] = "hyprlang",
+    [".*/ghostty/config"] = "ghostty",
     ["tsconfig*.json"] = "jsonc",
     [".*/%.vscode/.*%.json"] = "jsonc",
     [".*/.github/workflows/.*%.yml"] = "yaml.ghaction",
