@@ -2,8 +2,8 @@
 
 ## Tasks
 
-- [ ] Add different colorscheme to remote instances
-- [ ] Configure scrollback buffer use
+- [ ] Add different `colorscheme` to remote instances
+- [ ] Configure `scrollback` buffer use
 
 ## TIL
 
