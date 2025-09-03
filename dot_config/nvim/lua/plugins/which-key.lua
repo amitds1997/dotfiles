@@ -7,6 +7,11 @@ return {
     preset = "modern",
     -- FIX: Workaround till https://github.com/folke/which-key.nvim/issues/967
     show_help = false,
+    plugins = {
+      spelling = {
+        enabled = false,
+      },
+    },
     win = {
       no_overlap = false,
       height = { min = 5 },

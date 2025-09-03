@@ -12,7 +12,7 @@ return {
     opts = {
       display = {
         action_palette = {
-          provider = "snacks",
+          provider = "mini_pick",
         },
         chat = {
           icons = {

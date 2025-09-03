@@ -1,6 +1,38 @@
-local toggle_dotfiles = function(entry)
-  return vim.g.show_dotfiles or entry.name:sub(1, 1) ~= "."
-end
+-- TODO: Build pickers for zoxide, undo
+local custom_pickers = {
+  registry = function()
+    local MiniPick = require "mini.pick"
+    local items = vim.tbl_keys(MiniPick.registry)
+    table.sort(items)
+
+    local selected = MiniPick.start {
+      source = { items = items, name = "Registry" },
+    }
+    if selected == nil then
+      return
+    end
+    return MiniPick.registry[selected]()
+  end,
+  zoxide = function()
+    local MiniPick = require "mini.pick"
+    local res = MiniPick.builtin.cli({
+      command = { "zoxide", "query", "--list" },
+    }, {
+      source = {
+        name = "Zoxide",
+        choose = function(item)
+          vim.schedule(function()
+            require("fff").find_files_in_dir(item)
+            vim.fn.chdir(item)
+          end)
+        end,
+      },
+    })
+    if res == nil then
+      return
+    end
+  end,
+}
 
 local function open_buf_in_split(buf_id, key_map, direction)
   local MiniFiles = require "mini.files"
@@ -158,6 +190,11 @@ return {
       end,
     })
 
+    -- Set up custom pickers
+    for picker_name, impl in pairs(custom_pickers) do
+      require("mini.pick").registry[picker_name] = impl
+    end
+
     -- Use `mini.notify` for `vim.notify`
     vim.notify = require("mini.notify").make_notify()
 
@@ -250,11 +287,25 @@ return {
       desc = "Search content in all files",
     },
     {
+      "<leader>pp",
+      function()
+        vim.cmd "Pick registry"
+      end,
+      desc = "Pick a picker",
+    },
+    {
       "<leader>pr",
       function()
         vim.cmd "Pick resume"
       end,
       desc = "Resume from the last picker action",
+    },
+    {
+      "<leader>pz",
+      function()
+        vim.cmd "Pick zoxide"
+      end,
+      desc = "Pick zoxide-based directory and file",
     },
     -- Histories
     {
@@ -288,7 +339,13 @@ return {
         local buf_id = args.data.buf_id
         vim.keymap.set("n", "g.", function()
           vim.g.show_dotfiles = not vim.g.show_dotfiles
-          require("mini.files").refresh { content = { filter = toggle_dotfiles } }
+          require("mini.files").refresh {
+            content = {
+              filter = function(entry)
+                return vim.g.show_dotfiles or entry.name:sub(1, 1) ~= "."
+              end,
+            },
+          }
         end, { buffer = buf_id, desc = "Toggle `.`-files" })
       end,
     })

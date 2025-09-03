@@ -1,12 +1,8 @@
 local set = require("core.utils").set_keymap
-local Toggler = require "utils.toggler"
+local Toggler = require "custom.toggler"
 
 set("<TAB>", "<cmd>bnext<CR>", "Switch buffers (next)")
 set("<S-TAB>", "<cmd>bprevious<CR>", "Switch buffers (next)")
-
-set("<leader>mn", function()
-  require("snacks").notifier.hide()
-end, "Hide active notifications")
 
 -- Window keymaps
 set("<C-h>", "<cmd>wincmd h<CR>", "Move to window towards left")
@@ -135,3 +131,18 @@ Toggler.new({
   end,
   notify = true,
 }):map "<leader>tL"
+
+-- Toggle notifications
+Toggler.new({
+  id = "notifications",
+  name = "Notifications",
+  get = function()
+    vim.g.mininotify_disable = vim.g.mininotify_disable or false
+    return vim.g.mininotify_disable
+  end,
+  set = function()
+    vim.g.mininotify_disable = not vim.g.mininotify_disable
+  end,
+  notify = true,
+  disable_toggle = true,
+}):map "<leader>tn"

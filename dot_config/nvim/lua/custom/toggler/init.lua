@@ -1,4 +1,4 @@
-local T = require "utils.toggler.toggler"
+local T = require "custom.toggler.toggler"
 
 function T.inlay_hints()
   return T.new {

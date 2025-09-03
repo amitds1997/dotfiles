@@ -4,6 +4,7 @@
 ---@field get fun(): boolean
 ---@field set fun(state: boolean)
 ---@field notify? boolean
+---@field disable_toggle? boolean
 ---@field map? fun(mode: string|string[], lhs: string, rhs: string|fun(), opts?: vim.keymap.set.Opts)
 
 ---@class toggle.Class
@@ -24,7 +25,7 @@ M.toggles = {}
 ---@param ... toggle.Opts
 function M.new(...)
   local self = setmetatable({}, Toggle)
-  self.opts = vim.tbl_deep_extend("force", { notify = false, map = vim.keymap.set }, ...)
+  self.opts = vim.tbl_deep_extend("force", { notify = false, map = vim.keymap.set, disable_toggle = false }, ...)
   local id = self.opts.name:lower():gsub("%W+", "_"):gsub("_+$", ""):gsub("^_+", "")
   self.opts.id = id
   M.toggles[id] = self
@@ -81,10 +82,15 @@ function Toggle:toggle()
     vim.notify_once("Toggle `" .. self.opts.name .. "` did not change state", vim.log.levels.WARN)
   end
   if self.opts.notify then
-    local status = new_state and "enabled" or "disabled"
-    vim.notify("`" .. self.opts.name .. "` is " .. status, state and vim.log.levels.WARN or vim.log.levels.INFO, {
-      title = self.opts.name,
-    })
+    local enable_status = self.opts.disable_toggle ~= new_state
+    local status = enable_status and "enabled" or "disabled"
+    vim.notify(
+      "`" .. self.opts.name .. "` is " .. status,
+      enable_status and vim.log.levels.INFO or vim.log.levels.WARN,
+      {
+        title = self.opts.name,
+      }
+    )
   end
 end
 
