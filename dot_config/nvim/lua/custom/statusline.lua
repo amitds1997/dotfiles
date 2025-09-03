@@ -286,7 +286,6 @@ vim.schedule(function()
   for _, mode in pairs(mode_info) do
     inverted_hl(mode.hl)
   end
-  vim.o.statusline = "%!v:lua.require'statusline'.render()"
 end)
 
 return M

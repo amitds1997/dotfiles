@@ -121,10 +121,14 @@ return {
     require("mini.files").setup(opts.files)
     require("mini.diff").setup(opts.diff)
     require("mini.git").setup()
-    require("mini.notify").setup()
+    require("mini.notify").setup {
+      window = {
+        winblend = 0,
+      },
+    }
     require("mini.pick").setup()
     require("mini.extra").setup()
-    require("mini.animate").setup()
+    require("mini.misc").setup()
     require("mini.indentscope").setup {
       symbol = "│",
       draw = {
@@ -141,14 +145,18 @@ return {
         end,
       },
       options = {
-        border = "top",
         try_as_border = true,
       },
     }
+
     -- Schedule highlight groups to be applied when possible
-    vim.schedule(function()
-      vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { link = "SnacksIndentChunk", force = true })
-    end)
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "VeryLazy",
+      once = true,
+      callback = function()
+        vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { link = "SnacksIndentChunk", force = true })
+      end,
+    })
 
     -- Use `mini.notify` for `vim.notify`
     vim.notify = require("mini.notify").make_notify()
@@ -216,7 +224,7 @@ return {
     {
       "<leader>pf",
       function()
-        vim.cmd "Pick files tool='fd'"
+        vim.notify "Use `ff` instead"
       end,
       desc = "Pick files",
     },
@@ -231,6 +239,13 @@ return {
       "<leader>pg",
       function()
         vim.cmd "Pick grep_live"
+      end,
+      desc = "Search content in all files",
+    },
+    {
+      "<leader>pG",
+      function()
+        vim.cmd "Pick grep"
       end,
       desc = "Search content in all files",
     },

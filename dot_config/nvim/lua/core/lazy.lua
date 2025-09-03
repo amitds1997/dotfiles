@@ -25,7 +25,7 @@ local lazy_opts = {
   },
   dev = {
     path = vim.fs.joinpath(vim.env.HOME, "personal", "nvim-plugins"),
-    fallback = true,
+    fallback = false,
   },
   install = {
     missing = true,

@@ -28,6 +28,10 @@ vim.keymap.set({ "n", "v", "i" }, "<Esc>", function()
   return "<Esc>"
 end, { expr = true, silent = true })
 
+set("z=", function()
+  require("mini.extra").pickers.spellsuggest()
+end, "Suggest spelling corrections")
+
 -- Handle delmarks
 set("<leader>md", function()
   local arg = vim.fn.input "Which marks do you want to delete? "
@@ -37,9 +41,11 @@ set("<leader>md", function()
 end, "Delete marks")
 
 -- Handle maximizing float windows
-set("<leader>wt", function()
-  require("utils").maximize_float_win()
-end, "Toggle maximize float window")
+set("<leader>tz", function()
+  require("mini.misc").zoom(0, {
+    title = vim.api.nvim_buf_get_name(0),
+  })
+end, "Toggle zoom for buffer")
 
 -- Launch a terminal
 set("<leader>tt", function()
@@ -47,7 +53,7 @@ set("<leader>tt", function()
 end, "Toggle terminal")
 
 -- Launch LazyGit
-set("<leader>eg", function()
+set("<leader>g", function()
   local opts = {
     title = "Lazygit",
     title_pos = "center",
@@ -62,7 +68,7 @@ set("<leader>eg", function()
 end, "Launch Lazygit")
 
 -- Launch Lazy
-set("<leader>ez", function()
+set("<leader>z", function()
   vim.cmd "Lazy"
 end, "Launch Lazy")
 

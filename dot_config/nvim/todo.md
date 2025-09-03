@@ -140,6 +140,7 @@
 - Implement own `Snacks.scratch` implementation
 - Go over all `mini` plugins
 - Configure `mini.pick` pickers
+- Remove `nvim-ufo`. I don't think I like it
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
 [2]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-vmw6cl41snyc1.png%3Fwidth%3D1876%26auto%3Dwebp%26s%3D07ff31e7f74331dbe074d23d7dac2cf2cbe45da8

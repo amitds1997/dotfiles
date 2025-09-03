@@ -64,4 +64,18 @@ return {
       })
     end,
   },
+  {
+    "dmtrKovalenko/fff.nvim",
+    build = "cargo build --release",
+    lazy = false,
+    keys = {
+      {
+        "ff",
+        function()
+          require("fff").find_files()
+        end,
+        desc = "FFFind files",
+      },
+    },
+  },
 }

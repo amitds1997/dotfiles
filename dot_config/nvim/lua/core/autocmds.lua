@@ -12,14 +12,14 @@ if not require("settings").colorscheme.transparent_background then
       if not normal.bg then
         return
       end
-      io.write(string.format("\027]11;#%06x\027\\", normal.bg))
+      io.write(string.format("\027]11;#%06x\007\\", normal.bg))
     end,
   })
 
   vim.api.nvim_create_autocmd("UILeave", {
     group = transparency_augroup,
     callback = function()
-      io.write "\027]111\027\\"
+      io.write "\027]111\007\\"
     end,
   })
 end

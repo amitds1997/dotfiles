@@ -44,6 +44,7 @@
 - [ ] Database tool
 - [ ] Better history management. Check out `altuin`
 - [ ] Find ways to use fingerprint and passkeys more
+- [ ] Set up `nvim` such that it uses history to find the file location in case it does not exist in the current directory
 
 ### Under review 📗
 
@@ -67,4 +68,3 @@
 [2]: https://github.com/jesseduffield/lazygit/issues/4366
 [3]: https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.startup_session
 [4]: https://github.com/megalithic/dotfiles/blob/main/config/kitty/tab_bar.py
-
