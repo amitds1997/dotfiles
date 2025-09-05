@@ -1,4 +1,4 @@
-# zsh-essentials
+#!/usr/bin/env zsh
 
 # General options
 typeset -ga zopts_general=(
@@ -73,13 +73,6 @@ setopt $zopts_general $zopts_job $zopts_completion $zopts_directory $zopts_histo
 HISTFILE=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
-
-# Completions
-fpath=($ZDOTDIR/completions(/N) $fpath)
-
-# Aliases
-alias hist='fc -li'
-alias dirh='dirs -v'
 
 # Use built-in paste magic
 autoload -Uz bracketed-paste-url-magic

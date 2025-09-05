@@ -46,6 +46,7 @@
 - [ ] Better history management. Check out `altuin`
 - [ ] Find ways to use fingerprint and passkeys more
 - [ ] Set up `nvim` such that it uses history to find the file location in case it does not exist in the current directory
+- [ ] Set up sane defaults for `nano` for those 1 in a million chances
 
 ### Under review 📗
 

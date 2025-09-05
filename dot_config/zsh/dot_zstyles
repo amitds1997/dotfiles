@@ -1,24 +1,46 @@
-# Antidote
-zstyle ':antidote:bundle' file ${ZDOTDIR:-~}/.zplugins.txt
-zstyle ':antidote:bundle' use-friendly-names 'yes'
-zstyle ':antidote:plugin:*' defer-options '-p'
+#!/usr/bin/env zsh
+
+# Zephyr
+zstyle ':zephyr:plugin:*' 'use-cache' yes
+zstyle ':zephyr:plugin:editor' dot-expansion 'yes'
 
 # Editor
-zstyle :zle:edit-command-line editor nvim
+zstyle ':zle:edit-command-line' editor nvim
 
-# Completion related configuration
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' # Match case-insensitively if there are no matches
+# Case-insensitive match if there are no case-sensitive matches
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
-# fzf-tab provides a nicer autocomplete with the power of fzf so it's configuration follows
+# Some functions can be slow to complete, so we use a cache to speed them up
+zstyle ':completion:*' use-cache yes
+zstyle ':completion:*' cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompcache"
+[[ -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh" ]] || mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+
+# Group matches and describe
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+
+# Array completion element sorting
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# Handle directory listings
+zstyle ':completion:*:*(cd|z):*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand' # Handle `~` expansion order
+zstyle ':completion:*' squeeze-slashes true # Convert multiple // to a single one
+zstyle ':completion:*' special-dirs .. # Allow .. as a valid directory completion
+
+# fzf-tab related configuration
 zstyle ':completion:*:git-checkout:*' sort false # disable sort when completing `git checkout`
 zstyle ':completion:*:descriptions' format '[%d]' # set descriptions format to enable group support
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # Set list-colors to enable filename colorizing
 zstyle ':completion:*' menu no # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
 zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not shown
 zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s)' --preview-label=' Preview ' # Noice flags
-zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
+zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
 
-# Custom fzf-tab previews
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --icons=always --color=always $realpath'
+# Set up fzf-tab previews
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
 
 # vim: ft=zsh sw=2 ts=2 et

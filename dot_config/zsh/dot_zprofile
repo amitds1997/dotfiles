@@ -1,4 +1,4 @@
-# .zprofile - Loaded on login
+#!/usr/bin/env zsh
 
 # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
@@ -32,6 +32,15 @@ path=(
   $HOME/.local/share/bob/nvim-bin
   $path
 )
+
+if [[ $(uname) == "Darwin" ]]; then
+    path=(
+        /opt/homebrew/{,s}bin(N)
+        /usr/local/opt/llvm/bin
+        /opt/homebrew/opt/postgresql@17/bin
+        $path
+    )
+fi
 
 # Ensure path arrays do not contain duplicates
 typeset -gU path fpath mailpath

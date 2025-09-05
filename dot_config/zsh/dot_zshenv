@@ -1,4 +1,6 @@
-# .zshenv - Zsh environment file, always loaded
+#!/usr/bin/env zsh
+# This file is always loaded
+
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
 export ZDOTDIR=${ZDOTDIR:-${XDG_CONFIG_HOME}/zsh}
 
@@ -8,4 +10,6 @@ export ZDOTDIR=${ZDOTDIR:-${XDG_CONFIG_HOME}/zsh}
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+# Load Rust paths in case it's not
 . "$HOME/.cargo/env"

@@ -1,0 +1,29 @@
+# vim:ft=zsh:ts=2:foldmethod=marker:foldlevel=0
+
+# First plugins (Order important) {{{
+mattmc3/ez-compinit # Handle compinit for me
+romkatv/powerlevel10k # Prompt plugin
+# }}}
+
+# Zephyr plugins {{{
+mattmc3/zephyr path:plugins/zfunctions # Lazy load functions and provide `funcsave` and `funced`
+mattmc3/zephyr path:plugins/editor # Sane editor defaults
+mattmc3/zephyr path:plugins/compstyle # Set up completion styles
+mattmc3/zephyr path:plugins/history # Sane history settings
+mattmc3/zephyr path:plugins/confd # Use confd structure to organize configuration
+mattmc3/zephyr path:plugins/directory # Add directory-related ease of life patterns
+mattmc3/zephyr path:plugins/color # Make everything colorful
+mattmc3/zephyr path:plugins/utility # Utilities such as pbcopy for OS-agnostic copy, etc.
+# }}}
+
+# Completions {{{
+zsh-users/zsh-completions path:src kind:fpath # Completion for common commands
+Aloxaf/fzf-tab # load after compinit but before things wrapping widgets like zsh-autosuggestions, fast-syntax-highlighting, etc.
+# }}}
+
+# Last plugins {{{
+jeffreytse/zsh-vi-mode # Vim mode
+zsh-users/zsh-autosuggestions # Suggest command based on history and completions
+zsh-users/zsh-history-substring-search # Search through history using sub string
+zdharma-continuum/fast-syntax-highlighting # Syntax highlighting for commands (Should be the last one to load)
+# }}}
