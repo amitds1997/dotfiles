@@ -32,14 +32,9 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", function()
-      local wins = vim.api.nvim_list_wins()
-      -- Kitty scrollback creates a small float window at the top right to show nice icons
-      -- Normal pager scenarios should not suffer from this
-      if (#wins == 1) or (#wins == 2 and vim.bo[event.buf].filetype == "kitty-scrollback") then
+      if vim.fn.winnr "$" == 1 then
         vim.cmd "quit"
         return
-      else
-        print(#wins)
       end
       vim.cmd "close"
       pcall(vim.api.nvim_buf_delete, event.buf, { force = true })

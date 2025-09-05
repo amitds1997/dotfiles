@@ -3,7 +3,7 @@
 return {
   "saghen/blink.cmp",
   event = { "InsertEnter", "CmdlineEnter" },
-  build = "cargo +nightly build --release",
+  version = "1.*",
   dependencies = {
     "xzbdmw/colorful-menu.nvim",
     "fang2hou/blink-copilot",
