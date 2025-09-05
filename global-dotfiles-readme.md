@@ -40,6 +40,7 @@
 - [ ] Setup `-` as a word breaker when moving in the `cmdline` of the terminal
 - [ ] Add `chezmoi` command to automatically loop over all paths and add any missing
       files as and when needed
+- [ ] Set up `ipython` configuration dots
 - [ ] Setup `1pass` and `bitwarden` workflows
 - [ ] Database tool
 - [ ] Better history management. Check out `altuin`

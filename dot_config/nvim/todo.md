@@ -144,6 +144,10 @@
 - Remove `nvim-ufo`. I don't think I like it
 - Find a way to do the following: Jump to remote branch, commit, `repo`, and
   `permalink` similar to snacks.nvim
+- Automatically load `.env` files (if present). See [this][14]
+- Set up a keymap to comment and move to the next line
+- Review these:
+  - [Proudest one-liners][15]
 
 [1]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-5r9nu6in6nyc1.png%3Fwidth%3D1922%26auto%3Dwebp%26s%3D0299ed5e1aa95b52ebb4c468b4a1a60a1d1127ae
 [2]: https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fshow-me-your-statusline-v0-vmw6cl41snyc1.png%3Fwidth%3D1876%26auto%3Dwebp%26s%3D07ff31e7f74331dbe074d23d7dac2cf2cbe45da8
@@ -158,3 +162,5 @@
 [11]: https://github.com/OXY2DEV/bars.nvim/wiki/Guide_Statusline
 [12]: https://github.com/NvChad/ui/blob/v2.0/lua/nvchad/statusline/default.lua
 [13]: https://github.com/olimorris/codecompanion.nvim/discussions/categories/announcements
+[14]: https://github.com/ruicsh/nvim-config/blob/main/plugin/commands/load-env-vars.lua
+[15]: https://www.reddit.com/r/neovim/comments/1k4efz8/share_your_proudest_config_oneliners/

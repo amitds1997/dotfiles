@@ -16,7 +16,7 @@ return {
       disableOrganizeImports = true,
       disableTaggedHints = false,
       analysis = {
-        typeCheckingMode = "standard",
+        typeCheckingMode = "recommended",
         autoImportCompletions = true,
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,

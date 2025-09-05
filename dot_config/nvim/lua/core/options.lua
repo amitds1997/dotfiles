@@ -116,24 +116,13 @@ o.writebackup = false -- Don't store backup files
 
 -- Use ripgrep for searching if it's available.
 if vim.fn.executable "rg" == 1 then
-  o.grepprg = "rg --vimgrep --no-heading --smart-case"
+  o.grepprg = "rg --vimgrep --no-heading --smart-case --hidden -g '!.git/*'"
   o.grepformat = "%f:%l:%c:%m,%f:%l:%m"
 end
 
 -- Handle clipboard copy over SSH using OSC 52 protocol.
 if vim.g.remote_neovim_host then
-  print "Executing SSH OSC52 clipboard"
-  vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-      ["+"] = require("vim.ui.clipboard.osc52").copy "+",
-      ["*"] = require("vim.ui.clipboard.osc52").copy "*",
-    },
-    paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste "+",
-      ["*"] = require("vim.ui.clipboard.osc52").paste "*",
-    },
-  }
+  vim.g.clipboard = "osc52"
 end
 
 ------------------------------------------

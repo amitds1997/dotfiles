@@ -78,3 +78,14 @@ Colima
 chezmoi
 TUI
 cmdline
+zsh
+foldmethod
+compinit
+FZF
+fzf
+pbcopy
+confd
+foldlevel
+funced
+and
+funcsave

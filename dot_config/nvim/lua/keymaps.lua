@@ -48,12 +48,18 @@ set("<leader>tt", function()
   require("utils").float_term()
 end, "Toggle terminal")
 
+-- Duplicate and comment first instance
+vim.keymap.set("n", "ycc", "yygccp", { remap = true, desc = "Duplicate current line and comment the first one out" })
+
+-- Search only in visual area when in visual mode
+vim.keymap.set("x", "/", "<Esc>/\\%V", { desc = "Search only in visual area" })
+
+-- Retain cursor position when joining lines
+vim.keymap.set("n", "J", "mzJ`z:delmarks z<cr>")
+
 -- Launch LazyGit
 set("<leader>g", function()
-  local opts = {
-    title = "Lazygit",
-    title_pos = "center",
-  }
+  local opts = { title = "Lazygit", title_pos = "center" }
 
   local cwd = (require("mini.git").get_buf_data(0) or {}).root
   if cwd ~= nil then

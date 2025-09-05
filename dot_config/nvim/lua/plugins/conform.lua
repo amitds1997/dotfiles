@@ -50,6 +50,9 @@ return {
         prettier = {
           prepend_args = { "--trailing-comma", "none" },
         },
+        tombi = {
+          prepend_args = { "--offline" },
+        },
       },
       format_on_save = function(bufnr)
         if vim.g.minifiles_active then
