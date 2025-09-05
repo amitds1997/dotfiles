@@ -39,8 +39,22 @@ zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not s
 zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s)' --preview-label=' Preview ' # Noice flags
 zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
 
-# Set up fzf-tab previews
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always $realpath'
+# Use `eza` to show previews for directories
+zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview '[[ -d $realpath ]] && eza -1 --color=always $realpath'
+
+# Show package information when using homebrew install/uninstall/search/info
+zstyle ':fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest' fzf-preview 'HOMEBREW_COLOR=1 brew info $word'
+
+# Use `tldr` for tldr and command information, if available
+zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
+zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
+  '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "${(P)word}"'
+
+# TODO: Integrate something like: https://github.com/sobolevn/dotfiles/blob/master/config/zshenv to wrap over all kinds of files
+
+# Give a nice output when trying to find processes to kill
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps -o args= -p $word -ww'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 
 # vim: ft=zsh sw=2 ts=2 et

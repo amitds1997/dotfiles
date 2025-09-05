@@ -28,6 +28,7 @@ if [[ $(uname) == "Darwin" ]]; then
     # Homebrew related setup
     # export HOMEBREW_NO_ENV_HINTS=true
     export HOMEBREW_NO_ANALYTICS=1
+    export HOMEBREW_AUTO_UPDATE_SECS=86400
 
     export COLIMA_HOME=$XDG_CONFIG_HOME/colima
     # Add any ZSH completions added by homebrew

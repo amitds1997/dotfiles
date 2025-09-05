@@ -29,7 +29,7 @@ set("z=", function()
 end, "Suggest spelling corrections")
 
 -- Handle delmarks
-set("<leader>md", function()
+set("dm", function()
   local arg = vim.fn.input "Which marks do you want to delete? "
   if arg ~= "" then
     vim.cmd("delmarks " .. arg .. " | redraw!")
