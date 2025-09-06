@@ -1,5 +1,9 @@
 # Dotfiles To Do list
 
+## On cmdline
+
+- Use `opt+arrows` to navigate back-forward one word at a time
+
 ## Fresh new tools
 
 - `lazydocker` - Handle everything docker
@@ -14,6 +18,8 @@
 - `euporie` - Terminal-based `jupyter` notebook
 - `eza` - New-world `ls` alternative
 - `pv` - Pipe viewer; view more stuff
+- `gitleaks` - Find leaky cauldron of secrets. Pipe files in
+  `gitsecrets -v stdin` to gather info about them
 
 ## 📋 To do lists
 
@@ -40,6 +46,7 @@
 - [ ] Setup `-` as a word breaker when moving in the `cmdline` of the terminal
 - [ ] Add `chezmoi` command to automatically loop over all paths and add any missing
       files as and when needed
+- [ ] Explore `mise` as a replacement for `fnm` and `sdkman` (maybe even `bob`)
 - [ ] Set up `ipython` configuration dots
 - [ ] Setup `1pass` and `bitwarden` workflows
 - [ ] Database tool

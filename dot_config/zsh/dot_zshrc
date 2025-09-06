@@ -33,6 +33,5 @@ command -v brew &> /dev/null && eval "$(brew shellenv)"
 # Any machine-specific configuration goes into .zshrc_local
 [[ ! -f $ZDOTDIR/.zshrc_local ]] || source $ZDOTDIR/.zshrc_local
 
-# Finish profiling by calling zprof
-[[ "$ZPROFRC" -eq 1 ]] && zprof
-[[ -v ZPROFRC ]] && unset ZPROFRC
+# Finish profiling by calling zprof and unsetting ZPROFRC
+([[ ${ZPROFRC:-0} -ne 1 ]] || zprof) && unset ZPROFRC

@@ -16,7 +16,12 @@ alias gw="git worktree"
 alias lg="lazygit"
 alias ldoc="lazydocker"
 
+# eza setup
+eza_params=('--git' '--icons' '--classify' '--group-directories-first' '--time-style=+%d-%m-%Y %H:%M' '--group')
+alias eza='eza ${eza_params}'
+
 if [[ $(uname) == "Darwin" ]]; then
+  # Extra brew aliases
   alias brew_dump="brew bundle dump --force --file=${XDG_CONFIG_HOME}/brew/Brewfile"
   alias brew_info="brew leaves | xargs brew desc --eval-all"
 

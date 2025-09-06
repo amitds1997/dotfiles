@@ -21,8 +21,14 @@ zsh-users/zsh-completions path:src kind:fpath # Completion for common commands
 Aloxaf/fzf-tab # load after compinit but before things wrapping widgets like zsh-autosuggestions, fast-syntax-highlighting, etc.
 # }}}
 
-# Last plugins {{{
+# Nice-to haves {{{
 jeffreytse/zsh-vi-mode # Vim mode
+hlissner/zsh-autopair # Auto pair brackets
+trapd00r/LS_COLORS # Colors for anything using LS_COLORS
+djui/alias-tips # Remember your past aliases
+# }}}
+
+# Last plugins {{{
 zsh-users/zsh-autosuggestions # Suggest command based on history and completions
 zsh-users/zsh-history-substring-search # Search through history using sub string
 zdharma-continuum/fast-syntax-highlighting # Syntax highlighting for commands (Should be the last one to load)
