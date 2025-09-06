@@ -38,6 +38,7 @@ if [[ $(uname) == "Darwin" ]]; then
         /opt/homebrew/{,s}bin(N)
         /usr/local/opt/llvm/bin
         /opt/homebrew/opt/postgresql@17/bin
+        /opt/homebrew/opt/coreutils/libexec/gnubin # coreutils provides GNU implementations of common commands
         $path
     )
 fi
@@ -48,6 +49,6 @@ typeset -gU path fpath mailpath
 # Set default options for `less`
 export LESS="${LESS:--g -i -M -R -S -w -z-4}"
 
-# Use Neovim as pager for man pages. Do not set it to vim or vi
-# as that does not work
+# Using Neovim as MANPAGER; but we can also leverage `bat`
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export MANPAGER='nvim +Man!'

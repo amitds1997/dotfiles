@@ -9,3 +9,6 @@ fi
 
 # zoxide setup
 eval "$(zoxide init zsh)"
+
+# fzf setup
+FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source <(fzf --zsh)

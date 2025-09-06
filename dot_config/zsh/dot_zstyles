@@ -20,6 +20,15 @@ zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
 
+# Do not include pwd after ../
+zstyle ':completion:*' ignore-parents parent pwd
+
+# Divide man pages into sections
+zstyle ':completion:*:manuals' separate-sections true
+
+# Hide zsh internal functions and preexec/precmd hooks
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+
 # Array completion element sorting
 zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 
@@ -27,7 +36,6 @@ zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 zstyle ':completion:*:*(cd|z):*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand' # Handle `~` expansion order
 zstyle ':completion:*' squeeze-slashes true # Convert multiple // to a single one
-zstyle ':completion:*' special-dirs .. # Allow .. as a valid directory completion
 
 # fzf-tab related configuration
 zstyle ':completion:*:git-checkout:*' sort false # disable sort when completing `git checkout`
@@ -36,11 +44,27 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # Set list-colors to enabl
 zstyle ':completion:*' menu no # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
 zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not shown
-zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s)' --preview-label=' Preview ' # Noice flags
+zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s) ' --preview-label=' Preview ' # Noice flags
 zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
+# zstyle ':fzf-tab:*' fzf-flags '--marker=""'
+zstyle ':fzf-tab:*' prefix '' # No dot prefix on completion items
 
-# Use `eza` to show previews for directories
-zstyle ':fzf-tab:complete:(cd|z):*' fzf-preview '[[ -d $realpath ]] && eza -1 --color=always $realpath'
+# Use `eza` to show previews for directories, `bat` for files and file info for the rest
+zstyle ':fzf-tab:complete:(\|*/|)(ls|bat|cat|cd|rm|cp|mv|ln|nano|nvim|vi|vim|code|open|head|tail|tree|source|z):*' fzf-preview \
+'[[ -d $realpath ]] && \
+  eza -1 --color=always --icons=always --group-directories-first "$realpath" | head -n 100 || \
+  {
+    mime=$(file -Lb --mime-type "$realpath")
+    if [[ $mime == text/* ]]; then
+      bat --style=plain --color=always --pager=never --line-range :100 "$realpath"
+    else
+      # Fallback: gather info and format via bat
+      {
+        echo "$realpath"
+        file -Lb "$realpath"
+      } | bat --style=plain --color=always --pager=never
+    fi
+  }'
 
 # Show package information when using homebrew install/uninstall/search/info
 zstyle ':fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest' fzf-preview 'HOMEBREW_COLOR=1 brew info $word'
@@ -49,8 +73,6 @@ zstyle ':fzf-tab:complete:brew-(install|uninstall|search|info):*-argument-rest' 
 zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
 zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
   '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "${(P)word}"'
-
-# TODO: Integrate something like: https://github.com/sobolevn/dotfiles/blob/master/config/zshenv to wrap over all kinds of files
 
 # Give a nice output when trying to find processes to kill
 zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
