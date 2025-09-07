@@ -32,6 +32,31 @@ local custom_pickers = {
       return
     end
   end,
+  leetcode = function()
+    local items = vim.fn.getcompletion("Leet ", "cmdline")
+
+    if vim.tbl_isempty(items) then
+      vim.notify("Leetcode is not initialized. Initialize using `:Leet`", vim.log.levels.WARN)
+      return
+    end
+
+    local res = MiniPick.start {
+      source = {
+        items = items,
+        name = "Leetcode action(s)",
+        choose = function(item)
+          vim.schedule(function()
+            vim.cmd("Leet " .. item)
+          end)
+        end,
+      },
+    }
+
+    if res == nil then
+      vim.notify("No actions selected", vim.log.levels.WARN)
+      return
+    end
+  end,
 }
 
 local function open_buf_in_split(buf_id, key_map, direction)
@@ -328,6 +353,13 @@ return {
         require("mini.notify").show_history()
       end,
       desc = "Notification history",
+    },
+    {
+      "<leader>pl",
+      function()
+        vim.cmd "Pick leetcode"
+      end,
+      desc = "Leetcode action(s)",
     },
   },
   init = function()
