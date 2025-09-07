@@ -46,7 +46,6 @@ zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
 zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not shown
 zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s) ' --preview-label=' Preview ' # Noice flags
 zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
-# zstyle ':fzf-tab:*' fzf-flags '--marker=""'
 zstyle ':fzf-tab:*' prefix '' # No dot prefix on completion items
 
 # Use `eza` to show previews for directories, `bat` for files and file info for the rest

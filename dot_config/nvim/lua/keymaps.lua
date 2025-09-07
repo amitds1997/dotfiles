@@ -45,7 +45,7 @@ end, "Toggle zoom for buffer")
 
 -- Launch a terminal
 set("<leader>tt", function()
-  require("utils").float_term()
+  require("utils.float").float_term()
 end, "Toggle terminal")
 
 -- Duplicate and comment first instance
@@ -66,8 +66,15 @@ set("<leader>g", function()
     opts["cwd"] = cwd
   end
 
-  require("utils").float_term("lazygit", opts)
+  require("utils.float").float_term("lazygit", opts)
 end, "Launch Lazygit")
+
+-- When indenting in visual mode, stay in visual mode
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- Replace all instances of highlighted text
+set("<leader>mr", '"hy:%s/<C-r>h//g<left><left>', "Replace word under cursor", { "n", "v" })
 
 -- Launch Lazy
 set("<leader>z", function()

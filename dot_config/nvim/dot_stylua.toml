@@ -2,6 +2,7 @@ syntax = "LuaJIT"
 indent_width = 2
 indent_type = "Spaces"
 call_parentheses = "None"
+column_width = 120
 
 [sort_requires]
 enabled = true

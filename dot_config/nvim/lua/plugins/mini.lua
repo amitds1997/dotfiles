@@ -1,7 +1,8 @@
--- TODO: Build pickers for zoxide, undo
+-- selene: allow(undefined_variable)
+
+-- TODO: Build pickers for undo
 local custom_pickers = {
   registry = function()
-    local MiniPick = require "mini.pick"
     local items = vim.tbl_keys(MiniPick.registry)
     table.sort(items)
 
@@ -14,7 +15,6 @@ local custom_pickers = {
     return MiniPick.registry[selected]()
   end,
   zoxide = function()
-    local MiniPick = require "mini.pick"
     local res = MiniPick.builtin.cli({
       command = { "zoxide", "query", "--list" },
     }, {

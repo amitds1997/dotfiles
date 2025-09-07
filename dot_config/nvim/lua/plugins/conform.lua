@@ -48,13 +48,15 @@ return {
           },
         },
         prettier = {
-          prepend_args = { "--trailing-comma", "none" },
+          prepend_args = { "--trailing-comma", "none", "--prose-wrap", "always" },
         },
         tombi = {
           prepend_args = { "--offline" },
         },
       },
       format_on_save = function(bufnr)
+        _ = bufnr
+
         if vim.g.minifiles_active then
           return nil
         end

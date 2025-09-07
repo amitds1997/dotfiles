@@ -87,6 +87,7 @@ return {
     },
     config = function(_, opts)
       require("copilot").setup(opts)
+      vim.g.copilot_enabled = false
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "BlinkCmpMenuOpen",

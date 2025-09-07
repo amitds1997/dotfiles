@@ -1,6 +1,6 @@
 local M = {}
 local _colorscheme_cache = {}
-local gather_hl = require("core.utils").gather_hl
+local gather_hl = require("utils.color").gather_hl_info
 
 local function inverted_hl(hl, force)
   force = force or false

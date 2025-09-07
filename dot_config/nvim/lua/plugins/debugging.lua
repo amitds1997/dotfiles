@@ -29,6 +29,11 @@ return {
         ---@module 'dap-view'
         ---@type dapview.Config
         opts = {
+          winbar = {
+            controls = {
+              enabled = true,
+            },
+          },
           windows = {
             terminal = {
               position = "right",

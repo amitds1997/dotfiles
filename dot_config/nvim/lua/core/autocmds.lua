@@ -1,10 +1,11 @@
 local create_augroup = require("core.utils").create_augroup
+local autocmd = vim.api.nvim_create_autocmd
 
 -- Remove padding around Neovim in terminal when background is not transparent
 if not require("settings").colorscheme.transparent_background then
   local transparency_augroup = create_augroup "transparency"
 
-  vim.api.nvim_create_autocmd({ "UIEnter", "ColorScheme" }, {
+  autocmd({ "UIEnter", "ColorScheme" }, {
     group = transparency_augroup,
     desc = "Handle terminal transparency",
     callback = function()
@@ -16,7 +17,7 @@ if not require("settings").colorscheme.transparent_background then
     end,
   })
 
-  vim.api.nvim_create_autocmd("UILeave", {
+  autocmd("UILeave", {
     group = transparency_augroup,
     callback = function()
       io.write "\027]111\007\\"
@@ -25,7 +26,7 @@ if not require("settings").colorscheme.transparent_background then
 end
 
 -- Close and delete (if possible) metadata files that are just information/read-only with <q>
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = create_augroup "fast_quit",
   pattern = require("settings").meta_filetypes,
   desc = "Close metadata files with <q>",
@@ -43,7 +44,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Wrap and check for spell in the text filetypes
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = create_augroup "wrap_spell",
   pattern = { "text", "markdown", "gitcommit", "plaintex", "typst" },
   desc = "Enable wrap and spell for text filetypes",
@@ -54,7 +55,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Clean up `viewdir` and `undodir` files older than 30 days
-vim.api.nvim_create_autocmd({ "FocusLost" }, {
+autocmd({ "FocusLost" }, {
   group = create_augroup "cleanup_old_files",
   desc = "Clean up old files in viewdir and undodir",
   once = true,
@@ -68,7 +69,7 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, {
 })
 
 -- Highlight yanked text
-vim.api.nvim_create_autocmd("TextYankPost", {
+autocmd("TextYankPost", {
   group = create_augroup "yank_highlight",
   desc = "Highlight text on being yanked",
   callback = function()
@@ -77,18 +78,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- Resize splits when the window is resized
-vim.api.nvim_create_autocmd("VimResized", {
+autocmd("VimResized", {
   group = create_augroup "resize_splits",
   desc = "Resize splits when the window is resized",
   callback = function()
-    local current_tab = vim.api.nvim_get_current_tabpage()
     vim.cmd "tabdo wincmd ="
-    vim.cmd("tabnext " .. current_tab)
   end,
 })
 
 -- Jump to last location when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
+autocmd("BufReadPost", {
   group = create_augroup "jump_to_last_location",
   desc = "Jump to last location when opening a buffer",
   callback = function(event)
@@ -105,7 +104,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
+autocmd("FileType", {
   group = create_augroup "json_conceal",
   pattern = { "json", "jsonc", "json5" },
   callback = function()
@@ -114,7 +113,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Show cursor line only in active window
-vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+autocmd({ "InsertLeave", "WinEnter" }, {
   group = create_augroup "auto_cursorline_show",
   callback = function(event)
     if vim.bo[event.buf].buftype == "" then
@@ -122,7 +121,7 @@ vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
     end
   end,
 })
-vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+autocmd({ "InsertEnter", "WinLeave" }, {
   group = create_augroup "auto_cursorline_hide",
   callback = function()
     vim.opt_local.cursorline = false
@@ -130,7 +129,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 })
 
 -- Display a warning when the current file is not in UTF-8 format
-vim.api.nvim_create_autocmd({ "BufRead" }, {
+autocmd({ "BufRead" }, {
   pattern = "*",
   group = create_augroup "non_utf8_file",
   callback = function()
@@ -142,7 +141,7 @@ vim.api.nvim_create_autocmd({ "BufRead" }, {
 
 -- Remember folds for files
 local auto_view_group = create_augroup "auto_view"
-vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
+autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
   group = auto_view_group,
   desc = "Save view with mkview for real files",
   callback = function(args)
@@ -151,7 +150,7 @@ vim.api.nvim_create_autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
     end
   end,
 })
-vim.api.nvim_create_autocmd("BufWinEnter", {
+autocmd("BufWinEnter", {
   group = auto_view_group,
   desc = "Try to load file view if available and enable view saving for real files",
   callback = function(args)
