@@ -1,4 +1,4 @@
--- Stole this from `snacks.nvim`
+-- Heavily borrowed from `snacks.nvim`
 local M = {}
 
 ---@private
@@ -13,12 +13,12 @@ local sign_cache = {}
 local icon_cache = {}
 
 ---@type SignType[]
-local left_config = { "mark", "sign" }
+local left_priority_order = { "mark", "sign" }
 ---@type SignType[]
-local right_config = { "fold", "git" }
+local right_priority_order = { "fold", "git" }
 
----We need to regularly update the statuscolumn, so we need to initiate a timer
----that is able to take care of this for us
+-- We need to regularly update the status column, so we need to initiate a timer
+-- that is able to take care of this for us
 local timer = assert(vim.uv.new_timer())
 timer:start(50, 50, function()
   sign_cache = {}
@@ -48,12 +48,13 @@ function M.get_buf_signs(bufnr)
   for _, extmark in pairs(extmarks) do
     local lnum = extmark[2] + 1
     buf_signs[lnum] = buf_signs[lnum] or {}
-    local name = extmark[4].sign_hl_group or extmark[4].sign_name or ""
+    local hl = extmark[4].sign_hl_group or extmark[4].number_hl_group or extmark[4].line_hl_group
+    local name = hl or ""
     table.insert(buf_signs[lnum], {
       name = name,
       type = M.is_git_sign(name) and "git" or "sign",
       text = extmark[4].sign_text,
-      texthl = extmark[4].sign_hl_group or extmark[4].number_hl_group,
+      texthl = hl,
       priority = extmark[4].priority,
     })
   end
@@ -148,8 +149,10 @@ function M.click_debug_toggle()
 end
 
 ---@private
-function M._get()
-  local win = vim.g.statusline_winid
+---@param winid integer?
+---@return string
+function M._get(winid)
+  local win = winid or vim.g.statusline_winid
 
   local nu = vim.wo[win].number
   local rnu = vim.wo[win].relativenumber
@@ -182,9 +185,9 @@ function M._get()
       end
 
       ---@type Sign?
-      local left = find_first(left_config, signs_by_type)
+      local left = find_first(left_priority_order, signs_by_type)
       ---@type Sign?
-      local right = find_first(right_config, signs_by_type)
+      local right = find_first(right_priority_order, signs_by_type)
 
       local git = signs_by_type.git
       if git and left and left.type == "fold" then
@@ -206,14 +209,17 @@ function M._get()
   return table.concat(components, "")
 end
 
-function M.get()
-  local win = vim.g.statusline_winid
+---Get statuscolumn for window
+---@param winid integer
+---@return string
+function M.get(winid)
+  local win = winid or vim.g.statusline_winid
   local buf = vim.api.nvim_win_get_buf(win)
   local key = ("%d:%d:%d:%d:%d"):format(win, buf, vim.v.lnum, vim.v.virtnum ~= 0 and 1 or 0, vim.v.relnum)
   if cache[key] then
     return cache[key]
   end
-  local ok, ret = pcall(M._get)
+  local ok, ret = pcall(M._get, winid)
   if ok then
     cache[key] = ret
     return ret
