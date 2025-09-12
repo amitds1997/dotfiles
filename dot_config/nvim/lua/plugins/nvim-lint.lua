@@ -27,7 +27,7 @@ return {
     "mfussenegger/nvim-lint",
     event = { "BufReadPost", "BufNewFile", "BufWritePost" },
     opts = {
-      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+      events = { "BufWritePost", "BufReadPost", "InsertLeave", "TextChanged" },
       linters_by_ft = {
         css = { "stylelint" },
         dockerfile = { "hadolint" },

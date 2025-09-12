@@ -238,6 +238,26 @@ M.toggle_copilot = function()
   vim.cmd "redrawstatus"
 end
 
+M.search_count = function()
+  if vim.v.hlsearch == 0 then
+    return ""
+  end
+
+  local ok, count = pcall(vim.fn.searchcount, { recompute = true, maxcount = 500 })
+  if (not ok or (count.current == nil)) or (count.total == 0) then
+    return ""
+  end
+
+  if count.incomplete == 1 then
+    return "?/?"
+  end
+
+  local too_many = (">%d"):format(count.maxcount)
+  local total = (count.total > count.maxcount) and too_many or count.total
+
+  return ("%s/%s"):format(count.current, total)
+end
+
 ---Render the statusline
 ---@return string
 M.render = function()
@@ -262,6 +282,7 @@ M.render = function()
   }
 
   local right_expression = {
+    ah(M.search_count(), "IncSearch"),
     macro_recording,
     apply_hl(copilot_clickable, is_copilot_active and "Normal" or "Comment"),
     ah(lsp_str, "MiniStatuslineModeOther"),

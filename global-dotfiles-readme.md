@@ -33,8 +33,8 @@
 
 1. In `kitty`, set up top tab page using Python script to handle stuff nicely.
    See: [megalithic/dotfiles][4]
-2. In `kitty`, set up [startup session][3]. I guess we want:
-   a. One tab dedicated to `dotfiles`
+2. In `kitty`, set up [startup session][3]. I guess we want: a. One tab
+   dedicated to `dotfiles`
 
 ### Blocked 🚫
 

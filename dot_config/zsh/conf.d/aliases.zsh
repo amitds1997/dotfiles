@@ -20,6 +20,9 @@ alias ldoc="lazydocker"
 eza_params=('--git' '--icons' '--classify' '--group-directories-first' '--time-style=+%d-%m-%Y %H:%M' '--group')
 alias eza='eza ${eza_params}'
 
+# taskwarrior setup
+alias tsui="taskwarrior-tui"
+
 if [[ $(uname) == "Darwin" ]]; then
   # Extra brew aliases
   alias brew_dump="brew bundle dump --force --file=${XDG_CONFIG_HOME}/brew/Brewfile"

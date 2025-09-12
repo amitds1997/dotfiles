@@ -6,7 +6,6 @@ return {
   ---@type boolean
   is_remote = vim.g.remote_neovim_host and true or false,
   colorscheme = {
-    ---@type "catppuccin"|"github-theme"|"kanso"
     name = "kanso",
     transparent_background = false,
   },
@@ -27,6 +26,7 @@ return {
     "kitty-scrollback",
     "leetcode.nvim",
     "man",
+    "taskedit",
     "codecompanion",
     "help",
     "hgcommit",

@@ -19,7 +19,7 @@ set("U", "<C-r>", "Redo changes")
 -- Handle search highlighting using <Esc>
 vim.keymap.set({ "n", "v", "i" }, "<Esc>", function()
   if vim.v.hlsearch == 1 then
-    vim.cmd "nohlsearch"
+    vim.cmd "nohlsearch | redraw!"
   end
   return "<Esc>"
 end, { expr = true, silent = true })
@@ -30,10 +30,11 @@ end, "Suggest spelling corrections")
 
 -- Handle delmarks
 set("dm", function()
-  local arg = vim.fn.input "Which marks do you want to delete? "
-  if arg ~= "" then
-    vim.cmd("delmarks " .. arg .. " | redraw!")
-  end
+  vim.ui.input({ prompt = "Which marks do you want to delete? ", default = "" }, function(mark_range)
+    if mark_range and mark_range ~= "" then
+      vim.cmd("delmarks " .. mark_range .. " | redraw!")
+    end
+  end)
 end, "Delete marks")
 
 -- Handle maximizing float windows
@@ -82,7 +83,7 @@ set("<leader>z", function()
 end, "Launch Lazy")
 
 -- Launch Mason
-set("<leader>em", function()
+set("<leader>mM", function()
   vim.cmd "Mason"
 end, "Launch Mason")
 
