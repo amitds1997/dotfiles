@@ -45,7 +45,6 @@ return {
     wk.add {
       { "<leader>a", group = "AI" },
       { "<leader>d", group = "Debugging" },
-      { "<leader>e", group = "Extras" },
       { "<leader>l", group = "LSP" },
       { "<leader>lc", group = "Codelens" },
       { "<leader>m", group = "Miscellaneous", mode = { "n", "v" } },
@@ -56,6 +55,8 @@ return {
       { "<leader>x", group = "Diagnostic" },
       { "<leader>h", group = "Hydra mode", mode = { "n", "v" } },
       { "<leader>mm", group = "Move around", mode = { "n", "v" } },
+      { "<leader>s", group = "Treesitter" },
+      { "<leader>ss", group = "Swap" },
     }
 
     vim.keymap.set("n", "<leader>hw", function()

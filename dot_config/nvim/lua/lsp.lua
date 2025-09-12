@@ -21,8 +21,9 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
 ---@param client vim.lsp.Client
 ---@param bufnr integer
 local function on_attach(client, bufnr)
-  local function keymap(lhs, rhs, desc)
-    vim.keymap.set("n", lhs, rhs, { buffer = bufnr, desc = desc, noremap = true })
+  local function keymap(lhs, rhs, desc, opts)
+    local mode = opts and opts["mode"] or "n"
+    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc, noremap = true })
   end
 
   -- Handle textDocument/documentHighlight support
@@ -58,13 +59,11 @@ local function on_attach(client, bufnr)
   end
 
   -- Handle textDocument/onTypeFormatting support
-  -- TODO: Fix how to activate this for basedpyright
-  -- if client:supports_method(methods.textDocument_onTypeFormatting) and vim.fn.has "nvim-0.12" == 1 then
-  --   print("Setting up on-type formatting for " .. client.name)
-  --   vim.lsp.on_type_formatting.enable(true, {
-  --     client_id = client.id,
-  --   })
-  -- end
+  if client:supports_method(methods.textDocument_onTypeFormatting) and vim.fn.has "nvim-0.12" == 1 then
+    vim.lsp.on_type_formatting.enable(true, {
+      client_id = client.id,
+    })
+  end
 
   -- Handle textDocument/documentColor support
   if client:supports_method(methods.textDocument_documentColor) and vim.fn.has "nvim-0.12" == 1 then
@@ -137,7 +136,7 @@ local function on_attach(client, bufnr)
   end, "Code action(s)")
   keymap("<leader>lR", function()
     require("live-rename").rename()
-  end, "Rename symbol")
+  end, "Rename symbol", { mode = { "n", "v" } })
 
   -- Diagnostic keymaps
   keymap("[d", function()
@@ -188,6 +187,7 @@ return {
         "bash-language-server",
         "basedpyright",
         "rust-analyzer",
+        "marksman",
         "json-lsp",
         "ruff",
         "gopls",

@@ -141,15 +141,14 @@ return {
   config = function(_, opts)
     require("blink.cmp").setup(opts)
 
-    -- TODO: Until we have these merged, https://github.com/DetachHead/basedpyright/pull/1452 and https://github.com/neovim/neovim/pull/35578
-    -- local extraCapabilities = {
-    --   textDocument = {
-    --     onTypeFormatting = {
-    --       dynamicRegistration = false,
-    --     },
-    --   },
-    -- }
-    local extraCapabilities = {}
+    -- TODO: Keep track of this for dynamicRegistration https://github.com/neovim/neovim/pull/35578
+    local extraCapabilities = {
+      textDocument = {
+        onTypeFormatting = {
+          dynamicRegistration = false,
+        },
+      },
+    }
 
     vim.lsp.config("*", {
       capabilities = require("blink.cmp").get_lsp_capabilities(extraCapabilities, true),

@@ -220,9 +220,6 @@ return {
       require("mini.pick").registry[picker_name] = impl
     end
 
-    -- Use `mini.notify` for `vim.notify`
-    vim.notify = require("mini.notify").make_notify()
-
     -- Use `mini.pick` for `vim.ui.select`
     vim.ui.select = require("mini.pick").ui_select
 
@@ -265,6 +262,8 @@ return {
 
         if path and vim.uv.fs_stat(path) then
           require("mini.files").open(bufname, false)
+        else
+          require("mini.files").open()
         end
       end,
       desc = "File explorer",

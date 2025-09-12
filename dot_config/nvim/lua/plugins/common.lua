@@ -1,17 +1,8 @@
-local meta_file_types = require("settings").meta_filetypes
 local ghostty_config_path = vim.fs.joinpath(vim.env.XDG_CONFIG_HOME, "ghostty", "config")
 
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
-  {
-    -- Guess and set correct indent levels based on file
-    "nmac427/guess-indent.nvim",
-    event = "BufReadPost",
-    opts = {
-      buftype_exclude = meta_file_types,
-    },
-  },
   {
     -- Kitty scrollback
     "mikesmithgh/kitty-scrollback.nvim",
