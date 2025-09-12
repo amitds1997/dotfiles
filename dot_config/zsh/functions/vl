@@ -1,0 +1,9 @@
+VAULT_ADDR=$(op read "op://Private/C2FO Vault URI/notesPlain" | fzf --border-label " Vault URI ")
+[ -z "${VAULT_ADDR}" ] && echo "Vault address not set" && return
+export VAULT_ADDR
+echo "󰍂 Logging into ${VAULT_ADDR}"
+VAULT_TOKEN=$(VAULT_AUTH_GITHUB_TOKEN=$(op read "op://Private/C2FO Vault/password") vault login -token-only -method=github)
+export VAULT_TOKEN
+echo " Logged into Vault"
+
+# vim:ft=zsh:ts=2:foldmethod=marker:foldlevel=0
