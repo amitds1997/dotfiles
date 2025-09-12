@@ -126,10 +126,10 @@ return {
       swap = {
         enable = true,
         swap_next = {
-          ["<leader>ssp"] = "@parameter.inner",
+          ["<leader>msp"] = "@parameter.inner",
         },
         swap_previous = {
-          ["<leader>ssP"] = "@parameter.inner",
+          ["<leader>msP"] = "@parameter.inner",
         },
       },
       move = {

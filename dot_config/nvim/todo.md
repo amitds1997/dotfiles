@@ -44,7 +44,6 @@
 - `quicker.nvim`
 - `snacks.nvim`
 - `tiny-code-action`
-- `which-key.nvim`
 - `SchemaStore`
 - `gitsigns`
 - Use `mini.move` to move blocks up/down/left/right in visual selection mode
@@ -54,8 +53,6 @@
 - Set up copilot
 - Replace `gitsigns.nvim` with `mini.diff` and `mini.git`
 - Completed statusline
-  - Add `git` info (Can we do it [at the top][1] along with file name? Or maybe
-    at the rightmost spot on statusline?)
   - Add `AI` badge if it is active, optionally allow disabling/enabling by
     clicking on it
   - Make sure recording macros are shown and supported
@@ -85,20 +82,21 @@
 ### Needs to be worked on upstream
 
 - Replace `nvim-autopairs` with `blink.pairs`
-- Hack added to [which-key](./lua/plugins/which-key.lua) until this is fixed:
-  [which-key#issue][6]
 - Fix the twitch in the completion menu where responses keep altering b/w
   different answers (needs reproduction) happens because of Copilot most likely
 - Set up a nice "winbar" to show file name and current status
-- Remove magical white spaces from markdown concealed when [this][5] is fixed
+- Remove magical white spaces from markdown concealed when
+  [neovim#conceal-text-bug] is fixed
 - Add shorter when statusline is very compressed (should wait for it to happen)
 - Move to newer nvim-treesitter implementation once
-  `nvim-treesitter-textobjects` supports it. See [#772][1].
+  `nvim-treesitter-textobjects` supports it. See
+  [nvim-treesitter-textobjects#772].
 
 ### Need an actual use case before implementing it
 
-- [Mini-diff][3] with `CodeCompanion` (see also: [diff][4]). Adjust
-  `Inline assistant` portion of the configuration.
+- [code-companion#mini-diff-setup] with `CodeCompanion` (see also:
+  [code-companion#diff-setup]). Adjust `Inline assistant` portion of the
+  configuration.
 - `mcphub.nvim` (Do we need `vectorcode`?)
 - Investigate `:compiler` with `:make` for different filetypes
 - Investigate if we need to set up sessions in Neovim
@@ -106,8 +104,6 @@
 
 ### Plugins
 
-- Replace:
-  - `which-key` -> `mini.clue`
 - Plugins to remove:
   - `lazydev.nvim`
 
@@ -116,13 +112,15 @@
 - Copilot (currently disabled by default)
   - Non-deterministic when it's running and when it's not
   - Fix if the toggle from the statusline does not work
-- Visit [this][13] when all's done
+- Visit [codecompanion.nvim#announcements] when all's done
 - We want a top bar just like `nixCats` and maybe the bottom bar as well
 
-[1]: https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/772
-[3]: https://codecompanion.olimorris.dev/installation.html#mini-diff
-[4]: https://codecompanion.olimorris.dev/configuration/chat-buffer.html#diff
-[5]: https://github.com/neovim/neovim/issues/14409
-[6]: https://github.com/folke/which-key.nvim/issues/967
-[13]:
+[nvim-treesitter-textobjects#772]:
+  https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/772
+[code-companion#mini-diff-setup]:
+  https://codecompanion.olimorris.dev/installation.html#mini-diff
+[code-companion#diff-setup]:
+  https://codecompanion.olimorris.dev/configuration/chat-buffer.html#diff
+[neovim#conceal-text-bug]: https://github.com/neovim/neovim/issues/14409
+[codecompanion.nvim#announcements]:
   https://github.com/olimorris/codecompanion.nvim/discussions/categories/announcements

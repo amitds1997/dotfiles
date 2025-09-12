@@ -16,6 +16,128 @@ local function get_args(config)
   return config
 end
 
+local dap_keymaps = {
+  {
+    "<leader>dB",
+    function()
+      require("dap").set_breakpoint(vim.fn.input "Breakpoint condition: ")
+    end,
+    desc = "Breakpoint Condition",
+  },
+  {
+    "<leader>db",
+    function()
+      require("dap").toggle_breakpoint()
+    end,
+    desc = "Toggle Breakpoint",
+  },
+  {
+    "<leader>dc",
+    function()
+      require("dap").continue()
+    end,
+    desc = "Run/Continue",
+  },
+  {
+    "<leader>da",
+    function()
+      require("dap").continue { before = get_args }
+    end,
+    desc = "Run with Args",
+  },
+  {
+    "<leader>dC",
+    function()
+      require("dap").run_to_cursor()
+    end,
+    desc = "Run to Cursor",
+  },
+  {
+    "<leader>dg",
+    function()
+      require("dap").goto_()
+    end,
+    desc = "Go to Line (No Execute)",
+  },
+  {
+    "<leader>di",
+    function()
+      require("dap").step_into()
+    end,
+    desc = "Step Into",
+  },
+  {
+    "<leader>dj",
+    function()
+      require("dap").down()
+    end,
+    desc = "Down",
+  },
+  {
+    "<leader>dk",
+    function()
+      require("dap").up()
+    end,
+    desc = "Up",
+  },
+  {
+    "<leader>dl",
+    function()
+      require("dap").run_last()
+    end,
+    desc = "Run Last",
+  },
+  {
+    "<leader>dO",
+    function()
+      require("dap").step_out()
+    end,
+    desc = "Step Out",
+  },
+  {
+    "<leader>do",
+    function()
+      require("dap").step_over()
+    end,
+    desc = "Step Over",
+  },
+  {
+    "<leader>dP",
+    function()
+      require("dap").pause()
+    end,
+    desc = "Pause",
+  },
+  {
+    "<leader>dr",
+    function()
+      require("dap").repl.toggle()
+    end,
+    desc = "Toggle REPL",
+  },
+  {
+    "<leader>ds",
+    function()
+      require("dap").session()
+    end,
+    desc = "Session",
+  },
+  {
+    "<leader>dt",
+    function()
+      require("dap").terminate()
+    end,
+    desc = "Terminate",
+  },
+  {
+    "<leader>dK",
+    function()
+      require("dap.ui.widgets").hover()
+    end,
+    desc = "Widgets",
+  },
+}
+
 ---@module 'lazy'
 ---@type LazyPluginSpec[]
 return {
@@ -46,140 +168,21 @@ return {
           local dap_view = require "dap-view"
 
           dap_view.setup(opts)
-          dap.listeners.after.event_initialized["dapui_config"] = function()
+          dap.listeners.before.event_initialized["dap-view-config"] = function()
             dap_view.open()
           end
-          dap.listeners.before.event_terminated["dapui_config"] = function()
+          dap.listeners.before.event_terminated["dap-view-config"] = function()
             dap_view.close()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("q", true, false, true), "n", true)
           end
-          dap.listeners.before.event_exited["dapui_config"] = function()
+          dap.listeners.before.event_exited["dap-view-config"] = function()
             dap_view.close()
           end
         end,
       },
       "mfussenegger/nvim-dap-python",
     },
-    keys = {
-      {
-        "<leader>dB",
-        function()
-          require("dap").set_breakpoint(vim.fn.input "Breakpoint condition: ")
-        end,
-        desc = "Breakpoint Condition",
-      },
-      {
-        "<leader>db",
-        function()
-          require("dap").toggle_breakpoint()
-        end,
-        desc = "Toggle Breakpoint",
-      },
-      {
-        "<leader>dc",
-        function()
-          require("dap").continue()
-        end,
-        desc = "Run/Continue",
-      },
-      {
-        "<leader>da",
-        function()
-          require("dap").continue { before = get_args }
-        end,
-        desc = "Run with Args",
-      },
-      {
-        "<leader>dC",
-        function()
-          require("dap").run_to_cursor()
-        end,
-        desc = "Run to Cursor",
-      },
-      {
-        "<leader>dg",
-        function()
-          require("dap").goto_()
-        end,
-        desc = "Go to Line (No Execute)",
-      },
-      {
-        "<leader>di",
-        function()
-          require("dap").step_into()
-        end,
-        desc = "Step Into",
-      },
-      {
-        "<leader>dj",
-        function()
-          require("dap").down()
-        end,
-        desc = "Down",
-      },
-      {
-        "<leader>dk",
-        function()
-          require("dap").up()
-        end,
-        desc = "Up",
-      },
-      {
-        "<leader>dl",
-        function()
-          require("dap").run_last()
-        end,
-        desc = "Run Last",
-      },
-      {
-        "<leader>dO",
-        function()
-          require("dap").step_out()
-        end,
-        desc = "Step Out",
-      },
-      {
-        "<leader>do",
-        function()
-          require("dap").step_over()
-        end,
-        desc = "Step Over",
-      },
-      {
-        "<leader>dP",
-        function()
-          require("dap").pause()
-        end,
-        desc = "Pause",
-      },
-      {
-        "<leader>dr",
-        function()
-          require("dap").repl.toggle()
-        end,
-        desc = "Toggle REPL",
-      },
-      {
-        "<leader>ds",
-        function()
-          require("dap").session()
-        end,
-        desc = "Session",
-      },
-      {
-        "<leader>dt",
-        function()
-          require("dap").terminate()
-        end,
-        desc = "Terminate",
-      },
-      {
-        "<leader>dh",
-        function()
-          require("dap.ui.widgets").hover()
-        end,
-        desc = "Widgets",
-      },
-    },
+    keys = dap_keymaps,
     config = function()
       -- Signs
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -209,12 +212,33 @@ return {
         return vim.json.decode(json.json_strip_comments(str))
       end
 
-      vim.keymap.set("n", "<leader>hd", function()
-        require("which-key").show {
-          keys = "<leader>d",
-          loop = true, -- Continues until `<esc>` is pressed
-        }
-      end, { desc = "Quick debugging" })
+      -- selene: allow(undefined_variable)
+      if MiniClue ~= nil then
+        -- Set up hydra keymaps for debugging
+        local dap_clues = {}
+        for _, keymap in ipairs(dap_keymaps) do
+          local key = keymap[1]
+          if
+            vim.tbl_contains({
+              "<leader>do",
+              "<leader>dO",
+              "<leader>dC",
+              "<leader>dg",
+              "<leader>di",
+              "<leader>dj",
+              "<leader>dk",
+              "<leader>dK",
+            }, key)
+          then
+            table.insert(dap_clues, {
+              { mode = "n", keys = keymap[1], postkeys = "<leader>d" },
+            })
+          end
+        end
+        vim.list_extend(MiniClue.config.clues, dap_clues)
+      else
+        vim.notify("MiniClue has not been set up so far, so hydra debug won't work", vim.log.levels.WARN)
+      end
     end,
   },
   {

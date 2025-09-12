@@ -91,24 +91,6 @@ return {
   dependencies = { { "mskelton/termicons.nvim", build = false } },
   lazy = false,
   opts = {
-    surround = {
-      ft_custom_surroundings = {
-        markdown = {
-          B = {
-            input = { "%*%*().-()%*%*" },
-            output = { left = "**", right = "**" },
-          },
-          I = {
-            input = { "%_().-()%_" },
-            output = { left = "_", right = "_" },
-          },
-          M = {
-            input = { "%`().-()%`" },
-            output = { left = "`", right = "`" },
-          },
-        },
-      },
-    },
     move = {
       mappings = {
         left = "<leader>mmh",
@@ -168,11 +150,51 @@ return {
         wrap_goto = false,
       },
     },
+    clues = {
+      triggers = {
+        -- Leader
+        { mode = "n", keys = "<leader>" },
+        { mode = "x", keys = "<leader>" },
+        -- `g` key
+        { mode = "n", keys = "g" },
+        { mode = "x", keys = "g" },
+        -- Marks
+        { mode = "n", keys = "'" },
+        { mode = "n", keys = "`" },
+        { mode = "x", keys = "'" },
+        { mode = "x", keys = "`" },
+        -- Registers
+        { mode = "n", keys = '"' },
+        { mode = "x", keys = '"' },
+        { mode = "i", keys = "<C-r>" },
+        { mode = "c", keys = "<C-r>" },
+        -- Windows
+        { mode = "n", keys = "<C-w>" },
+        -- `z` key
+        { mode = "n", keys = "z" },
+        { mode = "x", keys = "z" },
+        -- Brackets `[` and `]`
+        { mode = "n", keys = "[" },
+        { mode = "n", keys = "]" },
+        { mode = "x", keys = "[" },
+        { mode = "x", keys = "]" },
+        -- <C-r>
+        { mode = "i", keys = "<C-r>" },
+        { mode = "c", keys = "<C-r>" },
+        -- mini.surround
+        { mode = "n", keys = "s" },
+      },
+      clues = {},
+      window = {
+        delay = 500,
+      },
+    },
   },
   config = function(_, opts)
-    local surround_opts = opts.surround
+    require("mini.surround").setup()
+    -- We let `mini.surround` handle `s`
+    vim.keymap.set({ "n", "x" }, "s", "<Nop>")
 
-    require("mini.surround").setup(surround_opts)
     require("mini.move").setup(opts.move)
     require("mini.jump").setup()
     require("mini.files").setup(opts.files)
@@ -206,6 +228,56 @@ return {
       },
     }
 
+    local miniclue = require "mini.clue"
+    local clues = {}
+
+    -- Hydra mappings for moving lines
+    local move_hydra = {}
+    for key, val in pairs(opts.move.mappings) do
+      local mode = vim.startswith(key, "line_") and "x" or "n"
+      table.insert(move_hydra, { mode = mode, keys = val, postkeys = "<leader>mm" })
+    end
+    vim.list_extend(clues, move_hydra)
+
+    -- Clues for <leader> mappings
+    vim.list_extend(clues, {
+      { mode = "n", keys = "<leader>a", desc = "+AI" },
+      { mode = "n", keys = "<leader>d", desc = "+Debugging" },
+      { mode = "n", keys = "<leader>l", desc = "+LSP" },
+      { mode = "n", keys = "<leader>lc", desc = "+Codelens" },
+      { mode = "n", keys = "<leader>m", desc = "+Miscellaneous" },
+      { mode = "n", keys = "<leader>p", desc = "+Picker" },
+      { mode = "n", keys = "<leader>ph", desc = "+History" },
+      { mode = "n", keys = "<leader>t", desc = "+Toggle" },
+      { mode = "n", keys = "<leader>w", desc = "+Window" },
+      { mode = "n", keys = "<leader>D", desc = "+Diagnostics" },
+      { mode = "n", keys = "<leader>mm", desc = "+Move around" },
+      { mode = "n", keys = "<leader>ms", desc = "+Swap" },
+
+      { mode = "v", keys = "<leader>m", desc = "+Miscellaneous" },
+      { mode = "v", keys = "<leader>mm", desc = "+Move stuff" },
+      { mode = "x", keys = "<leader>l", desc = "+LSP" },
+    })
+
+    vim.list_extend(clues, opts.clues.clues)
+    for _, gen_clue in ipairs {
+      miniclue.gen_clues.windows {
+        submode_resize = true,
+      },
+      miniclue.gen_clues.g(),
+      miniclue.gen_clues.marks(),
+      miniclue.gen_clues.registers(),
+      miniclue.gen_clues.windows(),
+      miniclue.gen_clues.z(),
+    } do
+      vim.list_extend(clues, gen_clue)
+    end
+    opts.clues.clues = clues
+
+    require("mini.clue").setup(opts.clues)
+
+    -- TODO: Support hydra mappings for debugging
+
     -- Schedule highlight groups to be applied when possible
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
@@ -228,32 +300,9 @@ return {
       hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),
     })
     require("mini.hipatterns").setup(hl_opts)
-
-    -- Setup filetype-specific surrounds
-    vim.api.nvim_create_autocmd("FileType", {
-      group = require("core.utils").create_augroup "mini-surround-custom",
-      desc = "Setup filetype specific custom surroudings",
-      callback = function(ev)
-        local ft = vim.bo[ev.buf].filetype
-        vim.b.minisurround_config = {
-          custom_surroundings = surround_opts.ft_custom_surroundings[ft],
-        }
-      end,
-    })
   end,
   -- TODO: Add keymap for git blame toggle
   keys = {
-    {
-      "<leader>hm",
-      function()
-        require("which-key").show {
-          keys = "<leader>mm",
-          loop = true,
-        }
-      end,
-      desc = "Move line/selection",
-      mode = { "n", "x", "v" },
-    },
     {
       "<leader>we",
       function()

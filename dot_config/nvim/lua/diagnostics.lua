@@ -81,22 +81,22 @@ vim.diagnostic.config {
   },
 }
 
-keymap("<leader>xc", function()
+keymap("<leader>Dc", function()
   vim.diagnostic.open_float {
     scope = "cursor",
   }
-end, "Get cursor position diagnostics")
-keymap("<leader>xl", function()
+end, "Cursor position diagnostics")
+keymap("<leader>Dl", function()
   vim.diagnostic.open_float {
     scope = "line",
   }
-end, "Get line diagnostics")
-keymap("<leader>xb", function()
+end, "Line diagnostics")
+keymap("<leader>Db", function()
   vim.diagnostic.setloclist()
-end, "Get buffer diagnostics")
-keymap("<leader>xw", function()
+end, "Buffer diagnostics")
+keymap("<leader>Dw", function()
   vim.diagnostic.setqflist()
-end, "Get workspace diagnostics")
+end, "Workspace diagnostics")
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = require("settings").meta_filetypes,

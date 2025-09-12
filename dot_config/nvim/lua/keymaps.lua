@@ -42,7 +42,7 @@ set("<leader>tz", function()
   require("mini.misc").zoom(0, {
     title = vim.api.nvim_buf_get_name(0),
   })
-end, "Toggle zoom for buffer")
+end, "Toggle zoom")
 
 -- Launch a terminal
 set("<leader>tt", function()
