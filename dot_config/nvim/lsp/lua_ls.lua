@@ -24,8 +24,7 @@ return {
         setType = true,
       },
       format = {
-        -- stylua runs using conform
-        enable = false,
+        enable = false, -- stylua runs using conform
       },
       codeLens = {
         enable = true,
@@ -33,6 +32,15 @@ return {
       diagnostics = {
         disable = {
           "unused-local", -- Covered by selene.
+        },
+      },
+      telemetry = {
+        enable = false,
+      },
+      typeFormat = {
+        config = {
+          -- Adds it's own variant of whitespaces which does not match with the rest of the code. See: https://github.com/LuaLS/lua-language-server/issues/2689
+          format_line = "false",
         },
       },
     },
