@@ -101,6 +101,9 @@
 - Investigate `:compiler` with `:make` for different filetypes
 - Investigate if we need to set up sessions in Neovim
 - Revisit installing `overseer` for `preLaunchTask` and `postDebugTask`
+- Copilot (currently disabled by default)
+  - Non-deterministic when it's running and when it's not
+  - Fix if the toggle from the statusline does not work
 
 ### Plugins
 
@@ -109,9 +112,6 @@
 
 ### Miscellaneous
 
-- Copilot (currently disabled by default)
-  - Non-deterministic when it's running and when it's not
-  - Fix if the toggle from the statusline does not work
 - Visit [codecompanion.nvim#announcements] when all's done
 - We want a top bar just like `nixCats` and maybe the bottom bar as well
 

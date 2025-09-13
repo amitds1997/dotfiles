@@ -87,8 +87,6 @@ return {
     },
     signature = { enabled = true, window = { winblend = 0, scrollbar = false } },
     appearance = {
-      -- TODO: Remove these once https://github.com/projekt0n/github-nvim-theme/pull/370 is merged
-      use_nvim_cmp_as_default = true,
       nerd_font_variant = "mono",
       kind_icons = require("core.constants").kind_icons,
     },

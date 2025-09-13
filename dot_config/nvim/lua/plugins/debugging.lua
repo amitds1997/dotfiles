@@ -212,7 +212,6 @@ return {
         return vim.json.decode(json.json_strip_comments(str))
       end
 
-      -- selene: allow(undefined_variable)
       if MiniClue ~= nil then
         -- Set up hydra keymaps for debugging
         local dap_clues = {}

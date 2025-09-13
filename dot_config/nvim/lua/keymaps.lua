@@ -70,6 +70,11 @@ set("<leader>g", function()
   require("utils.float").float_term("lazygit", opts)
 end, "Launch Lazygit")
 
+-- Git blame for line
+vim.keymap.set("n", "<leader>mb", function()
+  require("custom.git_blame").get_line_blame()
+end, { desc = "Get git line blame" })
+
 -- When indenting in visual mode, stay in visual mode
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")

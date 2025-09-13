@@ -3,6 +3,8 @@
 ## On cmdline
 
 - Use `opt+arrows` to navigate back-forward one word at a time
+- Use `ctrl+e` to complete the entire suggestion and `ctrl+a` to jump to the
+  front
 
 ## Fresh new tools
 
@@ -23,44 +25,33 @@
 
 ## 📋 To do lists
 
-### Looking out for 👀
-
-1. TUI-based AI Chat app (`crush` came close, but was slow; takes a lot more
-   time than what other assistants take :/)
-2. Better docker TUI (`lazydocker` is okay-ish)
-
 ### Dropped (for now) 🫳
 
-1. In `kitty`, set up top tab page using Python script to handle stuff nicely.
-   See: [megalithic/dotfiles][4]
-2. In `kitty`, set up [startup session][3]. I guess we want: a. One tab
-   dedicated to `dotfiles`
+1. In `kitty`, set tab bar. See: [megalithic/dotfiles]
+2. In `kitty`, set up [kitty-startup-sessions].
+   - One dedicated to `dotfiles`
 
 ### Blocked 🚫
 
-1. Automatic theme setting on both [`delta`][1] and [`lazygit`][2] together
-2. Look for more use cases before spending time on `ast-grep` and `yazi`
-3. Set up `ipython` configuration dots (need a use case)
+1. Auto theme in `delta` and `lazygit`: [delta#1968] and [lazygit#4366]
+2. Use cases before spending time on `ast-grep` and `yazi`
 
 ### Pending ⏰
 
-- [ ] Add `chezmoi` command to automatically loop over all paths and add any
-      missing files as and when needed
-- [ ] Explore `mise` as a replacement for `fnm` and `sdkman` (maybe even `bob`)
-- [ ] Set up `1pass` and `bitwarden` workflows
-- [ ] Database tool
-- [ ] Better history management. Check out `altuin`
-- [ ] Find ways to use fingerprint and passkeys more
-- [ ] Set up `nvim` such that it uses history to find the file location in case
-      it does not exist in the current directory
-- [ ] Set up sane defaults for `nano` for those 1 in a million chances
-- [ ] Set up `grc`
+- `Chezmoi` should handle getting changed/deleted/fresh files with a single
+  command
+- Set up `grc`
+- Better tools:
+  - Shell history - (`altuin`)
+  - Package manager - (`mise` as replacement for `fnm` and `sdkman`)
+  - Database tool that remembers credentials well and supports Redshift
+- More use cases for password managers, passkeys and fingerprint based
+  authentication
 
 ### Under review 📗
 
-1. Set up a clipboard manager (For now, using `raycast` in-built clipboard)
-2. Set up `raycast`
-3. Set up `lazydocker`
+1. Set up `raycast`
+2. Set up `lazydocker`
 
 ### Done ✅
 
@@ -75,7 +66,9 @@
   fd -0 'S01E([1-9][0-9])|S01E09' -e mkv | xargs -0 open -a VLC
   ```
 
-[1]: https://github.com/dandavison/delta/issues/1968
-[2]: https://github.com/jesseduffield/lazygit/issues/4366
-[3]: https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.startup_session
-[4]: https://github.com/megalithic/dotfiles/blob/main/config/kitty/tab_bar.py
+[delta#1968]: https://github.com/dandavison/delta/issues/1968
+[lazygit#4366]: https://github.com/jesseduffield/lazygit/issues/4366
+[kitty-startup-sessions]:
+  https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.startup_session
+[megalithic/dotfiles]:
+  https://github.com/megalithic/dotfiles/blob/main/config/kitty/tab_bar.py

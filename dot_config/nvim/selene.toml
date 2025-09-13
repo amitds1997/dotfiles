@@ -2,3 +2,8 @@ std = "neovim"
 
 [rules]
 mixed_table = "allow"
+
+[globals]
+vim = true
+MiniPick = true
+MiniClue = true

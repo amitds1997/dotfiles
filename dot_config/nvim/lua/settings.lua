@@ -20,6 +20,8 @@ return {
     "dap-view-term",
     "dap-repl",
     "dbout",
+    "diff",
+    "git",
     "gitcommit",
     "gitrebase",
     "gitsigns-blame",

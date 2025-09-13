@@ -1,6 +1,3 @@
--- selene: allow(undefined_variable)
-
--- TODO: Build pickers for undo
 local custom_pickers = {
   registry = function()
     local items = vim.tbl_keys(MiniPick.registry)
@@ -276,8 +273,6 @@ return {
 
     require("mini.clue").setup(opts.clues)
 
-    -- TODO: Support hydra mappings for debugging
-
     -- Schedule highlight groups to be applied when possible
     vim.api.nvim_create_autocmd("User", {
       pattern = "VeryLazy",
@@ -301,7 +296,6 @@ return {
     })
     require("mini.hipatterns").setup(hl_opts)
   end,
-  -- TODO: Add keymap for git blame toggle
   keys = {
     {
       "<leader>we",
@@ -320,7 +314,7 @@ return {
     {
       "<leader>tg",
       function()
-        require("mini.diff").toggle_overlay(0)
+        require("mini.diff").toggle(0)
       end,
       desc = "Toggle Git overlay",
     },
