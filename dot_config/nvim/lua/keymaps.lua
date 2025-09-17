@@ -1,5 +1,6 @@
 local set = require("core.utils").set_keymap
 local Toggler = require "custom.toggler"
+local k = vim.keymap.set
 
 set("<TAB>", "<cmd>bnext<CR>", "Switch buffers (next)")
 set("<S-TAB>", "<cmd>bprevious<CR>", "Switch buffers (next)")
@@ -17,7 +18,7 @@ set("<leader>wo", "<cmd>only<CR>", "Close all except active window")
 set("U", "<C-r>", "Redo changes")
 
 -- Handle search highlighting using <Esc>
-vim.keymap.set({ "n", "v", "i" }, "<Esc>", function()
+k({ "n", "v", "i" }, "<Esc>", function()
   if vim.v.hlsearch == 1 then
     vim.cmd "nohlsearch | redraw!"
   end
@@ -50,13 +51,13 @@ set("<leader>tt", function()
 end, "Toggle terminal")
 
 -- Duplicate and comment first instance
-vim.keymap.set("n", "ycc", "yygccp", { remap = true, desc = "Duplicate current line and comment the first one out" })
+k("n", "ycc", "yygccp", { remap = true, desc = "Duplicate current line and comment the first one out" })
 
 -- Search only in visual area when in visual mode
-vim.keymap.set("x", "/", "<Esc>/\\%V", { desc = "Search only in visual area" })
+k("x", "/", "<Esc>/\\%V", { desc = "Search only in visual area" })
 
 -- Retain cursor position when joining lines
-vim.keymap.set("n", "J", "mzJ`z:delmarks z<cr>")
+k("n", "J", "mzJ`z:delmarks z<cr>")
 
 -- Launch LazyGit
 set("<leader>g", function()
@@ -71,13 +72,13 @@ set("<leader>g", function()
 end, "Launch Lazygit")
 
 -- Git blame for line
-vim.keymap.set("n", "<leader>mb", function()
+k("n", "<leader>mb", function()
   require("custom.git_blame").get_line_blame()
 end, { desc = "Get git line blame" })
 
 -- When indenting in visual mode, stay in visual mode
-vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("v", ">", ">gv")
+k("v", "<", "<gv")
+k("v", ">", ">gv")
 
 -- Replace all instances of highlighted text
 set("<leader>mr", '"hy:%s/<C-r>h//g<left><left>', "Replace word under cursor", { "n", "v" })

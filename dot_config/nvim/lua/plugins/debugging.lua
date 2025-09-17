@@ -162,23 +162,8 @@ return {
               width = 0.4,
             },
           },
+          auto_toggle = "keep_terminal",
         },
-        config = function(_, opts)
-          local dap = require "dap"
-          local dap_view = require "dap-view"
-
-          dap_view.setup(opts)
-          dap.listeners.before.event_initialized["dap-view-config"] = function()
-            dap_view.open()
-          end
-          dap.listeners.before.event_terminated["dap-view-config"] = function()
-            dap_view.close()
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("q", true, false, true), "n", true)
-          end
-          dap.listeners.before.event_exited["dap-view-config"] = function()
-            dap_view.close()
-          end
-        end,
       },
       "mfussenegger/nvim-dap-python",
     },

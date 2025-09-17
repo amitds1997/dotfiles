@@ -287,9 +287,6 @@ return {
       require("mini.pick").registry[picker_name] = impl
     end
 
-    -- Use `mini.pick` for `vim.ui.select`
-    vim.ui.select = require("mini.pick").ui_select
-
     local hl_opts = opts.highlights
     hl_opts.highlighters = vim.tbl_extend("force", hl_opts.highlighters, {
       hex_color = require("mini.hipatterns").gen_highlighter.hex_color(),

@@ -84,7 +84,7 @@ return {
     HINT = " ",
   },
   dap = {
-    Stopped = { " ▷", "DiagnosticWarn", "DapStoppedLine" },
+    Stopped = { "⇢", "DiagnosticWarn", "DapStoppedLine" },
     Breakpoint = { "🞊", "DiagnosticError" },
     BreakpointCondition = { "", "DiagnosticInfo" },
     BreakpointRejected = { "", "DiagnosticWarn" },
