@@ -36,4 +36,8 @@ if [[ $(uname) == "Darwin" ]]; then
     if [[ -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]]; then
       fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
     fi
+
+    # Set up gems
+    export GEM_HOME=$HOME/.gem
+    export PATH="/opt/homebrew/opt/ruby/bin:$GEM_HOME/bin:$PATH"
 fi
