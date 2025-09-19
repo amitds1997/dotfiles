@@ -91,6 +91,7 @@
 - Move to newer nvim-treesitter implementation once
   `nvim-treesitter-textobjects` supports it. See
   [nvim-treesitter-textobjects#772].
+- Set up better formatting for hover documents (if possible)
 
 ### Need an actual use case before implementing it
 
@@ -104,16 +105,12 @@
 - Copilot (currently disabled by default)
   - Non-deterministic when it's running and when it's not
   - Fix if the toggle from the statusline does not work
+- Visit [codecompanion.nvim#announcements] when all's done
 
 ### Plugins
 
 - Plugins to remove:
   - `lazydev.nvim`
-
-### Miscellaneous
-
-- Visit [codecompanion.nvim#announcements] when all's done
-- We want a top bar just like `nixCats` and maybe the bottom bar as well
 
 [nvim-treesitter-textobjects#772]:
   https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/772
