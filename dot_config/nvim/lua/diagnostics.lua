@@ -81,20 +81,20 @@ vim.diagnostic.config {
   },
 }
 
-keymap("<leader>Dc", function()
+keymap("<leader>xc", function()
   vim.diagnostic.open_float {
     scope = "cursor",
   }
 end, "Cursor position diagnostics")
-keymap("<leader>Dl", function()
+keymap("<leader>xl", function()
   vim.diagnostic.open_float {
     scope = "line",
   }
 end, "Line diagnostics")
-keymap("<leader>Db", function()
+keymap("<leader>xb", function()
   vim.diagnostic.setloclist()
 end, "Buffer diagnostics")
-keymap("<leader>Dw", function()
+keymap("<leader>xw", function()
   vim.diagnostic.setqflist()
 end, "Workspace diagnostics")
 

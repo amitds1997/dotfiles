@@ -85,7 +85,6 @@ end
 ---@type LazyPluginSpec
 return {
   "nvim-mini/mini.nvim",
-  dependencies = { { "mskelton/termicons.nvim", build = false } },
   lazy = false,
   opts = {
     move = {
@@ -247,7 +246,7 @@ return {
       { mode = "n", keys = "<leader>ph", desc = "+History" },
       { mode = "n", keys = "<leader>t", desc = "+Toggle" },
       { mode = "n", keys = "<leader>w", desc = "+Window" },
-      { mode = "n", keys = "<leader>D", desc = "+Diagnostics" },
+      { mode = "n", keys = "<leader>x", desc = "+Diagnostics" },
       { mode = "n", keys = "<leader>mm", desc = "+Move around" },
       { mode = "n", keys = "<leader>ms", desc = "+Swap" },
 

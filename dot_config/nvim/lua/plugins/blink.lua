@@ -3,7 +3,8 @@
 return {
   "saghen/blink.cmp",
   event = { "InsertEnter", "CmdlineEnter" },
-  version = "1.*",
+  branch = "main",
+  build = "cargo build --release",
   dependencies = {
     "xzbdmw/colorful-menu.nvim",
     "fang2hou/blink-copilot",
@@ -26,13 +27,18 @@ return {
       return not vim.tbl_contains({ "bigfile" }, vim.bo.filetype)
     end,
     cmdline = {
+      keymap = { preset = "cmdline" },
       completion = {
+        list = { selection = { preselect = false } },
         menu = {
           auto_show = function()
             return vim.fn.getcmdtype() == ":"
           end,
         },
       },
+    },
+    keymap = {
+      preset = "default",
     },
     completion = {
       ghost_text = {
