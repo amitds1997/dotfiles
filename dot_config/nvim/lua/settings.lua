@@ -32,6 +32,7 @@ return {
     "codecompanion",
     "help",
     "hgcommit",
+    "log",
     "lspinfo",
     "man",
     "msg",

@@ -1,5 +1,5 @@
 {
-  "Main entry point": {
+  "script_main_path": {
     "prefix": "nm",
     "body": ["if __name__ == \"__main__\":", "    $1"],
     "description": "Python main entry point"

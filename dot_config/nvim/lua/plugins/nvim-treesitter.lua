@@ -6,6 +6,7 @@ local ts_parsers = {
   "css",
   "csv",
   "diff",
+  "dart",
   "dockerfile",
   "editorconfig",
   "git_config",
@@ -28,6 +29,7 @@ local ts_parsers = {
   "json5",
   "jsonc",
   "just",
+  "kotlin",
   "lua",
   "luadoc",
   "make",
@@ -41,6 +43,7 @@ local ts_parsers = {
   "scala",
   "scheme",
   "sql",
+  "swift",
   "ssh_config",
   "terraform",
   "toml",
@@ -84,9 +87,6 @@ return {
         return vim.bo[bufnr].filetype == "bigfile"
       end,
       additional_vim_regex_highlighting = false,
-    },
-    indent = {
-      enable = true,
     },
     incremental_selection = {
       enable = true,

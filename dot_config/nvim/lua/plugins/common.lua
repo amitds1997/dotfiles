@@ -60,7 +60,6 @@ return {
     build = function()
       require("fff.download").download_or_build_binary()
     end,
-    lazy = false,
     keys = {
       {
         "ff",
@@ -85,5 +84,13 @@ return {
       latex = { enabled = false },
       sign = { enabled = false },
     },
+  },
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    ft = { "dart" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = true,
   },
 }
