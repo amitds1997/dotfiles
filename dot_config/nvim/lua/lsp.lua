@@ -99,44 +99,63 @@ local function on_attach(client, bufnr)
     end, "Refresh codelens")
   end
 
-  keymap("<leader>lD", function()
-    vim.lsp.buf.declaration()
-  end, "Declarations(s)")
-  keymap("<leader>ld", function()
-    vim.lsp.buf.definition()
-  end, "Definition(s)")
-  keymap("<leader>li", function()
-    vim.lsp.buf.implementation()
-  end, "Implementation(s)")
-  keymap("<leader>lr", function()
-    vim.lsp.buf.references()
-  end, "References")
-  keymap("<leader>ls", function()
-    vim.lsp.buf.document_symbol()
-  end, "Document symbols")
-  keymap("<leader>lt", function()
-    vim.lsp.buf.type_definition()
-  end, "Type definitions")
-  keymap("<leader>lI", function()
-    vim.lsp.buf.incoming_calls()
-  end, "Incoming call(s)")
-  keymap("<leader>lO", function()
-    vim.lsp.buf.outgoing_calls()
-  end, "Outgoing call(s)")
-  keymap("<leader>lS", function()
-    vim.lsp.buf.workspace_symbol()
-  end, "Workspace symbols")
+  if client:supports_method(methods.textDocument_declaration) then
+    keymap("<leader>lD", function()
+      vim.lsp.buf.declaration()
+    end, "Declarations(s)")
+  end
+  if client:supports_method(methods.textDocument_definition) then
+    keymap("<leader>ld", function()
+      vim.lsp.buf.definition()
+    end, "Definition(s)")
+  end
+  if client:supports_method(methods.textDocument_implementation) then
+    keymap("<leader>li", function()
+      vim.lsp.buf.implementation()
+    end, "Implementation(s)")
+  end
+  if client:supports_method(methods.textDocument_references) then
+    keymap("<leader>lr", function()
+      vim.lsp.buf.references()
+    end, "References")
+  end
+  if client:supports_method(methods.textDocument_documentSymbol) then
+    keymap("<leader>ls", function()
+      vim.lsp.buf.document_symbol()
+    end, "Document symbols")
+  end
+  if client:supports_method(methods.textDocument_typeDefinition) then
+    keymap("<leader>lt", function()
+      vim.lsp.buf.type_definition()
+    end, "Type definitions")
+  end
+  if client:supports_method(methods.callHierarchy_incomingCalls) then
+    keymap("<leader>lI", function()
+      vim.lsp.buf.incoming_calls()
+    end, "Incoming call(s)")
+  end
+  if client:supports_method(methods.callHierarchy_outgoingCalls) then
+    keymap("<leader>lO", function()
+      vim.lsp.buf.outgoing_calls()
+    end, "Outgoing call(s)")
+  end
+  if client:supports_method(methods.workspace_symbol) then
+    keymap("<leader>lS", function()
+      vim.lsp.buf.workspace_symbol()
+    end, "Workspace symbols")
+  end
 
-  -- Add support for Codelens if the LSP supports it
-
-  -- Action-oriented LSP keymaps
-  -- Formatting is taken care by `conform.nvim` so nothing for that
-  keymap("<leader>la", function(opts)
-    require("tiny-code-action").code_action(opts)
-  end, "Code action(s)")
-  keymap("<leader>lR", function()
-    require("live-rename").rename()
-  end, "Rename symbol", { mode = { "n", "v" } })
+  -- Action-taking LSP methods
+  if client:supports_method(methods.textDocument_codeAction) then
+    keymap("<leader>la", function(opts)
+      require("tiny-code-action").code_action(opts)
+    end, "Code action(s)")
+  end
+  if client:supports_method(methods.textDocument_rename) then
+    keymap("<leader>lR", function()
+      require("live-rename").rename()
+    end, "Rename symbol", { mode = { "n", "v" } })
+  end
 
   -- Diagnostic keymaps
   keymap("[d", function()
@@ -199,7 +218,6 @@ return {
   "b0o/schemastore.nvim",
   {
     "rachartier/tiny-code-action.nvim",
-    event = "LspAttach",
     opts = {
       picker = {
         "buffer",

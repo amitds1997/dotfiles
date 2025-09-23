@@ -18,6 +18,8 @@ return {
         CursorLineSign = { link = "CursorLine" },
         WinSeparator = { link = "FloatBorder" },
         ["@string.special.url"] = { undercurl = false },
+        MiniIndentscopeSymbol = { link = "SnacksIndentChunk", force = true },
+        DapStoppedLine = { link = "Visual" },
       }
     end,
   },

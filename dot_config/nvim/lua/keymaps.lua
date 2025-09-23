@@ -76,6 +76,8 @@ k("n", "<leader>mb", function()
   require("custom.git_blame").get_line_blame()
 end, { desc = "Get git line blame" })
 
+k("n", "<leader>R", "<cmd>restart<cr>", { desc = "Restart Neovim" })
+
 -- When indenting in visual mode, stay in visual mode
 k("v", "<", "<gv")
 k("v", ">", ">gv")

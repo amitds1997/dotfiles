@@ -272,15 +272,6 @@ return {
 
     require("mini.clue").setup(opts.clues)
 
-    -- Schedule highlight groups to be applied when possible
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "VeryLazy",
-      once = true,
-      callback = function()
-        vim.api.nvim_set_hl(0, "MiniIndentscopeSymbol", { link = "SnacksIndentChunk", force = true })
-      end,
-    })
-
     -- Set up custom pickers
     for picker_name, impl in pairs(custom_pickers) do
       require("mini.pick").registry[picker_name] = impl

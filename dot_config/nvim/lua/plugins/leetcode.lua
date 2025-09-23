@@ -5,10 +5,10 @@ return {
   build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
   lazy = leet_arg ~= vim.fn.argv(0, -1),
   cmd = "Leet",
-  dev = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
+    "nvim-treesitter/nvim-treesitter",
   },
   keys = {
     {
