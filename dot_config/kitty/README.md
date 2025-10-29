@@ -2,7 +2,7 @@
 
 ## Tasks
 
-- [ ] Add different `colorscheme` to remote instances
+- [x] Add different `colorscheme` to remote instances
 - [ ] Configure `scrollback` buffer use
 
 ## TIL

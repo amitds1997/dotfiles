@@ -47,6 +47,13 @@
   - Database tool that remembers credentials well and supports Redshift
 - More use cases for password managers, passkeys and fingerprint based
   authentication
+- For switching from Kitty to Ghostty, figure out replacements for most of the
+  additional benefits that Kitty provides
+  1. Unicode insert mode using Mod+u
+  2. Scroll-back buffer
+  3. Jump b/w prompts
+  4. Font selector
+  5. Work spaces and sessions
 
 ### Under review 📗
 
