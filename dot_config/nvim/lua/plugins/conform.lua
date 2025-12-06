@@ -18,8 +18,9 @@ return {
         json = { "prettier", timeout_ms = 500, lsp_format = "fallback" },
         jsonc = { "prettier", timeout_ms = 500, lsp_format = "fallback" },
         lua = { "stylua" },
+        dockerfile = { "dockerfmt", lsp_format = "fallback" },
         markdown = { "prettier" },
-        python = { "black", "ruff_fix", "ruff_format" },
+        python = { "black", "isort", "ruff_fix", "ruff_format" },
         sh = { "shfmt" },
         sql = { "sqruff" },
         yaml = { "prettier" },
@@ -51,7 +52,7 @@ return {
           prepend_args = { "--trailing-comma", "none", "--prose-wrap", "always" },
         },
         tombi = {
-          prepend_args = { "--offline" },
+          append_args = { "--offline" },
         },
       },
       format_on_save = function(bufnr)

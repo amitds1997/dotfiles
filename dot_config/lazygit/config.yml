@@ -1,4 +1,3 @@
----
 notARepository: skip
 quitOnTopLevelReturn: true
 gui:
@@ -14,43 +13,35 @@ gui:
       - bold
     inactiveBorderColor:
       - "#93a1a1"
-
     searchingActiveBorderColor:
       - "#d33682"
       - bold
-
     optionsTextColor:
       - "#6c71c4"
-
     selectedLineBgColor:
       - "#eee8d5"
-
     inactiveViewSelectedLineBgColor:
       - bold
-
     cherryPickedCommitFgColor:
       - "#859900"
     cherryPickedCommitBgColor:
       - "#fdf6e3"
-
     markedBaseCommitFgColor:
       - "#2aa198"
     markedBaseCommitBgColor:
       - "#fdf6e3"
-
     unstagedChangesColor:
       - "#dc322f"
-
     defaultFgColor:
       - "#586e75"
 git:
   overrideGpg: true
-  paging:
-    pager: >
-      delta --paging=never --diff-so-fancy --line-numbers --hyperlinks
-      --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
-    colorArg: always
-    useConfig: false
+  pagers:
+    - pager: >
+        delta --paging=never --diff-so-fancy --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+
+      colorArg: always
+      useConfig: false
   commit:
     signOff: true
   parseEmoji: false

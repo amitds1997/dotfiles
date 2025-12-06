@@ -2,8 +2,8 @@ local set = require("core.utils").set_keymap
 local Toggler = require "custom.toggler"
 local k = vim.keymap.set
 
-set("<TAB>", "<cmd>bnext<CR>", "Switch buffers (next)")
-set("<S-TAB>", "<cmd>bprevious<CR>", "Switch buffers (next)")
+-- set("<TAB>", "<cmd>bnext<CR>", "Switch buffers (next)")
+-- set("<S-TAB>", "<cmd>bprevious<CR>", "Switch buffers (next)")
 
 -- Window keymaps
 set("<C-h>", "<cmd>wincmd h<CR>", "Move to window towards left")

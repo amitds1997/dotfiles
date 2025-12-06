@@ -7,7 +7,7 @@ romkatv/powerlevel10k # Prompt plugin
 
 # Zephyr plugins {{{
 mattmc3/zephyr path:plugins/zfunctions # Lazy load functions and provide `funcsave` and `funced`
-mattmc3/zephyr path:plugins/editor # Sane editor defaults
+amitds1997/zephyr path:plugins/editor branch:stable # Sane editor defaults
 mattmc3/zephyr path:plugins/compstyle # Set up completion styles
 mattmc3/zephyr path:plugins/history # Sane history settings
 mattmc3/zephyr path:plugins/confd # Use confd structure to organize configuration

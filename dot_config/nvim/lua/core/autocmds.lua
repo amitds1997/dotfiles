@@ -44,15 +44,15 @@ autocmd("FileType", {
 })
 
 -- Wrap and check for spell in the text filetypes
-autocmd("FileType", {
-  group = create_augroup "wrap_spell",
-  pattern = { "text", "markdown", "gitcommit", "plaintex", "typst" },
-  desc = "Enable wrap and spell for text filetypes",
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
-})
+-- autocmd("FileType", {
+--   group = create_augroup "wrap_spell",
+--   pattern = { "text", "markdown", "gitcommit", "plaintex", "typst" },
+--   desc = "Enable wrap and spell for text filetypes",
+--   callback = function(ev)
+--     vim.opt_local.wrap = true
+--     vim.opt_local.spell = true
+--   end,
+-- })
 
 -- Clean up `viewdir` and `undodir` files older than 30 days
 autocmd({ "FocusLost" }, {

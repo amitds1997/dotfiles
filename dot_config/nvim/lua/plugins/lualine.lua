@@ -64,39 +64,35 @@ return {
       lualine_b = { { "filename", file_status = true, symbols = { unnamed = "" } } },
       lualine_c = { "diagnostics" },
       lualine_x = {
+        "require('custom.lualine.codecompanion').update_status()",
         "searchcount",
-        "selectioncount",
+        "selectwoncount",
         is_macro_recording,
       },
       lualine_y = {
         lsp_component,
+        "branch",
       },
       lualine_z = { "location" },
     },
-    tabline = {
-      lualine_a = {
-        {
-          "buffers",
-          symbols = {
-            alternate_file = "",
-          },
-          buffers_color = {
-            active = "lualine_a_command",
-            inactive = "lualine_b_inactive",
-          },
-        },
-      },
-      lualine_y = { "branch" },
-      lualine_z = {
-        {
-          "tabs",
-          tabs_color = {
-            active = "lualine_a_command",
-            inactive = "lualine_b_inactive",
-          },
-        },
-      },
-    },
+    -- tabline = {
+    --   lualine_z = {
+    --     {
+    --       "tabs",
+    --       cond = function()
+    --         return vim.fn.tabpagenr "$" > 1
+    --       end,
+    --       tabs_color = {
+    --         active = "lualine_a_command",
+    --         inactive = "lualine_b_inactive",
+    --       },
+    --     },
+    --   },
+    -- },
     extensions = { "lazy", "mason" },
   },
+  config = function(_, opts)
+    table.insert(opts.sections.lualine_x, 1, require "custom.lualine.codecompanion")
+    require("lualine").setup(opts)
+  end,
 }

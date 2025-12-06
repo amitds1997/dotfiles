@@ -194,6 +194,7 @@ return {
     require("mini.move").setup(opts.move)
     require("mini.jump").setup()
     require("mini.files").setup(opts.files)
+
     require("mini.diff").setup(opts.diff)
     require("mini.git").setup()
     require("mini.notify").setup {

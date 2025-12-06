@@ -4,9 +4,6 @@
 [[ ${ZPROFRC:-0} -ne 1 ]] || zmodload zsh/zprof
 alias zprofrc="ZPROFRC=1 zsh"
 
-# These operations write to stdout so we should run those before starting instant prompt
-command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
-
 # Enable p10k instant prompt (if available)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" && ${ZPROFRC:-0} -eq 0 ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -26,6 +23,9 @@ source ${ZDOTDIR:-$XDG_CONFIG_HOME}/lib/antidote.zsh
 
 # Homebrew setup
 command -v brew &> /dev/null && eval "$(brew shellenv)"
+
+# FNM setup
+command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
 
 # Source p10k
 [[ ! -f $XDG_CONFIG_HOME/zsh/.p10k.zsh ]] || source $XDG_CONFIG_HOME/zsh/.p10k.zsh

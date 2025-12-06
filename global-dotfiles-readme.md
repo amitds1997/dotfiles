@@ -54,6 +54,7 @@
   3. Jump b/w prompts
   4. Font selector
   5. Work spaces and sessions
+  6. Notifications on job completion in an unfocused space
 
 ### Under review 📗
 
@@ -62,10 +63,6 @@
 
 ### Done ✅
 
-- [x] Set up `-` as a word breaker when moving in the `cmdline` of the terminal
-- [x] Tested out `harlequin` — Did not like it, did not have enough features to
-      spend more time there
-- [x] Test `ghostty` terminal. Now using it
 - [x] Set up a process to set a bunch of files/directories in an order to VLC
       (in future, maybe another app)
 

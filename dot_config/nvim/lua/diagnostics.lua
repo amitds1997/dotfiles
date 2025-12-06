@@ -107,3 +107,23 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  desc = "Disable diagnostics in non-file buffers",
+  callback = function(ev)
+    if vim.bo[ev.buf].buftype ~= "" then
+      vim.diagnostic.enable(false, {
+        bufnr = 0,
+      })
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  desc = "Disable spell in non-file buffers",
+  callback = function(ev)
+    if vim.bo[ev.buf].buftype ~= "" then
+      vim.wo.spell = false
+    end
+  end,
+})

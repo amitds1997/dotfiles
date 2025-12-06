@@ -1,7 +1,9 @@
 ---@type vim.lsp.Config
 return {
   cmd = { "basedpyright-langserver", "--stdio" },
-  filetypes = { "python" },
+  filetypes = {
+    "python",
+  },
   root_markers = {
     "pyproject.toml",
     "setup.py",
@@ -16,7 +18,7 @@ return {
       disableOrganizeImports = true,
       disableTaggedHints = false,
       analysis = {
-        typeCheckingMode = "recommended",
+        typeCheckingMode = "standard",
         autoImportCompletions = true,
         autoSearchPaths = true,
         useLibraryCodeForTypes = true,

@@ -68,6 +68,7 @@ return {
     lua_ls = { name = "Lua LS", priority = 20 },
     marksman = { name = "Marksman", priority = 20 },
     basedpyright = { name = "Python LS", priority = 20 },
+    pyrefly = { name = "Pyrefly", priority = 20 },
     ruff = { name = "Ruff LS", priority = 15 },
     terraformls = { name = "Terraform LS", priority = 20 },
     ts_ls = { name = "Typescript LS", priority = 20 },
