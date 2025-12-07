@@ -6,7 +6,6 @@ local special_sources = {
   ["Lua Diagnostics."] = "lua",
   ["Lua Syntax Check."] = "lua",
 }
-
 local severity_cache = {}
 
 ---@param severity vim.diagnostic.Severity
@@ -127,3 +126,17 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
     end
   end,
 })
+
+-- Diagnostic keymaps
+keymap("[d", function()
+  vim.diagnostic.jump { count = -1 }
+end, "Previous diagnostic")
+keymap("]d", function()
+  vim.diagnostic.jump { count = 1 }
+end, "Next diagnostic")
+keymap("[e", function()
+  vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
+end, "Previous error")
+keymap("]e", function()
+  vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
+end, "Next error")

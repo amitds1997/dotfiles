@@ -2,6 +2,8 @@ local M = require("lualine.component"):extend()
 
 M.processing = false
 M.spinner_index = 1
+M.last_update_time = 0
+M.current_text = ""
 
 local spinner_symbols = {
   "⠋",
@@ -27,10 +29,21 @@ function M:init(options)
     pattern = "CodeCompanionRequest*",
     group = group,
     callback = function(request)
-      if request.match == "CodeCompanionRequestStarted" then
+      event = request.match
+      if event == "CodeCompanionRequestStarted" then
         self.processing = true
-      elseif request.match == "CodeCompanionRequestFinished" then
+        M.current_text = "Thinking..."
+      elseif event == "CodeCompanionRequestStreaming" then
+        M.current_text = "Receiving..."
+      elseif event == "CodeCompanionToolStarted" then
+        M.current_text = "Using tools..."
+      elseif event == "CodeCompanionToolFinished" then
+        M.current_text = "Processing tool output..."
+      elseif event == "CodeCompanionToolsFinished" then
+        M.current_text = ""
+      elseif event == "CodeCompanionRequestFinished" then
         self.processing = false
+        M.current_text = ""
       end
     end,
   })
@@ -40,7 +53,7 @@ end
 function M:update_status()
   if self.processing then
     self.spinner_index = (self.spinner_index % spinner_symbols_len) + 1
-    return "LLM running " .. spinner_symbols[self.spinner_index]
+    return M.current_text .. " " .. spinner_symbols[self.spinner_index]
   else
     return nil
   end

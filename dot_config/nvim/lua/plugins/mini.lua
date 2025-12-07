@@ -239,6 +239,7 @@ return {
     -- Clues for <leader> mappings
     vim.list_extend(clues, {
       { mode = "n", keys = "<leader>a", desc = "+AI" },
+      { mode = "n", keys = "<leader>g", desc = "+Git" },
       { mode = "n", keys = "<leader>d", desc = "+Debugging" },
       { mode = "n", keys = "<leader>l", desc = "+LSP" },
       { mode = "n", keys = "<leader>lc", desc = "+Codelens" },

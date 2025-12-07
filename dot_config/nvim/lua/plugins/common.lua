@@ -4,22 +4,6 @@ local ghostty_config_path = vim.fs.joinpath(vim.env.XDG_CONFIG_HOME, "ghostty", 
 ---@type LazyPluginSpec[]
 return {
   {
-    -- Kitty scrollback
-    "mikesmithgh/kitty-scrollback.nvim",
-    enabled = true,
-    lazy = true,
-    cmd = {
-      "KittyScrollbackGenerateKittens",
-      "KittyScrollbackCheckHealth",
-      "KittyScrollbackGenerateCommandLineEditing",
-    },
-    event = { "User KittyScrollbackLaunch" },
-    version = "*",
-    config = function()
-      require("kitty-scrollback").setup()
-    end,
-  },
-  {
     "nvim-tree/nvim-web-devicons",
     dependencies = { { "mskelton/termicons.nvim", build = false } },
     config = function()
@@ -91,13 +75,5 @@ return {
         },
       },
     },
-  },
-  {
-    "nvim-flutter/flutter-tools.nvim",
-    ft = { "dart" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = true,
   },
 }

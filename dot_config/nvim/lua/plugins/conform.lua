@@ -68,11 +68,11 @@ return {
           return nil
         end
 
-        -- Do not format work files; rest are up for game
-        -- local file_path = vim.api.nvim_buf_get_name(bufnr)
-        -- if file_path ~= "" and file_path:find("^" .. WORK_DIR) then
-        --   return nil
-        -- end
+        -- Do not format work files for following filetypes
+        local file_path = vim.api.nvim_buf_get_name(bufnr)
+        if file_path ~= "" and file_path:find("^" .. WORK_DIR) and vim.tbl_contains({}, vim.bo[bufnr].filetype) then
+          return nil
+        end
 
         return {}
       end,

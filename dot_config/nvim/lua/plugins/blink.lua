@@ -7,7 +7,6 @@ return {
   build = "cargo build --release",
   dependencies = {
     "xzbdmw/colorful-menu.nvim",
-    "fang2hou/blink-copilot",
     {
       "folke/lazydev.nvim",
       ft = "lua",
@@ -23,16 +22,23 @@ return {
     {
       "copilotlsp-nvim/copilot-lsp",
       init = function()
-        vim.g.copilot_nes_debounce = 500
-        vim.keymap.set("n", "<Tab>", function()
+        vim.g.copilot_nes_debounce = 350
+        vim.g.copilot_enabled = true
+        vim.lsp.enable "copilot_ls"
+        vim.keymap.set("n", "<tab>", function()
           local bufnr = vim.api.nvim_get_current_buf()
           local state = vim.b[bufnr].nes_state
-          if state then
+          if vim.g.copilot_enabled and state then
+            -- Try to jump to the start of the suggestion edit
+            -- If already at the start, then apply the pending suggestion
+            -- and jump to the end of the edit
             local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
               or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
+
             return nil
           else
-            return "<C-i>"
+            -- Resolving the terminal's inability to distinguish between `TAB` and `<C-i>` in normal mode
+            return "<Tab>"
           end
         end, { desc = "Accept Copilot NES suggestion", expr = true })
       end,
@@ -57,20 +63,11 @@ return {
     keymap = {
       preset = "default",
       ["<Tab>"] = {
-        function(cmp)
-          if vim.b[vim.api.nvim_get_current_buf()].nes_state then
-            cmp.hide()
-            return (
-              require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit()
-            )
-          end
-          if cmp.snippet_active() then
-            return cmp.accept()
-          else
-            return cmp.select_and_accept()
-          end
-        end,
         "snippet_forward",
+        function()
+          return vim.g.copilot_enabled
+            and (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
+        end,
         "fallback",
       },
     },
@@ -139,37 +136,15 @@ return {
         end
         return 0
       end,
-      default = function()
-        local sources = { "lazydev", "lsp", "buffer", "copilot" }
-        local ok, node = pcall(vim.treesitter.get_node)
-
-        if ok and node then
-          if not vim.tbl_contains({ "comment", "line_comment", "block_comment" }, node:type()) then
-            table.insert(sources, "path")
-          end
-          if node:type() ~= "string" then
-            table.insert(sources, "snippets")
-          end
-        end
-
-        return sources
-      end,
+      default = { "lsp", "buffer", "snippets", "path" },
+      per_filetype = {
+        lua = { inherit_defaults = true, "lazydev" },
+      },
       providers = {
         lazydev = {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
           score_offset = 100,
-        },
-        copilot = {
-          name = "copilot",
-          module = "blink-copilot",
-          score_offset = 100,
-          async = true,
-          opts = {
-            max_completions = 3,
-            max_items = 2,
-            max_attempts = 4,
-          },
         },
       },
     },

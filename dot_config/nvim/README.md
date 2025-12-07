@@ -44,3 +44,13 @@ or rewriting it on my own to reduce plugin count.
 - AI support (both enable and quick-disable)
 - Syntax-based highlighting and navigation
 - Excellent git support in the limited space available
+
+### Jot down
+
+- `Agent mode` can roughly be achieved using Codecompanion.nvim plugin by just
+  adding the `insert_edit_into_file` tool to the chat. Not sure if it would be
+  able to edit multiple files yet though.
+- `Edit mode` can be achieved using `insert_edit_into_file` tool
+- I would like the current active buffer and selected lines to always be
+  attached to the chat buffer
+- Can this be done dynamically?

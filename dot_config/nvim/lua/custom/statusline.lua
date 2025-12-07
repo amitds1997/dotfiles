@@ -1,12 +1,11 @@
 local M = {}
 local _colorscheme_cache = {}
-local gather_hl = require("utils.color").gather_hl_info
 
 local function inverted_hl(hl, force)
   force = force or false
   if (_colorscheme_cache[hl] == nil) or force then
     local inverted_name = ("Inverted%s"):format(hl)
-    local hl_def = gather_hl(hl)
+    local hl_def = vim.api.nvim_get_hl(0, { name = hl, link = false })
     hl_def.fg, hl_def.bg = hl_def.bg, hl_def.fg
     vim.api.nvim_set_hl(0, inverted_name, hl_def)
     _colorscheme_cache[hl] = inverted_name

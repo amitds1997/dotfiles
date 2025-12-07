@@ -1,13 +1,18 @@
 return {
   big_file = {
-    size_in_bytes = 0.5 * 1024 * 1024, -- 500 KB
+    size_in_bytes = 1 * 1024 * 1024, -- 1 MiB
     line_count = 5000,
   },
-  ---@type boolean
-  is_remote = vim.g.remote_neovim_host and true or false,
   colorscheme = {
     name = "kanso",
     transparent_background = false,
+  },
+  last_location_excluded_filetypes = {
+    "NvimTree",
+    "Trouble",
+    "TelescopePrompt",
+    "help",
+    "gitcommit",
   },
   meta_filetypes = {
     "",
@@ -26,6 +31,7 @@ return {
     "gitrebase",
     "gitsigns-blame",
     "kitty-scrollback",
+    "nvim-undotree",
     "leetcode.nvim",
     "man",
     "taskedit",

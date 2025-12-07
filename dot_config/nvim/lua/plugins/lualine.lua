@@ -20,9 +20,9 @@ local function get_lsp_info()
     return acc
   end)
 
-  -- We exclude Copilot LSP from LSP count
+  -- We exclude Copilot LSP from LSP count, we have a special icon for that
   local updated_client_info = vim.tbl_filter(function(name)
-    return name ~= "copilot"
+    return name ~= "copilot_ls"
   end, client_info)
 
   return updated_client_info, #client_info ~= #updated_client_info
@@ -49,6 +49,10 @@ local function is_macro_recording()
   return rec ~= "" and (" ⏺ recording @" .. rec .. " ") or ""
 end
 
+local function is_copilot_active()
+  return vim.g.copilot_enabled and "󰚩 " or "󱚧 "
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   event = { "VeryLazy" },
@@ -71,24 +75,17 @@ return {
       },
       lualine_y = {
         lsp_component,
+        {
+          is_copilot_active,
+          on_click = function()
+            local seq = vim.api.nvim_replace_termcodes("<leader>ta", true, false, true)
+            vim.api.nvim_feedkeys(seq, "m", false)
+          end,
+        },
         "branch",
       },
       lualine_z = { "location" },
     },
-    -- tabline = {
-    --   lualine_z = {
-    --     {
-    --       "tabs",
-    --       cond = function()
-    --         return vim.fn.tabpagenr "$" > 1
-    --       end,
-    --       tabs_color = {
-    --         active = "lualine_a_command",
-    --         inactive = "lualine_b_inactive",
-    --       },
-    --     },
-    --   },
-    -- },
     extensions = { "lazy", "mason" },
   },
   config = function(_, opts)

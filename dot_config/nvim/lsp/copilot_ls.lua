@@ -1,5 +1,6 @@
 ---@type vim.lsp.Config
 return {
+  name = "copilot_ls",
   cmd = { "copilot-language-server", "--stdio" },
   root_markers = { ".git" },
   init_options = {
@@ -15,6 +16,9 @@ return {
   settings = {
     telemetry = {
       telemetryLevel = "off",
+    },
+    nextEditSuggestions = {
+      enabled = true,
     },
   },
 }

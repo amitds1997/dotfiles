@@ -20,8 +20,6 @@
   [code-companion#diff-setup]). Adjust `Inline assistant` portion of the
   configuration.
 - `mcphub.nvim` (Do we need `vectorcode`?)
-- Investigate `:compiler` with `:make` for different filetypes
-- Investigate if we need to set up sessions in Neovim
 - Revisit installing `overseer` for `preLaunchTask` and `postDebugTask`
 - Copilot (currently disabled by default)
   - Non-deterministic when it's running and when it's not
@@ -30,9 +28,14 @@
 
 ### Plugins
 
-- Plugins to remove:
-  - `lazydev.nvim`
 - A nice LSP overview
+- Add handler for opening plugin page from their name using `gx`
+- More compiler and quickfix-loclist usecases
+- Here's how my AI workflow should work:
+  - NES
+  - Control things through a chat
+  - ~In `blink.cmp`'s menu~
+- Investigate if we need to set up sessions in Neovim
 
 [nvim-treesitter-textobjects#772]:
   https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/772

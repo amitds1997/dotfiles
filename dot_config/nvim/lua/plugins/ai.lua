@@ -6,8 +6,6 @@ return {
     cmd = { "CodeCompanion", "CodeCompanionChat", "CodeCompanionActions" },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      -- TODO: Set this up later on
-      "ravitemer/mcphub.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
     opts = {
@@ -34,8 +32,8 @@ return {
           token_count = function(tokens, _)
             return string.format(" %s tokens ", tokens)
           end,
-          show_settings = true,
-          start_in_insert_mode = true,
+          -- show_settings = true,
+          start_in_insert_mode = false,
           show_header_separator = true,
         },
         diff = {
@@ -68,6 +66,10 @@ return {
               },
             },
           },
+          adapter = {
+            name = "copilot",
+            model = "gpt-5.1",
+          },
           opts = {
             completion_provider = "blink",
           },
@@ -75,26 +77,25 @@ return {
         inline = {
           keymaps = {
             accept_change = {
-              modes = { n = "<leader>asa" },
+              modes = { n = "ga" },
               description = "Accept the suggested change",
             },
             reject_change = {
-              modes = { n = "<leader>asr" },
+              modes = { n = "gr" },
               description = "Reject the suggested change",
             },
+            stop = {
+              modes = { n = "q" },
+              description = "Stop the current action",
+            },
+          },
+          adapter = {
+            name = "copilot",
+            model = "claude-sonnet-4.5",
           },
         },
       },
-      extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true,
-          },
-        },
-      },
+      ignore_warnings = true,
     },
     keys = {
       {
@@ -103,6 +104,7 @@ return {
           vim.cmd "CodeCompanionChat"
         end,
         desc = "Open CodeCompanion Chat",
+        mode = { "n", "v" },
       },
       {
         "<leader>aa",
@@ -111,56 +113,13 @@ return {
         end,
         desc = "Open CodeCompanion Actions",
       },
+      {
+        "<leader>at",
+        function()
+          vim.cmd "CodeCompanionChat Toggle"
+        end,
+        desc = "Toggle the CodeCompanion Chat window",
+      },
     },
   },
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   event = "InsertEnter",
-  --   dependencies = {
-  --     {
-  --       "copilotlsp-nvim/copilot-lsp",
-  --       init = function()
-  --         vim.g.copilot_nes_debounce = 500
-  --       end,
-  --     },
-  --   },
-  --   opts = {
-  --     suggestion = { enabled = false },
-  --     panel = { enabled = false },
-  --     nes = {
-  --       enabled = true,
-  --       keymap = {
-  --         accept_and_goto = "<leader>an",
-  --         accept = false,
-  --         dismiss = "<Esc>",
-  --       },
-  --     },
-  --     server_opts_overrides = {
-  --       settings = {
-  --         telemetry = {
-  --           telemetryLevel = "off",
-  --         },
-  --       },
-  --     },
-  --   },
-  --   config = function(_, opts)
-  --     require("copilot").setup(opts)
-  --     vim.g.copilot_enabled = false
-  --
-  --     vim.api.nvim_create_autocmd("User", {
-  --       pattern = "BlinkCmpMenuOpen",
-  --       callback = function()
-  --         vim.b.copilot_suggestion_hidden = false
-  --       end,
-  --     })
-  --
-  --     vim.api.nvim_create_autocmd("User", {
-  --       pattern = "BlinkCmpMenuClose",
-  --       callback = function()
-  --         vim.b.copilot_suggestion_hidden = true
-  --       end,
-  --     })
-  --   end,
-  -- },
 }

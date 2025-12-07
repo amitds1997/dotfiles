@@ -49,5 +49,4 @@ local lazy_opts = {
 require("lazy").setup({
   { import = "plugins" },
   { import = "colorschemes" },
-  { import = "lsp" },
 }, lazy_opts)

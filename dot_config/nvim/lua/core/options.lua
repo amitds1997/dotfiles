@@ -18,6 +18,7 @@ o.timeout = true -- Use timeout for mapped key sequences
 o.timeoutlen = 300 -- Time in ms to wait for a mapped sequence to complete
 o.autowrite = true -- Automatically write files when switching buffers
 o.autowriteall = true -- Same as above, but for more commands
+o.undofile = true -- Persist undo history across sessions
 
 ------------------------------------------
 -- ✨ UI & Appearance
@@ -30,7 +31,6 @@ o.cursorline = true -- Highlight the current line
 o.cursorlineopt = "both" -- Highlight both the screen line and the line number
 o.conceallevel = 2 -- Hide markup characters (e.g., in Markdown)
 o.laststatus = 3 -- Use a global statusline
--- o.statusline = [[%!v:lua.require'custom.statusline'.render()]]
 o.statuscolumn = [[%!v:lua.require'custom.statuscolumn'.get()]]
 o.showtabline = 1 -- Show tabline only when there are at least 2 tabs
 o.cmdheight = 0 -- Hide the command bar
@@ -150,7 +150,6 @@ vim.api.nvim_create_autocmd("User", {
     o.showbreak = "↪ " -- Character to show at the start of wrapped lines
     o.autoread = true -- Automatically reload files when changed on disk
     o.smoothscroll = true -- Enable smooth scrolling
-    o.undofile = true -- Persist undo history across sessions
     o.breakindent = true -- Wrapped lines maintain indentation
     o.shiftround = true -- Round indent to a multiple of 'shiftwidth'
     o.virtualedit = "block" -- Allow the cursor to move where there is no text

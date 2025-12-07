@@ -29,7 +29,7 @@ end
 autocmd("FileType", {
   group = create_augroup "fast_quit",
   pattern = require("settings").meta_filetypes,
-  desc = "Close metadata files with <q>",
+  desc = "Close metadata files with `q`",
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", function()
@@ -42,17 +42,6 @@ autocmd("FileType", {
     end, { buffer = event.buf, silent = true, desc = "Quit buffer" })
   end,
 })
-
--- Wrap and check for spell in the text filetypes
--- autocmd("FileType", {
---   group = create_augroup "wrap_spell",
---   pattern = { "text", "markdown", "gitcommit", "plaintex", "typst" },
---   desc = "Enable wrap and spell for text filetypes",
---   callback = function(ev)
---     vim.opt_local.wrap = true
---     vim.opt_local.spell = true
---   end,
--- })
 
 -- Clean up `viewdir` and `undodir` files older than 30 days
 autocmd({ "FocusLost" }, {
@@ -91,19 +80,22 @@ autocmd("BufReadPost", {
   group = create_augroup "jump_to_last_location",
   desc = "Jump to last location when opening a buffer",
   callback = function(event)
-    local excluded_filetypes = { "NvimTree", "Trouble", "TelescopePrompt", "help", "gitcommit" }
     local buf = event.buf
-    if vim.tbl_contains(excluded_filetypes, vim.bo[buf].filetype) then
+    local excluded_filetypes = require("settings").last_location_excluded_filetypes
+
+    if (buf ~= vim.api.nvim_get_current_buf()) or vim.tbl_contains(excluded_filetypes, vim.bo[buf].filetype) then
       return
     end
-    local mark = vim.api.nvim_buf_get_mark(buf, '"')
+
+    local last_cursor_position_mark = vim.api.nvim_buf_get_mark(buf, '"')
     local line_count = vim.api.nvim_buf_line_count(buf)
-    if mark[1] > 0 and mark[1] <= line_count then
-      vim.api.nvim_win_set_cursor(0, mark)
+    if last_cursor_position_mark[1] > 0 and last_cursor_position_mark[1] <= line_count then
+      vim.api.nvim_win_set_cursor(0, last_cursor_position_mark)
     end
   end,
 })
 
+-- Never conceal for JSON files
 autocmd("FileType", {
   group = create_augroup "json_conceal",
   pattern = { "json", "jsonc", "json5" },
@@ -145,6 +137,9 @@ autocmd({ "BufWinLeave", "BufWritePost", "WinLeave" }, {
   group = auto_view_group,
   desc = "Save view with mkview for real files",
   callback = function(args)
+    if args.buf ~= vim.api.nvim_get_current_buf() then
+      return
+    end
     if vim.b[args.buf].view_activated then
       vim.cmd.mkview { mods = { emsg_silent = true } }
     end

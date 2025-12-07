@@ -2,9 +2,6 @@ local set = require("core.utils").set_keymap
 local Toggler = require "custom.toggler"
 local k = vim.keymap.set
 
--- set("<TAB>", "<cmd>bnext<CR>", "Switch buffers (next)")
--- set("<S-TAB>", "<cmd>bprevious<CR>", "Switch buffers (next)")
-
 -- Window keymaps
 set("<C-h>", "<cmd>wincmd h<CR>", "Move to window towards left")
 set("<C-j>", "<cmd>wincmd j<CR>", "Move to window towards bottom")
@@ -14,14 +11,17 @@ set("<C-l>", "<cmd>wincmd l<CR>", "Move to window towards right")
 set("<leader>wq", "<cmd>close<CR>", "Close active window")
 set("<leader>wo", "<cmd>only<CR>", "Close all except active window")
 
--- Make `U` opposite of `u`
-set("U", "<C-r>", "Redo changes")
-
 -- Handle search highlighting using <Esc>
 k({ "n", "v", "i" }, "<Esc>", function()
+  -- If there are any Copilot next-edit suggestions, clear those
+  require("copilot-lsp.nes").clear()
+
+  -- Clear search highlighting
   if vim.v.hlsearch == 1 then
     vim.cmd "nohlsearch | redraw!"
   end
+
+  -- Do what <Esc> normally does
   return "<Esc>"
 end, { expr = true, silent = true })
 
@@ -60,7 +60,7 @@ k("x", "/", "<Esc>/\\%V", { desc = "Search only in visual area" })
 k("n", "J", "mzJ`z:delmarks z<cr>")
 
 -- Launch LazyGit
-set("<leader>g", function()
+set("<leader>gg", function()
   local opts = { title = "Lazygit", title_pos = "center" }
 
   local cwd = (require("mini.git").get_buf_data(0) or {}).root
@@ -69,18 +69,19 @@ set("<leader>g", function()
   end
 
   require("utils.float").float_term("lazygit", opts)
+
+  -- Zoom in and make Lazy
+  require("mini.misc").zoom(0, {
+    title = vim.api.nvim_buf_get_name(0),
+  })
 end, "Launch Lazygit")
 
 -- Git blame for line
-k("n", "<leader>mb", function()
+k("n", "<leader>gb", function()
   require("custom.git_blame").get_line_blame()
 end, { desc = "Get git line blame" })
 
 k("n", "<leader>R", "<cmd>restart<cr>", { desc = "Restart Neovim" })
-
--- When indenting in visual mode, stay in visual mode
-k("v", "<", "<gv")
-k("v", ">", ">gv")
 
 -- Replace all instances of highlighted text
 set("<leader>mr", '"hy:%s/<C-r>h//g<left><left>', "Replace word under cursor", { "n", "v" })
@@ -118,6 +119,12 @@ Toggler.new({
     return vim.g.copilot_enabled
   end,
   set = function()
+    if vim.g.copilot_enabled then
+      vim.lsp.enable("copilot_ls", false)
+    else
+      vim.lsp.enable("copilot_ls", true)
+    end
+
     vim.g.copilot_enabled = not vim.g.copilot_enabled
   end,
   notify = true,
@@ -141,11 +148,11 @@ Toggler.new({
   id = "codelens",
   name = "codelens",
   get = function()
-    return vim.g.codelens
+    return vim.g.enable_codelens
   end,
   set = function(state)
-    vim.g.codelens = state
-    if vim.g.codelens then
+    vim.g.enable_codelens = state
+    if vim.g.enable_codelens then
       vim.lsp.codelens.refresh()
     else
       vim.lsp.codelens.clear()

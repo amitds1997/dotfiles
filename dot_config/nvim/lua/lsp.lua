@@ -1,7 +1,7 @@
 local methods = vim.lsp.protocol.Methods
 
 -- By default, codelens are off
-vim.g.codelens = vim.g.codelens == true
+vim.g.enable_codelens = vim.g.enable_codelens == true
 
 -- Enable all LSP servers that have been setup in `lsp/` directory
 vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
@@ -26,7 +26,7 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc, noremap = true })
   end
 
-  -- Handle textDocument/documentHighlight support
+  -- `textDocument/documentHighlight` support: Highlights the word under cursor using visual semantics
   if client:supports_method(methods.textDocument_documentHighlight, bufnr) then
     local under_cursor_highlights_group = require("core.utils").create_augroup("create_highlights", false)
 
@@ -45,27 +45,16 @@ local function on_attach(client, bufnr)
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
-
-    -- If the LSP gets detached for any reason, we want to make sure things don't persist
-    vim.api.nvim_create_autocmd("LspDetach", {
-      group = under_cursor_highlights_group,
-      desc = "Clear highlight references on LSP detach",
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.clear_references()
-        vim.api.nvim_clear_autocmds { group = under_cursor_highlights_group, buffer = bufnr }
-      end,
-    })
   end
 
-  -- Handle textDocument/onTypeFormatting support
+  -- `textDocument/onTypeFormatting` support: Handles auto-formatting like `f-string` handling in Python
   if client:supports_method(methods.textDocument_onTypeFormatting) and vim.fn.has "nvim-0.12" == 1 then
     vim.lsp.on_type_formatting.enable(true, {
       client_id = client.id,
     })
   end
 
-  -- Handle textDocument/documentColor support
+  -- `textDocument/documentColor` support: Provides color information inside a document
   if client:supports_method(methods.textDocument_documentColor) and vim.fn.has "nvim-0.12" == 1 then
     vim.lsp.document_color.enable(true, bufnr)
     vim.keymap.set(
@@ -76,100 +65,107 @@ local function on_attach(client, bufnr)
     )
   end
 
-  -- Handle textDocument/codeLens support
+  -- `textDocument/codeLens` support: Provides meta-information like number of references, unit test status, etc.
   if client:supports_method(methods.textDocument_codeLens) then
-    if vim.g.codelens then
+    if vim.g.enable_codelens then
       vim.lsp.codelens.refresh { bufnr = bufnr }
     end
+
     vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave" }, {
       buffer = bufnr,
       callback = function()
-        if vim.g.codelens then
+        if vim.g.enable_codelens then
           vim.lsp.codelens.refresh { bufnr = bufnr }
         else
           vim.lsp.codelens.clear(nil, bufnr)
         end
       end,
     })
+
     keymap("<leader>lcr", vim.lsp.codelens.run, "Run codelens")
     keymap("<leader>lcR", function()
-      if vim.g.codelens then
+      if vim.g.enable_codelens then
         vim.lsp.codelens.refresh { bufnr = bufnr }
       end
     end, "Refresh codelens")
   end
 
+  -- `textDocument/declaration` support: Jump to the declaration of the symbol under the cursor
   if client:supports_method(methods.textDocument_declaration) then
     keymap("<leader>lD", function()
       vim.lsp.buf.declaration()
     end, "Declarations(s)")
   end
+
+  -- `textDocument/definition` support: Jump to the definition of the symbol under the cursor
   if client:supports_method(methods.textDocument_definition) then
     keymap("<leader>ld", function()
       vim.lsp.buf.definition()
     end, "Definition(s)")
   end
+
+  -- `textDocument/implementation` support: Jump to the implementation of the symbol under the cursor
   if client:supports_method(methods.textDocument_implementation) then
     keymap("<leader>li", function()
       vim.lsp.buf.implementation()
     end, "Implementation(s)")
   end
+
+  -- `textDocument/references` support: Find all references to the symbol under the cursor
   if client:supports_method(methods.textDocument_references) then
     keymap("<leader>lr", function()
       vim.lsp.buf.references()
     end, "References")
   end
+
+  -- `textDocument/documentSymbol` support: List all symbols in the current document
   if client:supports_method(methods.textDocument_documentSymbol) then
     keymap("<leader>ls", function()
       vim.lsp.buf.document_symbol()
     end, "Document symbols")
   end
+
+  -- `textDocument/typeDefinition` support: Jump to the type definition of the symbol under the cursor
   if client:supports_method(methods.textDocument_typeDefinition) then
     keymap("<leader>lt", function()
       vim.lsp.buf.type_definition()
     end, "Type definitions")
   end
+
+  -- `callHierarchy/incomingCalls` support: Show incoming calls for the symbol under the cursor
   if client:supports_method(methods.callHierarchy_incomingCalls) then
     keymap("<leader>lI", function()
       vim.lsp.buf.incoming_calls()
     end, "Incoming call(s)")
   end
+
+  -- `callHierarchy/outgoingCalls` support: Show outgoing calls for the symbol under the cursor
   if client:supports_method(methods.callHierarchy_outgoingCalls) then
     keymap("<leader>lO", function()
       vim.lsp.buf.outgoing_calls()
     end, "Outgoing call(s)")
   end
+
+  -- `workspace/symbol` support: Find symbols across the entire workspace
   if client:supports_method(methods.workspace_symbol) then
     keymap("<leader>lS", function()
       vim.lsp.buf.workspace_symbol()
     end, "Workspace symbols")
   end
 
-  -- Action-taking LSP methods
+  -- `textDocument/codeAction` support: Provides a list of possible actions that can be applied to a specific text range
   if client:supports_method(methods.textDocument_codeAction) then
     keymap("<leader>la", function(opts)
       require("tiny-code-action").code_action(opts)
     end, "Code action(s)")
   end
+
+  -- `textDocument/rename` support: Renames a symbol
   if client:supports_method(methods.textDocument_rename) then
     keymap("<leader>lR", function()
       require("live-rename").rename()
     end, "Rename symbol", { mode = { "n", "v" } })
   end
-
-  -- Diagnostic keymaps
-  keymap("[d", function()
-    vim.diagnostic.jump { count = -1 }
-  end, "Previous diagnostic")
-  keymap("]d", function()
-    vim.diagnostic.jump { count = 1 }
-  end, "Next diagnostic")
-  keymap("[e", function()
-    vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
-  end, "Previous error")
-  keymap("]e", function()
-    vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
-  end, "Next error")
 end
 
 -- Sometimes, LSP servers do not register all capabilities at once and might
@@ -186,6 +182,7 @@ vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
   return register_capability(err, res, ctx)
 end
 
+-- Set up LSP-related keymaps when an LSP attaches
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "Configure LSP keymaps",
   callback = function(args)
@@ -195,58 +192,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     on_attach(client, args.buf)
   end,
 })
-
-return {
-  {
-    "mason-org/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "yaml-language-server",
-        "bash-language-server",
-        "basedpyright",
-        "typescript-language-server",
-        "rust-analyzer",
-        "marksman",
-        "json-lsp",
-        -- "pyrefly",
-        "ruff",
-        "gopls",
-        "tombi",
-        "copilot-language-server",
-      },
-    },
-  },
-  "saecki/live-rename.nvim",
-  "b0o/schemastore.nvim",
-  {
-    "rachartier/tiny-code-action.nvim",
-    opts = {
-      picker = {
-        "buffer",
-        opts = {
-          hotkeys = true,
-          hotkeys_mode = "sequential",
-        },
-      },
-    },
-    config = function(_, opts)
-      require("tiny-code-action").setup(opts)
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = { "TinyCodeActionWindowEnterMain", "TinyCodeActionWindowEnterPreview" },
-        callback = function(event)
-          local buf = event.data.buf
-          local win = event.data.win
-
-          -- Disables indent shown via `mini.indentscope`
-          vim.b[buf].disable_indent = true
-          vim.wo[win].cocu = "nc"
-
-          -- Hide `#` at beginning of source titles
-          vim.cmd [[syntax match HashHeader /^#\+/ conceal]]
-        end,
-      })
-    end,
-  },
-}

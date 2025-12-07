@@ -1,7 +1,7 @@
 {
-  "script_main_path": {
+  "script_entrypoint": {
     "prefix": "nm",
     "body": ["if __name__ == \"__main__\":", "    $1"],
-    "description": "Python main entry point"
+    "description": "Script entry point"
   }
 }
