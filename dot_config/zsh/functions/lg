@@ -1,0 +1,16 @@
+export LAZYGIT_NEW_DIR_FILE=${XDG_STATE_HOME}/lazygit/new_dir
+
+lazygit "$@"
+
+if [ -f "$LAZYGIT_NEW_DIR_FILE" ]; then
+  NEW_DIR=$(cat "$LAZYGIT_NEW_DIR_FILE")
+
+  # Only cd if current directory is not already within the new directory
+  if [[ "$PWD" != "$NEW_DIR"* ]]; then
+    cd "$NEW_DIR" || exit
+  fi
+
+  rm -f "$LAZYGIT_NEW_DIR_FILE" > /dev/null
+fi
+
+# vim:ft=zsh:ts=2:foldmethod=marker:foldlevel=0

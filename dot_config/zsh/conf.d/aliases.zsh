@@ -13,7 +13,6 @@ alias gp="git push"
 alias gd="git diff"
 alias gw="git worktree"
 
-alias lg="lazygit"
 alias ldoc="lazydocker"
 
 # eza setup

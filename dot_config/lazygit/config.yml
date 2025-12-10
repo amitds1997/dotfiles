@@ -1,3 +1,4 @@
+---
 notARepository: skip
 quitOnTopLevelReturn: true
 gui:
@@ -38,10 +39,10 @@ git:
   overrideGpg: true
   pagers:
     - pager: >
-        delta --paging=never --diff-so-fancy --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+        delta --paging=never --diff-so-fancy --line-numbers --hyperlinks
+        --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
 
       colorArg: always
-      useConfig: false
   commit:
     signOff: true
   parseEmoji: false
