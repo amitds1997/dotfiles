@@ -23,12 +23,11 @@ return {
       "copilotlsp-nvim/copilot-lsp",
       init = function()
         vim.g.copilot_nes_debounce = 350
-        vim.g.copilot_enabled = true
         vim.lsp.enable "copilot_ls"
         vim.keymap.set("n", "<tab>", function()
           local bufnr = vim.api.nvim_get_current_buf()
           local state = vim.b[bufnr].nes_state
-          if vim.g.copilot_enabled and state then
+          if vim.lsp.is_enabled "copilot_ls" and state then
             -- Try to jump to the start of the suggestion edit
             -- If already at the start, then apply the pending suggestion
             -- and jump to the end of the edit
@@ -65,7 +64,7 @@ return {
       ["<Tab>"] = {
         "snippet_forward",
         function()
-          return vim.g.copilot_enabled
+          return vim.lsp.is_enabled "copilot_ls"
             and (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
         end,
         "fallback",

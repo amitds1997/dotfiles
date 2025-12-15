@@ -32,10 +32,7 @@ if [[ $(uname) == "Darwin" ]]; then
     export HOMEBREW_AUTO_UPDATE_SECS=86400
 
     export COLIMA_HOME=$XDG_CONFIG_HOME/colima
-    # Add any ZSH completions added by homebrew
-    if [[ -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]]; then
-      fpath+=("$HOMEBREW_PREFIX/share/zsh/site-functions")
-    fi
+    # Note: Homebrew completions are automatically added to FPATH by 'brew shellenv'
 
     # Set up gems
     export GEM_HOME=$HOME/.gem

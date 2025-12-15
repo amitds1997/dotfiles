@@ -51,6 +51,7 @@ o.fillchars = {
   foldclose = "",
   fold = " ",
   foldsep = " ",
+  foldinner = " ",
 }
 o.shortmess:append {
   c = true,

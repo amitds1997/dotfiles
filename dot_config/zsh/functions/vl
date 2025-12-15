@@ -1,9 +1,67 @@
-VAULT_ADDR=$(op read "op://Private/C2FO Vault URI/notesPlain" | fzf --border-label " Vault URI ")
-[ -z "${VAULT_ADDR}" ] && echo "Vault address not set" && return
-export VAULT_ADDR
-echo "󰍂 Logging into ${VAULT_ADDR}"
-VAULT_TOKEN=$(VAULT_AUTH_GITHUB_TOKEN=$(op read "op://Private/C2FO Vault/password") vault login -token-only -method=github)
-export VAULT_TOKEN
-echo " Logged into Vault"
+# Configuration
+local COLOR_PRIMARY="99"
+local COLOR_ERROR="196"
+local COLOR_WARNING="220"
+local OP_URI_ITEM="op://Private/C2FO Vault URI/notesPlain"
+local OP_TOKEN_ITEM="op://Private/C2FO Vault/password"
+
+# Helpers
+local function log_error() {
+  echo "$(gum style --foreground "$COLOR_ERROR" --bold "ERROR") $1"
+}
+
+local function log_warning() {
+  echo "$(gum style --foreground "$COLOR_WARNING" --bold "WARNING") $1"
+}
+
+local function log_info() {
+  gum style --foreground "$COLOR_PRIMARY" "$1"
+}
+
+# Check for required commands
+for cmd in op gum vault; do
+  if ! command -v "$cmd" &> /dev/null; then
+    log_error "'$cmd' is not installed or not in PATH."
+    return 1
+  fi
+done
+
+# Fetch Vault URIs
+local vault_uris
+if ! vault_uris=$(gum spin --spinner dot --title "Fetching Vault URIs..." --show-output -- op read "$OP_URI_ITEM"); then
+  log_error "Failed to read Vault URIs from 1Password."
+  return 1
+fi
+
+# Select Vault Address
+local selected_addr
+selected_addr=$(echo "$vault_uris" | gum filter --placeholder "Select Vault URI..." --indicator="→" --match.foreground="$COLOR_PRIMARY")
+
+if [ -z "$selected_addr" ]; then
+  log_warning "Vault address not selected."
+  return 1
+fi
+
+export VAULT_ADDR="$selected_addr"
+log_info "Target: $VAULT_ADDR"
+
+# Retrieve GitHub Token
+local github_token
+if ! github_token=$(gum spin --spinner dot --title "Fetching GitHub Token..." --show-output -- op read "$OP_TOKEN_ITEM"); then
+  log_error "Failed to retrieve GitHub token from 1Password."
+  return 1
+fi
+
+# Login to Vault
+local vault_token
+if ! vault_token=$(gum spin --spinner dot --title "Authenticating with Vault..." --show-output -- sh -c "VAULT_AUTH_GITHUB_TOKEN='$github_token' vault login -token-only -method=github"); then
+  log_error "Vault login failed."
+  return 1
+fi
+
+export VAULT_TOKEN="$vault_token"
+
+# Success
+log_info "Logged into Vault successfully"
 
 # vim:ft=zsh:ts=2:foldmethod=marker:foldlevel=0

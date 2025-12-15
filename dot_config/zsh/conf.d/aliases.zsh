@@ -14,6 +14,9 @@ alias gd="git diff"
 alias gw="git worktree"
 
 alias ldoc="lazydocker"
+if command -v kubecolor >/dev/null 2>&1; then
+  alias kubectl="kubecolor"
+fi
 
 # eza setup
 eza_params=('--git' '--icons' '--classify' '--group-directories-first' '--time-style=+%d-%m-%Y %H:%M' '--group')

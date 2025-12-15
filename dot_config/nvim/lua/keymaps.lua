@@ -111,21 +111,14 @@ Toggler.option(
 Toggler.option("background", { off = "light", on = "dark", name = "Dark Background" }):map "<leader>tb"
 
 -- Toggle copilot
-vim.g.copilot_enabled = true
 Toggler.new({
   id = "global-copilot",
   name = "Copilot",
   get = function()
-    return vim.g.copilot_enabled
+    return vim.lsp.is_enabled "copilot_ls"
   end,
   set = function()
-    if vim.g.copilot_enabled then
-      vim.lsp.enable("copilot_ls", false)
-    else
-      vim.lsp.enable("copilot_ls", true)
-    end
-
-    vim.g.copilot_enabled = not vim.g.copilot_enabled
+    vim.lsp.enable("copilot_ls", not vim.lsp.is_enabled "copilot_ls")
   end,
   notify = true,
 }):map "<leader>ta"

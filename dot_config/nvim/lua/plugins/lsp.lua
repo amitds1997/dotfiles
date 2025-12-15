@@ -39,13 +39,12 @@ return {
         callback = function(event)
           local buf = event.data.buf
           local win = event.data.win
+          vim.diagnostic.enable(false, { bufnr = buf })
 
           -- Disables indent shown via `mini.indentscope`
           vim.b[buf].disable_indent = true
           vim.wo[win].cocu = "nc"
-
-          -- Hide `#` at beginning of source titles
-          vim.cmd [[syntax match HashHeader /^#\+/ conceal]]
+          vim.wo[win].conceallevel = 3
         end,
       })
     end,

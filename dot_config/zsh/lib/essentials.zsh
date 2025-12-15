@@ -74,8 +74,5 @@ HISTFILE=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history
 HISTSIZE=10000
 SAVEHIST=10000
 
-# Use built-in paste magic
-autoload -Uz bracketed-paste-url-magic
-zle -N bracketed-paste bracketed-paste-url-magic
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
+# Built-in paste magic removed to avoid conflicts with fast-syntax-highlighting
+# and zsh-autosuggestions. Zsh 5.1+ handles bracketed paste natively.

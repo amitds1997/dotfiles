@@ -50,7 +50,7 @@ local function is_macro_recording()
 end
 
 local function is_copilot_active()
-  return vim.g.copilot_enabled and "󰚩 " or "󱚧 "
+  return vim.lsp.is_enabled "copilot_ls" and "󰚩 " or "󱚧 "
 end
 
 return {

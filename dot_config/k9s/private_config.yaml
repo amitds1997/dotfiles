@@ -2,4 +2,5 @@
 k9s:
   ui:
     skin: kanagawa
+    noIcons: true
   skipLatestRevCheck: true

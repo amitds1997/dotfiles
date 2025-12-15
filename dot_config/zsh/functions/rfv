@@ -1,14 +1,57 @@
-# ripgrep -> fzf -> nvim [QUERY]
-RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-OPENER="if [[ '${FZF_SELECT_COUNT}' -eq 0 ]]; then nvim {1} +{2} else nvim +cw -q {+f} fi"
+# 1. Dependency Check
+local missing_deps=()
+for cmd in rg fzf bat nvim; do
+  (( $+commands[$cmd] )) || missing_deps+=("$cmd")
+done
+
+if (( ${#missing_deps} > 0 )); then
+  gum style --foreground 196 --border double --padding "1 2" "❌ Missing dependencies: ${missing_deps[*]}"
+  return 1
+fi
+
+# 2. Configuration
+# We use a robust opener that handles single vs multiple selections.
+# We escape variables so they are evaluated at runtime by fzf/shell, not at definition time.
+local OPENER='
+if [[ ${FZF_SELECT_COUNT} -eq 0 ]]; then
+  nvim {1} +{2}
+else
+  nvim +cw -q {+f}
+fi'
+
+# RG_CMD: The command to run on every keystroke
+# --column: print column number
+# --line-number: print line number
+# --no-heading: group matches by file (easier for parsing)
+# --color=always: keep colors for fzf ansi parsing
+# --smart-case: case-insensitive unless capital letters used
+local RG_CMD="rg --column --line-number --no-heading --color=always --smart-case"
+
+# BAT_CMD: The preview command
+# --style=header,numbers,changes: header shows filename, plus line numbers and git changes
+# --highlight-line: highlight the exact line match
+local BAT_CMD="bat --style=header,numbers,changes --color=always --highlight-line {2}"
+
+# 3. Execution
 fzf --disabled --ansi --multi \
-    --bind "start:$RELOAD" --bind "change:$RELOAD" \
+    --layout=reverse \
+    --border rounded \
+    --border-label="   Ripper " \
+    --prompt="Search > " \
+    --pointer="▶" \
+    --marker="✓" \
+    --header="Enter: Edit | Tab: Select | Ctrl-/: Toggle Preview" \
+    --bind "start:reload:$RG_CMD {q} || true" \
+    --bind "change:reload:$RG_CMD {q} || true" \
     --bind "enter:become:$OPENER" \
     --bind "ctrl-o:execute:$OPENER" \
-    --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+    --bind "alt-a:select-all,alt-d:deselect-all" \
+    --bind "ctrl-/:toggle-preview" \
+    --bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
     --delimiter : \
-    --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
-    --preview-window '~4,+{2}+4/3,<80(up)' \
+    --with-nth 2,4.. \
+    --preview "$BAT_CMD {1}" \
+    --preview-window "right,60%,border-left,+{2}+3/3,~3" \
     --query "$*"
 
 # vim:ft=zsh:ts=2:foldmethod=marker:foldlevel=0
