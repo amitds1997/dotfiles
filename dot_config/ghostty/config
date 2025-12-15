@@ -16,7 +16,7 @@ font-codepoint-map = U+D000-U+D0D5,U+D0D7-U+D21B,U+D21D-U+D220 = termicons
 font-codepoint-map = U+EA60-U+EA88,U+EA8A-U+EA8C,U+EA8F-U+EAC7,U+EAC9,U+EACC-U+EB09,U+EB0B-U+EB4E,U+EB50-U+EC52,U+F101 = codicon
 
 # Colorscheme
-theme = dark:Arthur,light:kanso-pearl
+theme = dark:Calamity,light:kanso-pearl
 
 # macOS-specific settings
 macos-icon = blueprint

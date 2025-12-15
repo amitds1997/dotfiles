@@ -16,9 +16,10 @@ export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_TIMEOUT=1
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/config"
 
 # Set FZF options
-export FZF_DEFAULT_OPTS='--color=gutter:-1 --cycle --border
-  --preview-window="sharp" --prompt="» " --marker="+" --pointer=""
-   --layout="reverse" --border="sharp" --info="inline-right"'
+export FZF_DEFAULT_OPTS='--cycle --layout=reverse --height=80% --border=rounded
+  --prompt="» " --pointer="▶" --marker="✓"
+  --no-scrollbar --info=inline-right
+  --color=bg+:-1,gutter:235,border:237,fg+:bold,hl:4,hl+:4:bold,pointer:4,info:244,prompt:4,spinner:4'
 
 if [[ $TERM == "xterm-kitty" ]]; then
   # Use kitty's "Truly Convenient SSH" if in the kitty terminal

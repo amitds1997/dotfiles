@@ -1,8 +1,13 @@
 #!/usr/bin/env zsh
 
+# Antidote specific options
+zstyle ':antidote:plugin:*' defer-options '-p'
+zstyle ':antidote:*' zcompile 'yes'
+
 # Zephyr
 zstyle ':zephyr:plugin:*' 'use-cache' yes
 zstyle ':zephyr:plugin:editor' dot-expansion 'yes'
+zstyle ':zephyr:plugin:editor' symmetric-ctrl-z 'yes'
 
 # Editor
 zstyle ':zle:edit-command-line' editor nvim
@@ -43,10 +48,13 @@ zstyle ':completion:*:descriptions' format '[%d]' # set descriptions format to e
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # Set list-colors to enable filename colorizing
 zstyle ':completion:*' menu no # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
-zstyle ':fzf-tab:*' fzf-pad 4 # Avoid weird bug where the complete list is not shown
 zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s) ' --preview-label=' Preview ' # Noice flags
 zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
 zstyle ':fzf-tab:*' prefix '' # No dot prefix on completion items
+
+# Add a rich git log preview for git checkout, switch, and branch commands
+zstyle ':fzf-tab:complete:git-(checkout|switch|branch):*' fzf-preview \
+	'git log --color=always --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $word | head -200'
 
 # Use `eza` to show previews for directories, `bat` for files and file info for the rest
 zstyle ':fzf-tab:complete:(\|*/|)(ls|bat|cat|cd|rm|cp|mv|ln|nano|nvim|vi|vim|code|open|head|tail|tree|source|z):*' fzf-preview \
