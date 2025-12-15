@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+
+"""
+This script is responsible to run multiple commands one after another if the previous one succeeds.
+If one of the previous one fails, do not run the next one. Show the errors and mention which one failed.
+
+When running a particular command, show it's entire log (both stdout/stderr). Do not try to format or re-run it.
+If possible, wrap it and run it in a container-esque representation. Not actual container, just a box that kind of wraps over it.
+Show the command that you are running before starting to run it and logging it.
+
+In case of failures, show the error and the commands that were not run.
+"""
+
+import sys
+import subprocess
+import shutil
+import argparse
+
+# ANSI Colors
+RESET = "\033[0m"
+BOLD = "\033[1m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+CYAN = "\033[36m"
+GRAY = "\033[90m"
+
+def get_terminal_width(default=80):
+    try:
+        return shutil.get_terminal_size((default, 20)).columns
+    except:
+        return default
+
+def print_header(cmd, index, total, width):
+    prefix = f" {index}/{total} "
+    title = f" Running: {cmd} "
+    
+    # Layout: ╭── prefix ── title dashes ─
+    # Parts: "╭──" (3) + prefix + "──" (2) + title + dashes + "─" (1)
+    static_len = 6 
+    content_len = len(prefix) + len(title)
+    dashes_len = width - static_len - content_len
+    
+    if dashes_len < 0:
+        # Truncate title if too long
+        # Keep at least a minimal title if possible, or just truncate
+        excess = abs(dashes_len)
+        if len(title) > excess + 1:
+             title = title[:-excess-1] + "…"
+        dashes = ""
+    else:
+        dashes = "─" * dashes_len
+        
+    line = f"{CYAN}╭──{GRAY}{prefix}{CYAN}──{BOLD}{title}{RESET}{CYAN}{dashes}─{RESET}"
+    print(line)
+
+def print_footer(success, width):
+    color = GREEN if success else RED
+    symbol = "╰"
+    bar = "─" * (width - 1)
+    print(f"{color}{symbol}{bar}{RESET}")
+
+def print_body(line):
+    # To keep it "container-esque", we prefix with a vertical bar
+    # We do NOT add a right bar because valid alignment with ANSI codes is hard without a library
+    print(f"{CYAN}│{RESET} {line}", end='')
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Run multiple commands sequentially with visual feedback.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=f"""
+{BOLD}EXAMPLE{RESET}
+    {sys.argv[0]} "echo 'Building...'" "make build" "echo 'Done!'"
+"""
+    )
+    parser.add_argument(
+        "commands", 
+        nargs="+", 
+        help="The shell commands to execute."
+    )
+    
+    # Argparse will automatically handle -h/--help
+    
+    try:
+        args = parser.parse_args()
+    except SystemExit:
+        # If no arguments provided, parse_args usually exits. 
+        # But if we want to print custom colored usage first if truly empty:
+        # standard argparse behavior is fine.
+        raise
+
+    commands = args.commands
+    
+    width = get_terminal_width()
+    total = len(commands)
+    
+    for i, cmd in enumerate(commands):
+        idx = i + 1
+        print_header(cmd, idx, total, width)
+        
+        try:
+            # Run command, merge stdout and stderr
+            process = subprocess.Popen(
+                cmd,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1  # Line buffered
+            )
+            
+            # Stream output
+            with process.stdout:
+                for line in iter(process.stdout.readline, ''):
+                    print_body(line)
+            
+            process.wait()
+            return_code = process.returncode
+            
+        except Exception as e:
+            print_body(f"Error executing command: {e}\n")
+            return_code = 1
+
+        success = (return_code == 0)
+        print_footer(success, width)
+
+        if not success:
+            print()
+            print(f"{RED}✖ Command failed:{RESET} {BOLD}{cmd}{RESET}")
+            
+            remaining = commands[i+1:]
+            if remaining:
+                print(f"{YELLOW}⚠ Skipped subsequent commands:{RESET}")
+                for skipped in remaining:
+                    print(f"  {GRAY}- {skipped}{RESET}")
+            
+            sys.exit(return_code)
+        else:
+            # Small spacing between commands
+            if idx < total:
+                print()
+
+    print(f"\n{GREEN}✔ All {total} commands completed successfully.{RESET}")
+
+if __name__ == "__main__":
+    main()
