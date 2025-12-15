@@ -11,7 +11,7 @@ fi
 eval "$(zoxide init zsh)"
 
 # fzf setup
-FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source <(fzf --zsh)
+# FZF_ALT_C_COMMAND= FZF_CTRL_T_COMMAND= source <(fzf --zsh)
 
 # 1pass autocomplete, if installed
 command -v op &> /dev/null && eval "$(op completion zsh)"
