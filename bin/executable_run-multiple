@@ -1,105 +1,127 @@
 #!/usr/bin/env python3
 
-"""
-This script is responsible to run multiple commands one after another if the previous one succeeds.
-If one of the previous one fails, do not run the next one. Show the errors and mention which one failed.
-
-When running a particular command, show it's entire log (both stdout/stderr). Do not try to format or re-run it.
-If possible, wrap it and run it in a container-esque representation. Not actual container, just a box that kind of wraps over it.
-Show the command that you are running before starting to run it and logging it.
-
-In case of failures, show the error and the commands that were not run.
-"""
-
+import os
 import sys
 import subprocess
-import shutil
-import argparse
+import time
+from typing import List, Optional
+from dataclasses import dataclass
 
-# ANSI Colors
-RESET = "\033[0m"
-BOLD = "\033[1m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
-BLUE = "\033[34m"
-CYAN = "\033[36m"
-GRAY = "\033[90m"
+# --- Virtual Environment Auto-Activation ---
+script_dir = os.path.dirname(os.path.abspath(__file__))
+virtual_env_python = os.path.join(script_dir, ".venv", "bin", "python3")
 
-def get_terminal_width(default=80):
+if os.path.exists(virtual_env_python) and os.path.abspath(
+    sys.executable
+) != os.path.abspath(virtual_env_python):
     try:
-        return shutil.get_terminal_size((default, 20)).columns
-    except:
-        return default
+        os.execv(virtual_env_python, [virtual_env_python] + sys.argv)
+    except OSError:
+        pass
 
-def print_header(cmd, index, total, width):
-    prefix = f" {index}/{total} "
-    title = f" Running: {cmd} "
-    
-    # Layout: ╭── prefix ── title dashes ─
-    # Parts: "╭──" (3) + prefix + "──" (2) + title + dashes + "─" (1)
-    static_len = 6 
-    content_len = len(prefix) + len(title)
-    dashes_len = width - static_len - content_len
-    
-    if dashes_len < 0:
-        # Truncate title if too long
-        # Keep at least a minimal title if possible, or just truncate
-        excess = abs(dashes_len)
-        if len(title) > excess + 1:
-             title = title[:-excess-1] + "…"
-        dashes = ""
-    else:
-        dashes = "─" * dashes_len
-        
-    line = f"{CYAN}╭──{GRAY}{prefix}{CYAN}──{BOLD}{title}{RESET}{CYAN}{dashes}─{RESET}"
-    print(line)
-
-def print_footer(success, width):
-    color = GREEN if success else RED
-    symbol = "╰"
-    bar = "─" * (width - 1)
-    print(f"{color}{symbol}{bar}{RESET}")
-
-def print_body(line):
-    # To keep it "container-esque", we prefix with a vertical bar
-    # We do NOT add a right bar because valid alignment with ANSI codes is hard without a library
-    print(f"{CYAN}│{RESET} {line}", end='')
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Run multiple commands sequentially with visual feedback.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"""
-{BOLD}EXAMPLE{RESET}
-    {sys.argv[0]} "echo 'Building...'" "make build" "echo 'Done!'"
-"""
+# --- Imports ---
+try:
+    import typer
+    from rich.console import Console
+    from rich.theme import Theme
+    from rich.panel import Panel
+    from rich.rule import Rule
+    from rich.table import Table
+except ImportError as e:
+    print(
+        f"Error: Missing dependencies. Ensure you are running in the virtual environment or have installed requirements.\nDetails: {e}",
+        file=sys.stderr,
     )
-    parser.add_argument(
-        "commands", 
-        nargs="+", 
-        help="The shell commands to execute."
-    )
-    
-    # Argparse will automatically handle -h/--help
-    
-    try:
-        args = parser.parse_args()
-    except SystemExit:
-        # If no arguments provided, parse_args usually exits. 
-        # But if we want to print custom colored usage first if truly empty:
-        # standard argparse behavior is fine.
-        raise
+    sys.exit(1)
 
-    commands = args.commands
-    
-    width = get_terminal_width()
+# --- Configuration & Styling ---
+custom_theme = Theme(
+    {
+        "info": "bold blue",
+        "success": "bold green",
+        "error": "bold red",
+        "warning": "bold yellow",
+        "cmd": "bold cyan",
+        "dim": "dim white",
+        "border": "cyan",
+        "fail_border": "red",
+    }
+)
+
+console = Console(theme=custom_theme)
+app = typer.Typer(
+    add_completion=False,
+    help="Run multiple commands sequentially with visual feedback.",
+)
+
+
+@dataclass
+class CommandResult:
+    command: str
+    status: str
+    duration: float
+    error: Optional[str] = None
+
+
+def print_output_line(line: str, style: str = "dim"):
+    """Prints a line with a vertical bar prefix."""
+    console.print(f"[{style}]│[/] {line}", end="")
+
+
+@app.command()
+def main(
+    commands: List[str] = typer.Argument(
+        ..., help="The shell commands to execute sequentially."
+    ),
+    env_vars: List[str] = typer.Option(
+        None, "--env", "-e", help="Environment variables to set (KEY=VALUE)."
+    ),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Print commands without executing them."
+    ),
+):
+    """
+    Run multiple commands one after another. Stops on the first failure.
+    """
     total = len(commands)
-    
+
+    # Parse env vars
+    extra_env = os.environ.copy()
+    if env_vars:
+        for item in env_vars:
+            if "=" in item:
+                k, v = item.split("=", 1)
+                extra_env[k] = v
+
+    results: List[CommandResult] = []
+
+    # Header for the whole run
+    if dry_run:
+        console.print(
+            Panel(
+                "[warning]DRY RUN MODE: No commands will be executed.[/]",
+                border_style="warning",
+            )
+        )
+
+    failed = False
+
     for i, cmd in enumerate(commands):
-        idx = i + 1
-        print_header(cmd, idx, total, width)
-        
+        step_num = i + 1
+        start_time = time.time()
+
+        # Header
+        console.print(Rule(f"[info]Step {step_num}/{total}[/]", style="border"))
+        console.print(f"[{'border'}]╭─ Running: [/][cmd]{cmd}[/]")
+
+        if dry_run:
+            console.print(f"[{'border'}]│[/] [dim](Dry Run) Would execute: {cmd}[/]")
+            duration = 0.0
+            results.append(CommandResult(cmd, "Skipped (Dry Run)", duration))
+            console.print(f"[{'border'}]╰─ [success]✔ Dry Run OK[/]\n")
+            continue
+
+        return_code = 0
         try:
             # Run command, merge stdout and stderr
             process = subprocess.Popen(
@@ -108,41 +130,93 @@ def main():
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                bufsize=1  # Line buffered
+                bufsize=1,  # Line buffered
+                executable="/bin/bash",
+                env=extra_env,
             )
-            
+
             # Stream output
             with process.stdout:
-                for line in iter(process.stdout.readline, ''):
-                    print_body(line)
-            
+                for line in iter(process.stdout.readline, ""):
+                    print_output_line(line, "border")
+
             process.wait()
             return_code = process.returncode
-            
+
         except Exception as e:
-            print_body(f"Error executing command: {e}\n")
+            console.print(f"[{'fail_border'}]│[/] [error]Execution Error:[/]: {e}")
             return_code = 1
 
-        success = (return_code == 0)
-        print_footer(success, width)
+        duration = time.time() - start_time
+        success = return_code == 0
 
-        if not success:
-            print()
-            print(f"{RED}✖ Command failed:{RESET} {BOLD}{cmd}{RESET}")
-            
-            remaining = commands[i+1:]
-            if remaining:
-                print(f"{YELLOW}⚠ Skipped subsequent commands:{RESET}")
-                for skipped in remaining:
-                    print(f"  {GRAY}- {skipped}{RESET}")
-            
-            sys.exit(return_code)
+        # Footer
+        if success:
+            console.print(
+                f"[{'border'}]╰─ [success]✔ Success[/] [dim]({duration:.2f}s)[/]"
+            )
+            results.append(CommandResult(cmd, "Success", duration))
+            console.print("")  # Spacer
         else:
-            # Small spacing between commands
-            if idx < total:
-                print()
+            console.print(
+                f"[{'fail_border'}]╰─ [error]✖ Failed[/] [dim]({duration:.2f}s)[/]"
+            )
+            results.append(CommandResult(cmd, "Failed", duration))
+            console.print(
+                f"\n[error]Command failed with exit code {return_code}:[/] [cmd]{cmd}[/]"
+            )
 
-    print(f"\n{GREEN}✔ All {total} commands completed successfully.{RESET}")
+            remaining = commands[i + 1 :]
+            if remaining:
+                console.print(
+                    Panel(
+                        "\n".join([f"- {c}" for c in remaining]),
+                        title="[warning]⚠ Skipped subsequent commands[/]",
+                        border_style="warning",
+                        expand=False,
+                    )
+                )
+
+            # Record skipped for summary
+            for skipped in remaining:
+                results.append(CommandResult(skipped, "Skipped", 0.0))
+
+            failed = True
+            break
+
+    # Summary Table
+    if not dry_run:
+        table = Table(title="Execution Summary", box=None)
+        table.add_column("#", justify="right", style="dim")
+        table.add_column("Command", style="cyan")
+        table.add_column("Status", style="bold")
+        table.add_column("Duration", justify="right")
+
+        for idx, res in enumerate(results):
+            status_style = (
+                "green"
+                if res.status == "Success"
+                else "red"
+                if res.status == "Failed"
+                else "yellow"
+            )
+            table.add_row(
+                str(idx + 1),
+                res.command,
+                f"[{status_style}]{res.status}[/]",
+                f"{res.duration:.2f}s" if res.duration > 0 else "-",
+            )
+
+        console.print(
+            Panel(table, expand=False, border_style="red" if failed else "green")
+        )
+
+    if failed:
+        sys.exit(1)
+    elif not dry_run:
+        console.print("[success]✔ All commands completed successfully.[/]")
+
 
 if __name__ == "__main__":
-    main()
+    app()
+

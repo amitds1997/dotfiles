@@ -36,7 +36,7 @@ return {
         json = { "jsonlint" },
         lua = { "selene" },
         markdown = { "markdownlint" },
-        python = { "bandit" },
+        -- python = { "bandit" },
         sh = { "shellcheck" },
         sql = { "sqlfluff" },
         yaml = { "yamllint", "yq" },
@@ -62,7 +62,7 @@ return {
     opts = {
       ensure_installed = {
         "dotenv-linter",
-        "bandit",
+        -- "bandit",
         "actionlint",
         "golangci-lint",
         -- "hadolint", -- FIX: Until this is fixed: https://github.com/mason-org/mason.nvim/issues/1865

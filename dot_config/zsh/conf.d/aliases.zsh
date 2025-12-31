@@ -23,7 +23,7 @@ eza_params=('--git' '--icons' '--classify' '--group-directories-first' '--time-s
 alias eza='eza ${eza_params}'
 
 # taskwarrior setup
-alias tsui="taskwarrior-tui"
+alias tt="taskwarrior-tui"
 
 if [[ $(uname) == "Darwin" ]]; then
   # Extra brew aliases

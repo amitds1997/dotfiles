@@ -48,6 +48,7 @@ zstyle ':completion:*:descriptions' format '[%d]' # set descriptions format to e
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} # Set list-colors to enable filename colorizing
 zstyle ':completion:*' menu no # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':fzf-tab:*' switch-group '<' '>' # switch group using `<` and `>`
+zstyle ':fzf-tab:*' fzf-pad 4 # Avoid bug where complete list is not shown
 zstyle ':fzf-tab:*' fzf-flags --border-label=' Auto complete/suggestion(s) ' --preview-label=' Preview ' # Noice flags
 zstyle ':fzf-tab:*' use-fzf-default-opts yes # Make fzf-tab follow FZF_DEFAULT_OPTS
 zstyle ':fzf-tab:*' prefix '' # No dot prefix on completion items

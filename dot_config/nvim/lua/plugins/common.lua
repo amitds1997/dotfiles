@@ -65,7 +65,7 @@ return {
         position = "overlay",
         icons = { "󰼏  ", "󰼐  ", "󰼑  ", "󰼒  ", "󰼓  ", "󰼔  " },
       },
-      latex = { enabled = true },
+      latex = { enabled = false },
       sign = { enabled = false },
       overrides = {
         filetype = {

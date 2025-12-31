@@ -1,0 +1,326 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import time
+import json
+from dataclasses import dataclass
+from typing import Optional, Generator, List, Union
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+# --- Virtual Environment Auto-Activation ---
+script_dir = os.path.dirname(os.path.abspath(__file__))
+virtual_env_python = os.path.join(script_dir, ".venv", "bin", "python3")
+
+if os.path.exists(virtual_env_python) and os.path.abspath(
+    sys.executable
+) != os.path.abspath(virtual_env_python):
+    try:
+        os.execv(virtual_env_python, [virtual_env_python] + sys.argv)
+    except OSError:
+        pass
+
+# --- Imports ---
+try:
+    import hvac
+    import typer
+    from rich.console import Console
+    from rich.theme import Theme
+    from rich.table import Table
+    from rich.live import Live
+    from rich.spinner import Spinner
+    from rich.panel import Panel
+    from rich.text import Text
+    from hvac.exceptions import InvalidPath, Forbidden, VaultError
+except ImportError as e:
+    print(
+        f"Error: Missing dependencies. Ensure you are running in the virtual environment or have installed requirements.\nDetails: {e}",
+        file=sys.stderr,
+    )
+    sys.exit(1)
+
+# --- Configuration & Styling ---
+custom_theme = Theme(
+    {
+        "info": "bold purple",
+        "warning": "bold yellow",
+        "error": "bold red",
+        "success": "bold green",
+        "not_found": "dim white italic",
+        "highlight": "bold cyan",
+        "permission_denied": "bold yellow",
+    }
+)
+
+console = Console(theme=custom_theme)
+app = typer.Typer(add_completion=False)
+
+MAX_JOBS = 10
+
+
+@dataclass
+class ScanResult:
+    path: str
+    found: bool
+    error: Optional[str] = None
+    permission_denied: bool = False
+
+
+def get_vault_client() -> hvac.Client:
+    """Initialize and authenticate the Vault client."""
+    url = os.getenv("VAULT_ADDR")
+    if not url:
+        console.print("[error]ERROR[/] VAULT_ADDR environment variable is not set.")
+        raise typer.Exit(code=1)
+
+    token = os.getenv("VAULT_TOKEN")
+    if not token:
+        token_path = os.path.expanduser("~/.vault-token")
+        if os.path.exists(token_path):
+            with open(token_path, "r") as f:
+                token = f.read().strip()
+
+    if not token:
+        console.print(
+            "[error]ERROR[/] Could not find Vault token. Please log in or set VAULT_TOKEN."
+        )
+        raise typer.Exit(code=1)
+
+    client = hvac.Client(url=url, token=token)
+
+    if not client.is_authenticated():
+        console.print(
+            "[error]ERROR[/] Vault authentication failed. Token may be invalid or expired."
+        )
+        raise typer.Exit(code=1)
+
+    return client
+
+
+def yield_secrets(
+    client: hvac.Client, mount_point: str, path: str, current_depth: int, max_depth: int
+) -> Generator[Union[str, ScanResult], None, None]:
+    """
+    Recursively yield secret paths from Vault KV v2.
+    Yields strings (valid paths) or ScanResult (for list errors).
+    """
+    if max_depth > 0 and current_depth > max_depth:
+        return
+
+    full_dir_path = f"{mount_point}/{path}"
+
+    try:
+        list_response = client.secrets.kv.v2.list_secrets(
+            path=path, mount_point=mount_point
+        )
+
+        keys = list_response["data"]["keys"]
+
+        for key in keys:
+            current_path = f"{path}/{key}" if path else key
+
+            if key.endswith("/"):
+                # It's a directory, recurse
+                yield from yield_secrets(
+                    client,
+                    mount_point,
+                    current_path.rstrip("/"),
+                    current_depth + 1,
+                    max_depth,
+                )
+            else:
+                # It's a secret
+                yield current_path
+
+    except Forbidden:
+        yield ScanResult(
+            path=full_dir_path,
+            found=False,
+            error="List Permission Denied",
+            permission_denied=True,
+        )
+        return
+    except InvalidPath:
+        if current_depth == 0:
+            yield ScanResult(
+                path=full_dir_path, found=False, error="Invalid Path (List failed)"
+            )
+        return
+    except VaultError as e:
+        yield ScanResult(path=full_dir_path, found=False, error=f"List Error: {e}")
+        return
+
+
+def check_secret(
+    client: hvac.Client, mount_point: str, path: str, search_text: str
+) -> ScanResult:
+    """Fetch a secret and check if it contains the search text."""
+    full_path = f"{mount_point}/{path}"
+    try:
+        response = client.secrets.kv.v2.read_secret_version(
+            path=path, mount_point=mount_point, raise_on_deleted_version=True
+        )
+
+        secret_data = response["data"]["data"]
+        secret_str = str(secret_data)
+
+        if search_text.lower() in secret_str.lower():
+            return ScanResult(path=full_path, found=True)
+        else:
+            return ScanResult(path=full_path, found=False)
+
+    except (Forbidden, InvalidPath):
+        return ScanResult(
+            path=full_path,
+            found=False,
+            error="Access Denied/Invalid",
+            permission_denied=True,
+        )
+    except Exception as e:
+        return ScanResult(path=full_path, found=False, error=str(e))
+
+
+@app.command()
+def main(
+    search_text: str = typer.Argument(
+        ..., help="Text to search for within secret values."
+    ),
+    base_path: str = typer.Argument(
+        ..., help="Vault path to start searching from (e.g., kv/engineering/ec2)."
+    ),
+    json_output: bool = typer.Option(False, "--json", help="Output results as JSON."),
+    max_depth: int = typer.Option(
+        10, "--max-depth", help="Maximum recursion depth for search. 0 for infinite."
+    ),
+):
+    """
+    Search recursively through Vault secrets for a specific text string using hvac.
+    """
+    start_time = time.time()
+
+    parts = base_path.strip("/").split("/", 1)
+    if len(parts) < 2:
+        mount_point = parts[0]
+        start_path = ""
+    else:
+        mount_point = parts[0]
+        start_path = parts[1]
+
+    client = get_vault_client()
+
+    if not json_output:
+        console.print(f"[info]Working with Vault URI[/]: {client.url}")
+        console.print(
+            f"[info]Searching for[/] '[highlight]{search_text}[/]' [info]starting at[/] '[highlight]{mount_point}/{start_path}[/]'..."
+        )
+        if max_depth > 0:
+            console.print(
+                f"[info]Max recursion depth set to[/]: [highlight]{max_depth}[/]"
+            )
+
+    found_secrets: List[str] = []
+    scanned_count = 0
+    error_count = 0
+    permission_denied_count = 0
+
+    status_text_obj = Text("Initializing search...")
+    status_context = (
+        Live(
+            Spinner("dots", text=status_text_obj),
+            console=console,
+            refresh_per_second=12,
+            transient=True,
+        )
+        if not json_output
+        else open(os.devnull, "w")
+    )
+
+    with status_context as live_status:
+        with ThreadPoolExecutor(max_workers=MAX_JOBS) as executor:
+            futures = []
+
+            if not json_output and isinstance(live_status, Live):
+                status_text_obj.plain = "Listing secrets..."
+                live_status.update(Spinner("dots", text=status_text_obj))
+
+            for item in yield_secrets(client, mount_point, start_path, 0, max_depth):
+                if isinstance(item, ScanResult):
+                    # Discovery error
+                    if item.permission_denied:
+                        permission_denied_count += 1
+                        if not json_output:
+                            console.print(
+                                f"[permission_denied]PERMISSION DENIED[/] (List) {item.path}"
+                            )
+                    else:
+                        error_count += 1
+                        if not json_output:
+                            console.print(f"[error]ERROR[/] {item.path}: {item.error}")
+                else:
+                    futures.append(
+                        executor.submit(
+                            check_secret, client, mount_point, item, search_text
+                        )
+                    )
+
+            total_tasks = len(futures)
+            completed_tasks = 0
+
+            for future in as_completed(futures):
+                result = future.result()
+                scanned_count += 1
+                completed_tasks += 1
+
+                if not json_output and isinstance(live_status, Live):
+                    status_text_obj.plain = f"Scanning {completed_tasks}/{total_tasks}: [dim]{result.path}[/dim]"
+                    live_status.update(Spinner("dots", text=status_text_obj))
+
+                if result.found:
+                    found_secrets.append(result.path)
+                    if not json_output:
+                        console.print(f"[success]FOUND[/] {result.path}")
+
+                if result.permission_denied:
+                    permission_denied_count += 1
+                elif result.error:
+                    error_count += 1
+                    if not json_output:
+                        console.print(f"[error]ERROR[/] {result.path}: {result.error}")
+
+    elapsed_time = time.time() - start_time
+
+    if json_output:
+        output = {
+            "search_text": search_text,
+            "base_path": base_path,
+            "max_depth": max_depth,
+            "matches": found_secrets,
+            "stats": {
+                "scanned": scanned_count,
+                "permission_denied": permission_denied_count,
+                "errors": error_count,
+                "elapsed_seconds": round(elapsed_time, 2),
+            },
+        }
+        print(json.dumps(output, indent=2))
+    else:
+        table = Table(title="Search Summary", box=None)
+        table.add_column("Metric", style="cyan")
+        table.add_column("Value", style="magenta")
+
+        table.add_row("Total Scanned", str(scanned_count))
+        table.add_row("Matches Found", f"[success]{len(found_secrets)}[/]")
+
+        pd_style = "permission_denied" if permission_denied_count > 0 else "dim"
+        table.add_row("Permission Denied", f"[{pd_style}]{permission_denied_count}[/]")
+
+        err_style = "error" if error_count > 0 else "dim"
+        table.add_row("Other Errors", f"[{err_style}]{error_count}[/]")
+
+        table.add_row("Time Elapsed", f"{elapsed_time:.2f}s")
+
+        console.print(Panel(table, expand=False))
+
+
+if __name__ == "__main__":
+    app()
