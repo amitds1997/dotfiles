@@ -1,0 +1,727 @@
+#!/usr/bin/env python3
+
+import curses
+import curses.ascii
+import os
+import sys
+import threading
+import time
+import queue
+import json
+import subprocess
+import textwrap
+from pathlib import Path
+from typing import List, Optional, Dict, Any
+
+# Ensure we use the venv python if possible
+script_dir = Path(__file__).resolve().parent
+virtual_env_python = script_dir / ".venv" / "bin" / "python3"
+if virtual_env_python.exists() and not Path(sys.executable).samefile(
+    virtual_env_python
+):
+    try:
+        os.execv(virtual_env_python, [virtual_env_python] + sys.argv)
+    except OSError:
+        pass
+
+import hvac
+from hvac.exceptions import Forbidden, InvalidPath
+
+try:
+    from pygments import lex
+    from pygments.lexers import JsonLexer, PropertiesLexer, IniLexer, YamlLexer
+    from pygments.token import (
+        Token,
+        String,
+        Number,
+        Name,
+        Keyword,
+        Operator,
+        Punctuation,
+        Literal,
+    )
+
+    HAS_PYGMENTS = True
+except ImportError:
+    HAS_PYGMENTS = False
+
+# --- Logic & Data ---
+
+
+class VaultModel:
+    def __init__(self):
+        self.client: Optional[hvac.Client] = None
+        self.cache: Dict[str, List[Dict[str, Any]]] = {}  # Path -> List of items
+        self.secret_cache: Dict[str, Any] = {}  # Path -> Secret Content
+        self.loading_paths = set()
+        self.msg_queue = queue.Queue()
+        self.mounts: List[Dict[str, Any]] = []
+
+    def connect(self) -> str:
+        url = os.getenv("VAULT_ADDR")
+        token = os.getenv("VAULT_TOKEN")
+
+        if not token:
+            token_path = Path("~/.vault-token").resolve()
+            if token_path.exists():
+                token = token_path.read_text().strip()
+
+        if not url or not token:
+            return "Missing VAULT_ADDR or VAULT_TOKEN"
+
+        try:
+            # hvac uses requests which uses urllib3, so connection pooling is automatic
+            # as long as we reuse this client instance.
+            self.client = hvac.Client(url=url, token=token)
+            if not self.client.is_authenticated():
+                return "Authentication Failed"
+        except Exception as e:
+            return f"Connection Error: {e}"
+
+        return "Connected"
+
+    def fetch_path(self, mount: str, path: str):
+        """Background worker to fetch a path."""
+        full_key = f"{mount}/{path}"
+        if full_key in self.loading_paths:
+            return
+
+        self.loading_paths.add(full_key)
+
+        def _work():
+            try:
+                data = []
+                if not path and not mount:
+                    # Root: List mounts
+                    data = self._list_mounts()
+                else:
+                    # Try listing as directory first
+                    data = self._list_secrets(mount, path)
+
+                    # If empty, it might be a secret file (leaf), try reading keys
+                    if not data:
+                        data = self._read_secret_keys(mount, path)
+
+                self.cache[full_key] = data
+                self.msg_queue.put(("loaded", full_key))
+            except Exception as e:
+                self.msg_queue.put(("error", str(e)))
+            finally:
+                if full_key in self.loading_paths:
+                    self.loading_paths.remove(full_key)
+
+        threading.Thread(target=_work, daemon=True).start()
+
+    def _list_mounts(self) -> List[Dict[str, Any]]:
+        try:
+            mounts = self.client.sys.list_mounted_secrets_engines()["data"]
+            results = []
+            for m_path, data in mounts.items():
+                if data["type"] == "kv":
+                    clean = m_path.rstrip("/")
+                    results.append(
+                        {
+                            "name": clean,
+                            "is_dir": True,
+                            "type": "mount",
+                            "mount": clean,
+                            "path": "",
+                            "display_name": clean,
+                        }
+                    )
+
+            if not results:
+                results = [
+                    {
+                        "name": "kv",
+                        "is_dir": True,
+                        "type": "mount",
+                        "mount": "kv",
+                        "path": "",
+                        "display_name": "kv",
+                    },
+                    {
+                        "name": "secret",
+                        "is_dir": True,
+                        "type": "mount",
+                        "mount": "secret",
+                        "path": "",
+                        "display_name": "secret",
+                    },
+                ]
+            return sorted(results, key=lambda x: x["name"])
+        except Exception:
+            return [
+                {
+                    "name": "kv",
+                    "is_dir": True,
+                    "type": "mount",
+                    "mount": "kv",
+                    "path": "",
+                    "display_name": "kv",
+                },
+                {
+                    "name": "secret",
+                    "is_dir": True,
+                    "type": "mount",
+                    "mount": "secret",
+                    "path": "",
+                    "display_name": "secret",
+                },
+            ]
+
+    def _list_secrets(self, mount: str, path: str) -> List[Dict[str, Any]]:
+        try:
+            list_resp = self.client.secrets.kv.v2.list_secrets(
+                path=path, mount_point=mount
+            )
+            keys = list_resp["data"]["keys"]
+            results = []
+            for key in keys:
+                is_dir = key.endswith("/")
+                name = key.rstrip("/")
+                new_path = f"{path}/{name}" if path else name
+                results.append(
+                    {
+                        "name": name,
+                        "is_dir": is_dir,
+                        "type": "dir" if is_dir else "file",
+                        "mount": mount,
+                        "path": new_path,
+                        "display_name": f"{name}/" if is_dir else name,
+                    }
+                )
+            return sorted(results, key=lambda x: (not x["is_dir"], x["name"]))
+        except (InvalidPath, Forbidden):
+            return []
+        except Exception:
+            return []
+
+    def _read_secret_keys(self, mount: str, path: str) -> List[Dict[str, Any]]:
+        try:
+            resp = self.client.secrets.kv.v2.read_secret_version(
+                path=path, mount_point=mount, raise_on_deleted_version=True
+            )
+            data = resp["data"]["data"]
+            results = []
+            for k, v in data.items():
+                results.append(
+                    {
+                        "name": k,
+                        "is_dir": False,
+                        "type": "key",
+                        "mount": mount,
+                        "path": path,  # Path stays same, this is inside
+                        "value": v,
+                        "display_name": k,
+                    }
+                )
+            return sorted(results, key=lambda x: x["name"])
+        except Exception:
+            return []
+
+    def fetch_secret(self, mount: str, path: str):
+        full_key = f"{mount}/{path}"
+        if full_key in self.secret_cache:
+            return
+
+        def _work():
+            try:
+                resp = self.client.secrets.kv.v2.read_secret_version(
+                    path=path, mount_point=mount, raise_on_deleted_version=True
+                )
+                self.secret_cache[full_key] = resp["data"]["data"]
+                self.msg_queue.put(("secret_loaded", full_key))
+            except Exception as e:
+                self.secret_cache[full_key] = {"error": str(e)}
+                self.msg_queue.put(("secret_loaded", full_key))
+
+        threading.Thread(target=_work, daemon=True).start()
+
+
+# --- UI ---
+
+
+class App:
+    def __init__(self, stdscr):
+        self.stdscr = stdscr
+        self.model = VaultModel()
+        self.running = True
+
+        # Navigation State
+        self.current_mount = ""
+        self.current_path = ""
+        self.selection_idx = 0
+        self.scroll_offset = 0
+
+        # Data State
+        self.items: List[Dict] = []
+        self.filtered_items: List[Dict] = []
+        self.status_msg = "Connecting..."
+
+        # Filter State
+        self.filter_mode = False  # For left panel (paths)
+        self.filter_query = ""
+
+        # Colors
+        curses.start_color()
+        curses.use_default_colors()
+        curses.init_pair(1, curses.COLOR_BLUE, -1)  # Directories
+        curses.init_pair(2, curses.COLOR_WHITE, -1)  # Files
+        curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_CYAN)  # Selection
+        curses.init_pair(4, curses.COLOR_RED, -1)  # Error
+        curses.init_pair(5, curses.COLOR_GREEN, -1)  # Success/Status
+        curses.init_pair(6, curses.COLOR_YELLOW, -1)  # Filter
+
+        # Syntax Highlighting Colors (Pairs 10+)
+        curses.init_pair(10, curses.COLOR_CYAN, -1)  # Keys/Name
+        curses.init_pair(11, curses.COLOR_GREEN, -1)  # Strings/Values
+        curses.init_pair(12, curses.COLOR_MAGENTA, -1)  # Numbers/Bool
+        curses.init_pair(13, curses.COLOR_YELLOW, -1)  # Keywords
+        curses.init_pair(14, curses.COLOR_WHITE, -1)  # Punctuation/Operator
+
+        # Init
+        curses.curs_set(0)  # Hide cursor
+        self.stdscr.nodelay(True)  # Non-blocking input
+
+        status = self.model.connect()
+        self.status_msg = status
+
+        if status == "Connected":
+            self.model.fetch_path("", "")  # Load roots
+
+    def get_items_key(self):
+        return f"{self.current_mount}/{self.current_path}"
+
+    def update_list(self):
+        """Check cache and apply filter."""
+        key = self.get_items_key()
+
+        # 1. Fetch/Get from Cache
+        if key in self.model.cache:
+            self.items = self.model.cache[key]
+        else:
+            self.items = []
+            self.model.fetch_path(self.current_mount, self.current_path)
+
+        # 2. Apply Filter (for left panel)
+        if self.filter_query:
+            q = self.filter_query.lower()
+            self.filtered_items = [
+                i for i in self.items if q in i["display_name"].lower()
+            ]
+        else:
+            self.filtered_items = self.items
+
+        # 3. Clamp Selection
+        if self.selection_idx >= len(self.filtered_items):
+            self.selection_idx = max(0, len(self.filtered_items) - 1)
+
+    def draw_highlighted(
+        self, y_start, x_start, text_content, max_w, max_h, lexer=None
+    ):
+        """Render text with syntax highlighting and wrapping."""
+        if not HAS_PYGMENTS:
+            # Fallback if no pygments
+            lines = text_content.split("\n")
+            cy = y_start
+            for line in lines:
+                wrapped = textwrap.wrap(line, max_w)
+                if not wrapped:
+                    wrapped = [""]
+                for wl in wrapped:
+                    if cy >= max_h:
+                        return
+                    try:
+                        self.stdscr.addstr(cy, x_start, wl)
+                    except curses.error:
+                        pass
+                    cy += 1
+            return
+
+        if lexer is None:
+            lexer = JsonLexer()  # Default
+
+        # Tokenize
+        tokens = lex(text_content, lexer)
+
+        cy = y_start
+        cx = 0  # Relative X from x_start
+
+        for token_type, value in tokens:
+            # Map Token to Color
+            attr = curses.color_pair(2)  # Default white
+            if token_type in Token.Name:
+                attr = curses.color_pair(10)
+            elif token_type in Token.String:
+                attr = curses.color_pair(11)
+            elif token_type in Token.Number or token_type in Token.Literal:
+                attr = curses.color_pair(12)
+            elif token_type in Token.Keyword:
+                attr = curses.color_pair(13)
+            elif token_type in Token.Operator or token_type in Token.Punctuation:
+                attr = curses.color_pair(14)
+
+            # Handle Text (wrapping + newlines)
+            # We process char by char or split by lines to handle wrapping correct
+
+            # Simple approach: split value by newlines first
+            parts = value.split("\n")
+
+            for i, part in enumerate(parts):
+                if i > 0:
+                    # We hit a newline in the token
+                    cy += 1
+                    cx = 0
+                    if cy >= max_h:
+                        return
+
+                if not part:
+                    continue
+
+                # Wrap this part
+                while part:
+                    space = max_w - cx
+                    if space <= 0:
+                        cy += 1
+                        cx = 0
+                        space = max_w
+                        if cy >= max_h:
+                            return
+
+                    chunk = part[:space]
+                    try:
+                        self.stdscr.addstr(cy, x_start + cx, chunk, attr)
+                    except curses.error:
+                        pass
+
+                    cx += len(chunk)
+                    part = part[space:]
+
+    def draw(self):
+        self.stdscr.erase()
+        h, w = self.stdscr.getmaxyx()
+
+        # Split width: 40% Tree, 60% Preview
+        split_x = int(w * 0.4)
+
+        # --- Left Column (Tree/List) ---
+        # Draw Path Header
+        path_str = f" {self.current_mount}/{self.current_path} "
+        self.stdscr.addstr(0, 0, path_str[:split_x], curses.A_BOLD | curses.A_REVERSE)
+
+        # Draw Items
+        max_items_h = h - 3
+
+        # Adjust scroll
+        if self.selection_idx < self.scroll_offset:
+            self.scroll_offset = self.selection_idx
+        elif self.selection_idx >= self.scroll_offset + max_items_h:
+            self.scroll_offset = self.selection_idx - max_items_h + 1
+
+        visible_items = self.filtered_items[
+            self.scroll_offset : self.scroll_offset + max_items_h
+        ]
+
+        for i, item in enumerate(visible_items):
+            actual_idx = self.scroll_offset + i
+            row = i + 1
+
+            # Style
+            is_selected = actual_idx == self.selection_idx
+            item_type = item.get("type", "file")
+
+            if item_type in ("mount", "dir"):
+                style = curses.color_pair(1)
+            elif item_type == "key":
+                style = curses.color_pair(6)
+            else:
+                style = curses.color_pair(2)
+
+            if is_selected:
+                style = curses.color_pair(3) | curses.A_BOLD
+
+            label = f" {item['display_name']} "
+            # Pad to split_x - 1
+            label = label.ljust(split_x - 1)
+
+            try:
+                self.stdscr.addstr(row, 0, label[: split_x - 1], style)
+            except curses.error:
+                pass
+
+        # Draw Separator
+        for y in range(h - 1):
+            try:
+                self.stdscr.addch(y, split_x, curses.ACS_VLINE)
+            except curses.error:
+                pass
+
+        # --- Right Column (Preview) ---
+        if 0 <= self.selection_idx < len(self.filtered_items):
+            selected_item = self.filtered_items[self.selection_idx]
+            item_type = selected_item.get("type", "file")
+
+            content_y = 1
+            max_w = w - split_x - 4
+            if max_w < 5:
+                max_w = 5
+
+            if item_type == "key":
+                # Display Value Directly
+                try:
+                    self.stdscr.addstr(
+                        0,
+                        split_x + 2,
+                        f" Value: {selected_item['name']} ",
+                        curses.A_BOLD | curses.A_UNDERLINE,
+                    )
+                except curses.error:
+                    pass
+
+                raw_val = selected_item.get("value")
+                text_content = ""
+                lexer = JsonLexer()
+
+                if isinstance(raw_val, str):
+                    text_content = raw_val
+                    # Try to detect if it's KV/INI-like or just text
+                    if "=" in text_content and "\n" in text_content:
+                        lexer = PropertiesLexer()
+                    else:
+                        # Default generic or None (Plain text)
+                        # We can assume it is just a string, but if we want color,
+                        # maybe assume JSON if it looks like it?
+                        if text_content.strip().startswith("{"):
+                            try:
+                                json.loads(text_content)
+                                lexer = JsonLexer()
+                            except:
+                                lexer = PropertiesLexer()  # Fallback
+                        else:
+                            lexer = PropertiesLexer()  # Treat as property/text
+                else:
+                    text_content = json.dumps(raw_val, indent=2)
+                    lexer = JsonLexer()
+
+                self.draw_highlighted(
+                    content_y, split_x + 2, text_content, max_w, h - 3, lexer
+                )
+
+            elif item_type == "file":
+                # It's a file, fetch/show content (preview)
+                self.model.fetch_secret(selected_item["mount"], selected_item["path"])
+                s_key = f"{selected_item['mount']}/{selected_item['path']}"
+
+                try:
+                    self.stdscr.addstr(
+                        0,
+                        split_x + 2,
+                        f" Secret Preview: {selected_item['name']} ",
+                        curses.A_BOLD | curses.A_UNDERLINE,
+                    )
+                except curses.error:
+                    pass
+
+                if s_key in self.model.secret_cache:
+                    data = self.model.secret_cache[s_key]
+                    text_content = json.dumps(data, indent=2)
+                    self.draw_highlighted(
+                        content_y, split_x + 2, text_content, max_w, h - 3, JsonLexer()
+                    )
+                else:
+                    try:
+                        self.stdscr.addstr(
+                            1, split_x + 2, "Loading...", curses.color_pair(5)
+                        )
+                    except curses.error:
+                        pass
+
+        # --- Footer (Status/Filter) ---
+        try:
+            if self.filter_mode:
+                filter_display = f"FILTER PATH: {self.filter_query}█"
+                self.stdscr.addstr(
+                    h - 1, 0, filter_display.ljust(w - 1), curses.color_pair(3)
+                )
+            else:
+                status = f" {self.status_msg} | Items: {len(self.filtered_items)} | Press '/' to filter, 'y' to copy"
+                if self.filter_query:
+                    status += f" [Filter: {self.filter_query}]"
+                self.stdscr.addstr(h - 1, 0, status.ljust(w - 1), curses.A_REVERSE)
+        except curses.error:
+            pass
+
+        self.stdscr.refresh()
+
+    def copy_to_clipboard(self, text):
+        """Try multiple clipboard commands."""
+        commands = [
+            ["pbcopy"],  # Mac
+            ["wl-copy"],  # Wayland
+            ["xclip", "-selection", "clipboard"],  # X11
+            ["xsel", "--clipboard", "--input"],  # X11
+        ]
+        for cmd in commands:
+            try:
+                p = subprocess.Popen(cmd, stdin=subprocess.PIPE, close_fds=True)
+                p.communicate(input=text.encode("utf-8"))
+                if p.returncode == 0:
+                    self.status_msg = "Copied to clipboard!"
+                    return
+            except FileNotFoundError:
+                continue
+        self.status_msg = "Clipboard command not found."
+
+    def _enter_selected(self):
+        """Enter the currently selected item."""
+        if 0 <= self.selection_idx < len(self.filtered_items):
+            item = self.filtered_items[self.selection_idx]
+            item_type = item.get("type", "file")
+
+            if item_type in ("mount", "dir", "file"):
+                # Can enter
+                if self.current_mount == "" and self.current_path == "":
+                    self.current_mount = item["mount"]
+                else:
+                    self.current_path = item["path"]
+
+                self.selection_idx = 0
+                self.scroll_offset = 0
+                self.filter_query = ""
+                self.status_msg = "Fetching..."
+                self.update_list()
+
+    def run(self):
+        while self.running:
+            # Handle Async Messages
+            try:
+                msg, payload = self.model.msg_queue.get_nowait()
+                if msg == "loaded":
+                    if payload == self.get_items_key():
+                        self.update_list()
+                        self.stdscr.refresh()
+                elif msg == "secret_loaded":
+                    self.stdscr.refresh()
+                elif msg == "error":
+                    self.status_msg = f"Error: {payload}"
+            except queue.Empty:
+                pass
+
+            self.draw()
+
+            try:
+                key = self.stdscr.getch()
+            except:
+                key = -1
+
+            if key != -1:
+                self.handle_input(key)
+
+            time.sleep(0.02)  # 50 FPS
+
+    def handle_input(self, key):
+        # --- Filter Mode Input ---
+        if self.filter_mode:
+            if key == 27:  # ESC: Cancel
+                self.filter_mode = False
+                self.filter_query = ""
+                self.update_list()
+            elif key == 10:  # Enter: Confirm AND Enter
+                self.filter_mode = False
+                self._enter_selected()
+            elif key == 127 or key == curses.KEY_BACKSPACE or key == 8:  # Backspace
+                self.filter_query = self.filter_query[:-1]
+                self.update_list()
+            elif 32 <= key <= 126:  # Printable
+                self.filter_query += chr(key)
+                self.update_list()
+            return
+
+        # --- Normal Mode Input ---
+        if key == ord("q"):
+            self.running = False
+
+        elif key == ord("/"):  # Enter PATH Filter Mode
+            self.filter_mode = True
+            self.status_msg = "Filter Mode"
+
+        elif key == ord("j") or key == curses.KEY_DOWN:
+            if self.selection_idx < len(self.filtered_items) - 1:
+                self.selection_idx += 1
+
+        elif key == ord("k") or key == curses.KEY_UP:
+            if self.selection_idx > 0:
+                self.selection_idx -= 1
+
+        elif key == ord("l") or key == curses.KEY_RIGHT or key == 10:  # Enter/Right
+            self._enter_selected()
+
+        elif (
+            key == ord("h")
+            or key == curses.KEY_LEFT
+            or key == 127
+            or key == curses.KEY_BACKSPACE
+            or key == 8
+        ):  # Left/Back
+            # Go up
+            if self.current_path:
+                if "/" in self.current_path:
+                    self.current_path = self.current_path.rsplit("/", 1)[0]
+                else:
+                    self.current_path = ""
+            elif self.current_mount:
+                self.current_mount = ""
+                self.current_path = ""
+
+            self.selection_idx = 0
+            self.scroll_offset = 0
+            self.filter_query = ""
+            self.update_list()
+
+        elif key == ord("r"):
+            self.model.cache.pop(self.get_items_key(), None)
+            self.update_list()
+
+        elif key == ord("y") or key == ord("c"):
+            # Yank/Copy
+            if 0 <= self.selection_idx < len(self.filtered_items):
+                item = self.filtered_items[self.selection_idx]
+                item_type = item.get("type", "file")
+
+                val_to_copy = ""
+
+                if item_type == "key":
+                    val = item.get("value")
+                    if isinstance(val, str):
+                        val_to_copy = val
+                    else:
+                        val_to_copy = json.dumps(val, indent=2)
+
+                elif item_type == "file":
+                    s_key = f"{item['mount']}/{item['path']}"
+                    if s_key in self.model.secret_cache:
+                        data = self.model.secret_cache[s_key]
+                        val_to_copy = json.dumps(data, indent=2)
+
+                if val_to_copy:
+                    self.copy_to_clipboard(val_to_copy)
+                else:
+                    self.status_msg = "Nothing loaded to copy"
+
+        elif key == 27:  # ESC (in normal mode)
+            # Clear any active filter
+            if self.filter_query:
+                self.filter_query = ""
+                self.update_list()
+
+
+def main(stdscr):
+    # Set ESC delay to 0 for faster feel
+    os.environ.setdefault("ESCDELAY", "25")
+    app = App(stdscr)
+    app.run()
+
+
+if __name__ == "__main__":
+    curses.wrapper(main)
