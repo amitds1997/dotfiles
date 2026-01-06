@@ -2,7 +2,7 @@
 return {
   cmd = { "pyrefly", "lsp" },
   filetypes = {
-    --"python"
+    -- "python",
   },
   root_markers = {
     "pyrefly.toml",

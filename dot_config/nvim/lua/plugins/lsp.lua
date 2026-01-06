@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   {
     "mason-org/mason.nvim",
@@ -22,6 +23,7 @@ return {
   "b0o/schemastore.nvim",
   {
     "rachartier/tiny-code-action.nvim",
+    ---@type render.md.Config
     opts = {
       picker = {
         "buffer",
@@ -43,8 +45,6 @@ return {
 
           -- Disables indent shown via `mini.indentscope`
           vim.b[buf].disable_indent = true
-          vim.wo[win].cocu = "nc"
-          vim.wo[win].conceallevel = 3
         end,
       })
     end,

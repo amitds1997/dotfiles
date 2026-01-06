@@ -71,6 +71,7 @@ return {
     pyrefly = { name = "Pyrefly", priority = 20 },
     ruff = { name = "Ruff LS", priority = 15 },
     terraformls = { name = "Terraform LS", priority = 20 },
+    ty = { name = "Ty LS", priority = 20 },
     ts_ls = { name = "Typescript LS", priority = 20 },
     yamlls = { name = "YAML LS", priority = 20 },
     cssls = { name = "CSS LS", priority = 20 },

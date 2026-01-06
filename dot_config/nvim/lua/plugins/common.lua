@@ -62,8 +62,8 @@ return {
     ---@type render.md.UserConfig
     opts = {
       heading = {
+        enabled = false,
         position = "overlay",
-        icons = { "󰼏  ", "󰼐  ", "󰼑  ", "󰼒  ", "󰼓  ", "󰼔  " },
       },
       latex = { enabled = false },
       sign = { enabled = false },
@@ -71,6 +71,20 @@ return {
         filetype = {
           codecompanion = {
             heading = { enabled = false },
+          },
+        },
+        buftype = {
+          nofile = {
+            heading = {
+              enabled = true,
+              position = "inline",
+              icons = { "" },
+            },
+            win_options = {
+              concealcursor = {
+                rendered = "nc",
+              },
+            },
           },
         },
       },

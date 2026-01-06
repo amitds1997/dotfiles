@@ -12,6 +12,9 @@ vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
       :map(function(file)
         return vim.fn.fnamemodify(file, ":t:r")
       end)
+      :filter(function(name)
+        return name ~= "copilot_ls"
+      end)
       :totable()
     vim.lsp.enable(server_configs)
   end,
