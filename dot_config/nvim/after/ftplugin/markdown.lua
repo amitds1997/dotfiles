@@ -1,4 +1,4 @@
-vim.opt_local.conceallevel = 3
+vim.opt_local.conceallevel = 2
 
 local has_mini_ai, mini_ai = pcall(require, "mini.ai")
 if has_mini_ai then
