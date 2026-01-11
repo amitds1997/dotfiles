@@ -15,6 +15,7 @@ vim.filetype.add {
   },
   pattern = {
     [".env.*"] = "envfile",
+    [".*%.gitconfig"] = "gitconfig",
     ["requirements.*.txt"] = "requirements",
     [".*/hypr/.*%.conf"] = "hyprlang",
     [".*/ghostty/config"] = "ghostty",

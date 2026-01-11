@@ -4,24 +4,26 @@
 [core]
   pager = delta
   editor = nvim
+  fsmonitor = true
+  untrackedCache = true
+  excludesfile = ~/.gitignore
+[color]
+  ui = true
 [alias]
   undo = reset --soft HEAD~1
   amend = commit --amend
 [http]
   sslverify = true
 [diff]
-  colorMoved = default
+  algorithm = histogram
+  colorMoved = dimmed-zebra
+  mnemonicPrefix = true
+  renames = copies
+  compactionHeuristic = true
 [merge]
   conflictStyle = zdiff3
 [interactive]
   diffFilter = delta --color-only
-[delta]
-  features = unobtrusive-line-numbers side-by-side decorations
-  syntax-theme = ansi
-  navigate = true
-[delta "decorations"]
-  commit-decoration-style = box
-  hunk-header-decoration-style = cyan box ul
 [user]
   email = amitds1997@gmail.com
   name = Amit Singh
@@ -31,39 +33,50 @@
   signingkey = B579D7201EF6CC59
 {{- end }}
 [include]
-  path = ~/.gitconfig.local ; Contains [github] section
+  ; delta related configuration
+  path = ~/.config/delta/delta.gitconfig
+  path = ~/.config/delta/themes.gitconfig
 [includeIf "gitdir:~/work/"]
   path = ~/work/.gitconfig
 [branch]
   autosetuprebase = always
   autosetupmerge = always
+  sort = -committerdate
+[tag]
+  sort = version:refname
 [pull]
   rebase = true
-[diff]
-  renames = copies
-  mnemonicprefix = true
-  compactionHeuristic = true
 [difftool]
   prompt = false
 [gpg]
   program = gpg
 [commit]
   gpgSign = true
+  verbose = true
 [fetch]
   prune = true
+  pruneTags = true
+  all = true
 [rerere]
   enabled = true
+  autoupdate = true
 [push]
   autoSetupRemote = true
+  default = simple
+  followTags = true
 [rebase]
+  autoSquash = true
   autoStash = true
+  updateRefs = true
+[help]
+  autocorrect = prompt
 [credential]
 {{- if eq .chezmoi.os "darwin" }}
-	helper = /usr/local/share/gcm-core/git-credential-manager
+  helper = /usr/local/share/gcm-core/git-credential-manager
 [credential "https://dev.azure.com"]
-	useHttpPath = true
+  useHttpPath = true
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
-	helper = /usr/bin/git-credential-manager
-	credentialStore = gpg
+  helper = /usr/bin/git-credential-manager
+  credentialStore = gpg
 {{- end }}

@@ -13,36 +13,30 @@ gui:
       - "#268bd2"
       - bold
     inactiveBorderColor:
-      - "#93a1a1"
-    searchingActiveBorderColor:
-      - "#d33682"
-      - bold
+      - "#a6adc8"
     optionsTextColor:
-      - "#6c71c4"
+      - "#89b4fa"
     selectedLineBgColor:
-      - "#eee8d5"
-    inactiveViewSelectedLineBgColor:
-      - bold
-    cherryPickedCommitFgColor:
-      - "#859900"
+      - "#313244"
     cherryPickedCommitBgColor:
-      - "#fdf6e3"
-    markedBaseCommitFgColor:
-      - "#2aa198"
-    markedBaseCommitBgColor:
-      - "#fdf6e3"
+      - "#45475a"
+    cherryPickedCommitFgColor:
+      - "#89b4fa"
     unstagedChangesColor:
-      - "#dc322f"
+      - "#f38ba8"
     defaultFgColor:
-      - "#586e75"
+      - "#cdd6f4"
+    searchingActiveBorderColor:
+      - "#f9e2af"
+
+  authorColors:
+    "*": "#b4befe"
 git:
   overrideGpg: true
   pagers:
     - pager: >
-        delta --paging=never --diff-so-fancy --line-numbers --hyperlinks
+        delta --paging=never --hyperlinks
         --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
-
-      colorArg: always
   commit:
     signOff: true
   parseEmoji: false
