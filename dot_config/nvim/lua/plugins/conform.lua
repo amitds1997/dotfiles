@@ -20,7 +20,7 @@ return {
         lua = { "stylua" },
         dockerfile = { "dockerfmt", lsp_format = "fallback" },
         markdown = { "prettier" },
-        python = { "black", "isort", "ruff_fix", "ruff_format" },
+        python = { "ruff_fix", "ruff_format" },
         sh = { "shfmt" },
         sql = { "sqruff" },
         yaml = { "prettier" },

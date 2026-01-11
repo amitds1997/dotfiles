@@ -4,8 +4,8 @@ return {
     line_count = 5000,
   },
   colorscheme = {
-    ---@type "kanso"|"github-theme"|"tokyonight"
-    name = "tokyonight",
+    ---@type "kanso"|"github-theme"|"tokyonight"|"teide"
+    name = "kanso",
     transparent_background = false,
   },
   last_location_excluded_filetypes = {

@@ -70,7 +70,7 @@ return {
       lualine_x = {
         "require('custom.lualine.codecompanion').update_status()",
         "searchcount",
-        "selectwoncount",
+        "selectioncount",
         is_macro_recording,
       },
       lualine_y = {

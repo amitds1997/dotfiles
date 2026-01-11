@@ -23,7 +23,6 @@ return {
   "b0o/schemastore.nvim",
   {
     "rachartier/tiny-code-action.nvim",
-    ---@type render.md.Config
     opts = {
       picker = {
         "buffer",

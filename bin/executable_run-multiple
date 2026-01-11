@@ -70,13 +70,13 @@ def main(
                 style="border",
             )
         )
-        console.print(f"[{'border'}]╭─ Running: [/][cmd]{cmd}[/]")
+        console.print(f"[border]╭─ Running: [/][cmd]{cmd}[/]")
 
         if dry_run:
-            console.print(f"[{'border'}]│[/] [dim](Dry Run) Would execute: {cmd}[/]")
+            console.print(f"[border]│[/] [dim](Dry Run) Would execute: {cmd}[/]")
             duration = 0.0
             results.append(CommandResult(cmd, "Skipped (Dry Run)", duration))
-            console.print(f"[{'border'}]╰─ [success]✔ Dry Run OK[/]\n")
+            console.print("[border]╰─ [success]✔ Dry Run OK[/]\n")
             continue
 
         return_code = 0
@@ -93,14 +93,14 @@ def main(
 
             # Stream output
             with process.stdout:  # ty:ignore[invalid-context-manager]
-                for line in iter(process.stdout.readline, ""):
-                    console.print(f"[border]|[/] {line}", end="")
+                for line in iter(process.stdout.readline, ""):  # ty:ignore[possibly-missing-attribute]
+                    console.print(f"[border]│[/] {line}", end="")
 
             process.wait()
             return_code = process.returncode
 
         except Exception as e:
-            console.print(f"[{'fail_border'}]│[/] [error]Execution Error:[/]: {e}")
+            console.print(f"[fail_border]│[/] [error]Execution Error:[/]: {e}")
             return_code = 1
 
         duration = time.time() - start_time
@@ -108,14 +108,12 @@ def main(
 
         # Footer
         if success:
-            console.print(
-                f"[{'border'}]╰─ [success]✔ Success[/] [dim]({duration:.2f}s)[/]"
-            )
+            console.print(f"[border]╰─ [success]✔ Success[/] [dim]({duration:.2f}s)[/]")
             results.append(CommandResult(cmd, "Success", duration))
             console.print("")  # Spacer
         else:
             console.print(
-                f"[{'fail_border'}]╰─ [error]✖ Failed[/] [dim]({duration:.2f}s)[/]"
+                f"[fail_border]╰─ [error]✖ Failed[/] [dim]({duration:.2f}s)[/]"
             )
             results.append(CommandResult(cmd, "Failed", duration))
             console.print(

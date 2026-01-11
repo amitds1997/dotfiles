@@ -36,7 +36,6 @@ return {
         json = { "jsonlint" },
         lua = { "selene" },
         markdown = { "markdownlint" },
-        -- python = { "bandit" },
         sh = { "shellcheck" },
         sql = { "sqlfluff" },
         yaml = { "yamllint", "yq" },
@@ -50,6 +49,9 @@ return {
       lint.linters_by_ft = opts.linters_by_ft
       local U = require "core.utils"
 
+      local yamllint = lint.linters.yamllint
+      yamllint.args = { "--format", "parsable", "-d", "relaxed", "-" }
+
       vim.api.nvim_create_autocmd(opts.events, {
         group = U.create_augroup "linter",
         desc = "Run linter on the buffer",
@@ -62,7 +64,6 @@ return {
     opts = {
       ensure_installed = {
         "dotenv-linter",
-        -- "bandit",
         "actionlint",
         "golangci-lint",
         -- "hadolint", -- FIX: Until this is fixed: https://github.com/mason-org/mason.nvim/issues/1865

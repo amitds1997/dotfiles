@@ -11,6 +11,9 @@ return {
       dark = "ink",
       light = "pearl",
     },
+    foreground = {
+      dark = "saturated",
+    },
     overrides = function()
       return {
         -- These two highlights allow the cursor to span across the sign column
