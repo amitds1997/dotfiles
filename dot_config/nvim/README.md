@@ -1,6 +1,43 @@
 # Neovim configuration
 
-## TIL keymaps
+## Tasks
+
+1. Agent MCP solution.
+   - It should work in some form with Copilot, Claude Code, Open Code and Gemini
+     CLI
+   - Better highlighting and granular change selection with the solution
+   - Ask mode for project
+   - Ensure that the buffer stays to the side and is not messed with.
+2. Add AGENTS/SKILLS in repos
+   - Verify PR before getting it ready for review
+3. `mini.files` - Do not show or grey out the gitignored directories
+4. Improve `hover` configuration. I want a split window or something that auto
+   closes and also does not live in the buffer window
+5. Create LSP overview window. Supported actions:
+   - LSP overview
+   - Ability to stop/start them (maybe a picker could also work)
+6. Integrate showing filename in the left side of the buffer
+7. For LSP, just show an icon that shows that LSPs are attached. The overview
+   window will work fine for the rest of the scenarios
+8. Add supported and work-approved MCPs to the AI tool. See, memory tools
+9. Improve NES in Neovim
+
+### Extras
+
+- Visit [code-companion-announcements] when all's done
+- Revisit installing `overseer` for `preLaunchTask` and `postDebugTask`
+- Add handler for opening plugin page from their name using `gx`
+
+## Things that I need Neovim to be good at
+
+- Neovim motions
+- Faster navigation, search and replace
+- LSP, DAP and Diagnostics
+- Auto-completion working everywhere (including DAP, filepaths)
+- Syntax-based highlighting and navigation
+- Excellent git support in the limited space available
+
+## TIL
 
 - `[q`, `]q`, `[Q`, `]Q`, `[CTRL-Q`, `]CTRL-Q` navigate through the quickfix
   list
@@ -17,40 +54,5 @@
 - Use forward and backward searching options more using `mini.jump`
 - Use `<C-\><C-n>` to jump to buffer mode in terminal buffer
 
-## Confirmed plugins
-
-These list down plugins which I think is not worth replacing with other plugins
-or rewriting it on my own to reduce plugin count.
-
-1. `nvim-autopairs` (no `mini.pairs` for me)
-2. `mini.surround` for surrounding
-3. `mini.move` for moving lines around
-
-## AI features
-
-1. Set up agent-mode and ask-mode chat
-2. Set up automatically attaching the current line and buffer into the context.
-3. How to ensure that the buffer stays to the side and is not messed with.
-4. Set up diff-workflow accept/reject workflow for changes made by the AI
-5. Set up next edit suggestion aka NES
-6. Add more prompt categories for the chat
-
-## Things that I need Neovim to be good at
-
-- Neovim motions
-- Faster navigation, search and replace
-- LSP, DAP and Diagnostics
-- Auto-completion working everywhere (including DAP, filepaths)
-- AI support (both enable and quick-disable)
-- Syntax-based highlighting and navigation
-- Excellent git support in the limited space available
-
-### Jot down
-
-- `Agent mode` can roughly be achieved using Codecompanion.nvim plugin by just
-  adding the `insert_edit_into_file` tool to the chat. Not sure if it would be
-  able to edit multiple files yet though.
-- `Edit mode` can be achieved using `insert_edit_into_file` tool
-- I would like the current active buffer and selected lines to always be
-  attached to the chat buffer
-- Can this be done dynamically?
+[code-companion-announcements]:
+  https://github.com/olimorris/codecompanion.nvim/discussions/categories/announcements

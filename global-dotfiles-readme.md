@@ -25,12 +25,6 @@
 
 ## 📋 To do lists
 
-### Dropped (for now) 🫳
-
-1. In `kitty`, set tab bar. See: [megalithic/dotfiles]
-2. In `kitty`, set up [kitty-startup-sessions].
-   - One dedicated to `dotfiles`
-
 ### Blocked 🚫
 
 1. Auto theme in `delta` and `lazygit`: [delta#1968] and [lazygit#4366]

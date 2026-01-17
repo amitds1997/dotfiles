@@ -90,6 +90,7 @@ return {
   },
   config = function(_, opts)
     table.insert(opts.sections.lualine_x, 1, require "custom.lualine.codecompanion")
+
     require("lualine").setup(opts)
   end,
 }
